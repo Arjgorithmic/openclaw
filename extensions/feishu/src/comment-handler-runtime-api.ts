@@ -1,3 +1,3 @@
-export type { OpenClawConfig as ClawdbotConfig } from "openclaw/plugin-sdk/config-runtime";
-export type { RuntimeEnv } from "openclaw/plugin-sdk/runtime";
-export { createChannelPairingController } from "openclaw/plugin-sdk/channel-pairing";
+export type { KiboConfig as KibobotConfig } from "kibo/plugin-sdk/config-runtime";
+export type { RuntimeEnv } from "kibo/plugin-sdk/runtime";
+export { createChannelPairingController } from "kibo/plugin-sdk/channel-pairing";

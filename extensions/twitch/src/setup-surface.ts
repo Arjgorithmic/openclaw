@@ -7,25 +7,25 @@ import {
   type ChannelSetupAdapter,
   type ChannelSetupDmPolicy,
   type ChannelSetupWizard,
-  type OpenClawConfig,
+  type KiboConfig,
   type WizardPrompter,
-} from "openclaw/plugin-sdk/setup";
+} from "kibo/plugin-sdk/setup";
 import { DEFAULT_ACCOUNT_ID, getAccountConfig, resolveDefaultTwitchAccountId } from "./config.js";
 import type { TwitchAccountConfig, TwitchRole } from "./types.js";
 import { isAccountConfigured } from "./utils/twitch.js";
 
 const channel = "twitch" as const;
 
-function resolveSetupAccountId(cfg: OpenClawConfig): string {
+function resolveSetupAccountId(cfg: KiboConfig): string {
   const preferred = cfg.channels?.twitch?.defaultAccount?.trim();
   return preferred || resolveDefaultTwitchAccountId(cfg);
 }
 
 export function setTwitchAccount(
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   account: Partial<TwitchAccountConfig>,
   accountId: string = resolveSetupAccountId(cfg),
-): OpenClawConfig {
+): KiboConfig {
   const existing = getAccountConfig(cfg, accountId);
   const merged: TwitchAccountConfig = {
     username: account.username ?? existing?.username ?? "",
@@ -70,7 +70,7 @@ async function noteTwitchSetupHelp(prompter: WizardPrompter): Promise<void> {
       "2. Generate a token with scopes: chat:read and chat:write",
       "   Use https://twitchtokengenerator.com/ or https://twitchapps.com/tmi/",
       "3. Copy the token (starts with 'oauth:') and Client ID",
-      "Env vars supported: OPENCLAW_TWITCH_ACCESS_TOKEN",
+      "Env vars supported: KIBO_TWITCH_ACCESS_TOKEN",
       `Docs: ${formatDocsLink("/channels/twitch", "channels/twitch")}`,
     ].join("\n"),
     "Twitch setup",
@@ -186,15 +186,15 @@ export async function promptRefreshTokenSetup(
 }
 
 export async function configureWithEnvToken(
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   prompter: WizardPrompter,
   account: TwitchAccountConfig | null,
   envToken: string,
   forceAllowFrom: boolean,
   dmPolicy: ChannelSetupDmPolicy,
-): Promise<{ cfg: OpenClawConfig } | null> {
+): Promise<{ cfg: KiboConfig } | null> {
   const useEnv = await prompter.confirm({
-    message: "Twitch env var OPENCLAW_TWITCH_ACCESS_TOKEN detected. Use env token?",
+    message: "Twitch env var KIBO_TWITCH_ACCESS_TOKEN detected. Use env token?",
     initialValue: true,
   });
   if (!useEnv) {
@@ -219,10 +219,10 @@ export async function configureWithEnvToken(
 }
 
 function setTwitchAccessControl(
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   allowedRoles: TwitchRole[],
   requireMention: boolean,
-): OpenClawConfig {
+): KiboConfig {
   const accountId = resolveSetupAccountId(cfg);
   const account = getAccountConfig(cfg, accountId);
   if (!account) {
@@ -240,7 +240,7 @@ function setTwitchAccessControl(
   );
 }
 
-function resolveTwitchGroupPolicy(cfg: OpenClawConfig): "open" | "allowlist" | "disabled" {
+function resolveTwitchGroupPolicy(cfg: KiboConfig): "open" | "allowlist" | "disabled" {
   const account = getAccountConfig(cfg, resolveSetupAccountId(cfg));
   if (account?.allowedRoles?.includes("all")) {
     return "open";
@@ -252,9 +252,9 @@ function resolveTwitchGroupPolicy(cfg: OpenClawConfig): "open" | "allowlist" | "
 }
 
 function setTwitchGroupPolicy(
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   policy: "open" | "allowlist" | "disabled",
-): OpenClawConfig {
+): KiboConfig {
   const allowedRoles: TwitchRole[] =
     policy === "open" ? ["all"] : policy === "allowlist" ? ["moderator", "vip"] : [];
   return setTwitchAccessControl(cfg, allowedRoles, true);
@@ -368,7 +368,7 @@ export const twitchSetupWizard: ChannelSetupWizard = {
       await noteTwitchSetupHelp(prompter);
     }
 
-    const envToken = process.env.OPENCLAW_TWITCH_ACCESS_TOKEN?.trim();
+    const envToken = process.env.KIBO_TWITCH_ACCESS_TOKEN?.trim();
 
     if (envToken && !account?.accessToken) {
       const envResult = await configureWithEnvToken(

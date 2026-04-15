@@ -1,11 +1,11 @@
-import { createActionGate } from "openclaw/plugin-sdk/channel-actions";
-import type { ChannelMessageActionName } from "openclaw/plugin-sdk/channel-contract";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-import { extractToolSend, type ChannelToolSend } from "openclaw/plugin-sdk/tool-send";
+import { createActionGate } from "kibo/plugin-sdk/channel-actions";
+import type { ChannelMessageActionName } from "kibo/plugin-sdk/channel-contract";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
+import { extractToolSend, type ChannelToolSend } from "kibo/plugin-sdk/tool-send";
 import { listEnabledSlackAccounts, resolveSlackAccount } from "./accounts.js";
 
 export function listSlackMessageActions(
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   accountId?: string | null,
 ): ChannelMessageActionName[] {
   const accounts = (

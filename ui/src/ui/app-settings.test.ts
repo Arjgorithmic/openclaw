@@ -124,7 +124,7 @@ const createHost = (tab: Tab): SettingsHost => ({
     token: "",
     sessionKey: "main",
     lastActiveSessionKey: "main",
-    theme: "claw",
+    theme: "kibo",
     themeMode: "system",
     chatFocusMode: false,
     chatShowThinking: true,
@@ -135,7 +135,7 @@ const createHost = (tab: Tab): SettingsHost => ({
     navGroupsCollapsed: {},
     borderRadius: 50,
   },
-  theme: "claw" as unknown as ThemeName & ThemeMode,
+  theme: "kibo" as unknown as ThemeName & ThemeMode,
   themeMode: "system",
   themeResolved: "dark",
   applySessionKey: "main",
@@ -285,7 +285,7 @@ describe("applySettingsFromUrl", () => {
   it("hydrates query token params and strips them from the URL", () => {
     setTestWindowUrl("https://control.example/ui/overview?token=abc123");
     const host = createHost("overview");
-    host.settings.gatewayUrl = "wss://control.example/openclaw";
+    host.settings.gatewayUrl = "wss://control.example/kibo";
 
     applySettingsFromUrl(host);
 
@@ -296,7 +296,7 @@ describe("applySettingsFromUrl", () => {
   it("prefers fragment tokens over legacy query tokens when both are present", () => {
     setTestWindowUrl("https://control.example/ui/overview?token=query-token#token=hash-token");
     const host = createHost("overview");
-    host.settings.gatewayUrl = "wss://control.example/openclaw";
+    host.settings.gatewayUrl = "wss://control.example/kibo";
 
     applySettingsFromUrl(host);
 

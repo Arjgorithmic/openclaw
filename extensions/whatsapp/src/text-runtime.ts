@@ -1,4 +1,4 @@
-export * from "openclaw/plugin-sdk/text-runtime";
+export * from "kibo/plugin-sdk/text-runtime";
 export {
   assertWebChannel,
   isSelfChatMode,

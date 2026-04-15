@@ -1,8 +1,8 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "./runtime-api.js";
+import type { KiboConfig } from "./runtime-api.js";
 
 const probeBlueBubblesMock = vi.hoisted(() => vi.fn());
-const cfg: OpenClawConfig = {};
+const cfg: KiboConfig = {};
 
 vi.mock("./channel.runtime.js", () => ({
   blueBubblesChannelRuntime: {

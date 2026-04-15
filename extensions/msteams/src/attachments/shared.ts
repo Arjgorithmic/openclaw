@@ -1,19 +1,19 @@
 import { Buffer } from "node:buffer";
 import { lookup } from "node:dns/promises";
-export { estimateBase64DecodedBytes } from "openclaw/plugin-sdk/media-runtime";
-import { estimateBase64DecodedBytes } from "openclaw/plugin-sdk/media-runtime";
+export { estimateBase64DecodedBytes } from "kibo/plugin-sdk/media-runtime";
+import { estimateBase64DecodedBytes } from "kibo/plugin-sdk/media-runtime";
 import {
   buildHostnameAllowlistPolicyFromSuffixAllowlist,
   isHttpsUrlAllowedByHostnameSuffixAllowlist,
   isPrivateIpAddress,
   normalizeHostnameSuffixAllowlist,
   type SsrFPolicy,
-} from "openclaw/plugin-sdk/ssrf-policy";
+} from "kibo/plugin-sdk/ssrf-policy";
 import {
   isRecord,
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/text-runtime";
 import type { MSTeamsAttachmentLike } from "./types.js";
 
 type InlineImageCandidate =

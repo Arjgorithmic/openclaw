@@ -1,7 +1,7 @@
 ---
-summary: "Use NVIDIA's OpenAI-compatible API in OpenClaw"
+summary: "Use NVIDIA's OpenAI-compatible API in Kibo"
 read_when:
-  - You want to use open models in OpenClaw for free
+  - You want to use open models in Kibo for free
   - You need NVIDIA_API_KEY setup
 title: "NVIDIA"
 ---
@@ -16,8 +16,8 @@ Export the key once, then run onboarding and set an NVIDIA model:
 
 ```bash
 export NVIDIA_API_KEY="nvapi-..."
-openclaw onboard --auth-choice skip
-openclaw models set nvidia/nvidia/nemotron-3-super-120b-a12b
+kibo onboard --auth-choice skip
+kibo models set nvidia/nvidia/nemotron-3-super-120b-a12b
 ```
 
 If you still pass `--token`, remember it lands in shell history and `ps` output; prefer the env var when possible.

@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
 import { isMatrixLegacyCryptoInspectorAvailable } from "./legacy-crypto-inspector-availability.js";
 import { detectLegacyMatrixCrypto } from "./legacy-crypto.js";
 import { detectLegacyMatrixState } from "./legacy-state.js";
@@ -10,7 +10,7 @@ import {
 } from "./migration-snapshot-backup.js";
 
 export function hasPendingMatrixMigration(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   env?: NodeJS.ProcessEnv;
 }): boolean {
   const env = params.env ?? process.env;
@@ -23,7 +23,7 @@ export function hasPendingMatrixMigration(params: {
 }
 
 export function hasActionableMatrixMigration(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   env?: NodeJS.ProcessEnv;
 }): boolean {
   const env = params.env ?? process.env;

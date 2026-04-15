@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { createEmptyPluginRegistry } from "../plugins/registry.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import { loadBundledChannelSecretContractApi } from "./channel-contract-api.js";
@@ -28,8 +28,8 @@ vi.mock("../channels/plugins/bootstrap-registry.js", () => {
   };
 });
 
-function asConfig(value: unknown): OpenClawConfig {
-  return value as OpenClawConfig;
+function asConfig(value: unknown): KiboConfig {
+  return value as KiboConfig;
 }
 
 let clearConfigCache: typeof import("../config/config.js").clearConfigCache;

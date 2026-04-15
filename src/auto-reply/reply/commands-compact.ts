@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../config/config.js";
+import type { KiboConfig } from "../../config/config.js";
 import { logVerbose } from "../../globals.js";
 import {
   normalizeLowercaseStringOrEmpty,
@@ -11,7 +11,7 @@ import { stripMentions, stripStructuralPrefixes } from "./mentions.js";
 function extractCompactInstructions(params: {
   rawBody?: string;
   ctx: import("../templating.js").MsgContext;
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   agentId?: string;
   isGroup: boolean;
 }): string | undefined {

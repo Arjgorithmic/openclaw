@@ -2,7 +2,7 @@ import type {
   ChannelApprovalKind,
   ChannelApprovalNativeAdapter,
 } from "../channels/plugins/types.adapters.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import {
   resolveChannelNativeApprovalDeliveryPlan,
   type ChannelApprovalNativePlannedTarget,
@@ -39,7 +39,7 @@ export async function deliverApprovalRequestViaChannelNativePlan<
   TPendingEntry,
   TRequest extends ApprovalRequest = ApprovalRequest,
 >(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId?: string | null;
   approvalKind: ChannelApprovalKind;
   request: TRequest;

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import type { MediaAttachment, MediaUnderstandingOutput } from "../media-understanding/types.js";
 import { describeImageFile, runMediaUnderstandingFile } from "./runtime.js";
 
@@ -52,7 +52,7 @@ describe("media-understanding runtime", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as KiboConfig,
         agentDir: "/tmp/agent",
       }),
     ).resolves.toEqual({
@@ -85,7 +85,7 @@ describe("media-understanding runtime", () => {
       describeImageFile({
         filePath: "/tmp/sample.jpg",
         mime: "image/jpeg",
-        cfg: {} as OpenClawConfig,
+        cfg: {} as KiboConfig,
         agentDir: "/tmp/agent",
       }),
     ).resolves.toEqual({

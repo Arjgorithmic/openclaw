@@ -19,11 +19,11 @@ export type SkillsCheckOptions = {
   json?: boolean;
 };
 
-function appendClawHubHint(output: string, json?: boolean): string {
+function appendKiboHubHint(output: string, json?: boolean): string {
   if (json) {
     return output;
   }
-  return `${output}\n\nTip: use \`openclaw skills search\`, \`openclaw skills install\`, and \`openclaw skills update\` for ClawHub-backed skills.`;
+  return `${output}\n\nTip: use \`kibo skills search\`, \`kibo skills install\`, and \`kibo skills update\` for KiboHub-backed skills.`;
 }
 
 function formatSkillStatus(skill: SkillStatusEntry): string {
@@ -120,9 +120,9 @@ export function formatSkillsList(report: SkillStatusReport, opts: SkillsListOpti
 
   if (skills.length === 0) {
     const message = opts.eligible
-      ? `No eligible skills found. Run \`${formatCliCommand("openclaw skills list")}\` to see all skills.`
+      ? `No eligible skills found. Run \`${formatCliCommand("kibo skills list")}\` to see all skills.`
       : "No skills found.";
-    return appendClawHubHint(message, opts.json);
+    return appendKiboHubHint(message, opts.json);
   }
 
   const eligible = skills.filter((s) => s.eligible);
@@ -160,7 +160,7 @@ export function formatSkillsList(report: SkillStatusReport, opts: SkillsListOpti
     }).trimEnd(),
   );
 
-  return appendClawHubHint(lines.join("\n"), opts.json);
+  return appendKiboHubHint(lines.join("\n"), opts.json);
 }
 
 export function formatSkillInfo(
@@ -174,8 +174,8 @@ export function formatSkillInfo(
     if (opts.json) {
       return JSON.stringify({ error: "not found", skill: skillName }, null, 2);
     }
-    return appendClawHubHint(
-      `Skill "${skillName}" not found. Run \`${formatCliCommand("openclaw skills list")}\` to see available skills.`,
+    return appendKiboHubHint(
+      `Skill "${skillName}" not found. Run \`${formatCliCommand("kibo skills list")}\` to see available skills.`,
       opts.json,
     );
   }
@@ -279,14 +279,14 @@ export function formatSkillInfo(
       `  Save via UI: ${theme.muted("Control UI → Skills → ")}${safeName}${theme.muted(" → Save key")}`,
     );
     lines.push(
-      `  Save via CLI: ${formatCliCommand(`openclaw config set skills.entries.${safeSkillKey}.apiKey YOUR_KEY`)}`,
+      `  Save via CLI: ${formatCliCommand(`kibo config set skills.entries.${safeSkillKey}.apiKey YOUR_KEY`)}`,
     );
     lines.push(
-      `  Stored in: ${theme.muted("$OPENCLAW_CONFIG_PATH")} ${theme.muted("(default: ~/.openclaw/openclaw.json)")}`,
+      `  Stored in: ${theme.muted("$KIBO_CONFIG_PATH")} ${theme.muted("(default: ~/.kibo/kibo.json)")}`,
     );
   }
 
-  return appendClawHubHint(lines.join("\n"), opts.json);
+  return appendKiboHubHint(lines.join("\n"), opts.json);
 }
 
 export function formatSkillsCheck(report: SkillStatusReport, opts: SkillsCheckOptions): string {
@@ -349,5 +349,5 @@ export function formatSkillsCheck(report: SkillStatusReport, opts: SkillsCheckOp
     }
   }
 
-  return appendClawHubHint(lines.join("\n"), opts.json);
+  return appendKiboHubHint(lines.join("\n"), opts.json);
 }

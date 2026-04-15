@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/kimi-provider",
+  "name": "@kibo/kimi-provider",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw Kimi provider plugin",
+  "description": "Kibo Kimi provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ]

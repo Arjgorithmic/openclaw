@@ -26,13 +26,13 @@ function killGatewayListeners(port: number): PortProcess[] {
 
 function runTests() {
   const isolatedLock =
-    process.env.OPENCLAW_GATEWAY_LOCK ??
-    path.join(os.tmpdir(), `openclaw-gateway.lock.test.${Date.now()}`);
+    process.env.KIBO_GATEWAY_LOCK ??
+    path.join(os.tmpdir(), `kibo-gateway.lock.test.${Date.now()}`);
   const result = spawnSync("pnpm", ["exec", "vitest", "run", "--config", "vitest.config.ts"], {
     stdio: "inherit",
     env: {
       ...process.env,
-      OPENCLAW_GATEWAY_LOCK: isolatedLock,
+      KIBO_GATEWAY_LOCK: isolatedLock,
     },
   });
   if (result.error) {

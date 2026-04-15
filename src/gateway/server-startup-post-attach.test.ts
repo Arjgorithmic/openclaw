@@ -46,7 +46,7 @@ vi.mock("../agents/subagent-registry.js", () => ({
 }));
 
 vi.mock("../config/paths.js", () => ({
-  resolveStateDir: vi.fn(() => "/tmp/openclaw-state"),
+  resolveStateDir: vi.fn(() => "/tmp/kibo-state"),
 }));
 
 vi.mock("../hooks/gmail-watcher-lifecycle.js", () => ({
@@ -140,7 +140,7 @@ describe("startGatewayPostAttachRuntime", () => {
       },
       gatewayPluginConfigAtStart: { hooks: { internal: { enabled: false } } } as never,
       pluginRegistry: { plugins: [] } as never,
-      defaultWorkspaceDir: "/tmp/openclaw-workspace",
+      defaultWorkspaceDir: "/tmp/kibo-workspace",
       deps: {} as never,
       startChannels: vi.fn(async () => undefined),
       logHooks: {

@@ -4,7 +4,7 @@ description: Summarize or extract text/transcripts from URLs, podcasts, and loca
 homepage: https://summarize.sh
 metadata:
   {
-    "openclaw":
+    "kibo":
       {
         "emoji": "🧾",
         "requires": { "bins": ["summarize"] },
@@ -13,7 +13,7 @@ metadata:
             {
               "id": "brew",
               "kind": "brew",
-              "formula": "steipete/tap/summarize",
+              "formula": "kibo/tap/summarize",
               "bins": ["summarize"],
               "label": "Install summarize (brew)",
             },

@@ -102,7 +102,7 @@ describe("applyPluginAutoEnable core", () => {
     const result = applyPluginAutoEnable({
       config: {
         browser: {
-          defaultProfile: "openclaw",
+          defaultProfile: "kibo",
         },
         plugins: {
           allow: ["telegram"],
@@ -357,7 +357,7 @@ describe("applyPluginAutoEnable core", () => {
       env: {
         ...makeIsolatedEnv(),
         IRC_HOST: "irc.libera.chat",
-        IRC_NICK: "openclaw-bot",
+        IRC_NICK: "kibo-bot",
       },
     });
 
@@ -380,9 +380,9 @@ describe("applyPluginAutoEnable core", () => {
       },
       env: {
         ...makeIsolatedEnv(),
-        OPENCLAW_HOME: undefined,
-        OPENCLAW_STATE_DIR: stateDir,
-        OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
+        KIBO_HOME: undefined,
+        KIBO_STATE_DIR: stateDir,
+        KIBO_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
       },
     });
 

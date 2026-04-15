@@ -1,11 +1,11 @@
 import * as carbonGateway from "@buape/carbon/gateway";
 import type { APIGatewayBotInfo } from "discord-api-types/v10";
 import * as httpsProxyAgent from "https-proxy-agent";
-import type { DiscordAccountConfig } from "openclaw/plugin-sdk/config-runtime";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { danger } from "openclaw/plugin-sdk/runtime-env";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import type { DiscordAccountConfig } from "kibo/plugin-sdk/config-runtime";
+import { formatErrorMessage } from "kibo/plugin-sdk/error-runtime";
+import { danger } from "kibo/plugin-sdk/runtime-env";
+import type { RuntimeEnv } from "kibo/plugin-sdk/runtime-env";
+import { normalizeLowercaseStringOrEmpty } from "kibo/plugin-sdk/text-runtime";
 import * as undici from "undici";
 import * as ws from "ws";
 import { validateDiscordProxyUrl } from "../proxy-fetch.js";
@@ -27,7 +27,7 @@ type DiscordGatewayMetadataError = Error & { transient?: boolean };
 type DiscordGatewayWebSocketCtor = new (url: string, options?: { agent?: unknown }) => ws.WebSocket;
 
 export function resolveDiscordGatewayIntents(
-  intentsConfig?: import("openclaw/plugin-sdk/config-runtime").DiscordIntentsConfig,
+  intentsConfig?: import("kibo/plugin-sdk/config-runtime").DiscordIntentsConfig,
 ): number {
   let intents =
     carbonGateway.GatewayIntents.Guilds |

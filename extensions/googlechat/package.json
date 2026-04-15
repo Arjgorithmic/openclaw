@@ -1,25 +1,25 @@
 {
-  "name": "@openclaw/googlechat",
+  "name": "@kibo/googlechat",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw Google Chat channel plugin",
+  "description": "Kibo Google Chat channel plugin",
   "type": "module",
   "dependencies": {
     "google-auth-library": "^10.6.2"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*",
+    "kibo": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.4.10"
+    "kibo": ">=2026.4.10"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "kibo": {
       "optional": true
     }
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ],
@@ -41,7 +41,7 @@
       "markdownCapable": true
     },
     "install": {
-      "npmSpec": "@openclaw/googlechat",
+      "npmSpec": "@kibo/googlechat",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.10"
     }

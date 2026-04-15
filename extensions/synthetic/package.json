@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/synthetic-provider",
+  "name": "@kibo/synthetic-provider",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw Synthetic provider plugin",
+  "description": "Kibo Synthetic provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ]

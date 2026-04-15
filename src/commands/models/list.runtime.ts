@@ -1,6 +1,6 @@
 export { ensureAuthProfileStore } from "../../agents/auth-profiles.runtime.js";
-export { ensureOpenClawModelsJson } from "../../agents/models-config.js";
-export { resolveOpenClawAgentDir } from "../../agents/agent-paths.js";
+export { ensureKiboModelsJson } from "../../agents/models-config.js";
+export { resolveKiboAgentDir } from "../../agents/agent-paths.js";
 export { listProfilesForProvider } from "../../agents/auth-profiles.js";
 export {
   hasUsableCustomProviderApiKey,

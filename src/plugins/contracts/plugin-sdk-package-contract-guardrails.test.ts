@@ -14,7 +14,7 @@ const PUBLIC_CONTRACT_REFERENCE_FILES = [
   "docs/plugins/architecture.md",
   "src/plugins/contracts/plugin-sdk-subpaths.test.ts",
 ] as const;
-const PLUGIN_SDK_SUBPATH_PATTERN = /openclaw\/plugin-sdk\/([a-z0-9][a-z0-9-]*)\b/g;
+const PLUGIN_SDK_SUBPATH_PATTERN = /kibo\/plugin-sdk\/([a-z0-9][a-z0-9-]*)\b/g;
 const NPM_PACK_MAX_BUFFER_BYTES = 64 * 1024 * 1024;
 const WINDOWS_UNSAFE_CMD_CHARS_RE = /[&|<>^%\r\n]/;
 const tempDirs: string[] = [];
@@ -167,7 +167,7 @@ function resolveNpmCommandInvocation(npmArgs: string[]): NpmCommandInvocation {
   };
 }
 
-function packOpenClawToTempDir(packDir: string): string {
+function packKiboToTempDir(packDir: string): string {
   const invocation = resolveNpmCommandInvocation([
     "pack",
     "--ignore-scripts",
@@ -205,7 +205,7 @@ function packOpenClawToTempDir(packDir: string): string {
 async function readPackedRootPackageJson(archivePath: string): Promise<{
   dependencies?: Record<string, string>;
 }> {
-  const extractDir = makeTrackedTempDir("openclaw-packed-root-package-json", tempDirs);
+  const extractDir = makeTrackedTempDir("kibo-packed-root-package-json", tempDirs);
   await tar.x({
     file: archivePath,
     cwd: extractDir,
@@ -296,7 +296,7 @@ describe("plugin-sdk package contract guardrails", () => {
         continue;
       }
       failures.push(
-        `${reference.file} references openclaw/plugin-sdk/${reference.subpath}, but ${reference.subpath} is missing from ${missingFrom.join(" and ")}`,
+        `${reference.file} references kibo/plugin-sdk/${reference.subpath}, but ${reference.subpath} is missing from ${missingFrom.join(" and ")}`,
       );
     }
 
@@ -338,11 +338,11 @@ describe("plugin-sdk package contract guardrails", () => {
   });
 
   it("keeps matrix crypto WASM in the packed artifact manifest", async () => {
-    const tempRoot = makeTrackedTempDir("openclaw-matrix-wasm-pack", tempDirs);
+    const tempRoot = makeTrackedTempDir("kibo-matrix-wasm-pack", tempDirs);
     const packDir = join(tempRoot, "pack");
     mkdirSync(packDir, { recursive: true });
 
-    const archivePath = packOpenClawToTempDir(packDir);
+    const archivePath = packKiboToTempDir(packDir);
     const packedPackageJson = await readPackedRootPackageJson(archivePath);
     const matrixPackageJson = readMatrixPackageJson();
     const bedrockPackageJson = readAmazonBedrockPackageJson();
@@ -353,7 +353,7 @@ describe("plugin-sdk package contract guardrails", () => {
     expect(packedPackageJson.dependencies?.["@aws-sdk/client-bedrock"]).toBe(
       bedrockPackageJson.dependencies?.["@aws-sdk/client-bedrock"],
     );
-    expect(packedPackageJson.dependencies?.["@openclaw/plugin-package-contract"]).toBeUndefined();
+    expect(packedPackageJson.dependencies?.["@kibo/plugin-package-contract"]).toBeUndefined();
   });
 
   it("keeps extension sources on public sdk or local package seams", () => {

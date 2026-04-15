@@ -11,7 +11,7 @@ describe("stageBundledPluginRuntimeDeps", () => {
     packageJson: Record<string, unknown>;
     pluginId?: string;
   }) {
-    const repoRoot = createTempDir("openclaw-runtime-deps-");
+    const repoRoot = createTempDir("kibo-runtime-deps-");
     const pluginId = params.pluginId ?? "fixture-plugin";
     const pluginDir = path.join(repoRoot, "dist", "extensions", pluginId);
     fs.mkdirSync(pluginDir, { recursive: true });
@@ -26,25 +26,25 @@ describe("stageBundledPluginRuntimeDeps", () => {
   it("skips restaging when runtime deps stamp matches the sanitized manifest", () => {
     const { pluginDir, repoRoot } = createBundledPluginFixture({
       packageJson: {
-        name: "@openclaw/fixture-plugin",
+        name: "@kibo/fixture-plugin",
         version: "1.0.0",
         dependencies: { "left-pad": "1.3.0" },
         peerDependencies: {
-          "@openclaw/plugin-sdk": "workspace:*",
-          openclaw: "^1.0.0",
+          "@kibo/plugin-sdk": "workspace:*",
+          kibo: "^1.0.0",
           react: "^19.0.0",
         },
         peerDependenciesMeta: {
-          "@openclaw/plugin-sdk": { optional: true },
-          openclaw: { optional: true },
+          "@kibo/plugin-sdk": { optional: true },
+          kibo: { optional: true },
           react: { optional: true },
         },
         devDependencies: {
-          "@openclaw/plugin-sdk": "workspace:*",
-          openclaw: "^1.0.0",
+          "@kibo/plugin-sdk": "workspace:*",
+          kibo: "^1.0.0",
           typescript: "^5.9.0",
         },
-        openclaw: { bundle: { stageRuntimeDependencies: true } },
+        kibo: { bundle: { stageRuntimeDependencies: true } },
       },
     });
     const nodeModulesDir = path.join(pluginDir, "node_modules");
@@ -57,7 +57,7 @@ describe("stageBundledPluginRuntimeDeps", () => {
       installPluginRuntimeDepsImpl: ({ fingerprint }: { fingerprint: string }) => {
         installCount += 1;
         fs.writeFileSync(
-          path.join(pluginDir, ".openclaw-runtime-deps-stamp.json"),
+          path.join(pluginDir, ".kibo-runtime-deps-stamp.json"),
           `${JSON.stringify({ fingerprint }, null, 2)}\n`,
           "utf8",
         );
@@ -73,20 +73,20 @@ describe("stageBundledPluginRuntimeDeps", () => {
     expect(installCount).toBe(1);
     expect(fs.existsSync(path.join(nodeModulesDir, "marker.txt"))).toBe(true);
     expect(JSON.parse(fs.readFileSync(path.join(pluginDir, "package.json"), "utf8"))).toEqual({
-      name: "@openclaw/fixture-plugin",
+      name: "@kibo/fixture-plugin",
       version: "1.0.0",
       dependencies: { "left-pad": "1.3.0" },
-      openclaw: { bundle: { stageRuntimeDependencies: true } },
+      kibo: { bundle: { stageRuntimeDependencies: true } },
     });
   });
 
   it("restages when the manifest-owned runtime deps change", () => {
     const { pluginDir, repoRoot } = createBundledPluginFixture({
       packageJson: {
-        name: "@openclaw/fixture-plugin",
+        name: "@kibo/fixture-plugin",
         version: "1.0.0",
         dependencies: { "left-pad": "1.3.0" },
-        openclaw: { bundle: { stageRuntimeDependencies: true } },
+        kibo: { bundle: { stageRuntimeDependencies: true } },
       },
     });
 
@@ -100,7 +100,7 @@ describe("stageBundledPluginRuntimeDeps", () => {
           fs.mkdirSync(nodeModulesDir, { recursive: true });
           fs.writeFileSync(path.join(nodeModulesDir, "marker.txt"), `${installCount}\n`, "utf8");
           fs.writeFileSync(
-            path.join(pluginDir, ".openclaw-runtime-deps-stamp.json"),
+            path.join(pluginDir, ".kibo-runtime-deps-stamp.json"),
             `${JSON.stringify({ fingerprint }, null, 2)}\n`,
             "utf8",
           );
@@ -126,10 +126,10 @@ describe("stageBundledPluginRuntimeDeps", () => {
   it("stages runtime deps from the root node_modules when already installed", () => {
     const { pluginDir, repoRoot } = createBundledPluginFixture({
       packageJson: {
-        name: "@openclaw/fixture-plugin",
+        name: "@kibo/fixture-plugin",
         version: "1.0.0",
         dependencies: { "left-pad": "1.3.0" },
-        openclaw: { bundle: { stageRuntimeDependencies: true } },
+        kibo: { bundle: { stageRuntimeDependencies: true } },
       },
     });
     const rootDepDir = path.join(repoRoot, "node_modules", "left-pad");
@@ -146,16 +146,16 @@ describe("stageBundledPluginRuntimeDeps", () => {
     expect(
       fs.readFileSync(path.join(pluginDir, "node_modules", "left-pad", "index.js"), "utf8"),
     ).toBe("module.exports = 1;\n");
-    expect(fs.existsSync(path.join(pluginDir, ".openclaw-runtime-deps-stamp.json"))).toBe(true);
+    expect(fs.existsSync(path.join(pluginDir, ".kibo-runtime-deps-stamp.json"))).toBe(true);
   });
 
   it("stages hoisted transitive runtime deps from the root node_modules", () => {
     const { pluginDir, repoRoot } = createBundledPluginFixture({
       packageJson: {
-        name: "@openclaw/fixture-plugin",
+        name: "@kibo/fixture-plugin",
         version: "1.0.0",
         dependencies: { direct: "1.0.0" },
-        openclaw: { bundle: { stageRuntimeDependencies: true } },
+        kibo: { bundle: { stageRuntimeDependencies: true } },
       },
     });
     const directDir = path.join(repoRoot, "node_modules", "direct");
@@ -192,10 +192,10 @@ describe("stageBundledPluginRuntimeDeps", () => {
   it("falls back to staging installs when the root dependency version is incompatible", () => {
     const { pluginDir, repoRoot } = createBundledPluginFixture({
       packageJson: {
-        name: "@openclaw/fixture-plugin",
+        name: "@kibo/fixture-plugin",
         version: "1.0.0",
         dependencies: { "left-pad": "^1.3.0" },
-        openclaw: { bundle: { stageRuntimeDependencies: true } },
+        kibo: { bundle: { stageRuntimeDependencies: true } },
       },
     });
     const rootDepDir = path.join(repoRoot, "node_modules", "left-pad");
@@ -225,7 +225,7 @@ describe("stageBundledPluginRuntimeDeps", () => {
           "utf8",
         );
         fs.writeFileSync(
-          path.join(pluginDir, ".openclaw-runtime-deps-stamp.json"),
+          path.join(pluginDir, ".kibo-runtime-deps-stamp.json"),
           `${JSON.stringify({ fingerprint }, null, 2)}\n`,
           "utf8",
         );
@@ -241,10 +241,10 @@ describe("stageBundledPluginRuntimeDeps", () => {
   it("falls back when a ^0.0.x root dependency exceeds the patch ceiling", () => {
     const { pluginDir, repoRoot } = createBundledPluginFixture({
       packageJson: {
-        name: "@openclaw/fixture-plugin",
+        name: "@kibo/fixture-plugin",
         version: "1.0.0",
         dependencies: { tiny: "^0.0.3" },
-        openclaw: { bundle: { stageRuntimeDependencies: true } },
+        kibo: { bundle: { stageRuntimeDependencies: true } },
       },
     });
     const rootDepDir = path.join(repoRoot, "node_modules", "tiny");
@@ -268,7 +268,7 @@ describe("stageBundledPluginRuntimeDeps", () => {
           "utf8",
         );
         fs.writeFileSync(
-          path.join(pluginDir, ".openclaw-runtime-deps-stamp.json"),
+          path.join(pluginDir, ".kibo-runtime-deps-stamp.json"),
           `${JSON.stringify({ fingerprint }, null, 2)}\n`,
           "utf8",
         );
@@ -281,10 +281,10 @@ describe("stageBundledPluginRuntimeDeps", () => {
   it("falls back when a stable caret range only matches a prerelease root build", () => {
     const { pluginDir, repoRoot } = createBundledPluginFixture({
       packageJson: {
-        name: "@openclaw/fixture-plugin",
+        name: "@kibo/fixture-plugin",
         version: "1.0.0",
         dependencies: { direct: "^1.2.3" },
-        openclaw: { bundle: { stageRuntimeDependencies: true } },
+        kibo: { bundle: { stageRuntimeDependencies: true } },
       },
     });
     const rootDepDir = path.join(repoRoot, "node_modules", "direct");
@@ -308,7 +308,7 @@ describe("stageBundledPluginRuntimeDeps", () => {
           "utf8",
         );
         fs.writeFileSync(
-          path.join(pluginDir, ".openclaw-runtime-deps-stamp.json"),
+          path.join(pluginDir, ".kibo-runtime-deps-stamp.json"),
           `${JSON.stringify({ fingerprint }, null, 2)}\n`,
           "utf8",
         );
@@ -321,10 +321,10 @@ describe("stageBundledPluginRuntimeDeps", () => {
   it("retries transient runtime dependency staging failures before surfacing an error", () => {
     const { pluginDir, repoRoot } = createBundledPluginFixture({
       packageJson: {
-        name: "@openclaw/fixture-plugin",
+        name: "@kibo/fixture-plugin",
         version: "1.0.0",
         dependencies: { "left-pad": "1.3.0" },
-        openclaw: { bundle: { stageRuntimeDependencies: true } },
+        kibo: { bundle: { stageRuntimeDependencies: true } },
       },
     });
 
@@ -340,7 +340,7 @@ describe("stageBundledPluginRuntimeDeps", () => {
         fs.mkdirSync(nodeModulesDir, { recursive: true });
         fs.writeFileSync(path.join(nodeModulesDir, "marker.txt"), "ok\n", "utf8");
         fs.writeFileSync(
-          path.join(pluginDir, ".openclaw-runtime-deps-stamp.json"),
+          path.join(pluginDir, ".kibo-runtime-deps-stamp.json"),
           `${JSON.stringify({ fingerprint }, null, 2)}\n`,
           "utf8",
         );
@@ -356,10 +356,10 @@ describe("stageBundledPluginRuntimeDeps", () => {
   it("surfaces the last staging error after exhausting retries", () => {
     const { repoRoot } = createBundledPluginFixture({
       packageJson: {
-        name: "@openclaw/fixture-plugin",
+        name: "@kibo/fixture-plugin",
         version: "1.0.0",
         dependencies: { "left-pad": "1.3.0" },
-        openclaw: { bundle: { stageRuntimeDependencies: true } },
+        kibo: { bundle: { stageRuntimeDependencies: true } },
       },
     });
 

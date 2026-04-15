@@ -1,8 +1,8 @@
 import {
   createResolvedApproverActionAuthAdapter,
   resolveApprovalApprovers,
-} from "openclaw/plugin-sdk/approval-auth-runtime";
-import { normalizeE164 } from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/approval-auth-runtime";
+import { normalizeE164 } from "kibo/plugin-sdk/text-runtime";
 import { resolveSignalAccount } from "./accounts.js";
 import { normalizeSignalMessagingTarget } from "./normalize.js";
 import { looksLikeUuid } from "./uuid.js";

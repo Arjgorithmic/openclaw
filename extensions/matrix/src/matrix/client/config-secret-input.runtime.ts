@@ -1,1 +1,1 @@
-export { resolveConfiguredSecretInputString } from "openclaw/plugin-sdk/config-runtime";
+export { resolveConfiguredSecretInputString } from "kibo/plugin-sdk/config-runtime";

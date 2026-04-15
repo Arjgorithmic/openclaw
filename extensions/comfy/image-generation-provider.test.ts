@@ -1,5 +1,5 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-import * as providerAuth from "openclaw/plugin-sdk/provider-auth-runtime";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
+import * as providerAuth from "kibo/plugin-sdk/provider-auth-runtime";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   _setComfyFetchGuardForTesting,
@@ -16,14 +16,14 @@ function parseJsonBody(call: number): Record<string, unknown> {
   return JSON.parse(String(request.init.body)) as Record<string, unknown>;
 }
 
-function buildComfyConfig(config: Record<string, unknown>): OpenClawConfig {
+function buildComfyConfig(config: Record<string, unknown>): KiboConfig {
   return {
     models: {
       providers: {
         comfy: config,
       },
     },
-  } as unknown as OpenClawConfig;
+  } as unknown as KiboConfig;
 }
 
 describe("comfy image-generation provider", () => {
@@ -90,7 +90,7 @@ describe("comfy image-generation provider", () => {
     const result = await provider.generateImage({
       provider: "comfy",
       model: "workflow",
-      prompt: "draw a lobster",
+      prompt: "draw a shell",
       cfg: buildComfyConfig({
         workflow: {
           "6": { inputs: { text: "" } },
@@ -110,7 +110,7 @@ describe("comfy image-generation provider", () => {
     );
     expect(parseJsonBody(1)).toEqual({
       prompt: {
-        "6": { inputs: { text: "draw a lobster" } },
+        "6": { inputs: { text: "draw a shell" } },
         "9": { inputs: {} },
       },
     });

@@ -53,7 +53,7 @@ const mocks = vi.hoisted(() => ({
     return {};
   }),
   describeImageFile: vi.fn(async () => ({
-    text: "friendly lobster",
+    text: "friendly shell",
     provider: "openai",
     model: "gpt-4.1-mini",
   })),
@@ -404,7 +404,7 @@ describe("capability cli", () => {
       ],
     });
 
-    const tempOutput = path.join(os.tmpdir(), `openclaw-image-mismatch-${Date.now()}.png`);
+    const tempOutput = path.join(os.tmpdir(), `kibo-image-mismatch-${Date.now()}.png`);
     await fs.rm(tempOutput, { force: true });
     await fs.rm(tempOutput.replace(/\.png$/, ".jpg"), { force: true });
 
@@ -415,7 +415,7 @@ describe("capability cli", () => {
         "image",
         "generate",
         "--prompt",
-        "friendly lobster",
+        "friendly shell",
         "--output",
         tempOutput,
         "--json",
@@ -777,7 +777,7 @@ describe("capability cli", () => {
   it("rejects providerless video describe model overrides", async () => {
     const mediaRuntime = await import("../media-understanding/runtime.js");
     vi.mocked(mediaRuntime.describeVideoFile).mockResolvedValue({
-      text: "friendly lobster",
+      text: "friendly shell",
       provider: "openai",
       model: "gpt-4.1-mini",
     } as never);

@@ -11,7 +11,7 @@ API_KEY_ENV=""
 AUTH_CHOICE=""
 AUTH_KEY_FLAG=""
 MODEL_ID=""
-INSTALL_URL="https://openclaw.ai/install.sh"
+INSTALL_URL="https://kibo.ai/install.sh"
 HOST_PORT="18425"
 HOST_PORT_EXPLICIT=0
 HOST_IP=""
@@ -28,8 +28,8 @@ DISCORD_CHANNEL_ID=""
 SNAPSHOT_ID=""
 SNAPSHOT_STATE=""
 SNAPSHOT_NAME=""
-GUEST_OPENCLAW_BIN="/opt/homebrew/bin/openclaw"
-GUEST_OPENCLAW_ENTRY="/opt/homebrew/lib/node_modules/openclaw/openclaw.mjs"
+GUEST_KIBO_BIN="/opt/homebrew/bin/kibo"
+GUEST_KIBO_ENTRY="/opt/homebrew/lib/node_modules/kibo/kibo.mjs"
 GUEST_NODE_BIN="/opt/homebrew/bin/node"
 GUEST_NPM_BIN="/opt/homebrew/bin/npm"
 GUEST_CURRENT_USER=""
@@ -39,8 +39,8 @@ MAIN_TGZ_DIR="$(mktemp -d)"
 MAIN_TGZ_PATH=""
 PACKED_MAIN_COMMIT_SHORT=""
 SERVER_PID=""
-RUN_DIR="$(mktemp -d /tmp/openclaw-parallels-smoke.XXXXXX)"
-BUILD_LOCK_DIR="${TMPDIR:-/tmp}/openclaw-parallels-build.lock"
+RUN_DIR="$(mktemp -d /tmp/kibo-parallels-smoke.XXXXXX)"
+BUILD_LOCK_DIR="${TMPDIR:-/tmp}/kibo-parallels-build.lock"
 
 TIMEOUT_INSTALL_S=900
 TIMEOUT_UPDATE_DEV_S=1500
@@ -125,14 +125,14 @@ Options:
   --api-key-env <var>        Host env var name for provider API key.
                              Default: OPENAI_API_KEY for openai, ANTHROPIC_API_KEY for anthropic
   --openai-api-key-env <var> Alias for --api-key-env (backward compatible)
-  --install-url <url>        Installer URL for latest release. Default: https://openclaw.ai/install.sh
+  --install-url <url>        Installer URL for latest release. Default: https://kibo.ai/install.sh
   --host-port <port>         Host HTTP port for current-main tgz. Default: 18425
   --host-ip <ip>             Override Parallels host IP.
   --latest-version <ver>     Override npm latest version lookup.
   --install-version <ver>    Pin site-installer version/dist-tag for the baseline lane.
   --target-package-spec <npm-spec>
                              Install this npm package tarball instead of packing current main.
-                             Example: openclaw@2026.3.13-beta.1
+                             Example: kibo@2026.3.13-beta.1
   --skip-latest-ref-check    Skip the known latest-release ref-mode precheck in upgrade lane.
   --keep-server              Leave temp host HTTP server running.
   --discord-token-env <var>  Host env var name for Discord bot token.
@@ -633,10 +633,10 @@ resolve_guest_current_user_home() {
   printf '/Users/%s\n' "$user_name"
 }
 
-resolve_guest_git_openclaw_entry() {
+resolve_guest_git_kibo_entry() {
   local guest_home
   guest_home="$(resolve_guest_current_user_home)"
-  printf '%s/openclaw/openclaw.mjs\n' "$guest_home"
+  printf '%s/kibo/kibo.mjs\n' "$guest_home"
 }
 
 guest_current_user_cli() {
@@ -666,25 +666,25 @@ if {$mode eq "current-user"} {
 }
 
 spawn {*}$cmd
-send -- "printf '__OPENCLAW_READY__\\n'\r"
-expect "__OPENCLAW_READY__"
+send -- "printf '__KIBO_READY__\\n'\r"
+expect "__KIBO_READY__"
 log_user 0
 send -- "export PS1='' PROMPT='' PROMPT2='' RPROMPT=''\r"
 send -- "stty -echo\r"
 
-send -- "cat >/tmp/openclaw-prl.sh <<'__OPENCLAW_SCRIPT__'\r"
+send -- "cat >/tmp/kibo-prl.sh <<'__KIBO_SCRIPT__'\r"
 send -- $script
 if {![string match "*\n" $script]} {
   send -- "\r"
 }
-send -- "__OPENCLAW_SCRIPT__\r"
-send -- "/bin/bash /tmp/openclaw-prl.sh; rc=\$?; rm -f /tmp/openclaw-prl.sh; printf '__OPENCLAW_RC__:%s\\n' \"\$rc\"; exit \"\$rc\"\r"
+send -- "__KIBO_SCRIPT__\r"
+send -- "/bin/bash /tmp/kibo-prl.sh; rc=\$?; rm -f /tmp/kibo-prl.sh; printf '__KIBO_RC__:%s\\n' \"\$rc\"; exit \"\$rc\"\r"
 log_user 1
 
 set rc 1
 set saw_rc 0
 expect {
-  -re {__OPENCLAW_RC__:(-?[0-9]+)} {
+  -re {__KIBO_RC__:(-?[0-9]+)} {
     set rc $expect_out(1,string)
     set saw_rc 1
   }
@@ -713,7 +713,7 @@ guest_current_user_sh() {
   script+=$'cd "$HOME"\n'
   script+="$1"
   if headless_guest_fallback; then
-    script_path="/tmp/openclaw-prl-${BASHPID:-$$}-$RANDOM.sh"
+    script_path="/tmp/kibo-prl-${BASHPID:-$$}-$RANDOM.sh"
     printf '%s' "$script" | /usr/bin/base64 | prlctl exec "$VM_NAME" \
       /usr/bin/sudo -H -u "$GUEST_CURRENT_USER" /usr/bin/env \
       "HOME=/Users/$GUEST_CURRENT_USER" \
@@ -763,9 +763,9 @@ $script
 EOF
 )"
   write_runner_cmd="/bin/rm -f $(shell_quote "$runner_path")"$'\n'
-  write_runner_cmd+="cat > $(shell_quote "$runner_path") <<'__OPENCLAW_RUNNER__'"$'\n'
+  write_runner_cmd+="cat > $(shell_quote "$runner_path") <<'__KIBO_RUNNER__'"$'\n'
   write_runner_cmd+="$runner_body"$'\n'
-  write_runner_cmd+="__OPENCLAW_RUNNER__"$'\n'
+  write_runner_cmd+="__KIBO_RUNNER__"$'\n'
   write_runner_cmd+="/bin/chmod +x $(shell_quote "$runner_path")"$'\n'
   write_runner_cmd+="nohup /bin/bash $(shell_quote "$runner_path") > $(shell_quote "$log_path") 2>&1 < /dev/null &"
   guest_current_user_sh "$write_runner_cmd"
@@ -806,7 +806,7 @@ resolve_latest_version() {
     printf '%s\n' "$LATEST_VERSION"
     return
   fi
-  npm view openclaw version --userconfig "$(mktemp)"
+  npm view kibo version --userconfig "$(mktemp)"
 }
 
 install_latest_release() {
@@ -815,17 +815,17 @@ install_latest_release() {
   version_to_install="${INSTALL_VERSION:-$LATEST_VERSION}"
   version_arg_q=" --version $(shell_quote "$version_to_install")"
   guest_current_user_sh "$(cat <<EOF
-export OPENCLAW_NO_ONBOARD=1
-curl -fsSL $install_url_q -o /tmp/openclaw-install.sh
-bash /tmp/openclaw-install.sh${version_arg_q}
-$GUEST_OPENCLAW_BIN --version
+export KIBO_NO_ONBOARD=1
+curl -fsSL $install_url_q -o /tmp/kibo-install.sh
+bash /tmp/kibo-install.sh${version_arg_q}
+$GUEST_KIBO_BIN --version
 EOF
 )"
 }
 
 ensure_guest_pnpm_for_dev_update() {
   local bootstrap_root bootstrap_bin
-  bootstrap_root="/tmp/openclaw-smoke-pnpm-bootstrap"
+  bootstrap_root="/tmp/kibo-smoke-pnpm-bootstrap"
   bootstrap_bin="$bootstrap_root/node_modules/.bin"
   if guest_current_user_exec /bin/test -x "$bootstrap_bin/pnpm"; then
     printf 'bootstrap-pnpm: reuse\n'
@@ -846,9 +846,9 @@ ensure_guest_pnpm_for_dev_update() {
 
 repair_legacy_dev_source_checkout_if_needed() {
   local bootstrap_bin update_root update_entry
-  bootstrap_bin="/tmp/openclaw-smoke-pnpm-bootstrap/node_modules/.bin"
-  update_root="$(resolve_guest_current_user_home)/openclaw"
-  update_entry="$update_root/openclaw.mjs"
+  bootstrap_bin="/tmp/kibo-smoke-pnpm-bootstrap/node_modules/.bin"
+  update_root="$(resolve_guest_current_user_home)/kibo"
+  update_entry="$update_root/kibo.mjs"
   if guest_current_user_exec /bin/test -e "$update_root/.git"; then
     return 0
   fi
@@ -862,7 +862,7 @@ repair_legacy_dev_source_checkout_if_needed() {
   ensure_guest_pnpm_for_dev_update
   guest_current_user_exec /bin/rm -rf "$update_root"
   guest_current_user_exec /usr/bin/git clone --depth 1 --branch main \
-    https://github.com/openclaw/openclaw.git "$update_root"
+    https://github.com/kibo/kibo.git "$update_root"
   guest_current_user_exec_path "$bootstrap_bin:$GUEST_EXEC_PATH" \
     "$bootstrap_bin/pnpm" --dir "$update_root" install
   guest_current_user_exec_path "$bootstrap_bin:$GUEST_EXEC_PATH" \
@@ -874,11 +874,11 @@ repair_legacy_dev_source_checkout_if_needed() {
 
 run_dev_channel_update() {
   local bootstrap_bin update_root update_log update_done update_runner update_rc
-  bootstrap_bin="/tmp/openclaw-smoke-pnpm-bootstrap/node_modules/.bin"
-  update_root="$(resolve_guest_current_user_home)/openclaw"
-  update_log="/tmp/openclaw-smoke-update-dev.log"
-  update_done="/tmp/openclaw-smoke-update-dev.done"
-  update_runner="/tmp/openclaw-smoke-update-dev.sh"
+  bootstrap_bin="/tmp/kibo-smoke-pnpm-bootstrap/node_modules/.bin"
+  update_root="$(resolve_guest_current_user_home)/kibo"
+  update_log="/tmp/kibo-smoke-update-dev.log"
+  update_done="/tmp/kibo-smoke-update-dev.done"
+  update_runner="/tmp/kibo-smoke-update-dev.sh"
   ensure_guest_pnpm_for_dev_update
   printf 'update-dev: run\n'
   set +e
@@ -886,7 +886,7 @@ run_dev_channel_update() {
 rm -rf $(shell_quote "$update_root")
 export PATH=$(shell_quote "$bootstrap_bin:$GUEST_EXEC_PATH")
 /usr/bin/env NODE_OPTIONS=--max-old-space-size=4096 \
-  $GUEST_NODE_BIN $GUEST_OPENCLAW_ENTRY update --channel dev --yes --json
+  $GUEST_NODE_BIN $GUEST_KIBO_ENTRY update --channel dev --yes --json
 EOF
 )" "$update_log" "$update_done" "$TIMEOUT_UPDATE_DEV_S" "$update_runner"
   update_rc=$?
@@ -897,14 +897,14 @@ EOF
   fi
   repair_legacy_dev_source_checkout_if_needed
   printf 'update-dev: git-version\n'
-  guest_current_user_exec "$GUEST_NODE_BIN" "$GUEST_OPENCLAW_ENTRY" --version
+  guest_current_user_exec "$GUEST_NODE_BIN" "$GUEST_KIBO_ENTRY" --version
   printf 'update-dev: git-status\n'
-  guest_current_user_exec "$GUEST_NODE_BIN" "$GUEST_OPENCLAW_ENTRY" update status --json
+  guest_current_user_exec "$GUEST_NODE_BIN" "$GUEST_KIBO_ENTRY" update status --json
 }
 
 verify_dev_channel_update() {
   local status_json
-  status_json="$(guest_current_user_exec "$GUEST_NODE_BIN" "$GUEST_OPENCLAW_ENTRY" update status --json)"
+  status_json="$(guest_current_user_exec "$GUEST_NODE_BIN" "$GUEST_KIBO_ENTRY" update status --json)"
   printf '%s\n' "$status_json"
   printf '%s\n' "$status_json" | grep -F '"installKind": "git"'
   printf '%s\n' "$status_json" | grep -F '"value": "dev"'
@@ -915,7 +915,7 @@ verify_version_contains() {
   local needle="$1"
   local version
   version="$(
-    guest_current_user_exec "$GUEST_OPENCLAW_BIN" --version 2>&1
+    guest_current_user_exec "$GUEST_KIBO_BIN" --version 2>&1
   )"
   printf '%s\n' "$version"
   case "$version" in
@@ -957,7 +957,7 @@ pack_main_tgz() {
     npm pack --ignore-scripts --json --pack-destination "$MAIN_TGZ_DIR" \
       | python3 -c 'import json, sys; data = json.load(sys.stdin); print(data[-1]["filename"])'
   )"
-  MAIN_TGZ_PATH="$MAIN_TGZ_DIR/openclaw-main-$short_head.tgz"
+  MAIN_TGZ_PATH="$MAIN_TGZ_DIR/kibo-main-$short_head.tgz"
   cp "$MAIN_TGZ_DIR/$pkg" "$MAIN_TGZ_PATH"
   packed_commit="$(extract_package_build_commit_from_tgz "$MAIN_TGZ_PATH")"
   [[ -n "$packed_commit" ]] || die "failed to read packed build commit from $MAIN_TGZ_PATH"
@@ -1043,7 +1043,7 @@ start_server() {
   (
     cd "$MAIN_TGZ_DIR"
     exec python3 -m http.server "$HOST_PORT" --bind 0.0.0.0
-  ) >/tmp/openclaw-parallels-http.log 2>&1 &
+  ) >/tmp/kibo-parallels-http.log 2>&1 &
   SERVER_PID=$!
   sleep 1
   kill -0 "$SERVER_PID" >/dev/null 2>&1 || die "failed to start host HTTP server"
@@ -1057,7 +1057,7 @@ install_main_tgz() {
   guest_current_user_sh "$(cat <<EOF
 curl -fsSL $tgz_url_q -o /tmp/$temp_name
 $GUEST_NPM_BIN install -g /tmp/$temp_name
-$GUEST_OPENCLAW_BIN --version
+$GUEST_KIBO_BIN --version
 EOF
 )"
 }
@@ -1066,7 +1066,7 @@ verify_bundle_permissions() {
   local npm_q cmd
   npm_q="$(shell_quote "$GUEST_NPM_BIN")"
   cmd="$(cat <<EOF
-root=\$($npm_q root -g); check_path() { local path="\$1"; [ -e "\$path" ] || return 0; local perm perm_oct; perm=\$(/usr/bin/stat -f '%OLp' "\$path"); perm_oct=\$((8#\$perm)); if (( perm_oct & 0002 )); then echo "world-writable install artifact: \$path (\$perm)" >&2; exit 1; fi; }; check_path "\$root/openclaw"; check_path "\$root/openclaw/extensions"; if [ -d "\$root/openclaw/extensions" ]; then while IFS= read -r -d '' extension_dir; do check_path "\$extension_dir"; done < <(/usr/bin/find "\$root/openclaw/extensions" -mindepth 1 -maxdepth 1 -type d -print0); fi
+root=\$($npm_q root -g); check_path() { local path="\$1"; [ -e "\$path" ] || return 0; local perm perm_oct; perm=\$(/usr/bin/stat -f '%OLp' "\$path"); perm_oct=\$((8#\$perm)); if (( perm_oct & 0002 )); then echo "world-writable install artifact: \$path (\$perm)" >&2; exit 1; fi; }; check_path "\$root/kibo"; check_path "\$root/kibo/extensions"; if [ -d "\$root/kibo/extensions" ]; then while IFS= read -r -d '' extension_dir; do check_path "\$extension_dir"; done < <(/usr/bin/find "\$root/kibo/extensions" -mindepth 1 -maxdepth 1 -type d -print0); fi
 EOF
 )"
   guest_current_user_sh "$cmd"
@@ -1079,7 +1079,7 @@ run_ref_onboard() {
   fi
   guest_current_user_cli \
     /usr/bin/env "$API_KEY_ENV=$API_KEY_VALUE" \
-    "$GUEST_OPENCLAW_BIN" onboard \
+    "$GUEST_KIBO_BIN" onboard \
     --non-interactive \
     --mode local \
     --auth-choice "$AUTH_CHOICE" \
@@ -1097,11 +1097,11 @@ start_manual_gateway_if_needed() {
     return 0
   fi
   guest_current_user_sh "$(cat <<EOF
-pkill -f 'openclaw.*gateway run' >/dev/null 2>&1 || true
-pkill -f 'openclaw-gateway' >/dev/null 2>&1 || true
+pkill -f 'kibo.*gateway run' >/dev/null 2>&1 || true
+pkill -f 'kibo-gateway' >/dev/null 2>&1 || true
 /usr/bin/env $(shell_quote "$API_KEY_ENV=$API_KEY_VALUE") \
-  $GUEST_NODE_BIN $GUEST_OPENCLAW_ENTRY gateway run --bind loopback --port 18789 --force \
-  >/tmp/openclaw-parallels-macos-gateway.log 2>&1 </dev/null &
+  $GUEST_NODE_BIN $GUEST_KIBO_ENTRY gateway run --bind loopback --port 18789 --force \
+  >/tmp/kibo-parallels-macos-gateway.log 2>&1 </dev/null &
 EOF
 )"
 }
@@ -1109,7 +1109,7 @@ EOF
 verify_gateway() {
   local attempt
   for attempt in 1 2 3 4; do
-    if guest_current_user_exec "$GUEST_OPENCLAW_BIN" gateway status --deep --require-rpc --timeout 5000; then
+    if guest_current_user_exec "$GUEST_KIBO_BIN" gateway status --deep --require-rpc --timeout 5000; then
       return 0
     fi
     if (( attempt < 4 )); then
@@ -1121,19 +1121,19 @@ verify_gateway() {
 }
 
 show_gateway_status_compat() {
-  if guest_current_user_exec "$GUEST_OPENCLAW_BIN" gateway status --help | grep -Fq -- "--require-rpc"; then
-    guest_current_user_exec "$GUEST_OPENCLAW_BIN" gateway status --deep --require-rpc
+  if guest_current_user_exec "$GUEST_KIBO_BIN" gateway status --help | grep -Fq -- "--require-rpc"; then
+    guest_current_user_exec "$GUEST_KIBO_BIN" gateway status --deep --require-rpc
     return
   fi
-  guest_current_user_exec "$GUEST_OPENCLAW_BIN" gateway status --deep
+  guest_current_user_exec "$GUEST_KIBO_BIN" gateway status --deep
 }
 
 verify_turn() {
-  guest_current_user_exec "$GUEST_NODE_BIN" "$GUEST_OPENCLAW_ENTRY" models set "$MODEL_ID"
+  guest_current_user_exec "$GUEST_NODE_BIN" "$GUEST_KIBO_ENTRY" models set "$MODEL_ID"
   guest_current_user_sh "$(cat <<EOF
 export PATH=$(shell_quote "$GUEST_EXEC_PATH")
 exec /usr/bin/env $(shell_quote "$API_KEY_ENV=$API_KEY_VALUE") \
-  $(shell_quote "$GUEST_NODE_BIN") $(shell_quote "$GUEST_OPENCLAW_ENTRY") agent \
+  $(shell_quote "$GUEST_NODE_BIN") $(shell_quote "$GUEST_KIBO_ENTRY") agent \
   --agent main \
   --message $(shell_quote "Reply with exact ASCII text OK only.") \
   --json
@@ -1144,13 +1144,13 @@ EOF
 resolve_dashboard_url() {
   local dashboard_url
   dashboard_url="$(
-    guest_current_user_cli "$GUEST_OPENCLAW_BIN" dashboard --no-open \
+    guest_current_user_cli "$GUEST_KIBO_BIN" dashboard --no-open \
       | awk '/^Dashboard URL: / { sub(/^Dashboard URL: /, ""); print; exit }'
   )"
   dashboard_url="${dashboard_url//$'\r'/}"
   dashboard_url="${dashboard_url//$'\n'/}"
   [[ -n "$dashboard_url" ]] || {
-    echo "failed to resolve dashboard URL from openclaw dashboard --no-open" >&2
+    echo "failed to resolve dashboard URL from kibo dashboard --no-open" >&2
     return 1
   }
   printf '%s\n' "$dashboard_url"
@@ -1158,7 +1158,7 @@ resolve_dashboard_url() {
 
 verify_dashboard_load() {
   local dashboard_url dashboard_http_url dashboard_url_q dashboard_http_url_q cmd headless_flag
-  # `openclaw dashboard --no-open` can hang under the Tahoe Parallels transport
+  # `kibo dashboard --no-open` can hang under the Tahoe Parallels transport
   # even when the dashboard itself is healthy. Probe the local dashboard URL
   # directly so the smoke still validates HTML readiness and browser reachability.
   dashboard_url="http://127.0.0.1:18789/"
@@ -1185,9 +1185,9 @@ fi
 deadline=\$((SECONDS + 30))
 dashboard_ready=0
 while [ \$SECONDS -lt \$deadline ]; do
-  if curl -fsSL "\$dashboard_http_url" >/tmp/openclaw-dashboard-smoke.html 2>/dev/null; then
-    if grep -F '<title>OpenClaw Control</title>' /tmp/openclaw-dashboard-smoke.html >/dev/null; then
-      if grep -F '<openclaw-app></openclaw-app>' /tmp/openclaw-dashboard-smoke.html >/dev/null; then
+  if curl -fsSL "\$dashboard_http_url" >/tmp/kibo-dashboard-smoke.html 2>/dev/null; then
+    if grep -F '<title>Kibo Control</title>' /tmp/kibo-dashboard-smoke.html >/dev/null; then
+      if grep -F '<kibo-app></kibo-app>' /tmp/kibo-dashboard-smoke.html >/dev/null; then
         dashboard_ready=1
         break
       fi
@@ -1199,8 +1199,8 @@ done
   echo "dashboard HTML did not become ready at \$dashboard_http_url" >&2
   exit 1
 }
-grep -F '<title>OpenClaw Control</title>' /tmp/openclaw-dashboard-smoke.html >/dev/null
-grep -F '<openclaw-app></openclaw-app>' /tmp/openclaw-dashboard-smoke.html >/dev/null
+grep -F '<title>Kibo Control</title>' /tmp/kibo-dashboard-smoke.html >/dev/null
+grep -F '<kibo-app></kibo-app>' /tmp/kibo-dashboard-smoke.html >/dev/null
 if [ "\$headless_flag" = "1" ]; then
   exit 0
 fi
@@ -1248,27 +1248,27 @@ print(
 PY
   )"
   script="$(cat <<EOF
-cat >/tmp/openclaw-discord-token <<'__OPENCLAW_TOKEN__'
+cat >/tmp/kibo-discord-token <<'__KIBO_TOKEN__'
 $DISCORD_TOKEN_VALUE
-__OPENCLAW_TOKEN__
-cat >/tmp/openclaw-discord-guilds.json <<'__OPENCLAW_GUILDS__'
+__KIBO_TOKEN__
+cat >/tmp/kibo-discord-guilds.json <<'__KIBO_GUILDS__'
 $guilds_json
-__OPENCLAW_GUILDS__
-token="\$(tr -d '\n' </tmp/openclaw-discord-token)"
-guilds_json="\$(cat /tmp/openclaw-discord-guilds.json)"
-$GUEST_NODE_BIN $GUEST_OPENCLAW_ENTRY config set channels.discord.token "\$token"
-$GUEST_NODE_BIN $GUEST_OPENCLAW_ENTRY config set channels.discord.enabled true
-$GUEST_NODE_BIN $GUEST_OPENCLAW_ENTRY config set channels.discord.groupPolicy allowlist
-$GUEST_NODE_BIN $GUEST_OPENCLAW_ENTRY config set channels.discord.guilds "\$guilds_json" --strict-json
-$GUEST_NODE_BIN $GUEST_OPENCLAW_ENTRY gateway restart
+__KIBO_GUILDS__
+token="\$(tr -d '\n' </tmp/kibo-discord-token)"
+guilds_json="\$(cat /tmp/kibo-discord-guilds.json)"
+$GUEST_NODE_BIN $GUEST_KIBO_ENTRY config set channels.discord.token "\$token"
+$GUEST_NODE_BIN $GUEST_KIBO_ENTRY config set channels.discord.enabled true
+$GUEST_NODE_BIN $GUEST_KIBO_ENTRY config set channels.discord.groupPolicy allowlist
+$GUEST_NODE_BIN $GUEST_KIBO_ENTRY config set channels.discord.guilds "\$guilds_json" --strict-json
+$GUEST_NODE_BIN $GUEST_KIBO_ENTRY gateway restart
 for _ in 1 2 3 4 5 6 7 8; do
-  if $GUEST_NODE_BIN $GUEST_OPENCLAW_ENTRY gateway status --deep --require-rpc >/dev/null 2>&1; then
+  if $GUEST_NODE_BIN $GUEST_KIBO_ENTRY gateway status --deep --require-rpc >/dev/null 2>&1; then
     break
   fi
   sleep 2
 done
-$GUEST_NODE_BIN $GUEST_OPENCLAW_ENTRY channels status --probe --json
-rm -f /tmp/openclaw-discord-token /tmp/openclaw-discord-guilds.json
+$GUEST_NODE_BIN $GUEST_KIBO_ENTRY channels status --probe --json
+rm -f /tmp/kibo-discord-token /tmp/kibo-discord-guilds.json
 EOF
 )"
   guest_current_user_sh "$script"
@@ -1350,7 +1350,7 @@ wait_for_guest_discord_readback() {
     set +e
     response="$(
       guest_current_user_exec \
-      "$GUEST_OPENCLAW_BIN" \
+      "$GUEST_KIBO_BIN" \
       message read \
       --channel discord \
       --target "channel:$DISCORD_CHANNEL_ID" \
@@ -1382,7 +1382,7 @@ run_discord_roundtrip_smoke() {
   host_id_file="$RUN_DIR/$phase.discord-host-message-id"
 
   guest_current_user_exec \
-    "$GUEST_OPENCLAW_BIN" \
+    "$GUEST_KIBO_BIN" \
     message send \
     --channel discord \
     --target "channel:$DISCORD_CHANNEL_ID" \
@@ -1408,7 +1408,7 @@ import re
 import sys
 
 text = pathlib.Path(sys.argv[1]).read_text(errors="replace")
-matches = re.findall(r"OpenClaw [^\r\n]+ \([0-9a-f]{7,}\)", text)
+matches = re.findall(r"Kibo [^\r\n]+ \([0-9a-f]{7,}\)", text)
 print(matches[-1] if matches else "")
 PY
 }
@@ -1542,7 +1542,7 @@ run_fresh_main_lane() {
   local snapshot_id="$1"
   local host_ip="$2"
   phase_run "fresh.restore-snapshot" "$TIMEOUT_SNAPSHOT_S" restore_snapshot "$snapshot_id"
-  phase_run "fresh.install-main" "$TIMEOUT_INSTALL_S" install_main_tgz "$host_ip" "openclaw-main-fresh.tgz"
+  phase_run "fresh.install-main" "$TIMEOUT_INSTALL_S" install_main_tgz "$host_ip" "kibo-main-fresh.tgz"
   FRESH_MAIN_VERSION="$(extract_last_version "$(phase_log_path fresh.install-main)")"
   phase_run "fresh.verify-main-version" "$TIMEOUT_VERIFY_S" verify_target_version
   phase_run "fresh.verify-bundle-permissions" "$TIMEOUT_PERMISSION_S" verify_bundle_permissions
@@ -1579,7 +1579,7 @@ run_upgrade_lane() {
     UPGRADE_PRECHECK_STATUS="skipped"
   fi
   if upgrade_uses_host_tgz; then
-    phase_run "upgrade.install-main" "$TIMEOUT_INSTALL_S" install_main_tgz "$host_ip" "openclaw-main-upgrade.tgz"
+    phase_run "upgrade.install-main" "$TIMEOUT_INSTALL_S" install_main_tgz "$host_ip" "kibo-main-upgrade.tgz"
     UPGRADE_MAIN_VERSION="$(extract_last_version "$(phase_log_path upgrade.install-main)")"
     phase_run "upgrade.verify-main-version" "$TIMEOUT_VERIFY_S" verify_target_version
     phase_run "upgrade.verify-bundle-permissions" "$TIMEOUT_PERMISSION_S" verify_bundle_permissions

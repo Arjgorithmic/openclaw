@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { resolveOpenClawAgentDir } from "../../src/agents/agent-paths.js";
+import { resolveKiboAgentDir } from "../../src/agents/agent-paths.js";
 import { isLiveTestEnabled } from "../../src/agents/live-test-helpers.js";
 import { loadConfig } from "../../src/config/config.js";
 import { createTestPluginApi } from "../../test/helpers/plugins/plugin-api.js";
@@ -41,7 +41,7 @@ describeLive("comfy live", () => {
 
   beforeAll(async () => {
     cfg = withPluginsEnabled(loadConfig());
-    agentDir = resolveOpenClawAgentDir();
+    agentDir = resolveKiboAgentDir();
     await plugin.register(
       createTestPluginApi({
         config: cfg as never,
@@ -66,7 +66,7 @@ describeLive("comfy live", () => {
       const result = await provider!.generateImage({
         provider: "comfy",
         model: "workflow",
-        prompt: "A tiny orange lobster icon on a clean background.",
+        prompt: "A tiny orange shell icon on a clean background.",
         cfg: cfg as never,
         agentDir,
       });
@@ -85,7 +85,7 @@ describeLive("comfy live", () => {
       const result = await provider!.generateVideo({
         provider: "comfy",
         model: "workflow",
-        prompt: "A tiny paper lobster gently waving, cinematic motion.",
+        prompt: "A tiny paper shell gently waving, cinematic motion.",
         cfg: cfg as never,
         agentDir,
       });

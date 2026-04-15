@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/xai-plugin",
+  "name": "@kibo/xai-plugin",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw xAI plugin",
+  "description": "Kibo xAI plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ]

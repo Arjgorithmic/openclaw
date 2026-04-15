@@ -1,9 +1,9 @@
-import { MAX_IMAGE_BYTES } from "openclaw/plugin-sdk/media-runtime";
+import { MAX_IMAGE_BYTES } from "kibo/plugin-sdk/media-runtime";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("openclaw/plugin-sdk/media-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/media-runtime")>(
-    "openclaw/plugin-sdk/media-runtime",
+vi.mock("kibo/plugin-sdk/media-runtime", async () => {
+  const actual = await vi.importActual<typeof import("kibo/plugin-sdk/media-runtime")>(
+    "kibo/plugin-sdk/media-runtime",
   );
   return {
     ...actual,
@@ -14,7 +14,7 @@ vi.mock("openclaw/plugin-sdk/media-runtime", async () => {
 
 describe("tlon monitor media", () => {
   async function loadMediaModule() {
-    const mediaRuntime = await import("openclaw/plugin-sdk/media-runtime");
+    const mediaRuntime = await import("kibo/plugin-sdk/media-runtime");
     const mediaModule = await import("./media.js");
     return {
       fetchRemoteMedia: vi.mocked(mediaRuntime.fetchRemoteMedia),
@@ -57,7 +57,7 @@ describe("tlon monitor media", () => {
     });
     saveMediaBuffer.mockResolvedValue({
       id: "photo---uuid.png",
-      path: "/tmp/openclaw/media/inbound/photo---uuid.png",
+      path: "/tmp/kibo/media/inbound/photo---uuid.png",
       size: "image-data".length,
       contentType: "image/png",
     });
@@ -80,7 +80,7 @@ describe("tlon monitor media", () => {
       "photo.png",
     );
     expect(result).toEqual({
-      localPath: "/tmp/openclaw/media/inbound/photo---uuid.png",
+      localPath: "/tmp/kibo/media/inbound/photo---uuid.png",
       contentType: "image/png",
       originalUrl: "https://example.com/photo.png",
     });

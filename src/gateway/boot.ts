@@ -4,7 +4,7 @@ import path from "node:path";
 import { SILENT_REPLY_TOKEN } from "../auto-reply/tokens.js";
 import type { CliDeps } from "../cli/deps.js";
 import { agentCommand } from "../commands/agent.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import {
   resolveAgentIdFromSessionKey,
   resolveAgentMainSessionKey,
@@ -75,7 +75,7 @@ async function loadBootFile(
 }
 
 function snapshotMainSessionMapping(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   sessionKey: string;
 }): SessionMappingSnapshot {
   const agentId = resolveAgentIdFromSessionKey(params.sessionKey);
@@ -137,7 +137,7 @@ async function restoreMainSessionMapping(
 }
 
 export async function runBootOnce(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   deps: CliDeps;
   workspaceDir: string;
   agentId?: string;

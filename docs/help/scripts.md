@@ -14,7 +14,7 @@ Use these when a task is clearly tied to a script; otherwise prefer the CLI.
 ## Conventions
 
 - Scripts are **optional** unless referenced in docs or release checklists.
-- Prefer CLI surfaces when they exist (example: auth monitoring uses `openclaw models status --check`).
+- Prefer CLI surfaces when they exist (example: auth monitoring uses `kibo models status --check`).
 - Assume scripts are host‑specific; read them before running on a new machine.
 
 ## Auth monitoring scripts
@@ -27,13 +27,13 @@ Use `scripts/gh-read` when you want `gh` to use a GitHub App installation token 
 
 Required env:
 
-- `OPENCLAW_GH_READ_APP_ID`
-- `OPENCLAW_GH_READ_PRIVATE_KEY_FILE`
+- `KIBO_GH_READ_APP_ID`
+- `KIBO_GH_READ_PRIVATE_KEY_FILE`
 
 Optional env:
 
-- `OPENCLAW_GH_READ_INSTALLATION_ID` when you want to skip repo-based installation lookup
-- `OPENCLAW_GH_READ_PERMISSIONS` as a comma-separated override for the read permission subset to request
+- `KIBO_GH_READ_INSTALLATION_ID` when you want to skip repo-based installation lookup
+- `KIBO_GH_READ_PERMISSIONS` as a comma-separated override for the read permission subset to request
 
 Repo resolution order:
 
@@ -44,8 +44,8 @@ Repo resolution order:
 Examples:
 
 - `scripts/gh-read pr view 123`
-- `scripts/gh-read run list -R openclaw/openclaw`
-- `scripts/gh-read api repos/openclaw/openclaw/pulls/123`
+- `scripts/gh-read run list -R kibo/kibo`
+- `scripts/gh-read api repos/kibo/kibo/pulls/123`
 
 ## When adding scripts
 

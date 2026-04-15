@@ -1,5 +1,5 @@
-import type { GatewayRequestHandlerOptions } from "openclaw/plugin-sdk/gateway-runtime";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import type { GatewayRequestHandlerOptions } from "kibo/plugin-sdk/gateway-runtime";
+import { normalizeOptionalString } from "kibo/plugin-sdk/text-runtime";
 import { formatMatrixErrorMessage } from "./matrix/errors.js";
 
 function sendError(respond: (ok: boolean, payload?: unknown) => void, err: unknown) {

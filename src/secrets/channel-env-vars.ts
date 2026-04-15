@@ -1,8 +1,8 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { loadPluginManifestRegistry } from "../plugins/manifest-registry.js";
 
 type ChannelEnvVarLookupParams = {
-  config?: OpenClawConfig;
+  config?: KiboConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 };

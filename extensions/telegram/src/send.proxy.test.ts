@@ -21,9 +21,9 @@ const { resolveTelegramFetch } = vi.hoisted(() => ({
   resolveTelegramFetch: vi.fn(),
 }));
 
-vi.mock("openclaw/plugin-sdk/config-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/config-runtime")>(
-    "openclaw/plugin-sdk/config-runtime",
+vi.mock("kibo/plugin-sdk/config-runtime", async () => {
+  const actual = await vi.importActual<typeof import("kibo/plugin-sdk/config-runtime")>(
+    "kibo/plugin-sdk/config-runtime",
   );
   return {
     ...actual,

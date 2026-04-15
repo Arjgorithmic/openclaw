@@ -3,7 +3,7 @@
 
 export * from "./api.js";
 export { setZalouserRuntime } from "./src/runtime.js";
-export type { ReplyPayload } from "openclaw/plugin-sdk/reply-runtime";
+export type { ReplyPayload } from "kibo/plugin-sdk/reply-runtime";
 export type {
   BaseProbeResult,
   ChannelAccountSnapshot,
@@ -11,51 +11,51 @@ export type {
   ChannelGroupContext,
   ChannelMessageActionAdapter,
   ChannelStatusIssue,
-} from "openclaw/plugin-sdk/channel-contract";
+} from "kibo/plugin-sdk/channel-contract";
 export type {
-  OpenClawConfig,
+  KiboConfig,
   GroupToolPolicyConfig,
   MarkdownTableMode,
-} from "openclaw/plugin-sdk/config-runtime";
+} from "kibo/plugin-sdk/config-runtime";
 export type {
   PluginRuntime,
   AnyAgentTool,
   ChannelPlugin,
-  OpenClawPluginToolContext,
-} from "openclaw/plugin-sdk/core";
-export type { RuntimeEnv } from "openclaw/plugin-sdk/runtime";
+  KiboPluginToolContext,
+} from "kibo/plugin-sdk/core";
+export type { RuntimeEnv } from "kibo/plugin-sdk/runtime";
 export {
   DEFAULT_ACCOUNT_ID,
   buildChannelConfigSchema,
   normalizeAccountId,
-} from "openclaw/plugin-sdk/core";
-export { chunkTextForOutbound } from "openclaw/plugin-sdk/text-chunking";
+} from "kibo/plugin-sdk/core";
+export { chunkTextForOutbound } from "kibo/plugin-sdk/text-chunking";
 export {
   isDangerousNameMatchingEnabled,
   resolveDefaultGroupPolicy,
   resolveOpenProviderRuntimeGroupPolicy,
   warnMissingProviderGroupPolicyFallbackOnce,
-} from "openclaw/plugin-sdk/config-runtime";
+} from "kibo/plugin-sdk/config-runtime";
 export {
   mergeAllowlist,
   summarizeMapping,
   formatAllowFromLowercase,
-} from "openclaw/plugin-sdk/allow-from";
-export { resolveInboundMentionDecision } from "openclaw/plugin-sdk/channel-inbound";
-export { createChannelPairingController } from "openclaw/plugin-sdk/channel-pairing";
-export { createChannelReplyPipeline } from "openclaw/plugin-sdk/channel-reply-pipeline";
-export { buildBaseAccountStatusSnapshot } from "openclaw/plugin-sdk/status-helpers";
-export { resolveSenderCommandAuthorization } from "openclaw/plugin-sdk/command-auth";
+} from "kibo/plugin-sdk/allow-from";
+export { resolveInboundMentionDecision } from "kibo/plugin-sdk/channel-inbound";
+export { createChannelPairingController } from "kibo/plugin-sdk/channel-pairing";
+export { createChannelReplyPipeline } from "kibo/plugin-sdk/channel-reply-pipeline";
+export { buildBaseAccountStatusSnapshot } from "kibo/plugin-sdk/status-helpers";
+export { resolveSenderCommandAuthorization } from "kibo/plugin-sdk/command-auth";
 export {
   evaluateGroupRouteAccessForPolicy,
   resolveSenderScopedGroupPolicy,
-} from "openclaw/plugin-sdk/group-access";
-export { loadOutboundMediaFromUrl } from "openclaw/plugin-sdk/outbound-media";
+} from "kibo/plugin-sdk/group-access";
+export { loadOutboundMediaFromUrl } from "kibo/plugin-sdk/outbound-media";
 export {
   deliverTextOrMediaReply,
   isNumericTargetId,
   resolveSendableOutboundReplyParts,
   sendPayloadWithChunkedTextAndMedia,
   type OutboundReplyPayload,
-} from "openclaw/plugin-sdk/reply-payload";
-export { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/browser-security-runtime";
+} from "kibo/plugin-sdk/reply-payload";
+export { resolvePreferredKiboTmpDir } from "kibo/plugin-sdk/browser-security-runtime";

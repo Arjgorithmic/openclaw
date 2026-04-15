@@ -9,7 +9,7 @@ import {
   sendSingleTextMessageMatrix,
   sendTypingMatrix,
 } from "./send.js";
-import { MATRIX_OPENCLAW_FINALIZED_PREVIEW_KEY } from "./send/types.js";
+import { MATRIX_KIBO_FINALIZED_PREVIEW_KEY } from "./send/types.js";
 
 const loadOutboundMediaFromUrlMock = vi.hoisted(() => vi.fn());
 const loadWebMediaMock = vi.fn().mockResolvedValue({
@@ -382,14 +382,14 @@ describe("sendMessageMatrix media", () => {
     await sendMessageMatrix("room:!room:example", "caption", {
       client,
       mediaUrl: "file:///tmp/photo.png",
-      mediaLocalRoots: ["/tmp/openclaw-matrix-test"],
+      mediaLocalRoots: ["/tmp/kibo-matrix-test"],
     });
 
     expect(loadWebMediaMock).toHaveBeenCalledWith(
       "file:///tmp/photo.png",
       expect.objectContaining({
         maxBytes: undefined,
-        localRoots: ["/tmp/openclaw-matrix-test"],
+        localRoots: ["/tmp/kibo-matrix-test"],
       }),
     );
   });
@@ -628,12 +628,12 @@ describe("sendSingleTextMessageMatrix", () => {
 
     await sendSingleTextMessageMatrix("room:!room:example", "done", {
       client,
-      extraContent: { [MATRIX_OPENCLAW_FINALIZED_PREVIEW_KEY]: true },
+      extraContent: { [MATRIX_KIBO_FINALIZED_PREVIEW_KEY]: true },
     });
 
     expect(sendMessage.mock.calls[0]?.[1]).toMatchObject({
       body: "done",
-      [MATRIX_OPENCLAW_FINALIZED_PREVIEW_KEY]: true,
+      [MATRIX_KIBO_FINALIZED_PREVIEW_KEY]: true,
     });
   });
 });
@@ -752,13 +752,13 @@ describe("editMessageMatrix mentions", () => {
 
     await editMessageMatrix("room:!room:example", "$original", "done", {
       client,
-      extraContent: { [MATRIX_OPENCLAW_FINALIZED_PREVIEW_KEY]: true },
+      extraContent: { [MATRIX_KIBO_FINALIZED_PREVIEW_KEY]: true },
     });
 
     expect(sendMessage.mock.calls[0]?.[1]).toMatchObject({
-      [MATRIX_OPENCLAW_FINALIZED_PREVIEW_KEY]: true,
+      [MATRIX_KIBO_FINALIZED_PREVIEW_KEY]: true,
       "m.new_content": {
-        [MATRIX_OPENCLAW_FINALIZED_PREVIEW_KEY]: true,
+        [MATRIX_KIBO_FINALIZED_PREVIEW_KEY]: true,
       },
     });
   });

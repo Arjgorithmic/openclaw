@@ -1,14 +1,14 @@
-import type { OpenClawConfig } from "@openclaw/plugin-sdk/config-runtime";
+import type { KiboConfig } from "@kibo/plugin-sdk/config-runtime";
 import {
   coerceSecretRef,
   resolveNonEnvSecretRefApiKeyMarker,
-} from "@openclaw/plugin-sdk/provider-auth";
+} from "@kibo/plugin-sdk/provider-auth";
 import {
   readProviderEnvValue,
   readConfiguredSecretString,
   resolveProviderWebSearchPluginConfig,
-} from "@openclaw/plugin-sdk/provider-web-search";
-import { normalizeSecretInputString } from "@openclaw/plugin-sdk/secret-input";
+} from "@kibo/plugin-sdk/provider-web-search";
+import { normalizeSecretInputString } from "@kibo/plugin-sdk/secret-input";
 
 export type XaiFallbackAuth = {
   apiKey: string;
@@ -24,7 +24,7 @@ function readConfiguredOrManagedApiKey(value: unknown): string | undefined {
   return ref ? resolveNonEnvSecretRefApiKeyMarker(ref.source) : undefined;
 }
 
-function readLegacyGrokFallbackAuth(cfg?: OpenClawConfig): XaiFallbackAuth | undefined {
+function readLegacyGrokFallbackAuth(cfg?: KiboConfig): XaiFallbackAuth | undefined {
   const search = cfg?.tools?.web?.search;
   if (!search || typeof search !== "object") {
     return undefined;
@@ -36,7 +36,7 @@ function readLegacyGrokFallbackAuth(cfg?: OpenClawConfig): XaiFallbackAuth | und
   return apiKey ? { apiKey, source: "tools.web.search.grok.apiKey" } : undefined;
 }
 
-export function readLegacyGrokApiKey(cfg?: OpenClawConfig): string | undefined {
+export function readLegacyGrokApiKey(cfg?: KiboConfig): string | undefined {
   const search = cfg?.tools?.web?.search;
   if (!search || typeof search !== "object") {
     return undefined;
@@ -48,14 +48,14 @@ export function readLegacyGrokApiKey(cfg?: OpenClawConfig): string | undefined {
   );
 }
 
-export function readPluginXaiWebSearchApiKey(cfg?: OpenClawConfig): string | undefined {
+export function readPluginXaiWebSearchApiKey(cfg?: KiboConfig): string | undefined {
   return readConfiguredSecretString(
     resolveProviderWebSearchPluginConfig(cfg as Record<string, unknown> | undefined, "xai")?.apiKey,
     "plugins.entries.xai.config.webSearch.apiKey",
   );
 }
 
-export function resolveFallbackXaiAuth(cfg?: OpenClawConfig): XaiFallbackAuth | undefined {
+export function resolveFallbackXaiAuth(cfg?: KiboConfig): XaiFallbackAuth | undefined {
   const pluginApiKey = readConfiguredOrManagedApiKey(
     resolveProviderWebSearchPluginConfig(cfg as Record<string, unknown> | undefined, "xai")?.apiKey,
   );
@@ -68,13 +68,13 @@ export function resolveFallbackXaiAuth(cfg?: OpenClawConfig): XaiFallbackAuth | 
   return readLegacyGrokFallbackAuth(cfg);
 }
 
-export function resolveFallbackXaiApiKey(cfg?: OpenClawConfig): string | undefined {
+export function resolveFallbackXaiApiKey(cfg?: KiboConfig): string | undefined {
   return readPluginXaiWebSearchApiKey(cfg) ?? readLegacyGrokApiKey(cfg);
 }
 
 export function resolveXaiToolApiKey(params: {
-  runtimeConfig?: OpenClawConfig;
-  sourceConfig?: OpenClawConfig;
+  runtimeConfig?: KiboConfig;
+  sourceConfig?: KiboConfig;
 }): string | undefined {
   return (
     resolveFallbackXaiApiKey(params.runtimeConfig) ??
@@ -85,8 +85,8 @@ export function resolveXaiToolApiKey(params: {
 
 export function isXaiToolEnabled(params: {
   enabled?: boolean;
-  runtimeConfig?: OpenClawConfig;
-  sourceConfig?: OpenClawConfig;
+  runtimeConfig?: KiboConfig;
+  sourceConfig?: KiboConfig;
 }): boolean {
   if (params.enabled === false) {
     return false;

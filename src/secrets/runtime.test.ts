@@ -1,8 +1,8 @@
 import { afterEach, beforeAll, describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 
-function asConfig(value: unknown): OpenClawConfig {
-  return value as OpenClawConfig;
+function asConfig(value: unknown): KiboConfig {
+  return value as KiboConfig;
 }
 
 const EMPTY_LOADABLE_PLUGIN_ORIGINS = new Map();
@@ -32,7 +32,7 @@ describe("secrets runtime snapshot", () => {
               mode: "all",
               backend: "ssh",
               ssh: {
-                target: "peter@example.com:22",
+                target: "kibo@example.com:22",
                 identityData: { source: "env", provider: "default", id: "SSH_IDENTITY_DATA" },
                 certificateData: {
                   source: "env",
@@ -118,7 +118,7 @@ describe("secrets runtime snapshot", () => {
         }),
         env: {},
         includeAuthStoreRefs: false,
-        agentDirs: ["/tmp/openclaw-agent-main"],
+        agentDirs: ["/tmp/kibo-agent-main"],
         loadAuthStore: () => ({ version: 1, profiles: {} }),
         loadablePluginOrigins: EMPTY_LOADABLE_PLUGIN_ORIGINS,
       }),

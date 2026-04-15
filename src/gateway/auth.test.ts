@@ -37,14 +37,14 @@ function createTailscaleForwardedReq(): never {
       "x-forwarded-for": "100.64.0.1",
       "x-forwarded-proto": "https",
       "x-forwarded-host": "ai-hub.bone-egret.ts.net",
-      "tailscale-user-login": "peter",
-      "tailscale-user-name": "Peter",
+      "tailscale-user-login": "kibo",
+      "tailscale-user-name": "Kibo",
     },
   } as never;
 }
 
 function createTailscaleWhois() {
-  return async () => ({ login: "peter", name: "Peter" });
+  return async () => ({ login: "kibo", name: "Kibo" });
 }
 
 describe("gateway auth", () => {
@@ -88,13 +88,13 @@ describe("gateway auth", () => {
     expect(res.user).toBe(params.expected.user);
   }
 
-  it("resolves token/password from OPENCLAW gateway env vars", () => {
+  it("resolves token/password from KIBO gateway env vars", () => {
     expect(
       resolveGatewayAuth({
         authConfig: {},
         env: {
-          OPENCLAW_GATEWAY_TOKEN: "env-token",
-          OPENCLAW_GATEWAY_PASSWORD: "env-password",
+          KIBO_GATEWAY_TOKEN: "env-token",
+          KIBO_GATEWAY_PASSWORD: "env-password",
         } as NodeJS.ProcessEnv,
       }),
     ).toMatchObject({
@@ -163,8 +163,8 @@ describe("gateway auth", () => {
           password: "config-password", // pragma: allowlist secret
         },
         env: {
-          OPENCLAW_GATEWAY_TOKEN: "env-token",
-          OPENCLAW_GATEWAY_PASSWORD: "env-password",
+          KIBO_GATEWAY_TOKEN: "env-token",
+          KIBO_GATEWAY_PASSWORD: "env-password",
         } as NodeJS.ProcessEnv,
       }),
     ).toMatchObject({
@@ -177,12 +177,12 @@ describe("gateway auth", () => {
     expect(
       resolveGatewayAuth({
         authConfig: {
-          token: "${OPENCLAW_GATEWAY_TOKEN}",
-          password: "${OPENCLAW_GATEWAY_PASSWORD}",
+          token: "${KIBO_GATEWAY_TOKEN}",
+          password: "${KIBO_GATEWAY_PASSWORD}",
         },
         env: {
-          OPENCLAW_GATEWAY_TOKEN: "env-token",
-          OPENCLAW_GATEWAY_PASSWORD: "env-password",
+          KIBO_GATEWAY_TOKEN: "env-token",
+          KIBO_GATEWAY_PASSWORD: "env-password",
         } as NodeJS.ProcessEnv,
       }),
     ).toMatchObject({
@@ -346,7 +346,7 @@ describe("gateway auth", () => {
 
     expect(res.ok).toBe(true);
     expect(res.method).toBe("tailscale");
-    expect(res.user).toBe("peter");
+    expect(res.user).toBe("kibo");
   });
 
   it("serializes async auth attempts per rate-limit key", async () => {
@@ -400,7 +400,7 @@ describe("gateway auth", () => {
   it("enables tailscale header auth on ws control-ui auth wrapper", async () => {
     await expectTailscaleHeaderAuthResult({
       authorize: authorizeWsControlUiGatewayConnect,
-      expected: { ok: true, method: "tailscale", user: "peter" },
+      expected: { ok: true, method: "tailscale", user: "kibo" },
     });
   });
 
@@ -509,7 +509,7 @@ describe("gateway auth", () => {
     ).toThrow(/provider reference object/);
   });
 
-  it("accepts password mode when env provides OPENCLAW_GATEWAY_PASSWORD", () => {
+  it("accepts password mode when env provides KIBO_GATEWAY_PASSWORD", () => {
     const rawPasswordRef = { source: "exec", provider: "op", id: "pw" } as never;
     const auth = resolveGatewayAuth({
       authConfig: {
@@ -517,7 +517,7 @@ describe("gateway auth", () => {
         password: rawPasswordRef,
       },
       env: {
-        OPENCLAW_GATEWAY_PASSWORD: "env-password",
+        KIBO_GATEWAY_PASSWORD: "env-password",
       } as NodeJS.ProcessEnv,
     });
 
@@ -798,7 +798,7 @@ describe("trusted-proxy auth", () => {
         },
       },
       env: {
-        OPENCLAW_GATEWAY_TOKEN: "shared-secret",
+        KIBO_GATEWAY_TOKEN: "shared-secret",
       } as NodeJS.ProcessEnv,
     },
   ])("rejects trusted-proxy mode when shared token comes from $name", ({ authConfig, env }) => {

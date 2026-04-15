@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import path from "node:path";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "openclaw/plugin-sdk/account-id";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "kibo/plugin-sdk/account-id";
+import { normalizeLowercaseStringOrEmpty } from "kibo/plugin-sdk/text-runtime";
 
 export function sanitizeMatrixPathSegment(value: string): string {
   const cleaned = normalizeLowercaseStringOrEmpty(value)

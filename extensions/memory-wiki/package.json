@@ -1,25 +1,25 @@
 {
-  "name": "@openclaw/memory-wiki",
+  "name": "@kibo/memory-wiki",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw persistent wiki plugin",
+  "description": "Kibo persistent wiki plugin",
   "type": "module",
   "dependencies": {
     "yaml": "^2.8.3"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*",
+    "kibo": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.4.10"
+    "kibo": ">=2026.4.10"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "kibo": {
       "optional": true
     }
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ]

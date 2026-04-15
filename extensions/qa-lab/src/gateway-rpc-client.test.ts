@@ -22,11 +22,11 @@ describe("startQaGatewayRpcClient", () => {
   });
 
   it("calls the in-process gateway cli helper without mutating process.env", async () => {
-    const originalHome = process.env.OPENCLAW_HOME;
-    delete process.env.OPENCLAW_HOME;
+    const originalHome = process.env.KIBO_HOME;
+    delete process.env.KIBO_HOME;
 
     gatewayRpcMock.callGatewayFromCli.mockImplementationOnce(async () => {
-      expect(process.env.OPENCLAW_HOME).toBeUndefined();
+      expect(process.env.KIBO_HOME).toBeUndefined();
       return { ok: true };
     });
 
@@ -56,7 +56,7 @@ describe("startQaGatewayRpcClient", () => {
       },
     );
 
-    expect(process.env.OPENCLAW_HOME).toBe(originalHome);
+    expect(process.env.KIBO_HOME).toBe(originalHome);
   });
 
   it("wraps request failures with gateway logs", async () => {

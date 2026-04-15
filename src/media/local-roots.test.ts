@@ -15,7 +15,7 @@ function normalizeHostPath(value: string): string {
 
 describe("local media roots", () => {
   function withStateDir<T>(stateDir: string, run: () => T): T {
-    vi.stubEnv("OPENCLAW_STATE_DIR", stateDir);
+    vi.stubEnv("KIBO_STATE_DIR", stateDir);
     return run();
   }
 
@@ -45,7 +45,7 @@ describe("local media roots", () => {
     picturesRoot?: string;
   }) {
     const normalizedRoots = params.roots.map(normalizeHostPath);
-    const picturesRoot = normalizeHostPath(params.picturesRoot ?? "/Users/peter/Pictures");
+    const picturesRoot = normalizeHostPath(params.picturesRoot ?? "/Users/kibo/Pictures");
     if (params.shouldContainPictures) {
       expect(normalizedRoots).toContain(picturesRoot);
       return;
@@ -87,7 +87,7 @@ describe("local media roots", () => {
   it.each([
     {
       name: "keeps temp, media cache, and workspace roots by default",
-      stateDir: path.join("/tmp", "openclaw-media-roots-state"),
+      stateDir: path.join("/tmp", "kibo-media-roots-state"),
       getRoots: () => getDefaultMediaLocalRoots(),
       expectedContained: ["media", "workspace", "sandboxes"],
       expectedExcluded: ["agents"],
@@ -95,7 +95,7 @@ describe("local media roots", () => {
     },
     {
       name: "adds the active agent workspace without re-opening broad agent state roots",
-      stateDir: path.join("/tmp", "openclaw-agent-media-roots-state"),
+      stateDir: path.join("/tmp", "kibo-agent-media-roots-state"),
       getRoots: () => getAgentScopedMediaLocalRoots({}, "ops"),
       expectedContained: ["workspace-ops", "sandboxes"],
       expectedExcluded: ["agents"],
@@ -113,25 +113,25 @@ describe("local media roots", () => {
   it.each([
     {
       name: "does not widen agent media roots for concrete local sources when workspaceOnly is disabled",
-      stateDir: path.join("/tmp", "openclaw-flexible-media-roots-state"),
+      stateDir: path.join("/tmp", "kibo-flexible-media-roots-state"),
       cfg: {},
       shouldContainPictures: false,
     },
     {
       name: "does not widen agent media roots when workspaceOnly is enabled",
-      stateDir: path.join("/tmp", "openclaw-flexible-media-roots-state"),
+      stateDir: path.join("/tmp", "kibo-flexible-media-roots-state"),
       cfg: { tools: { fs: { workspaceOnly: true } } },
       shouldContainPictures: false,
     },
     {
       name: "does not widen media roots for messaging-profile agents without filesystem tools",
-      stateDir: path.join("/tmp", "openclaw-messaging-media-roots-state"),
+      stateDir: path.join("/tmp", "kibo-messaging-media-roots-state"),
       cfg: { tools: { profile: "messaging" } },
       shouldContainPictures: false,
     },
     {
       name: "does not widen media roots even when messaging-profile agents explicitly enable filesystem tools",
-      stateDir: path.join("/tmp", "openclaw-messaging-fs-media-roots-state"),
+      stateDir: path.join("/tmp", "kibo-messaging-fs-media-roots-state"),
       cfg: {
         tools: {
           profile: "messaging",
@@ -145,18 +145,18 @@ describe("local media roots", () => {
       getAgentScopedMediaLocalRootsForSources({
         cfg,
         agentId: "ops",
-        mediaSources: ["/Users/peter/Pictures/photo.png"],
+        mediaSources: ["/Users/kibo/Pictures/photo.png"],
       }),
     );
     expectPicturesRootPresence({ roots, shouldContainPictures });
   });
 
   it("keeps agent-scoped defaults even when mediaSources include file URLs and top-level paths", () => {
-    const stateDir = path.join("/tmp", "openclaw-file-url-media-roots-state");
+    const stateDir = path.join("/tmp", "kibo-file-url-media-roots-state");
     const picturesDir =
-      process.platform === "win32" ? "C:\\Users\\peter\\Pictures" : "/Users/peter/Pictures";
+      process.platform === "win32" ? "C:\\Users\\kibo\\Pictures" : "/Users/kibo/Pictures";
     const moviesDir =
-      process.platform === "win32" ? "C:\\Users\\peter\\Movies" : "/Users/peter/Movies";
+      process.platform === "win32" ? "C:\\Users\\kibo\\Movies" : "/Users/kibo/Movies";
 
     const roots = withStateDir(stateDir, () =>
       getAgentScopedMediaLocalRootsForSources({
@@ -181,17 +181,17 @@ describe("local media roots", () => {
   });
 
   it("includes the config media root when legacy state and config dirs diverge", () => {
-    const homeRoot = path.join(os.tmpdir(), "openclaw-legacy-home-test");
+    const homeRoot = path.join(os.tmpdir(), "kibo-legacy-home-test");
     const roots = buildMediaLocalRoots(
-      path.join(homeRoot, ".clawdbot"),
-      path.join(homeRoot, ".openclaw"),
+      path.join(homeRoot, ".kibobot"),
+      path.join(homeRoot, ".kibo"),
     );
 
     expectNormalizedRootsContain(roots, [
-      path.join(homeRoot, ".clawdbot", "media"),
-      path.join(homeRoot, ".clawdbot", "workspace"),
-      path.join(homeRoot, ".clawdbot", "sandboxes"),
-      path.join(homeRoot, ".openclaw", "media"),
+      path.join(homeRoot, ".kibobot", "media"),
+      path.join(homeRoot, ".kibobot", "workspace"),
+      path.join(homeRoot, ".kibobot", "sandboxes"),
+      path.join(homeRoot, ".kibo", "media"),
     ]);
   });
 });

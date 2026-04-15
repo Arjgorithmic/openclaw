@@ -23,7 +23,7 @@ function buildLiveAnthropicModel(): {
     throw new Error("missing ANTHROPIC_API_KEY");
   }
   const modelId =
-    (process.env.OPENCLAW_LIVE_ANTHROPIC_CACHE_MODEL || "claude-sonnet-4-6")
+    (process.env.KIBO_LIVE_ANTHROPIC_CACHE_MODEL || "claude-sonnet-4-6")
       .split(/[/:]/)
       .filter(Boolean)
       .pop() || "claude-sonnet-4-6";

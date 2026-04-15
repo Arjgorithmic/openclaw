@@ -1,7 +1,7 @@
 {
-  "name": "@openclaw/msteams",
+  "name": "@kibo/msteams",
   "version": "2026.4.10",
-  "description": "OpenClaw Microsoft Teams channel plugin",
+  "description": "Kibo Microsoft Teams channel plugin",
   "type": "module",
   "dependencies": {
     "@microsoft/teams.api": "2.0.6",
@@ -11,19 +11,19 @@
     "jwks-rsa": "^4.0.1"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
+    "@kibo/plugin-sdk": "workspace:*",
     "@types/jsonwebtoken": "^9.0.9",
-    "openclaw": "workspace:*"
+    "kibo": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.4.10"
+    "kibo": ">=2026.4.10"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "kibo": {
       "optional": true
     }
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ],
@@ -41,7 +41,7 @@
       "order": 60
     },
     "install": {
-      "npmSpec": "@openclaw/msteams",
+      "npmSpec": "@kibo/msteams",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.10"
     },
@@ -49,10 +49,10 @@
       "pluginApi": ">=2026.4.10"
     },
     "build": {
-      "openclawVersion": "2026.4.10"
+      "kiboVersion": "2026.4.10"
     },
     "release": {
-      "publishToClawHub": true,
+      "publishToKiboHub": true,
       "publishToNpm": true
     }
   }

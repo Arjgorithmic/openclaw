@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { KiboConfig } from "../../../config/config.js";
 import { runPluginSetupConfigMigrations } from "../../../plugins/setup-registry.js";
 import { collectChannelDoctorCompatibilityMutations } from "./channel-doctor.js";
 import {
@@ -14,8 +14,8 @@ import { migrateLegacyWebFetchConfig } from "./legacy-web-fetch-migrate.js";
 import { migrateLegacyWebSearchConfig } from "./legacy-web-search-migrate.js";
 import { migrateLegacyXSearchConfig } from "./legacy-x-search-migrate.js";
 
-export function normalizeCompatibilityConfigValues(cfg: OpenClawConfig): {
-  config: OpenClawConfig;
+export function normalizeCompatibilityConfigValues(cfg: KiboConfig): {
+  config: KiboConfig;
   changes: string[];
 } {
   const changes: string[] = [];

@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import { normalizeLowercaseStringOrEmpty } from "kibo/plugin-sdk/text-runtime";
 import {
   readJsonWebhookBodyOrReject,
   resolveWebhookTargetWithAuthOrReject,

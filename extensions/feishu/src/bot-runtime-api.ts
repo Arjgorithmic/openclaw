@@ -1,7 +1,7 @@
 export {
   buildAgentMediaPayload,
   resolveChannelContextVisibilityMode,
-  type ClawdbotConfig,
+  type KibobotConfig,
   type RuntimeEnv,
 } from "../runtime-api.js";
 export {

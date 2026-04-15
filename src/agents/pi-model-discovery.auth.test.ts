@@ -9,7 +9,7 @@ import {
 } from "./pi-model-discovery.js";
 
 async function createAgentDir(): Promise<string> {
-  return await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-pi-auth-storage-"));
+  return await fs.mkdtemp(path.join(os.tmpdir(), "kibo-pi-auth-storage-"));
 }
 
 async function withAgentDir(run: (agentDir: string) => Promise<void>): Promise<void> {
@@ -100,8 +100,8 @@ describe("discoverAuthStorage", () => {
 
   it("preserves legacy auth.json when auth store is forced read-only", async () => {
     await withAgentDir(async (agentDir) => {
-      const previous = process.env.OPENCLAW_AUTH_STORE_READONLY;
-      process.env.OPENCLAW_AUTH_STORE_READONLY = "1";
+      const previous = process.env.KIBO_AUTH_STORE_READONLY;
+      process.env.KIBO_AUTH_STORE_READONLY = "1";
       try {
         await writeLegacyAuthJson(agentDir, {
           openrouter: { type: "api_key", key: "legacy-static-key" },
@@ -113,9 +113,9 @@ describe("discoverAuthStorage", () => {
         expect(parsed.openrouter).toMatchObject({ type: "api_key", key: "legacy-static-key" });
       } finally {
         if (previous === undefined) {
-          delete process.env.OPENCLAW_AUTH_STORE_READONLY;
+          delete process.env.KIBO_AUTH_STORE_READONLY;
         } else {
-          process.env.OPENCLAW_AUTH_STORE_READONLY = previous;
+          process.env.KIBO_AUTH_STORE_READONLY = previous;
         }
       }
     });

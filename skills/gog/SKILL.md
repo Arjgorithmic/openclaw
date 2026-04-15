@@ -4,7 +4,7 @@ description: Google Workspace CLI for Gmail, Calendar, Drive, Contacts, Sheets, 
 homepage: https://gogcli.sh
 metadata:
   {
-    "openclaw":
+    "kibo":
       {
         "emoji": "🎮",
         "requires": { "bins": ["gog"] },
@@ -13,7 +13,7 @@ metadata:
             {
               "id": "brew",
               "kind": "brew",
-              "formula": "steipete/tap/gogcli",
+              "formula": "kibo/tap/gogcli",
               "bins": ["gog"],
               "label": "Install gog (brew)",
             },

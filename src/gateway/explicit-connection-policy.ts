@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { trimToUndefined, type ExplicitGatewayAuth } from "./credentials.js";
 
 export function hasExplicitGatewayConnectionAuth(auth?: ExplicitGatewayAuth): boolean {
@@ -6,7 +6,7 @@ export function hasExplicitGatewayConnectionAuth(auth?: ExplicitGatewayAuth): bo
 }
 
 export function canSkipGatewayConfigLoad(params: {
-  config?: OpenClawConfig;
+  config?: KiboConfig;
   urlOverride?: string;
   explicitAuth?: ExplicitGatewayAuth;
 }): boolean {

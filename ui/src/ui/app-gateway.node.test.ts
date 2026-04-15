@@ -130,7 +130,7 @@ function createHost() {
     agentsList: null,
     agentsError: null,
     debugHealth: null,
-    assistantName: "OpenClaw",
+    assistantName: "Kibo",
     assistantAvatar: null,
     assistantAgentId: null,
     serverVersion: null,
@@ -648,7 +648,7 @@ describe("resolveControlUiClientVersion", () => {
       resolveControlUiClientVersion({
         gatewayUrl: "ws://localhost:8787",
         serverVersion: "2026.3.7",
-        pageUrl: "http://localhost:8787/openclaw/",
+        pageUrl: "http://localhost:8787/kibo/",
       }),
     ).toBe("2026.3.7");
   });
@@ -658,7 +658,7 @@ describe("resolveControlUiClientVersion", () => {
       resolveControlUiClientVersion({
         gatewayUrl: "/ws",
         serverVersion: "2026.3.7",
-        pageUrl: "https://control.example.com/openclaw/",
+        pageUrl: "https://control.example.com/kibo/",
       }),
     ).toBe("2026.3.7");
   });
@@ -668,7 +668,7 @@ describe("resolveControlUiClientVersion", () => {
       resolveControlUiClientVersion({
         gatewayUrl: "https://control.example.com/ws",
         serverVersion: "2026.3.7",
-        pageUrl: "https://control.example.com/openclaw/",
+        pageUrl: "https://control.example.com/kibo/",
       }),
     ).toBe("2026.3.7");
   });
@@ -678,7 +678,7 @@ describe("resolveControlUiClientVersion", () => {
       resolveControlUiClientVersion({
         gatewayUrl: "wss://gateway.example.com",
         serverVersion: "2026.3.7",
-        pageUrl: "https://control.example.com/openclaw/",
+        pageUrl: "https://control.example.com/kibo/",
       }),
     ).toBeUndefined();
   });

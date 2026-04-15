@@ -1,6 +1,6 @@
-import { resolveSendableOutboundReplyParts } from "openclaw/plugin-sdk/reply-payload";
+import { resolveSendableOutboundReplyParts } from "kibo/plugin-sdk/reply-payload";
 import type { MessagingToolSend } from "../../agents/pi-embedded-runner.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { KiboConfig } from "../../config/config.js";
 import { stripHeartbeatToken } from "../heartbeat.js";
 import type { OriginatingChannelType } from "../templating.js";
 import type { ReplyPayload } from "../types.js";
@@ -18,7 +18,7 @@ import {
 import { resolveReplyToMode } from "./reply-threading.js";
 
 export function resolveFollowupDeliveryPayloads(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   payloads: ReplyPayload[];
   messageProvider?: string;
   originatingAccountId?: string;

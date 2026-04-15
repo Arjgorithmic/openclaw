@@ -4,7 +4,7 @@
 import { createOptionalChannelSetupSurface } from "./channel-setup.js";
 import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
 
-type MatrixFacadeModule = typeof import("@openclaw/matrix/contract-api.js");
+type MatrixFacadeModule = typeof import("@kibo/matrix/contract-api.js");
 
 function loadMatrixFacadeModule(): MatrixFacadeModule {
   return loadBundledPluginPublicSurfaceModuleSync<MatrixFacadeModule>({
@@ -99,7 +99,7 @@ export {
 export { createTypingCallbacks } from "../channels/typing.js";
 export { createChannelReplyPipeline } from "./channel-reply-pipeline.js";
 export { loadOutboundMediaFromUrl } from "./outbound-media.js";
-export type { OpenClawConfig } from "../config/config.js";
+export type { KiboConfig } from "../config/config.js";
 export {
   GROUP_POLICY_BLOCKED_LABEL,
   resolveAllowlistProviderRuntimeGroupPolicy,
@@ -138,7 +138,7 @@ export { isPrivateOrLoopbackHost } from "../gateway/net.js";
 export { getAgentScopedMediaLocalRoots } from "../media/local-roots.js";
 export { emptyPluginConfigSchema } from "../plugins/config-schema.js";
 export type { PluginRuntime, RuntimeLogger } from "../plugins/runtime/types.js";
-export type { OpenClawPluginApi } from "../plugins/types.js";
+export type { KiboPluginApi } from "../plugins/types.js";
 export type { PollInput } from "../polls.js";
 export { normalizePollInput } from "../polls.js";
 export {
@@ -204,7 +204,7 @@ export const resolveSingleAccountPromotionTarget: MatrixFacadeModule["resolveSin
 const matrixSetup = createOptionalChannelSetupSurface({
   channel: "matrix",
   label: "Matrix",
-  npmSpec: "@openclaw/matrix",
+  npmSpec: "@kibo/matrix",
   docsPath: "/channels/matrix",
 });
 

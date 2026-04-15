@@ -1,0 +1,16 @@
+{
+  "name": "kibobot",
+  "version": "2026.2.12",
+  "description": "Compatibility shim that forwards to kibo",
+  "bin": {
+    "kibobot": "./bin/kibobot.js"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./cli-entry": "./bin/kibobot.js"
+  },
+  "dependencies": {
+    "kibo": "workspace:*"
+  }
+}

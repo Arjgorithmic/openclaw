@@ -30,7 +30,7 @@ import {
   resolveThreadBindingPlacementForCurrentContext,
   resolveThreadBindingSpawnPolicy,
 } from "../../../channels/thread-bindings-policy.js";
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { KiboConfig } from "../../../config/config.js";
 import { updateSessionStore } from "../../../config/sessions.js";
 import type { SessionAcpMeta } from "../../../config/sessions/types.js";
 import { formatErrorMessage } from "../../../infra/errors.js";
@@ -98,7 +98,7 @@ async function resolveBoundReplyChannelData(params: {
 }
 
 function buildSpawnedAcpBindingMetadata(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   channel: string;
   accountId: string;
   sessionKey: string;
@@ -142,7 +142,7 @@ async function bindSpawnedAcpSession(params: {
   sessionKey: string;
   conversationRef: ConversationRef;
   placement: SessionBindingPlacement;
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   channel: string;
   accountId: string;
   agentId: string;
@@ -436,7 +436,7 @@ async function bindSpawnedAcpSessionToThread(params: {
 }
 
 async function cleanupFailedSpawn(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   sessionKey: string;
   shouldDeleteSession: boolean;
   initializedRuntime?: AcpSpawnRuntimeCloseHandle;
@@ -655,7 +655,7 @@ export async function handleAcpSpawnAction(
 
 function resolveAcpSessionForCommandOrStop(params: {
   acpManager: ReturnType<typeof getAcpSessionManager>;
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   sessionKey: string;
 }): CommandHandlerResult | null {
   const resolved = params.acpManager.resolveSession({
@@ -743,7 +743,7 @@ export async function handleAcpCancelAction(
 }
 
 async function runAcpSteer(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   sessionKey: string;
   instruction: string;
   requestId: string;

@@ -2,27 +2,27 @@ import {
   isNativeCommandsExplicitlyDisabled,
   resolveNativeCommandsEnabled,
   resolveNativeSkillsEnabled,
-} from "openclaw/plugin-sdk/config-runtime";
+} from "kibo/plugin-sdk/config-runtime";
 import {
   resolveChannelGroupPolicy,
   resolveChannelGroupRequireMention,
-} from "openclaw/plugin-sdk/config-runtime";
+} from "kibo/plugin-sdk/config-runtime";
 import {
   resolveThreadBindingIdleTimeoutMsForChannel,
   resolveThreadBindingMaxAgeMsForChannel,
   resolveThreadBindingSpawnPolicy,
-} from "openclaw/plugin-sdk/conversation-runtime";
-import { formatUncaughtError } from "openclaw/plugin-sdk/error-runtime";
-import { resolveTextChunkLimit } from "openclaw/plugin-sdk/reply-chunking";
-import { DEFAULT_GROUP_HISTORY_LIMIT, type HistoryEntry } from "openclaw/plugin-sdk/reply-history";
-import { danger, logVerbose, shouldLogVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { getChildLogger } from "openclaw/plugin-sdk/runtime-env";
-import { createSubsystemLogger } from "openclaw/plugin-sdk/runtime-env";
-import { createNonExitingRuntime, type RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+} from "kibo/plugin-sdk/conversation-runtime";
+import { formatUncaughtError } from "kibo/plugin-sdk/error-runtime";
+import { resolveTextChunkLimit } from "kibo/plugin-sdk/reply-chunking";
+import { DEFAULT_GROUP_HISTORY_LIMIT, type HistoryEntry } from "kibo/plugin-sdk/reply-history";
+import { danger, logVerbose, shouldLogVerbose } from "kibo/plugin-sdk/runtime-env";
+import { getChildLogger } from "kibo/plugin-sdk/runtime-env";
+import { createSubsystemLogger } from "kibo/plugin-sdk/runtime-env";
+import { createNonExitingRuntime, type RuntimeEnv } from "kibo/plugin-sdk/runtime-env";
 import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/text-runtime";
 import { resolveTelegramAccount } from "./accounts.js";
 import { defaultTelegramBotDeps } from "./bot-deps.js";
 import { registerTelegramHandlers } from "./bot-handlers.js";

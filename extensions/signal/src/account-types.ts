@@ -1,6 +1,6 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
 
 export type SignalAccountConfig = Omit<
-  Exclude<NonNullable<OpenClawConfig["channels"]>["signal"], undefined>,
+  Exclude<NonNullable<KiboConfig["channels"]>["signal"], undefined>,
   "accounts"
 >;

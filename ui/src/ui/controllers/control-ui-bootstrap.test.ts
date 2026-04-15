@@ -9,7 +9,7 @@ describe("loadControlUiBootstrapConfig", () => {
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({
-        basePath: "/openclaw",
+        basePath: "/kibo",
         assistantName: "Ops",
         assistantAvatar: "O",
       }),
@@ -17,7 +17,7 @@ describe("loadControlUiBootstrapConfig", () => {
     vi.stubGlobal("fetch", fetchMock as unknown as typeof fetch);
 
     const state = {
-      basePath: "/openclaw",
+      basePath: "/kibo",
       assistantName: "Assistant",
       assistantAvatar: null,
       assistantAgentId: null,
@@ -27,7 +27,7 @@ describe("loadControlUiBootstrapConfig", () => {
     await loadControlUiBootstrapConfig(state);
 
     expect(fetchMock).toHaveBeenCalledWith(
-      `/openclaw${CONTROL_UI_BOOTSTRAP_CONFIG_PATH}`,
+      `/kibo${CONTROL_UI_BOOTSTRAP_CONFIG_PATH}`,
       expect.objectContaining({ method: "GET" }),
     );
     expect(state.assistantName).toBe("Ops");
@@ -68,7 +68,7 @@ describe("loadControlUiBootstrapConfig", () => {
     vi.stubGlobal("fetch", fetchMock as unknown as typeof fetch);
 
     const state = {
-      basePath: "/openclaw/",
+      basePath: "/kibo/",
       assistantName: "Assistant",
       assistantAvatar: null,
       assistantAgentId: null,
@@ -78,7 +78,7 @@ describe("loadControlUiBootstrapConfig", () => {
     await loadControlUiBootstrapConfig(state);
 
     expect(fetchMock).toHaveBeenCalledWith(
-      `/openclaw${CONTROL_UI_BOOTSTRAP_CONFIG_PATH}`,
+      `/kibo${CONTROL_UI_BOOTSTRAP_CONFIG_PATH}`,
       expect.objectContaining({ method: "GET" }),
     );
     expect(state.assistantAgentId).toBeNull();

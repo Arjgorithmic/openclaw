@@ -2,21 +2,21 @@ export {
   DEFAULT_ACCOUNT_ID,
   getChatChannelMeta,
   type ChannelPlugin,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/core";
+  type KiboConfig,
+} from "kibo/plugin-sdk/core";
 export { buildChannelConfigSchema, IMessageConfigSchema } from "./config-api.js";
-export { PAIRING_APPROVED_MESSAGE } from "openclaw/plugin-sdk/channel-status";
+export { PAIRING_APPROVED_MESSAGE } from "kibo/plugin-sdk/channel-status";
 export {
   buildComputedAccountStatusSnapshot,
   collectStatusIssuesFromLastError,
-} from "openclaw/plugin-sdk/status-helpers";
-export { formatTrimmedAllowFromEntries } from "openclaw/plugin-sdk/channel-config-helpers";
+} from "kibo/plugin-sdk/status-helpers";
+export { formatTrimmedAllowFromEntries } from "kibo/plugin-sdk/channel-config-helpers";
 export {
   resolveIMessageConfigAllowFrom,
   resolveIMessageConfigDefaultTo,
 } from "./src/config-accessors.js";
 export { looksLikeIMessageTargetId, normalizeIMessageMessagingTarget } from "./src/normalize.js";
-export { resolveChannelMediaMaxBytes } from "openclaw/plugin-sdk/media-runtime";
+export { resolveChannelMediaMaxBytes } from "kibo/plugin-sdk/media-runtime";
 export {
   resolveIMessageGroupRequireMention,
   resolveIMessageGroupToolPolicy,

@@ -8,8 +8,8 @@ const messageQueueMock = vi.fn();
 const messageAllowMock = vi.fn();
 
 async function createChannelRuntimeMock() {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/infra-runtime")>(
-    "openclaw/plugin-sdk/infra-runtime",
+  const actual = await vi.importActual<typeof import("kibo/plugin-sdk/infra-runtime")>(
+    "kibo/plugin-sdk/infra-runtime",
   );
   return {
     ...actual,
@@ -17,12 +17,12 @@ async function createChannelRuntimeMock() {
   };
 }
 
-vi.mock("openclaw/plugin-sdk/infra-runtime", createChannelRuntimeMock);
-vi.mock("openclaw/plugin-sdk/infra-runtime.js", createChannelRuntimeMock);
+vi.mock("kibo/plugin-sdk/infra-runtime", createChannelRuntimeMock);
+vi.mock("kibo/plugin-sdk/infra-runtime.js", createChannelRuntimeMock);
 
-vi.mock("openclaw/plugin-sdk/conversation-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/conversation-runtime")>(
-    "openclaw/plugin-sdk/conversation-runtime",
+vi.mock("kibo/plugin-sdk/conversation-runtime", async () => {
+  const actual = await vi.importActual<typeof import("kibo/plugin-sdk/conversation-runtime")>(
+    "kibo/plugin-sdk/conversation-runtime",
   );
   return {
     ...actual,

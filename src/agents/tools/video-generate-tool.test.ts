@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { KiboConfig } from "../../config/config.js";
 import * as mediaStore from "../../media/store.js";
 import * as videoGenerationRuntime from "../../video-generation/runtime.js";
 import * as videoGenerateBackground from "./video-generate-background.js";
@@ -19,8 +19,8 @@ const taskExecutorMocks = vi.hoisted(() => ({
 vi.mock("../../tasks/runtime-internal.js", () => taskRuntimeInternalMocks);
 vi.mock("../../tasks/task-executor.js", () => taskExecutorMocks);
 
-function asConfig(value: unknown): OpenClawConfig {
-  return value as OpenClawConfig;
+function asConfig(value: unknown): KiboConfig {
+  return value as KiboConfig;
 }
 
 describe("createVideoGenerateTool", () => {
@@ -66,7 +66,7 @@ describe("createVideoGenerateTool", () => {
       requesterSessionKey: "agent:main:discord:direct:123",
       ownerKey: "agent:main:discord:direct:123",
       scopeKind: "session",
-      task: "friendly lobster surfing",
+      task: "friendly shell surfing",
       status: "running",
       deliveryStatus: "not_applicable",
       notifyPolicy: "silent",
@@ -82,14 +82,14 @@ describe("createVideoGenerateTool", () => {
         {
           buffer: Buffer.from("video-bytes"),
           mimeType: "video/mp4",
-          fileName: "lobster.mp4",
+          fileName: "shell.mp4",
         },
       ],
       metadata: { taskId: "task-1" },
     });
     vi.spyOn(mediaStore, "saveMediaBuffer").mockResolvedValueOnce({
-      path: "/tmp/generated-lobster.mp4",
-      id: "generated-lobster.mp4",
+      path: "/tmp/generated-shell.mp4",
+      id: "generated-shell.mp4",
       size: 11,
       contentType: "video/mp4",
     });
@@ -108,19 +108,19 @@ describe("createVideoGenerateTool", () => {
       throw new Error("expected video_generate tool");
     }
 
-    const result = await tool.execute("call-1", { prompt: "friendly lobster surfing" });
+    const result = await tool.execute("call-1", { prompt: "friendly shell surfing" });
     const text = (result.content?.[0] as { text: string } | undefined)?.text ?? "";
 
     expect(text).toContain("Generated 1 video with qwen/wan2.6-t2v.");
-    expect(text).toContain("MEDIA:/tmp/generated-lobster.mp4");
+    expect(text).toContain("MEDIA:/tmp/generated-shell.mp4");
     expect(result.details).toMatchObject({
       provider: "qwen",
       model: "wan2.6-t2v",
       count: 1,
       media: {
-        mediaUrls: ["/tmp/generated-lobster.mp4"],
+        mediaUrls: ["/tmp/generated-shell.mp4"],
       },
-      paths: ["/tmp/generated-lobster.mp4"],
+      paths: ["/tmp/generated-shell.mp4"],
       metadata: { taskId: "task-1" },
     });
     expect(taskExecutorMocks.createRunningTaskRun).not.toHaveBeenCalled();
@@ -134,7 +134,7 @@ describe("createVideoGenerateTool", () => {
       requesterSessionKey: "agent:main:discord:direct:123",
       ownerKey: "agent:main:discord:direct:123",
       scopeKind: "session",
-      task: "friendly lobster surfing",
+      task: "friendly shell surfing",
       status: "running",
       deliveryStatus: "not_applicable",
       notifyPolicy: "silent",
@@ -152,14 +152,14 @@ describe("createVideoGenerateTool", () => {
         {
           buffer: Buffer.from("video-bytes"),
           mimeType: "video/mp4",
-          fileName: "lobster.mp4",
+          fileName: "shell.mp4",
         },
       ],
       metadata: { taskId: "task-1" },
     });
     vi.spyOn(mediaStore, "saveMediaBuffer").mockResolvedValueOnce({
-      path: "/tmp/generated-lobster.mp4",
-      id: "generated-lobster.mp4",
+      path: "/tmp/generated-shell.mp4",
+      id: "generated-shell.mp4",
       size: 11,
       contentType: "video/mp4",
     });
@@ -186,7 +186,7 @@ describe("createVideoGenerateTool", () => {
       throw new Error("expected video_generate tool");
     }
 
-    const result = await tool.execute("call-1", { prompt: "friendly lobster surfing" });
+    const result = await tool.execute("call-1", { prompt: "friendly shell surfing" });
     const text = (result.content?.[0] as { text: string } | undefined)?.text ?? "";
 
     expect(text).toContain("Background task started for video generation (task-123).");
@@ -217,7 +217,7 @@ describe("createVideoGenerateTool", () => {
           taskId: "task-123",
         }),
         status: "ok",
-        result: expect.stringContaining("MEDIA:/tmp/generated-lobster.mp4"),
+        result: expect.stringContaining("MEDIA:/tmp/generated-shell.mp4"),
       }),
     );
   });
@@ -239,7 +239,7 @@ describe("createVideoGenerateTool", () => {
       throw new Error("expected video_generate tool");
     }
 
-    await expect(tool.execute("call-2", { prompt: "broken lobster" })).rejects.toThrow(
+    await expect(tool.execute("call-2", { prompt: "broken shell" })).rejects.toThrow(
       "queue boom",
     );
     expect(taskExecutorMocks.failTaskRunByRunId).not.toHaveBeenCalled();
@@ -255,7 +255,7 @@ describe("createVideoGenerateTool", () => {
         {
           buffer: Buffer.from("video-bytes"),
           mimeType: "video/mp4",
-          fileName: "lobster.mp4",
+          fileName: "shell.mp4",
         },
       ],
       normalization: {
@@ -272,8 +272,8 @@ describe("createVideoGenerateTool", () => {
       },
     });
     vi.spyOn(mediaStore, "saveMediaBuffer").mockResolvedValueOnce({
-      path: "/tmp/generated-lobster.mp4",
-      id: "generated-lobster.mp4",
+      path: "/tmp/generated-shell.mp4",
+      id: "generated-shell.mp4",
       size: 11,
       contentType: "video/mp4",
     });
@@ -292,7 +292,7 @@ describe("createVideoGenerateTool", () => {
     }
 
     const result = await tool.execute("call-1", {
-      prompt: "friendly lobster surfing",
+      prompt: "friendly shell surfing",
       durationSeconds: 5,
     });
     const text = (result.content?.[0] as { text: string } | undefined)?.text ?? "";
@@ -322,7 +322,7 @@ describe("createVideoGenerateTool", () => {
         {
           buffer: Buffer.from("video-bytes"),
           mimeType: "video/mp4",
-          fileName: "lobster.mp4",
+          fileName: "shell.mp4",
         },
       ],
       normalization: {
@@ -337,8 +337,8 @@ describe("createVideoGenerateTool", () => {
       },
     });
     vi.spyOn(mediaStore, "saveMediaBuffer").mockResolvedValueOnce({
-      path: "/tmp/generated-lobster.mp4",
-      id: "generated-lobster.mp4",
+      path: "/tmp/generated-shell.mp4",
+      id: "generated-shell.mp4",
       size: 11,
       contentType: "video/mp4",
     });
@@ -357,7 +357,7 @@ describe("createVideoGenerateTool", () => {
     }
 
     const result = await tool.execute("call-1", {
-      prompt: "friendly lobster surfing",
+      prompt: "friendly shell surfing",
       size: "1280x720",
     });
 
@@ -461,7 +461,7 @@ describe("createVideoGenerateTool", () => {
 
     await expect(
       tool.execute("call-1", {
-        prompt: "lobster timelapse",
+        prompt: "shell timelapse",
         image: "data:image/png;base64,cG5n",
       }),
     ).rejects.toThrow("video-plugin does not support image-to-video reference inputs.");
@@ -497,13 +497,13 @@ describe("createVideoGenerateTool", () => {
         {
           buffer: Buffer.from("video-bytes"),
           mimeType: "video/mp4",
-          fileName: "lobster.mp4",
+          fileName: "shell.mp4",
         },
       ],
     });
     vi.spyOn(mediaStore, "saveMediaBuffer").mockResolvedValueOnce({
-      path: "/tmp/generated-lobster.mp4",
-      id: "generated-lobster.mp4",
+      path: "/tmp/generated-shell.mp4",
+      id: "generated-shell.mp4",
       size: 11,
       contentType: "video/mp4",
     });
@@ -522,7 +522,7 @@ describe("createVideoGenerateTool", () => {
     }
 
     const result = await tool.execute("call-openai-generate", {
-      prompt: "A lobster on a neon bridge",
+      prompt: "A shell on a neon bridge",
       size: "1280x720",
       resolution: "720P",
       audio: false,

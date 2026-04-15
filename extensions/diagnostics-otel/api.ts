@@ -1,1 +1,1 @@
-export * from "openclaw/plugin-sdk/diagnostics-otel";
+export * from "kibo/plugin-sdk/diagnostics-otel";

@@ -1,1 +1,1 @@
-export { resolvePreferredOpenClawTmpDir } from "../../infra/tmp-openclaw-dir.js";
+export { resolvePreferredKiboTmpDir } from "../../infra/tmp-kibo-dir.js";

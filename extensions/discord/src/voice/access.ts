@@ -1,8 +1,8 @@
 import type { Guild } from "@buape/carbon";
-import { resolveCommandAuthorizedFromAuthorizers } from "openclaw/plugin-sdk/command-auth-native";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-import type { DiscordAccountConfig } from "openclaw/plugin-sdk/config-runtime";
-import { resolveOpenProviderRuntimeGroupPolicy } from "openclaw/plugin-sdk/runtime-group-policy";
+import { resolveCommandAuthorizedFromAuthorizers } from "kibo/plugin-sdk/command-auth-native";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
+import type { DiscordAccountConfig } from "kibo/plugin-sdk/config-runtime";
+import { resolveOpenProviderRuntimeGroupPolicy } from "kibo/plugin-sdk/runtime-group-policy";
 import {
   isDiscordGroupAllowedByPolicy,
   resolveDiscordChannelConfigWithFallback,
@@ -12,7 +12,7 @@ import {
 } from "../monitor/allow-list.js";
 
 export async function authorizeDiscordVoiceIngress(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   discordConfig: DiscordAccountConfig;
   groupPolicy?: "open" | "disabled" | "allowlist";
   useAccessGroups?: boolean;

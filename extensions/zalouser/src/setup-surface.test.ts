@@ -4,7 +4,7 @@ import {
   createTestWizardPrompter,
   runSetupWizardConfigure,
 } from "../../../test/helpers/plugins/setup-wizard.js";
-import type { OpenClawConfig } from "../runtime-api.js";
+import type { KiboConfig } from "../runtime-api.js";
 import "./zalo-js.test-mocks.js";
 import { zalouserSetupWizard } from "./setup-surface.js";
 import { zalouserSetupPlugin } from "./setup-test-helpers.js";
@@ -12,7 +12,7 @@ import { zalouserSetupPlugin } from "./setup-test-helpers.js";
 const zalouserConfigure = createPluginSetupWizardConfigure(zalouserSetupPlugin);
 
 async function runSetup(params: {
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   prompter: ReturnType<typeof createTestWizardPrompter>;
   options?: Record<string, unknown>;
   forceAllowFrom?: boolean;
@@ -232,7 +232,7 @@ describe("zalouser setup wizard", () => {
         plugins: {
           allow: ["telegram"],
         },
-      } as OpenClawConfig,
+      } as KiboConfig,
       prompter,
     });
 
@@ -255,14 +255,14 @@ describe("zalouser setup wizard", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as KiboConfig,
         "work",
       ),
     ).toBe("allowlist");
   });
 
   it("reports account-scoped config keys for named accounts", () => {
-    expect(zalouserSetupWizard.dmPolicy?.resolveConfigKeys?.({} as OpenClawConfig, "work")).toEqual(
+    expect(zalouserSetupWizard.dmPolicy?.resolveConfigKeys?.({} as KiboConfig, "work")).toEqual(
       {
         policyKey: "channels.zalouser.accounts.work.dmPolicy",
         allowFromKey: "channels.zalouser.accounts.work.allowFrom",
@@ -285,7 +285,7 @@ describe("zalouser setup wizard", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as KiboConfig;
 
     expect(zalouserSetupWizard.dmPolicy?.getCurrent(cfg)).toBe("allowlist");
     expect(zalouserSetupWizard.dmPolicy?.resolveConfigKeys?.(cfg)).toEqual({
@@ -314,7 +314,7 @@ describe("zalouser setup wizard", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as KiboConfig,
       "open",
       "work",
     );
@@ -346,7 +346,7 @@ describe("zalouser setup wizard", () => {
             },
           },
         },
-      } as OpenClawConfig,
+      } as KiboConfig,
       prompter,
       options: { quickstartDefaults: true },
       accountOverrides: { zalouser: "work" },

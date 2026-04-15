@@ -1,7 +1,7 @@
 import type { AuthProfileStore } from "../agents/auth-profiles.js";
 import { describeFailoverError, isFailoverError } from "../agents/failover-error.js";
 import type { FallbackAttempt } from "../agents/model-fallback.types.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import {
@@ -25,7 +25,7 @@ import type {
 const log = createSubsystemLogger("video-generation");
 
 export type GenerateVideoParams = {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   prompt: string;
   agentDir?: string;
   authStore?: AuthProfileStore;
@@ -50,7 +50,7 @@ export type GenerateVideoRuntimeResult = {
   ignoredOverrides: VideoGenerationIgnoredOverride[];
 };
 
-function buildNoVideoGenerationModelConfiguredMessage(cfg: OpenClawConfig): string {
+function buildNoVideoGenerationModelConfiguredMessage(cfg: KiboConfig): string {
   return buildNoCapabilityModelConfiguredMessage({
     capabilityLabel: "video-generation",
     modelConfigKey: "videoGenerationModel",
@@ -58,7 +58,7 @@ function buildNoVideoGenerationModelConfiguredMessage(cfg: OpenClawConfig): stri
   });
 }
 
-export function listRuntimeVideoGenerationProviders(params?: { config?: OpenClawConfig }) {
+export function listRuntimeVideoGenerationProviders(params?: { config?: KiboConfig }) {
   return listVideoGenerationProviders(params?.config);
 }
 

@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { KiboConfig } from "../../../config/config.js";
 import { mergeMissing } from "../../../config/legacy.shared.js";
 import {
   loadPluginManifestRegistry,
@@ -243,7 +243,7 @@ function normalizeLegacyWebSearchConfigRecord<T extends JsonRecord>(
 }
 
 export function resolvePluginWebSearchConfig(
-  config: OpenClawConfig | undefined,
+  config: KiboConfig | undefined,
   pluginId: string,
 ): Record<string, unknown> | undefined {
   const pluginConfig = config?.plugins?.entries?.[pluginId]?.config;

@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { msteamsActionsAdapter } from "./actions.js";
 
@@ -226,7 +226,7 @@ describe("msteamsPlugin message actions", () => {
               tenantId: "tenant-id",
             },
           },
-        } as OpenClawConfig,
+        } as KiboConfig,
       })?.actions,
     ).toContain("upload-file");
   });

@@ -132,7 +132,7 @@ export function createScopedVitestConfig(
     environment?: string;
     exclude?: string[];
     argv?: string[];
-    includeOpenClawRuntimeSetup?: boolean;
+    includeKiboRuntimeSetup?: boolean;
     isolate?: boolean;
     name?: string;
     pool?: "forks" | "threads";
@@ -145,7 +145,7 @@ export function createScopedVitestConfig(
   const baseTest = sharedVitestConfig.test ?? {};
   const scopedDir = options?.dir;
   const env = options?.env;
-  const includeFromEnv = loadPatternListFromEnv("OPENCLAW_VITEST_INCLUDE_FILE", env);
+  const includeFromEnv = loadPatternListFromEnv("KIBO_VITEST_INCLUDE_FILE", env);
   const cliInclude = narrowIncludePatternsForCli(include, options?.argv);
   const exclude = relativizeScopedPatterns(
     [...(baseTest.exclude ?? []), ...unitFastTestFiles, ...(options?.exclude ?? [])],
@@ -156,7 +156,7 @@ export function createScopedVitestConfig(
     ...new Set([
       ...(baseTest.setupFiles ?? []),
       ...(options?.setupFiles ?? []),
-      ...(options?.includeOpenClawRuntimeSetup === false ? [] : ["test/setup-openclaw-runtime.ts"]),
+      ...(options?.includeKiboRuntimeSetup === false ? [] : ["test/setup-kibo-runtime.ts"]),
     ]),
   ];
   const useNonIsolatedRunner = options?.useNonIsolatedRunner ?? !isolate;

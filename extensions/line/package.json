@@ -1,22 +1,22 @@
 {
-  "name": "@openclaw/line",
+  "name": "@kibo/line",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw LINE channel plugin",
+  "description": "Kibo LINE channel plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*",
+    "kibo": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.4.10"
+    "kibo": ">=2026.4.10"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "kibo": {
       "optional": true
     }
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ],
@@ -34,7 +34,7 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@openclaw/line",
+      "npmSpec": "@kibo/line",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.10"
     }

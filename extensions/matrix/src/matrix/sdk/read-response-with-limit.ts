@@ -1,4 +1,4 @@
-import { readResponseWithLimit as readSharedResponseWithLimit } from "openclaw/plugin-sdk/media-runtime";
+import { readResponseWithLimit as readSharedResponseWithLimit } from "kibo/plugin-sdk/media-runtime";
 
 export async function readResponseWithLimit(
   res: Response,

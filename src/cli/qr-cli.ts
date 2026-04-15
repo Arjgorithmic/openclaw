@@ -44,7 +44,7 @@ function shouldResolveLocalGatewayPasswordSecret(
   cfg: ReturnType<typeof loadConfig>,
   env: NodeJS.ProcessEnv,
 ): boolean {
-  if (trimToUndefined(env.OPENCLAW_GATEWAY_PASSWORD)) {
+  if (trimToUndefined(env.KIBO_GATEWAY_PASSWORD)) {
     return false;
   }
   const authMode = cfg.gateway?.auth?.mode;
@@ -54,7 +54,7 @@ function shouldResolveLocalGatewayPasswordSecret(
   if (authMode === "token" || authMode === "none" || authMode === "trusted-proxy") {
     return false;
   }
-  const envToken = trimToUndefined(env.OPENCLAW_GATEWAY_TOKEN);
+  const envToken = trimToUndefined(env.KIBO_GATEWAY_TOKEN);
   const configTokenConfigured = hasConfiguredSecretInput(
     cfg.gateway?.auth?.token,
     cfg.secrets?.defaults,
@@ -101,7 +101,7 @@ export function registerQrCli(program: Command) {
     .description("Generate a mobile pairing QR code and setup code")
     .addHelpText(
       "after",
-      () => `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/qr", "docs.openclaw.ai/cli/qr")}\n`,
+      () => `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/qr", "docs.kibo.ai/cli/qr")}\n`,
     )
     .option(
       "--remote",
@@ -232,7 +232,7 @@ export function registerQrCli(program: Command) {
 
         const lines: string[] = [
           theme.heading("Pairing QR"),
-          "Scan this with the OpenClaw mobile app (Onboarding -> Scan QR).",
+          "Scan this with the Kibo mobile app (Onboarding -> Scan QR).",
           "",
         ];
 
@@ -248,8 +248,8 @@ export function registerQrCli(program: Command) {
           `${theme.muted("Source:")} ${resolved.urlSource}`,
           "",
           "Approve after scan with:",
-          `  ${theme.command("openclaw devices list")}`,
-          `  ${theme.command("openclaw devices approve <requestId>")}`,
+          `  ${theme.command("kibo devices list")}`,
+          `  ${theme.command("kibo devices approve <requestId>")}`,
         );
 
         defaultRuntime.log(lines.join("\n"));

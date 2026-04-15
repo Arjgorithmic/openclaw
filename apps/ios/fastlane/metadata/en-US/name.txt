@@ -1,1 +1,1 @@
-OpenClaw - iOS Client
+Kibo - iOS Client

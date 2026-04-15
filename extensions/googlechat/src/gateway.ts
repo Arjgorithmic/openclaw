@@ -1,9 +1,9 @@
-import { createLazyRuntimeNamedExport } from "openclaw/plugin-sdk/lazy-runtime";
-import type { ChannelAccountSnapshot } from "openclaw/plugin-sdk/status-helpers";
+import { createLazyRuntimeNamedExport } from "kibo/plugin-sdk/lazy-runtime";
+import type { ChannelAccountSnapshot } from "kibo/plugin-sdk/status-helpers";
 import {
   createAccountStatusSink,
   runPassiveAccountLifecycle,
-  type OpenClawConfig,
+  type KiboConfig,
   type ResolvedGoogleChatAccount,
 } from "./channel.deps.runtime.js";
 import type { GoogleChatRuntimeEnv } from "./monitor-types.js";
@@ -15,7 +15,7 @@ const loadGoogleChatChannelRuntime = createLazyRuntimeNamedExport(
 
 export async function startGoogleChatGatewayAccount(ctx: {
   account: ResolvedGoogleChatAccount;
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   runtime: GoogleChatRuntimeEnv;
   abortSignal: AbortSignal;
   setStatus: (next: ChannelAccountSnapshot) => void;

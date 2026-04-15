@@ -116,7 +116,7 @@ describe("pairing cli", () => {
       channel: "telegram",
       id: "123",
       label: "telegramUserId",
-      meta: { username: "peter" },
+      meta: { username: "kibo" },
     },
     {
       name: "discord ids",

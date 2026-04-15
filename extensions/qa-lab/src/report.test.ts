@@ -15,7 +15,7 @@ describe("renderQaMarkdownReport", () => {
             {
               name: "records transcript",
               status: "pass",
-              details: "USER Alice: hello\n\nASSISTANT OpenClaw: my precious build",
+              details: "USER Alice: hello\n\nASSISTANT Kibo: my precious build",
             },
           ],
         },
@@ -24,6 +24,6 @@ describe("renderQaMarkdownReport", () => {
 
     expect(report).toContain("```text");
     expect(report).toContain("USER Alice: hello");
-    expect(report).toContain("ASSISTANT OpenClaw: my precious build");
+    expect(report).toContain("ASSISTANT Kibo: my precious build");
   });
 });

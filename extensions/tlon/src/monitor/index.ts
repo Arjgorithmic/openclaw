@@ -437,7 +437,7 @@ export async function monitorTlonProvider(opts: MonitorTlonOpts = {}): Promise<v
         // Log warning
         runtime.log?.(
           `[tlon] ⚠️ SECURITY: Multiple users sharing DM session. ` +
-            `Configure "session.dmScope: per-channel-peer" in OpenClaw config.`,
+            `Configure "session.dmScope: per-channel-peer" in Kibo config.`,
         );
 
         // Notify owner via DM (once per monitor session)
@@ -446,9 +446,9 @@ export async function monitorTlonProvider(opts: MonitorTlonOpts = {}): Promise<v
           const warningMsg =
             `⚠️ Security Warning: Multiple users are sharing a DM session with this bot. ` +
             `This can leak conversation context between users.\n\n` +
-            `Fix: Add to your OpenClaw config:\n` +
+            `Fix: Add to your Kibo config:\n` +
             `session:\n  dmScope: "per-channel-peer"\n\n` +
-            `Docs: https://docs.openclaw.ai/concepts/session#secure-dm-mode`;
+            `Docs: https://github.com/Arjgorithmic/openclaw/concepts/session#secure-dm-mode`;
 
           // Send async, don't block message processing
           sendDm({

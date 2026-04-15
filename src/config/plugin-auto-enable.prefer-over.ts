@@ -5,7 +5,7 @@ import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 import { normalizeStringEntries } from "../shared/string-normalization.js";
 import { isRecord, resolveConfigDir, resolveUserPath } from "../utils.js";
-import type { OpenClawConfig } from "./config.js";
+import type { KiboConfig } from "./config.js";
 import type { PluginAutoEnableCandidate } from "./plugin-auto-enable.types.js";
 
 type ExternalCatalogChannelEntry = {
@@ -13,7 +13,7 @@ type ExternalCatalogChannelEntry = {
   preferOver: string[];
 };
 
-const ENV_CATALOG_PATHS = ["OPENCLAW_PLUGIN_CATALOG_PATHS", "OPENCLAW_MPM_CATALOG_PATHS"];
+const ENV_CATALOG_PATHS = ["KIBO_PLUGIN_CATALOG_PATHS", "KIBO_MPM_CATALOG_PATHS"];
 
 function splitEnvPaths(value: string): string[] {
   const trimmed = normalizeOptionalString(value) ?? "";
@@ -54,10 +54,10 @@ function parseExternalCatalogChannelEntries(raw: unknown): ExternalCatalogChanne
 
   const channels: ExternalCatalogChannelEntry[] = [];
   for (const entry of list) {
-    if (!isRecord(entry) || !isRecord(entry.openclaw) || !isRecord(entry.openclaw.channel)) {
+    if (!isRecord(entry) || !isRecord(entry.kibo) || !isRecord(entry.kibo.channel)) {
       continue;
     }
-    const channel = entry.openclaw.channel;
+    const channel = entry.kibo.channel;
     const id = normalizeOptionalString(channel.id) ?? "";
     if (!id) {
       continue;
@@ -113,13 +113,13 @@ function resolvePreferredOverIds(
 }
 
 export function shouldSkipPreferredPluginAutoEnable(params: {
-  config: OpenClawConfig;
+  config: KiboConfig;
   entry: PluginAutoEnableCandidate;
   configured: readonly PluginAutoEnableCandidate[];
   env: NodeJS.ProcessEnv;
   registry: PluginManifestRegistry;
-  isPluginDenied: (config: OpenClawConfig, pluginId: string) => boolean;
-  isPluginExplicitlyDisabled: (config: OpenClawConfig, pluginId: string) => boolean;
+  isPluginDenied: (config: KiboConfig, pluginId: string) => boolean;
+  isPluginExplicitlyDisabled: (config: KiboConfig, pluginId: string) => boolean;
 }): boolean {
   for (const other of params.configured) {
     if (other.pluginId === params.entry.pluginId) {

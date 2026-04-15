@@ -1,21 +1,21 @@
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { formatErrorMessage } from "kibo/plugin-sdk/error-runtime";
 import type {
-  OpenClawPluginApi,
+  KiboPluginApi,
   ProviderAuthContext,
   ProviderAuthResult,
   ProviderCatalogContext,
-} from "openclaw/plugin-sdk/plugin-entry";
+} from "kibo/plugin-sdk/plugin-entry";
 import {
   MINIMAX_OAUTH_MARKER,
   ensureAuthProfileStore,
   listProfilesForProvider,
-} from "openclaw/plugin-sdk/provider-auth";
-import { buildOauthProviderAuthResult } from "openclaw/plugin-sdk/provider-auth";
-import { createProviderApiKeyAuthMethod } from "openclaw/plugin-sdk/provider-auth-api-key";
-import { buildProviderReplayFamilyHooks } from "openclaw/plugin-sdk/provider-model-shared";
-import { buildProviderStreamFamilyHooks } from "openclaw/plugin-sdk/provider-stream-family";
-import { fetchMinimaxUsage } from "openclaw/plugin-sdk/provider-usage";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/provider-auth";
+import { buildOauthProviderAuthResult } from "kibo/plugin-sdk/provider-auth";
+import { createProviderApiKeyAuthMethod } from "kibo/plugin-sdk/provider-auth-api-key";
+import { buildProviderReplayFamilyHooks } from "kibo/plugin-sdk/provider-model-shared";
+import { buildProviderStreamFamilyHooks } from "kibo/plugin-sdk/provider-stream-family";
+import { fetchMinimaxUsage } from "kibo/plugin-sdk/provider-usage";
+import { normalizeOptionalString } from "kibo/plugin-sdk/text-runtime";
 import { isMiniMaxModernModelId, MINIMAX_DEFAULT_MODEL_ID } from "./api.js";
 import type { MiniMaxRegion } from "./oauth.js";
 import { applyMinimaxApiConfig, applyMinimaxApiConfigCn } from "./onboard.js";
@@ -166,7 +166,7 @@ function createOAuthHandler(region: MiniMaxRegion) {
   };
 }
 
-export function registerMinimaxProviders(api: OpenClawPluginApi) {
+export function registerMinimaxProviders(api: KiboPluginApi) {
   api.registerProvider({
     id: API_PROVIDER_ID,
     label: PROVIDER_LABEL,

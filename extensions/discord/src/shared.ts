@@ -1,8 +1,8 @@
-import { describeAccountSnapshot } from "openclaw/plugin-sdk/account-helpers";
-import { formatAllowFromLowercase } from "openclaw/plugin-sdk/allow-from";
-import { adaptScopedAccountAccessor } from "openclaw/plugin-sdk/channel-config-helpers";
-import { createScopedChannelConfigAdapter } from "openclaw/plugin-sdk/channel-config-helpers";
-import type { ChannelDoctorAdapter } from "openclaw/plugin-sdk/channel-contract";
+import { describeAccountSnapshot } from "kibo/plugin-sdk/account-helpers";
+import { formatAllowFromLowercase } from "kibo/plugin-sdk/allow-from";
+import { adaptScopedAccountAccessor } from "kibo/plugin-sdk/channel-config-helpers";
+import { createScopedChannelConfigAdapter } from "kibo/plugin-sdk/channel-config-helpers";
+import type { ChannelDoctorAdapter } from "kibo/plugin-sdk/channel-contract";
 import { inspectDiscordAccount } from "./account-inspect.js";
 import {
   listDiscordAccountIds,

@@ -1,5 +1,5 @@
 import { type Api, type Model } from "@mariozechner/pi-ai";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { KiboConfig } from "../../config/config.js";
 import type { AgentModelConfig } from "../../config/types.agents-shared.js";
 import { getDefaultLocalRoots } from "../../media/web-media.js";
 import { readSnakeCaseParamRaw } from "../../param-key.js";
@@ -50,38 +50,38 @@ type TaskRunDetailHandle = {
 };
 
 export function applyImageModelConfigDefaults(
-  cfg: OpenClawConfig | undefined,
+  cfg: KiboConfig | undefined,
   imageModelConfig: ImageModelConfig,
-): OpenClawConfig | undefined {
+): KiboConfig | undefined {
   return applyAgentDefaultModelConfig(cfg, "imageModel", imageModelConfig);
 }
 
 export function applyImageGenerationModelConfigDefaults(
-  cfg: OpenClawConfig | undefined,
+  cfg: KiboConfig | undefined,
   imageGenerationModelConfig: ToolModelConfig,
-): OpenClawConfig | undefined {
+): KiboConfig | undefined {
   return applyAgentDefaultModelConfig(cfg, "imageGenerationModel", imageGenerationModelConfig);
 }
 
 export function applyVideoGenerationModelConfigDefaults(
-  cfg: OpenClawConfig | undefined,
+  cfg: KiboConfig | undefined,
   videoGenerationModelConfig: ToolModelConfig,
-): OpenClawConfig | undefined {
+): KiboConfig | undefined {
   return applyAgentDefaultModelConfig(cfg, "videoGenerationModel", videoGenerationModelConfig);
 }
 
 export function applyMusicGenerationModelConfigDefaults(
-  cfg: OpenClawConfig | undefined,
+  cfg: KiboConfig | undefined,
   musicGenerationModelConfig: ToolModelConfig,
-): OpenClawConfig | undefined {
+): KiboConfig | undefined {
   return applyAgentDefaultModelConfig(cfg, "musicGenerationModel", musicGenerationModelConfig);
 }
 
 function applyAgentDefaultModelConfig(
-  cfg: OpenClawConfig | undefined,
+  cfg: KiboConfig | undefined,
   key: "imageModel" | "imageGenerationModel" | "videoGenerationModel" | "musicGenerationModel",
   modelConfig: ToolModelConfig,
-): OpenClawConfig | undefined {
+): KiboConfig | undefined {
   if (!cfg) {
     return undefined;
   }
@@ -101,7 +101,7 @@ type CapabilityProvider = {
   id: string;
   aliases?: string[];
   defaultModel?: string;
-  isConfigured?: (ctx: { cfg?: OpenClawConfig; agentDir?: string }) => boolean;
+  isConfigured?: (ctx: { cfg?: KiboConfig; agentDir?: string }) => boolean;
 };
 
 export function findCapabilityProviderById<T extends CapabilityProvider>(params: {
@@ -120,7 +120,7 @@ export function isCapabilityProviderConfigured<T extends CapabilityProvider>(par
   providers: T[];
   provider?: T;
   providerId?: string;
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   agentDir?: string;
 }): boolean {
   const provider =
@@ -161,7 +161,7 @@ export function resolveSelectedCapabilityProvider<T extends CapabilityProvider>(
 }
 
 export function resolveCapabilityModelCandidatesForTool<T extends CapabilityProvider>(params: {
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   agentDir?: string;
   providers: T[];
 }): string[] {
@@ -206,7 +206,7 @@ export function resolveCapabilityModelCandidatesForTool<T extends CapabilityProv
 }
 
 export function resolveCapabilityModelConfigForTool<T extends CapabilityProvider>(params: {
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   agentDir?: string;
   modelConfig?: AgentModelConfig;
   providers: T[];
@@ -409,7 +409,7 @@ export function resolveModelFromRegistry(params: {
 
 export async function resolveModelRuntimeApiKey(params: {
   model: Model<Api>;
-  cfg: OpenClawConfig | undefined;
+  cfg: KiboConfig | undefined;
   agentDir: string;
   authStorage: {
     setRuntimeApiKey: (provider: string, apiKey: string) => void;

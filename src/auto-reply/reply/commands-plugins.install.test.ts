@@ -6,10 +6,10 @@ import { createCommandWorkspaceHarness } from "./commands-filesystem.test-suppor
 import { handlePluginsCommand } from "./commands-plugins.js";
 import type { HandleCommandsParams } from "./commands-types.js";
 
-const { installPluginFromPathMock, installPluginFromClawHubMock, persistPluginInstallMock } =
+const { installPluginFromPathMock, installPluginFromKiboHubMock, persistPluginInstallMock } =
   vi.hoisted(() => ({
     installPluginFromPathMock: vi.fn(),
-    installPluginFromClawHubMock: vi.fn(),
+    installPluginFromKiboHubMock: vi.fn(),
     persistPluginInstallMock: vi.fn(),
   }));
 
@@ -23,13 +23,13 @@ vi.mock("../../plugins/install.js", async () => {
   };
 });
 
-vi.mock("../../plugins/clawhub.js", async () => {
-  const actual = await vi.importActual<typeof import("../../plugins/clawhub.js")>(
-    "../../plugins/clawhub.js",
+vi.mock("../../plugins/kibohub.js", async () => {
+  const actual = await vi.importActual<typeof import("../../plugins/kibohub.js")>(
+    "../../plugins/kibohub.js",
   );
   return {
     ...actual,
-    installPluginFromClawHub: installPluginFromClawHubMock,
+    installPluginFromKiboHub: installPluginFromKiboHubMock,
   };
 });
 
@@ -37,7 +37,7 @@ vi.mock("../../cli/plugins-install-persist.js", () => ({
   persistPluginInstall: persistPluginInstallMock,
 }));
 
-const workspaceHarness = createCommandWorkspaceHarness("openclaw-command-plugins-install-");
+const workspaceHarness = createCommandWorkspaceHarness("kibo-command-plugins-install-");
 
 function buildPluginsParams(
   commandBodyNormalized: string,
@@ -83,7 +83,7 @@ function buildPluginsParams(
 describe("handleCommands /plugins install", () => {
   afterEach(async () => {
     installPluginFromPathMock.mockReset();
-    installPluginFromClawHubMock.mockReset();
+    installPluginFromKiboHubMock.mockReset();
     persistPluginInstallMock.mockReset();
     await workspaceHarness.cleanupWorkspaces();
   });
@@ -98,7 +98,7 @@ describe("handleCommands /plugins install", () => {
     });
     persistPluginInstallMock.mockResolvedValue({});
 
-    await withTempHome("openclaw-command-plugins-home-", async () => {
+    await withTempHome("kibo-command-plugins-home-", async () => {
       const workspaceDir = await workspaceHarness.createWorkspace();
       const pluginDir = path.join(workspaceDir, "fixtures", "path-install-plugin");
       await fs.mkdir(pluginDir, { recursive: true });
@@ -128,20 +128,20 @@ describe("handleCommands /plugins install", () => {
     });
   });
 
-  it("installs from an explicit clawhub: spec", async () => {
-    installPluginFromClawHubMock.mockResolvedValue({
+  it("installs from an explicit kibohub: spec", async () => {
+    installPluginFromKiboHubMock.mockResolvedValue({
       ok: true,
-      pluginId: "clawhub-demo",
-      targetDir: "/tmp/clawhub-demo",
+      pluginId: "kibohub-demo",
+      targetDir: "/tmp/kibohub-demo",
       version: "1.2.3",
       extensions: ["index.js"],
-      packageName: "@openclaw/clawhub-demo",
-      clawhub: {
-        source: "clawhub",
-        clawhubUrl: "https://clawhub.ai",
-        clawhubPackage: "@openclaw/clawhub-demo",
-        clawhubFamily: "code-plugin",
-        clawhubChannel: "official",
+      packageName: "@kibo/kibohub-demo",
+      kibohub: {
+        source: "kibohub",
+        kibohubUrl: "https://github.com/Arjgorithmic/openclaw",
+        kibohubPackage: "@kibo/kibohub-demo",
+        kibohubFamily: "code-plugin",
+        kibohubChannel: "official",
         version: "1.2.3",
         integrity: "sha512-demo",
         resolvedAt: "2026-03-22T12:00:00.000Z",
@@ -149,33 +149,33 @@ describe("handleCommands /plugins install", () => {
     });
     persistPluginInstallMock.mockResolvedValue({});
 
-    await withTempHome("openclaw-command-plugins-home-", async () => {
+    await withTempHome("kibo-command-plugins-home-", async () => {
       const workspaceDir = await workspaceHarness.createWorkspace();
       const params = buildPluginsParams(
-        "/plugins install clawhub:@openclaw/clawhub-demo@1.2.3",
+        "/plugins install kibohub:@kibo/kibohub-demo@1.2.3",
         workspaceDir,
       );
       const result = await handlePluginsCommand(params, true);
       if (result === null) {
         throw new Error("expected plugin install result");
       }
-      expect(result.reply?.text).toContain('Installed plugin "clawhub-demo"');
-      expect(installPluginFromClawHubMock).toHaveBeenCalledWith(
+      expect(result.reply?.text).toContain('Installed plugin "kibohub-demo"');
+      expect(installPluginFromKiboHubMock).toHaveBeenCalledWith(
         expect.objectContaining({
-          spec: "clawhub:@openclaw/clawhub-demo@1.2.3",
+          spec: "kibohub:@kibo/kibohub-demo@1.2.3",
         }),
       );
       expect(persistPluginInstallMock).toHaveBeenCalledWith(
         expect.objectContaining({
-          pluginId: "clawhub-demo",
+          pluginId: "kibohub-demo",
           install: expect.objectContaining({
-            source: "clawhub",
-            spec: "clawhub:@openclaw/clawhub-demo@1.2.3",
-            installPath: "/tmp/clawhub-demo",
+            source: "kibohub",
+            spec: "kibohub:@kibo/kibohub-demo@1.2.3",
+            installPath: "/tmp/kibohub-demo",
             version: "1.2.3",
             integrity: "sha512-demo",
-            clawhubPackage: "@openclaw/clawhub-demo",
-            clawhubChannel: "official",
+            kibohubPackage: "@kibo/kibohub-demo",
+            kibohubChannel: "official",
           }),
         }),
       );
@@ -183,19 +183,19 @@ describe("handleCommands /plugins install", () => {
   });
 
   it("treats /plugin add as an install alias", async () => {
-    installPluginFromClawHubMock.mockResolvedValue({
+    installPluginFromKiboHubMock.mockResolvedValue({
       ok: true,
       pluginId: "alias-demo",
       targetDir: "/tmp/alias-demo",
       version: "1.0.0",
       extensions: ["index.js"],
-      packageName: "@openclaw/alias-demo",
-      clawhub: {
-        source: "clawhub",
-        clawhubUrl: "https://clawhub.ai",
-        clawhubPackage: "@openclaw/alias-demo",
-        clawhubFamily: "code-plugin",
-        clawhubChannel: "official",
+      packageName: "@kibo/alias-demo",
+      kibohub: {
+        source: "kibohub",
+        kibohubUrl: "https://github.com/Arjgorithmic/openclaw",
+        kibohubPackage: "@kibo/alias-demo",
+        kibohubFamily: "code-plugin",
+        kibohubChannel: "official",
         version: "1.0.0",
         integrity: "sha512-alias",
         resolvedAt: "2026-03-23T12:00:00.000Z",
@@ -203,10 +203,10 @@ describe("handleCommands /plugins install", () => {
     });
     persistPluginInstallMock.mockResolvedValue({});
 
-    await withTempHome("openclaw-command-plugins-home-", async () => {
+    await withTempHome("kibo-command-plugins-home-", async () => {
       const workspaceDir = await workspaceHarness.createWorkspace();
       const params = buildPluginsParams(
-        "/plugin add clawhub:@openclaw/alias-demo@1.0.0",
+        "/plugin add kibohub:@kibo/alias-demo@1.0.0",
         workspaceDir,
       );
       const result = await handlePluginsCommand(params, true);
@@ -214,9 +214,9 @@ describe("handleCommands /plugins install", () => {
         throw new Error("expected plugin install result");
       }
       expect(result.reply?.text).toContain('Installed plugin "alias-demo"');
-      expect(installPluginFromClawHubMock).toHaveBeenCalledWith(
+      expect(installPluginFromKiboHubMock).toHaveBeenCalledWith(
         expect.objectContaining({
-          spec: "clawhub:@openclaw/alias-demo@1.0.0",
+          spec: "kibohub:@kibo/alias-demo@1.0.0",
         }),
       );
     });

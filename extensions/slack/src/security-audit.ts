@@ -1,14 +1,14 @@
-import { coerceNativeSetting, normalizeAllowFromList } from "openclaw/plugin-sdk/channel-policy";
+import { coerceNativeSetting, normalizeAllowFromList } from "kibo/plugin-sdk/channel-policy";
 import {
   resolveNativeCommandsEnabled,
   resolveNativeSkillsEnabled,
-} from "openclaw/plugin-sdk/config-runtime";
-import { readChannelAllowFromStore } from "openclaw/plugin-sdk/conversation-runtime";
+} from "kibo/plugin-sdk/config-runtime";
+import { readChannelAllowFromStore } from "kibo/plugin-sdk/conversation-runtime";
 import type { ResolvedSlackAccount } from "./accounts.js";
-import type { OpenClawConfig } from "./runtime-api.js";
+import type { KiboConfig } from "./runtime-api.js";
 
 export async function collectSlackSecurityAuditFindings(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId?: string | null;
   account: ResolvedSlackAccount;
 }) {

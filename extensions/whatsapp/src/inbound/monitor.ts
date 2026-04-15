@@ -1,9 +1,9 @@
 import type { AnyMessageContent, proto, WAMessage, WASocket } from "@whiskeysockets/baileys";
-import { createInboundDebouncer, formatLocationText } from "openclaw/plugin-sdk/channel-inbound";
-import { recordChannelActivity } from "openclaw/plugin-sdk/infra-runtime";
-import { logVerbose, shouldLogVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { createSubsystemLogger } from "openclaw/plugin-sdk/runtime-env";
-import { getChildLogger } from "openclaw/plugin-sdk/text-runtime";
+import { createInboundDebouncer, formatLocationText } from "kibo/plugin-sdk/channel-inbound";
+import { recordChannelActivity } from "kibo/plugin-sdk/infra-runtime";
+import { logVerbose, shouldLogVerbose } from "kibo/plugin-sdk/runtime-env";
+import { createSubsystemLogger } from "kibo/plugin-sdk/runtime-env";
+import { getChildLogger } from "kibo/plugin-sdk/text-runtime";
 import { readWebSelfIdentity } from "../auth-store.js";
 import { getPrimaryIdentityId, resolveComparableIdentity } from "../identity.js";
 import { DEFAULT_RECONNECT_POLICY, computeBackoff, sleepWithAbort } from "../reconnect.js";

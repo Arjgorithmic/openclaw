@@ -1,7 +1,7 @@
 import {
   createWebSearchProviderContractFields,
   type WebSearchProviderPlugin,
-} from "openclaw/plugin-sdk/provider-web-search-config-contract";
+} from "kibo/plugin-sdk/provider-web-search-config-contract";
 
 export function createGeminiWebSearchProvider(): WebSearchProviderPlugin {
   const credentialPath = "plugins.entries.google.config.webSearch.apiKey";
@@ -15,7 +15,7 @@ export function createGeminiWebSearchProvider(): WebSearchProviderPlugin {
     envVars: ["GEMINI_API_KEY"],
     placeholder: "AIza...",
     signupUrl: "https://aistudio.google.com/apikey",
-    docsUrl: "https://docs.openclaw.ai/tools/web",
+    docsUrl: "https://github.com/Arjgorithmic/openclaw/tools/web",
     autoDetectOrder: 20,
     credentialPath,
     ...createWebSearchProviderContractFields({

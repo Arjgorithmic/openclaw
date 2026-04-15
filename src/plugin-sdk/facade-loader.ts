@@ -32,7 +32,7 @@ const cachedFacadeModuleLocationsByKey = new Map<
 let facadeLoaderJitiFactory:
   | ((...args: Parameters<(typeof import("jiti"))["createJiti"]>) => JitiLoader)
   | undefined;
-let cachedOpenClawPackageRoot: string | undefined;
+let cachedKiboPackageRoot: string | undefined;
 
 function getJitiFactory() {
   if (facadeLoaderJitiFactory) {
@@ -43,16 +43,16 @@ function getJitiFactory() {
   return facadeLoaderJitiFactory;
 }
 
-function getOpenClawPackageRoot() {
-  if (cachedOpenClawPackageRoot) {
-    return cachedOpenClawPackageRoot;
+function getKiboPackageRoot() {
+  if (cachedKiboPackageRoot) {
+    return cachedKiboPackageRoot;
   }
-  cachedOpenClawPackageRoot =
+  cachedKiboPackageRoot =
     resolveLoaderPackageRoot({
       modulePath: fileURLToPath(import.meta.url),
       moduleUrl: import.meta.url,
     }) ?? fileURLToPath(new URL("../..", import.meta.url));
-  return cachedOpenClawPackageRoot;
+  return cachedKiboPackageRoot;
 }
 
 function createFacadeResolutionKey(params: { dirName: string; artifactBasename: string }): string {
@@ -68,7 +68,7 @@ function resolveSourceFirstPublicSurfacePath(params: {
   const artifactBasename = normalizeBundledPluginArtifactSubpath(params.artifactBasename);
   const sourceBaseName = artifactBasename.replace(/\.js$/u, "");
   const sourceRoot =
-    params.bundledPluginsDir ?? path.resolve(getOpenClawPackageRoot(), "extensions");
+    params.bundledPluginsDir ?? path.resolve(getKiboPackageRoot(), "extensions");
   for (const ext of PUBLIC_SURFACE_SOURCE_EXTENSIONS) {
     const candidate = path.resolve(sourceRoot, params.dirName, `${sourceBaseName}${ext}`);
     if (fs.existsSync(candidate)) {
@@ -92,7 +92,7 @@ function resolveFacadeModuleLocationUncached(params: {
       }) ??
       resolveSourceFirstPublicSurfacePath(params) ??
       resolveBundledPluginPublicSurfacePath({
-        rootDir: getOpenClawPackageRoot(),
+        rootDir: getKiboPackageRoot(),
         ...(bundledPluginsDir ? { bundledPluginsDir } : {}),
         dirName: params.dirName,
         artifactBasename: params.artifactBasename,
@@ -103,13 +103,13 @@ function resolveFacadeModuleLocationUncached(params: {
         boundaryRoot:
           bundledPluginsDir && modulePath.startsWith(path.resolve(bundledPluginsDir) + path.sep)
             ? path.resolve(bundledPluginsDir)
-            : getOpenClawPackageRoot(),
+            : getKiboPackageRoot(),
       };
     }
     return null;
   }
   const modulePath = resolveBundledPluginPublicSurfacePath({
-    rootDir: getOpenClawPackageRoot(),
+    rootDir: getKiboPackageRoot(),
     ...(bundledPluginsDir ? { bundledPluginsDir } : {}),
     dirName: params.dirName,
     artifactBasename: params.artifactBasename,
@@ -122,7 +122,7 @@ function resolveFacadeModuleLocationUncached(params: {
     boundaryRoot:
       bundledPluginsDir && modulePath.startsWith(path.resolve(bundledPluginsDir) + path.sep)
         ? path.resolve(bundledPluginsDir)
-        : getOpenClawPackageRoot(),
+        : getKiboPackageRoot(),
   };
 }
 
@@ -239,8 +239,8 @@ export function loadFacadeModuleAtLocationSync<T extends object>(params: {
     absolutePath: params.location.modulePath,
     rootPath: params.location.boundaryRoot,
     boundaryLabel:
-      params.location.boundaryRoot === getOpenClawPackageRoot()
-        ? "OpenClaw package root"
+      params.location.boundaryRoot === getKiboPackageRoot()
+        ? "Kibo package root"
         : (() => {
             const bundledDir = resolveBundledPluginsDir();
             return bundledDir &&
@@ -306,7 +306,7 @@ export function resetFacadeLoaderStateForTest(): void {
   jitiLoaders.clear();
   cachedFacadeModuleLocationsByKey.clear();
   facadeLoaderJitiFactory = undefined;
-  cachedOpenClawPackageRoot = undefined;
+  cachedKiboPackageRoot = undefined;
 }
 
 export function setFacadeLoaderJitiFactoryForTest(

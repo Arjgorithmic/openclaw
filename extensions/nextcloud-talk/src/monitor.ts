@@ -3,8 +3,8 @@ import os from "node:os";
 import {
   resolveLoggerBackedRuntime,
   safeParseJsonWithSchema,
-} from "openclaw/plugin-sdk/extension-shared";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/extension-shared";
+import { normalizeLowercaseStringOrEmpty } from "kibo/plugin-sdk/text-runtime";
 import { z } from "zod";
 import {
   WEBHOOK_RATE_LIMIT_DEFAULTS,

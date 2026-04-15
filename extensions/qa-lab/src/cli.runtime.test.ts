@@ -95,7 +95,7 @@ describe("qa cli runtime", () => {
       hostLogPath: "/tmp/multipass/multipass-host.log",
       bootstrapLogPath: "/tmp/multipass/multipass-guest-bootstrap.log",
       guestScriptPath: "/tmp/multipass/multipass-guest-run.sh",
-      vmName: "openclaw-qa-test",
+      vmName: "kibo-qa-test",
       scenarioIds: ["channel-chat-baseline"],
     });
     startQaLabServer.mockResolvedValue({
@@ -106,13 +106,13 @@ describe("qa cli runtime", () => {
       stop: vi.fn(),
     });
     writeQaDockerHarnessFiles.mockResolvedValue({
-      outputDir: "/tmp/openclaw-repo/.artifacts/qa-docker",
+      outputDir: "/tmp/kibo-repo/.artifacts/qa-docker",
     });
     buildQaDockerHarnessImage.mockResolvedValue({
-      imageName: "openclaw:qa-local-prebaked",
+      imageName: "kibo:qa-local-prebaked",
     });
     runQaDockerUp.mockResolvedValue({
-      outputDir: "/tmp/openclaw-repo/.artifacts/qa-docker",
+      outputDir: "/tmp/kibo-repo/.artifacts/qa-docker",
       qaLabUrl: "http://127.0.0.1:43124",
       gatewayUrl: "http://127.0.0.1:18789/",
       stopCommand: "docker compose down",
@@ -126,7 +126,7 @@ describe("qa cli runtime", () => {
 
   it("resolves suite repo-root-relative paths before dispatching", async () => {
     await runQaSuiteCommand({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/kibo-repo",
       outputDir: ".artifacts/qa/frontier",
       providerMode: "live-frontier",
       primaryModel: "openai/gpt-5.4",
@@ -136,8 +136,8 @@ describe("qa cli runtime", () => {
     });
 
     expect(runQaSuite).toHaveBeenCalledWith({
-      repoRoot: path.resolve("/tmp/openclaw-repo"),
-      outputDir: path.resolve("/tmp/openclaw-repo", ".artifacts/qa/frontier"),
+      repoRoot: path.resolve("/tmp/kibo-repo"),
+      outputDir: path.resolve("/tmp/kibo-repo", ".artifacts/qa/frontier"),
       providerMode: "live-frontier",
       primaryModel: "openai/gpt-5.4",
       alternateModel: "anthropic/claude-sonnet-4-6",
@@ -148,14 +148,14 @@ describe("qa cli runtime", () => {
 
   it("normalizes legacy live-openai suite runs onto the frontier provider mode", async () => {
     await runQaSuiteCommand({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/kibo-repo",
       providerMode: "live-openai",
       scenarioIds: ["approval-turn-tool-followthrough"],
     });
 
     expect(runQaSuite).toHaveBeenCalledWith(
       expect.objectContaining({
-        repoRoot: path.resolve("/tmp/openclaw-repo"),
+        repoRoot: path.resolve("/tmp/kibo-repo"),
         providerMode: "live-frontier",
       }),
     );
@@ -163,7 +163,7 @@ describe("qa cli runtime", () => {
 
   it("resolves character eval paths and passes model refs through", async () => {
     await runQaCharacterEvalCommand({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/kibo-repo",
       outputDir: ".artifacts/qa/character",
       model: [
         "openai/gpt-5.4,thinking=xhigh,fast=false",
@@ -181,8 +181,8 @@ describe("qa cli runtime", () => {
     });
 
     expect(runQaCharacterEval).toHaveBeenCalledWith({
-      repoRoot: path.resolve("/tmp/openclaw-repo"),
-      outputDir: path.resolve("/tmp/openclaw-repo", ".artifacts/qa/character"),
+      repoRoot: path.resolve("/tmp/kibo-repo"),
+      outputDir: path.resolve("/tmp/kibo-repo", ".artifacts/qa/character"),
       models: ["openai/gpt-5.4", "codex-cli/test-model"],
       scenarioId: "character-vibes-gollum",
       candidateFastMode: true,
@@ -207,12 +207,12 @@ describe("qa cli runtime", () => {
 
   it("lets character eval auto-select candidate fast mode when --fast is omitted", async () => {
     await runQaCharacterEvalCommand({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/kibo-repo",
       model: ["openai/gpt-5.4"],
     });
 
     expect(runQaCharacterEval).toHaveBeenCalledWith({
-      repoRoot: path.resolve("/tmp/openclaw-repo"),
+      repoRoot: path.resolve("/tmp/kibo-repo"),
       outputDir: undefined,
       models: ["openai/gpt-5.4"],
       scenarioId: undefined,
@@ -233,7 +233,7 @@ describe("qa cli runtime", () => {
   it("rejects invalid character eval thinking levels", async () => {
     await expect(
       runQaCharacterEvalCommand({
-        repoRoot: "/tmp/openclaw-repo",
+        repoRoot: "/tmp/kibo-repo",
         model: ["openai/gpt-5.4"],
         thinking: "enormous",
       }),
@@ -241,21 +241,21 @@ describe("qa cli runtime", () => {
 
     await expect(
       runQaCharacterEvalCommand({
-        repoRoot: "/tmp/openclaw-repo",
+        repoRoot: "/tmp/kibo-repo",
         model: ["openai/gpt-5.4,thinking=galaxy"],
       }),
     ).rejects.toThrow("--model thinking must be one of");
 
     await expect(
       runQaCharacterEvalCommand({
-        repoRoot: "/tmp/openclaw-repo",
+        repoRoot: "/tmp/kibo-repo",
         model: ["openai/gpt-5.4,warp"],
       }),
     ).rejects.toThrow("--model options must be thinking=<level>");
 
     await expect(
       runQaCharacterEvalCommand({
-        repoRoot: "/tmp/openclaw-repo",
+        repoRoot: "/tmp/kibo-repo",
         model: ["openai/gpt-5.4"],
         modelThinking: ["openai/gpt-5.4"],
       }),
@@ -264,7 +264,7 @@ describe("qa cli runtime", () => {
 
   it("passes the explicit repo root into manual runs", async () => {
     await runQaManualLaneCommand({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/kibo-repo",
       providerMode: "live-frontier",
       primaryModel: "openai/gpt-5.4",
       alternateModel: "openai/gpt-5.4",
@@ -274,7 +274,7 @@ describe("qa cli runtime", () => {
     });
 
     expect(runQaManualLane).toHaveBeenCalledWith({
-      repoRoot: path.resolve("/tmp/openclaw-repo"),
+      repoRoot: path.resolve("/tmp/kibo-repo"),
       providerMode: "live-frontier",
       primaryModel: "openai/gpt-5.4",
       alternateModel: "openai/gpt-5.4",
@@ -286,7 +286,7 @@ describe("qa cli runtime", () => {
 
   it("routes suite runs through multipass when the runner is selected", async () => {
     await runQaSuiteCommand({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/kibo-repo",
       outputDir: ".artifacts/qa-multipass",
       runner: "multipass",
       providerMode: "mock-openai",
@@ -298,8 +298,8 @@ describe("qa cli runtime", () => {
     });
 
     expect(runQaMultipass).toHaveBeenCalledWith({
-      repoRoot: path.resolve("/tmp/openclaw-repo"),
-      outputDir: path.resolve("/tmp/openclaw-repo", ".artifacts/qa-multipass"),
+      repoRoot: path.resolve("/tmp/kibo-repo"),
+      outputDir: path.resolve("/tmp/kibo-repo", ".artifacts/qa-multipass"),
       providerMode: "mock-openai",
       primaryModel: undefined,
       alternateModel: undefined,
@@ -315,7 +315,7 @@ describe("qa cli runtime", () => {
 
   it("passes live suite selection through to the multipass runner", async () => {
     await runQaSuiteCommand({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/kibo-repo",
       runner: "multipass",
       providerMode: "live-frontier",
       primaryModel: "openai/gpt-5.4",
@@ -326,7 +326,7 @@ describe("qa cli runtime", () => {
 
     expect(runQaMultipass).toHaveBeenCalledWith(
       expect.objectContaining({
-        repoRoot: path.resolve("/tmp/openclaw-repo"),
+        repoRoot: path.resolve("/tmp/kibo-repo"),
         providerMode: "live-frontier",
         primaryModel: "openai/gpt-5.4",
         alternateModel: "openai/gpt-5.4",
@@ -339,7 +339,7 @@ describe("qa cli runtime", () => {
   it("rejects multipass-only suite flags on the host runner", async () => {
     await expect(
       runQaSuiteCommand({
-        repoRoot: "/tmp/openclaw-repo",
+        repoRoot: "/tmp/kibo-repo",
         runner: "host",
         image: "lts",
       }),
@@ -348,13 +348,13 @@ describe("qa cli runtime", () => {
 
   it("defaults manual mock runs onto the mock-openai model lane", async () => {
     await runQaManualLaneCommand({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/kibo-repo",
       providerMode: "mock-openai",
       message: "read qa kickoff and reply short",
     });
 
     expect(runQaManualLane).toHaveBeenCalledWith({
-      repoRoot: path.resolve("/tmp/openclaw-repo"),
+      repoRoot: path.resolve("/tmp/kibo-repo"),
       providerMode: "mock-openai",
       primaryModel: "mock-openai/gpt-5.4",
       alternateModel: "mock-openai/gpt-5.4-alt",
@@ -366,12 +366,12 @@ describe("qa cli runtime", () => {
 
   it("defaults manual frontier runs onto the frontier model lane", async () => {
     await runQaManualLaneCommand({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/kibo-repo",
       message: "read qa kickoff and reply short",
     });
 
     expect(runQaManualLane).toHaveBeenCalledWith({
-      repoRoot: path.resolve("/tmp/openclaw-repo"),
+      repoRoot: path.resolve("/tmp/kibo-repo"),
       providerMode: "live-frontier",
       primaryModel: "openai/gpt-5.4",
       alternateModel: "openai/gpt-5.4",
@@ -383,14 +383,14 @@ describe("qa cli runtime", () => {
 
   it("keeps an explicit manual primary model as the alternate default", async () => {
     await runQaManualLaneCommand({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/kibo-repo",
       providerMode: "live-frontier",
       primaryModel: "anthropic/claude-sonnet-4-6",
       message: "read qa kickoff and reply short",
     });
 
     expect(runQaManualLane).toHaveBeenCalledWith({
-      repoRoot: path.resolve("/tmp/openclaw-repo"),
+      repoRoot: path.resolve("/tmp/kibo-repo"),
       providerMode: "live-frontier",
       primaryModel: "anthropic/claude-sonnet-4-6",
       alternateModel: "anthropic/claude-sonnet-4-6",
@@ -402,14 +402,14 @@ describe("qa cli runtime", () => {
 
   it("normalizes legacy live-openai manual runs onto the frontier provider mode", async () => {
     await runQaManualLaneCommand({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/kibo-repo",
       providerMode: "live-openai",
       message: "read qa kickoff and reply short",
     });
 
     expect(runQaManualLane).toHaveBeenCalledWith(
       expect.objectContaining({
-        repoRoot: path.resolve("/tmp/openclaw-repo"),
+        repoRoot: path.resolve("/tmp/kibo-repo"),
         providerMode: "live-frontier",
         primaryModel: "openai/gpt-5.4",
         alternateModel: "openai/gpt-5.4",
@@ -419,27 +419,27 @@ describe("qa cli runtime", () => {
 
   it("resolves self-check repo-root-relative paths before starting the lab server", async () => {
     await runQaLabSelfCheckCommand({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/kibo-repo",
       output: ".artifacts/qa/self-check.md",
     });
 
     expect(startQaLabServer).toHaveBeenCalledWith({
-      repoRoot: path.resolve("/tmp/openclaw-repo"),
-      outputPath: path.resolve("/tmp/openclaw-repo", ".artifacts/qa/self-check.md"),
+      repoRoot: path.resolve("/tmp/kibo-repo"),
+      outputPath: path.resolve("/tmp/kibo-repo", ".artifacts/qa/self-check.md"),
     });
   });
 
   it("resolves docker scaffold paths relative to the explicit repo root", async () => {
     await runQaDockerScaffoldCommand({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/kibo-repo",
       outputDir: ".artifacts/qa-docker",
       providerBaseUrl: "http://127.0.0.1:44080/v1",
       usePrebuiltImage: true,
     });
 
     expect(writeQaDockerHarnessFiles).toHaveBeenCalledWith({
-      outputDir: path.resolve("/tmp/openclaw-repo", ".artifacts/qa-docker"),
-      repoRoot: path.resolve("/tmp/openclaw-repo"),
+      outputDir: path.resolve("/tmp/kibo-repo", ".artifacts/qa-docker"),
+      repoRoot: path.resolve("/tmp/kibo-repo"),
       gatewayPort: undefined,
       qaLabPort: undefined,
       providerBaseUrl: "http://127.0.0.1:44080/v1",
@@ -450,27 +450,27 @@ describe("qa cli runtime", () => {
 
   it("passes the explicit repo root into docker image builds", async () => {
     await runQaDockerBuildImageCommand({
-      repoRoot: "/tmp/openclaw-repo",
-      image: "openclaw:qa-local-prebaked",
+      repoRoot: "/tmp/kibo-repo",
+      image: "kibo:qa-local-prebaked",
     });
 
     expect(buildQaDockerHarnessImage).toHaveBeenCalledWith({
-      repoRoot: path.resolve("/tmp/openclaw-repo"),
-      imageName: "openclaw:qa-local-prebaked",
+      repoRoot: path.resolve("/tmp/kibo-repo"),
+      imageName: "kibo:qa-local-prebaked",
     });
   });
 
   it("resolves docker up paths relative to the explicit repo root", async () => {
     await runQaDockerUpCommand({
-      repoRoot: "/tmp/openclaw-repo",
+      repoRoot: "/tmp/kibo-repo",
       outputDir: ".artifacts/qa-up",
       usePrebuiltImage: true,
       skipUiBuild: true,
     });
 
     expect(runQaDockerUp).toHaveBeenCalledWith({
-      repoRoot: path.resolve("/tmp/openclaw-repo"),
-      outputDir: path.resolve("/tmp/openclaw-repo", ".artifacts/qa-up"),
+      repoRoot: path.resolve("/tmp/kibo-repo"),
+      outputDir: path.resolve("/tmp/kibo-repo", ".artifacts/qa-up"),
       gatewayPort: undefined,
       qaLabPort: undefined,
       providerBaseUrl: undefined,

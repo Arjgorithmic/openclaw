@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import fs from "node:fs";
-import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
+import { resolvePreferredKiboTmpDir } from "../infra/tmp-kibo-dir.js";
 import { readStringValue } from "../shared/string-coerce.js";
 export { asRecord } from "../shared/record-coerce.js";
 
@@ -19,7 +19,7 @@ export function resolveTempPathParts(opts: { ext: string; tmpDir?: string; id?: 
   tmpDir: string;
   id: string;
 } {
-  const tmpDir = opts.tmpDir ?? resolvePreferredOpenClawTmpDir();
+  const tmpDir = opts.tmpDir ?? resolvePreferredKiboTmpDir();
   if (!opts.tmpDir) {
     fs.mkdirSync(tmpDir, { recursive: true, mode: 0o700 });
   }

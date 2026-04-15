@@ -1,2 +1,2 @@
-/** Root OpenClaw configuration Zod schema — the full `openclaw.json` shape. */
-export { OpenClawSchema } from "../config/zod-schema.js";
+/** Root Kibo configuration Zod schema — the full `kibo.json` shape. */
+export { KiboSchema } from "../config/zod-schema.js";

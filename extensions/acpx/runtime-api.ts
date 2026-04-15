@@ -1,11 +1,11 @@
-export type { AcpRuntimeErrorCode } from "openclaw/plugin-sdk/acp-runtime";
+export type { AcpRuntimeErrorCode } from "kibo/plugin-sdk/acp-runtime";
 export {
   AcpRuntimeError,
   getAcpRuntimeBackend,
   tryDispatchAcpReplyHook,
   registerAcpRuntimeBackend,
   unregisterAcpRuntimeBackend,
-} from "openclaw/plugin-sdk/acp-runtime";
+} from "kibo/plugin-sdk/acp-runtime";
 export type {
   AcpRuntime,
   AcpRuntimeCapabilities,
@@ -17,30 +17,30 @@ export type {
   AcpRuntimeTurnAttachment,
   AcpRuntimeTurnInput,
   AcpSessionUpdateTag,
-} from "openclaw/plugin-sdk/acp-runtime";
+} from "kibo/plugin-sdk/acp-runtime";
 export type {
-  OpenClawPluginApi,
-  OpenClawPluginConfigSchema,
-  OpenClawPluginService,
-  OpenClawPluginServiceContext,
+  KiboPluginApi,
+  KiboPluginConfigSchema,
+  KiboPluginService,
+  KiboPluginServiceContext,
   PluginLogger,
-} from "openclaw/plugin-sdk/core";
+} from "kibo/plugin-sdk/core";
 export type {
   PluginHookReplyDispatchContext,
   PluginHookReplyDispatchEvent,
   PluginHookReplyDispatchResult,
-} from "openclaw/plugin-sdk/core";
+} from "kibo/plugin-sdk/core";
 export type {
   WindowsSpawnProgram,
   WindowsSpawnProgramCandidate,
   WindowsSpawnResolution,
-} from "openclaw/plugin-sdk/windows-spawn";
+} from "kibo/plugin-sdk/windows-spawn";
 export {
   applyWindowsSpawnProgramPolicy,
   materializeWindowsSpawnProgram,
   resolveWindowsSpawnProgramCandidate,
-} from "openclaw/plugin-sdk/windows-spawn";
+} from "kibo/plugin-sdk/windows-spawn";
 export {
   listKnownProviderAuthEnvVarNames,
   omitEnvKeysCaseInsensitive,
-} from "openclaw/plugin-sdk/provider-env-vars";
+} from "kibo/plugin-sdk/provider-env-vars";

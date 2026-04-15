@@ -1,8 +1,8 @@
 export type { Command } from "commander";
-export type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-export { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
-export { callGatewayFromCli } from "openclaw/plugin-sdk/browser-node-runtime";
-export type { PluginRuntime } from "openclaw/plugin-sdk/runtime-store";
+export type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
+export { definePluginEntry } from "kibo/plugin-sdk/plugin-entry";
+export { callGatewayFromCli } from "kibo/plugin-sdk/browser-node-runtime";
+export type { PluginRuntime } from "kibo/plugin-sdk/runtime-store";
 export {
   buildQaTarget,
   createQaBusThread,
@@ -19,7 +19,7 @@ export {
   searchQaBusMessages,
   sendQaBusMessage,
   setQaChannelRuntime,
-} from "openclaw/plugin-sdk/qa-channel";
+} from "kibo/plugin-sdk/qa-channel";
 export type {
   QaBusAttachment,
   QaBusConversation,
@@ -38,4 +38,4 @@ export type {
   QaBusStateSnapshot,
   QaBusThread,
   QaBusWaitForInput,
-} from "openclaw/plugin-sdk/qa-channel";
+} from "kibo/plugin-sdk/qa-channel";

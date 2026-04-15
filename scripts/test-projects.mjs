@@ -122,18 +122,18 @@ function parsePositiveInt(value) {
 }
 
 function resolveParallelFullSuiteConcurrency(specCount, env) {
-  const override = parsePositiveInt(env.OPENCLAW_TEST_PROJECTS_PARALLEL);
+  const override = parsePositiveInt(env.KIBO_TEST_PROJECTS_PARALLEL);
   if (override !== null) {
     return Math.min(override, specCount);
   }
-  if (env.OPENCLAW_TEST_PROJECTS_SERIAL === "1") {
+  if (env.KIBO_TEST_PROJECTS_SERIAL === "1") {
     return 1;
   }
   if (env.CI === "true" || env.GITHUB_ACTIONS === "true") {
     return 1;
   }
   if (
-    env.OPENCLAW_TEST_PROJECTS_LEAF_SHARDS !== "1" &&
+    env.KIBO_TEST_PROJECTS_LEAF_SHARDS !== "1" &&
     !shouldUseLocalFullSuiteParallelByDefault(env)
   ) {
     return 1;

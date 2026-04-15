@@ -1,7 +1,7 @@
-import { readConfiguredProviderCatalogEntries } from "openclaw/plugin-sdk/provider-catalog-shared";
-import { defineSingleProviderPluginEntry } from "openclaw/plugin-sdk/provider-entry";
-import { buildProviderReplayFamilyHooks } from "openclaw/plugin-sdk/provider-model-shared";
-import { buildProviderStreamFamilyHooks } from "openclaw/plugin-sdk/provider-stream-family";
+import { readConfiguredProviderCatalogEntries } from "kibo/plugin-sdk/provider-catalog-shared";
+import { defineSingleProviderPluginEntry } from "kibo/plugin-sdk/provider-entry";
+import { buildProviderReplayFamilyHooks } from "kibo/plugin-sdk/provider-model-shared";
+import { buildProviderStreamFamilyHooks } from "kibo/plugin-sdk/provider-stream-family";
 import { applyKilocodeConfig, KILOCODE_DEFAULT_MODEL_REF } from "./onboard.js";
 import { buildKilocodeProviderWithDiscovery } from "./provider-catalog.js";
 

@@ -136,8 +136,8 @@ export function getPluginBoundaryJiti(
   const aliasMap = {
     ...(pluginSdkAlias
       ? {
-          "openclaw/plugin-sdk": pluginSdkAlias,
-          "@openclaw/plugin-sdk": pluginSdkAlias,
+          "kibo/plugin-sdk": pluginSdkAlias,
+          "@kibo/plugin-sdk": pluginSdkAlias,
         }
       : {}),
     ...resolvePluginSdkScopedAliasMap({ modulePath }),

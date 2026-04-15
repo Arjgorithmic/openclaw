@@ -1,5 +1,5 @@
-import { defineBundledChannelEntry } from "openclaw/plugin-sdk/channel-entry-contract";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { defineBundledChannelEntry } from "kibo/plugin-sdk/channel-entry-contract";
+import { formatErrorMessage } from "kibo/plugin-sdk/error-runtime";
 import { registerMatrixCliMetadata } from "./cli-metadata.js";
 
 export default defineBundledChannelEntry({

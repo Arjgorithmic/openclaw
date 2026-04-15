@@ -221,11 +221,11 @@ describe("subscribeEmbeddedPiSession", () => {
           source: "music_generation",
           childSessionKey: "music_generate:task-123",
           announceType: "music generation task",
-          taskLabel: "lobster boss theme",
+          taskLabel: "shell boss theme",
           status: "ok",
           statusLabel: "completed successfully",
-          result: "Generated 1 track.\nMEDIA:/tmp/lobster-boss.mp3",
-          mediaUrls: ["/tmp/lobster-boss.mp3"],
+          result: "Generated 1 track.\nMEDIA:/tmp/shell-boss.mp3",
+          mediaUrls: ["/tmp/shell-boss.mp3"],
           replyInstruction: "Reply normally.",
         },
       ],
@@ -249,7 +249,7 @@ describe("subscribeEmbeddedPiSession", () => {
     expect(onBlockReply).toHaveBeenCalledWith(
       expect.objectContaining({
         text: "Here it is.",
-        mediaUrls: ["/tmp/lobster-boss.mp3"],
+        mediaUrls: ["/tmp/shell-boss.mp3"],
       }),
     );
   });

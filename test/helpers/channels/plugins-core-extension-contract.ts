@@ -4,22 +4,22 @@ import type {
   BaseTokenResolution,
   ChannelDirectoryEntry,
 } from "../../../src/channels/plugins/types.js";
-import type { OpenClawConfig } from "../../../src/config/config.js";
+import type { KiboConfig } from "../../../src/config/config.js";
 import type { LineProbeResult } from "../../../src/plugin-sdk/line.js";
 import { loadBundledPluginApiSync } from "../../../src/test-utils/bundled-plugin-public-surface.js";
 import { withEnvAsync } from "../../../src/test-utils/env.js";
 
-type DiscordApiSurface = typeof import("@openclaw/discord/api.js");
-type DiscordProbe = import("@openclaw/discord/api.js").DiscordProbe;
-type DiscordTokenResolution = import("@openclaw/discord/api.js").DiscordTokenResolution;
-type IMessageProbe = import("@openclaw/imessage/runtime-api.js").IMessageProbe;
-type SignalProbe = import("@openclaw/signal/api.js").SignalProbe;
-type SlackApiSurface = typeof import("@openclaw/slack/api.js");
-type SlackProbe = import("@openclaw/slack/api.js").SlackProbe;
-type TelegramApiSurface = typeof import("@openclaw/telegram/api.js");
-type TelegramProbe = import("@openclaw/telegram/api.js").TelegramProbe;
-type TelegramTokenResolution = import("@openclaw/telegram/api.js").TelegramTokenResolution;
-type WhatsAppApiSurface = typeof import("@openclaw/whatsapp/api.js");
+type DiscordApiSurface = typeof import("@kibo/discord/api.js");
+type DiscordProbe = import("@kibo/discord/api.js").DiscordProbe;
+type DiscordTokenResolution = import("@kibo/discord/api.js").DiscordTokenResolution;
+type IMessageProbe = import("@kibo/imessage/runtime-api.js").IMessageProbe;
+type SignalProbe = import("@kibo/signal/api.js").SignalProbe;
+type SlackApiSurface = typeof import("@kibo/slack/api.js");
+type SlackProbe = import("@kibo/slack/api.js").SlackProbe;
+type TelegramApiSurface = typeof import("@kibo/telegram/api.js");
+type TelegramProbe = import("@kibo/telegram/api.js").TelegramProbe;
+type TelegramTokenResolution = import("@kibo/telegram/api.js").TelegramTokenResolution;
+type WhatsAppApiSurface = typeof import("@kibo/whatsapp/api.js");
 
 const { listDiscordDirectoryGroupsFromConfig, listDiscordDirectoryPeersFromConfig } =
   loadBundledPluginApiSync<DiscordApiSurface>("discord");
@@ -31,13 +31,13 @@ const { listWhatsAppDirectoryGroupsFromConfig, listWhatsAppDirectoryPeersFromCon
   loadBundledPluginApiSync<WhatsAppApiSurface>("whatsapp");
 
 type DirectoryListFn = (params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId?: string;
   query?: string | null;
   limit?: number | null;
 }) => Promise<ChannelDirectoryEntry[]>;
 
-async function listDirectoryEntriesWithDefaults(listFn: DirectoryListFn, cfg: OpenClawConfig) {
+async function listDirectoryEntriesWithDefaults(listFn: DirectoryListFn, cfg: KiboConfig) {
   return await listFn({
     cfg,
     accountId: "default",
@@ -48,7 +48,7 @@ async function listDirectoryEntriesWithDefaults(listFn: DirectoryListFn, cfg: Op
 
 async function expectDirectoryIds(
   listFn: DirectoryListFn,
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   expected: string[],
   options?: { sorted?: boolean },
 ) {
@@ -87,7 +87,7 @@ export function describeDiscordPluginsCoreExtensionContract() {
             },
           },
         },
-      } as unknown as OpenClawConfig;
+      } as unknown as KiboConfig;
 
       await expectDirectoryIds(
         listDiscordDirectoryPeersFromConfig,
@@ -123,7 +123,7 @@ export function describeDiscordPluginsCoreExtensionContract() {
             },
           },
         },
-      } as unknown as OpenClawConfig;
+      } as unknown as KiboConfig;
 
       await expectDirectoryIds(listDiscordDirectoryPeersFromConfig, cfg, ["user:111"]);
       await expectDirectoryIds(listDiscordDirectoryGroupsFromConfig, cfg, ["channel:555"]);
@@ -145,7 +145,7 @@ export function describeDiscordPluginsCoreExtensionContract() {
             },
           },
         },
-      } as unknown as OpenClawConfig;
+      } as unknown as KiboConfig;
 
       const groups = await listDiscordDirectoryGroupsFromConfig({
         cfg,
@@ -175,7 +175,7 @@ export function describeSlackPluginsCoreExtensionContract() {
             channels: { C111: { users: ["U777"] } },
           },
         },
-      } as unknown as OpenClawConfig;
+      } as unknown as KiboConfig;
 
       await expectDirectoryIds(
         listSlackDirectoryPeersFromConfig,
@@ -201,7 +201,7 @@ export function describeSlackPluginsCoreExtensionContract() {
             channels: { C111: {} },
           },
         },
-      } as unknown as OpenClawConfig;
+      } as unknown as KiboConfig;
 
       await expectDirectoryIds(listSlackDirectoryPeersFromConfig, cfg, ["user:u123"]);
       await expectDirectoryIds(listSlackDirectoryGroupsFromConfig, cfg, ["channel:c111"]);
@@ -217,7 +217,7 @@ export function describeSlackPluginsCoreExtensionContract() {
             dms: { U300: {} },
           },
         },
-      } as unknown as OpenClawConfig;
+      } as unknown as KiboConfig;
 
       const peers = await listSlackDirectoryPeersFromConfig({
         cfg,
@@ -251,7 +251,7 @@ export function describeTelegramPluginsCoreExtensionContract() {
             groups: { "-1001": {}, "*": {} },
           },
         },
-      } as unknown as OpenClawConfig;
+      } as unknown as KiboConfig;
 
       await expectDirectoryIds(
         listTelegramDirectoryPeersFromConfig,
@@ -278,7 +278,7 @@ export function describeTelegramPluginsCoreExtensionContract() {
               },
             },
           },
-        } as unknown as OpenClawConfig;
+        } as unknown as KiboConfig;
 
         await expectDirectoryIds(listTelegramDirectoryPeersFromConfig, cfg, ["@alice"]);
         await expectDirectoryIds(listTelegramDirectoryGroupsFromConfig, cfg, ["-1001"]);
@@ -299,7 +299,7 @@ export function describeTelegramPluginsCoreExtensionContract() {
             groups: { "-1001": {} },
           },
         },
-      } as unknown as OpenClawConfig;
+      } as unknown as KiboConfig;
 
       await expectDirectoryIds(listTelegramDirectoryPeersFromConfig, cfg, ["@alice"]);
       await expectDirectoryIds(listTelegramDirectoryGroupsFromConfig, cfg, ["-1001"]);
@@ -313,7 +313,7 @@ export function describeTelegramPluginsCoreExtensionContract() {
             groups: { "-1001": {}, "-1002": {}, "-2001": {} },
           },
         },
-      } as unknown as OpenClawConfig;
+      } as unknown as KiboConfig;
 
       const groups = await listTelegramDirectoryGroupsFromConfig({
         cfg,
@@ -336,7 +336,7 @@ export function describeWhatsAppPluginsCoreExtensionContract() {
             groups: { "999@g.us": { requireMention: true }, "*": {} },
           },
         },
-      } as unknown as OpenClawConfig;
+      } as unknown as KiboConfig;
 
       await expectDirectoryIds(listWhatsAppDirectoryPeersFromConfig, cfg, ["+15550000000"]);
       await expectDirectoryIds(listWhatsAppDirectoryGroupsFromConfig, cfg, ["999@g.us"]);
@@ -349,7 +349,7 @@ export function describeWhatsAppPluginsCoreExtensionContract() {
             groups: { "111@g.us": {}, "222@g.us": {}, "333@s.whatsapp.net": {} },
           },
         },
-      } as unknown as OpenClawConfig;
+      } as unknown as KiboConfig;
 
       const groups = await listWhatsAppDirectoryGroupsFromConfig({
         cfg,

@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/microsoft-speech",
+  "name": "@kibo/microsoft-speech",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw Microsoft speech plugin",
+  "description": "Kibo Microsoft speech plugin",
   "type": "module",
   "dependencies": {
     "node-edge-tts": "^1.2.10"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ]

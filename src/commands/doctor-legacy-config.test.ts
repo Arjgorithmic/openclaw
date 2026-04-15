@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { normalizeCompatibilityConfigValues } from "./doctor-legacy-config.js";
 
-function asLegacyConfig(value: unknown): OpenClawConfig {
-  return value as OpenClawConfig;
+function asLegacyConfig(value: unknown): KiboConfig {
+  return value as KiboConfig;
 }
 
 function getLegacyProperty(value: unknown, key: string): unknown {

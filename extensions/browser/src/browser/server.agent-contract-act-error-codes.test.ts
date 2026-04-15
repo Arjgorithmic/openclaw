@@ -70,7 +70,7 @@ describe("browser control server", () => {
     "returns ACT_EXISTING_SESSION_UNSUPPORTED for unsupported existing-session actions",
     async () => {
       setBrowserControlServerProfiles({
-        openclaw: {
+        kibo: {
           color: "#FF4500",
           driver: "existing-session",
         },

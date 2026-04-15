@@ -32,7 +32,7 @@ describe("WizardSession", () => {
     if (!second.step) {
       throw new Error("expected second step");
     }
-    await session.answer(second.step.id, "Peter");
+    await session.answer(second.step.id, "Kibo");
 
     const third = await session.next();
     expect(third.step?.type).toBe("note");

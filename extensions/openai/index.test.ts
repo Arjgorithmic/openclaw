@@ -1,6 +1,6 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-import * as providerAuth from "openclaw/plugin-sdk/provider-auth-runtime";
-import type { ProviderPlugin } from "openclaw/plugin-sdk/provider-model-shared";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
+import * as providerAuth from "kibo/plugin-sdk/provider-auth-runtime";
+import type { ProviderPlugin } from "kibo/plugin-sdk/provider-model-shared";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createTestPluginApi } from "../../test/helpers/plugins/plugin-api.js";
 import {
@@ -20,7 +20,7 @@ const runtimeMocks = vi.hoisted(() => ({
   refreshOpenAICodexToken: vi.fn(),
 }));
 
-vi.mock("openclaw/plugin-sdk/runtime-env", () => ({
+vi.mock("kibo/plugin-sdk/runtime-env", () => ({
   ensureGlobalUndiciEnvProxyDispatcher: runtimeMocks.ensureGlobalUndiciEnvProxyDispatcher,
 }));
 
@@ -227,7 +227,7 @@ describe("openai plugin", () => {
               },
             },
           },
-        } satisfies OpenClawConfig,
+        } satisfies KiboConfig,
       }),
     ).rejects.toThrow("Blocked hostname or private/internal/special-use IP address");
 

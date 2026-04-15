@@ -1,4 +1,4 @@
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+import type { RuntimeEnv } from "kibo/plugin-sdk/runtime-env";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createNonExitingTypedRuntimeEnv } from "../../../../test/helpers/plugins/runtime-env.js";
 import * as resolveChannelsModule from "../resolve-channels.js";
@@ -20,7 +20,7 @@ describe("resolveDiscordAllowlistConfig", () => {
             case "Carol":
               return { input: entry, resolved: false };
             case "387":
-              return { input: entry, resolved: true, id: "387", name: "Peter" };
+              return { input: entry, resolved: true, id: "387", name: "Kibo" };
             default:
               return { input: entry, resolved: true, id: entry };
           }
@@ -85,6 +85,6 @@ describe("resolveDiscordAllowlistConfig", () => {
     expect(logs).toContain(
       "discord channels unresolved: 145/c404 (guild:Ops; channel:missing-room)",
     );
-    expect(logs).toContain("discord users resolved: 387→Peter (id:387)");
+    expect(logs).toContain("discord users resolved: 387→Kibo (id:387)");
   });
 });

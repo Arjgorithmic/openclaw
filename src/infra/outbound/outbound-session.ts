@@ -2,7 +2,7 @@ import type { MsgContext } from "../../auto-reply/templating.js";
 import type { ChatType } from "../../channels/chat-type.js";
 import { getChannelPlugin } from "../../channels/plugins/index.js";
 import type { ChannelId } from "../../channels/plugins/types.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { KiboConfig } from "../../config/config.js";
 import {
   recordSessionMetaFromInbound,
   resolveStorePath,
@@ -23,7 +23,7 @@ export type OutboundSessionRoute = {
 };
 
 export type ResolveOutboundSessionRouteParams = {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   channel: ChannelId;
   agentId: string;
   accountId?: string | null;
@@ -77,7 +77,7 @@ function inferPeerKind(params: {
 }
 
 function buildBaseSessionKey(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   agentId: string;
   channel: ChannelId;
   accountId?: string | null;
@@ -149,7 +149,7 @@ export async function resolveOutboundSessionRoute(
 }
 
 export async function ensureOutboundSessionEntry(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   channel: ChannelId;
   accountId?: string | null;
   route: OutboundSessionRoute;

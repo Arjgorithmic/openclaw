@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/speech-core",
+  "name": "@kibo/speech-core",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw speech runtime package",
+  "description": "Kibo speech runtime package",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   }
 }

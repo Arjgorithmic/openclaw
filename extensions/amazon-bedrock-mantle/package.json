@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/amazon-bedrock-mantle-provider",
+  "name": "@kibo/amazon-bedrock-mantle-provider",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw Amazon Bedrock Mantle (OpenAI-compatible) provider plugin",
+  "description": "Kibo Amazon Bedrock Mantle (OpenAI-compatible) provider plugin",
   "type": "module",
   "dependencies": {
     "@aws/bedrock-token-generator": "^1.1.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "kibo": {
     "bundle": {
       "stageRuntimeDependencies": true
     },

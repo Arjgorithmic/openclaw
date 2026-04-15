@@ -73,11 +73,11 @@ describe("test-projects args", () => {
   });
 
   it("routes boundary targets to the boundary config", () => {
-    expect(buildVitestRunPlans(["src/infra/openclaw-root.test.ts"])).toEqual([
+    expect(buildVitestRunPlans(["src/infra/kibo-root.test.ts"])).toEqual([
       {
         config: "vitest.boundary.config.ts",
         forwardedArgs: [],
-        includePatterns: ["src/infra/openclaw-root.test.ts"],
+        includePatterns: ["src/infra/kibo-root.test.ts"],
         watchMode: false,
       },
     ]);
@@ -361,11 +361,11 @@ describe("test-projects args", () => {
   });
 
   it("routes infra targets to the infra config", () => {
-    expect(buildVitestRunPlans(["src/infra/openclaw-root.test.ts"])).toEqual([
+    expect(buildVitestRunPlans(["src/infra/kibo-root.test.ts"])).toEqual([
       {
         config: "vitest.boundary.config.ts",
         forwardedArgs: [],
-        includePatterns: ["src/infra/openclaw-root.test.ts"],
+        includePatterns: ["src/infra/kibo-root.test.ts"],
         watchMode: false,
       },
     ]);
@@ -728,8 +728,8 @@ describe("test-projects args", () => {
     expect(spec?.includePatterns).toEqual([
       "extensions/discord/src/monitor/message-handler.preflight.test.ts",
     ]);
-    expect(spec?.includeFilePath).toContain("openclaw-vitest-include-");
-    expect(spec?.env.OPENCLAW_VITEST_INCLUDE_FILE).toBe(spec?.includeFilePath);
+    expect(spec?.includeFilePath).toContain("kibo-vitest-include-");
+    expect(spec?.env.KIBO_VITEST_INCLUDE_FILE).toBe(spec?.includeFilePath);
   });
 
   it("rejects watch mode when a command spans multiple suites", () => {

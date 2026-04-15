@@ -1,6 +1,6 @@
 import path from "node:path";
 import { Type } from "@sinclair/typebox";
-import { type OpenClawConfig, loadConfig } from "../../config/config.js";
+import { type KiboConfig, loadConfig } from "../../config/config.js";
 import {
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
@@ -51,7 +51,7 @@ function readSessionRunStatus(value: unknown): SessionRunStatus | undefined {
 export function createSessionsListTool(opts?: {
   agentSessionKey?: string;
   sandboxed?: boolean;
-  config?: OpenClawConfig;
+  config?: KiboConfig;
   callGateway?: GatewayCaller;
 }): AnyAgentTool {
   return {

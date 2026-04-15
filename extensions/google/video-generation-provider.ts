@@ -1,15 +1,15 @@
 import { mkdtemp, readFile, rm } from "node:fs/promises";
 import path from "node:path";
 import { GoogleGenAI } from "@google/genai";
-import { isProviderApiKeyConfigured } from "openclaw/plugin-sdk/provider-auth";
-import { resolveApiKeyForProvider } from "openclaw/plugin-sdk/provider-auth-runtime";
-import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { isProviderApiKeyConfigured } from "kibo/plugin-sdk/provider-auth";
+import { resolveApiKeyForProvider } from "kibo/plugin-sdk/provider-auth-runtime";
+import { resolvePreferredKiboTmpDir } from "kibo/plugin-sdk/temp-path";
+import { normalizeOptionalString } from "kibo/plugin-sdk/text-runtime";
 import type {
   GeneratedVideoAsset,
   VideoGenerationProvider,
   VideoGenerationRequest,
-} from "openclaw/plugin-sdk/video-generation";
+} from "kibo/plugin-sdk/video-generation";
 import { normalizeGoogleApiBaseUrl } from "./api.js";
 
 const DEFAULT_GOOGLE_VIDEO_MODEL = "veo-3.1-fast-generate-preview";
@@ -125,7 +125,7 @@ async function downloadGeneratedVideo(params: {
   index: number;
 }): Promise<GeneratedVideoAsset> {
   const tempDir = await mkdtemp(
-    path.join(resolvePreferredOpenClawTmpDir(), "openclaw-google-video-"),
+    path.join(resolvePreferredKiboTmpDir(), "kibo-google-video-"),
   );
   const downloadPath = path.join(tempDir, `video-${params.index + 1}.mp4`);
   try {

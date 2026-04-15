@@ -1,12 +1,12 @@
-import { resolveControlCommandGate } from "openclaw/plugin-sdk/command-auth";
+import { resolveControlCommandGate } from "kibo/plugin-sdk/command-auth";
 import {
   loadSessionStore,
   resolveChannelContextVisibilityMode,
   resolveSessionStoreEntry,
-} from "openclaw/plugin-sdk/config-runtime";
-import { getSessionBindingService } from "openclaw/plugin-sdk/conversation-runtime";
-import { evaluateSupplementalContextVisibility } from "openclaw/plugin-sdk/security-runtime";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/config-runtime";
+import { getSessionBindingService } from "kibo/plugin-sdk/conversation-runtime";
+import { evaluateSupplementalContextVisibility } from "kibo/plugin-sdk/security-runtime";
+import { normalizeOptionalString } from "kibo/plugin-sdk/text-runtime";
 import type {
   CoreConfig,
   MatrixRoomConfig,
@@ -38,7 +38,7 @@ import {
   sendReadReceiptMatrix,
   sendTypingMatrix,
 } from "../send.js";
-import { MATRIX_OPENCLAW_FINALIZED_PREVIEW_KEY } from "../send/types.js";
+import { MATRIX_KIBO_FINALIZED_PREVIEW_KEY } from "../send/types.js";
 import { resolveMatrixStoredSessionMeta } from "../session-store-metadata.js";
 import { resolveMatrixMonitorAccessState } from "./access-state.js";
 import { resolveMatrixAckReactionConfig } from "./ack-config.js";
@@ -93,7 +93,7 @@ async function redactMatrixDraftEvent(
 }
 
 function buildMatrixFinalizedPreviewContent(): Record<string, unknown> {
-  return { [MATRIX_OPENCLAW_FINALIZED_PREVIEW_KEY]: true };
+  return { [MATRIX_KIBO_FINALIZED_PREVIEW_KEY]: true };
 }
 
 export type MatrixMonitorHandlerParams = {

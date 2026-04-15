@@ -34,7 +34,7 @@ const {
 
 let _handlers: Record<string, (data: unknown) => Promise<void>> = {};
 let lastRuntime: RuntimeEnv | null = null;
-const originalStateDir = process.env.OPENCLAW_STATE_DIR;
+const originalStateDir = process.env.KIBO_STATE_DIR;
 const lifecycleConfig = createFeishuLifecycleConfig({
   accountId: "acct-card",
   appId: "cli_test",
@@ -117,7 +117,7 @@ describe("Feishu card-action lifecycle", () => {
     _handlers = {};
     lastRuntime = null;
     resetProcessedFeishuCardActionTokensForTests();
-    setFeishuLifecycleStateDir("openclaw-feishu-card-action");
+    setFeishuLifecycleStateDir("kibo-feishu-card-action");
 
     createFeishuReplyDispatcherMock.mockReturnValue(createFeishuLifecycleReplyDispatcher());
 

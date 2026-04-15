@@ -4,7 +4,7 @@
 // emitted declaration surface stays stable for package-boundary consumers.
 
 import type { AuthProfileStore } from "../agents/auth-profiles.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import type {
   GeneratedVideoAsset as CoreGeneratedVideoAsset,
   VideoGenerationMode as CoreVideoGenerationMode,
@@ -37,7 +37,7 @@ export type VideoGenerationSourceAsset = {
 };
 
 export type VideoGenerationProviderConfiguredContext = {
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   agentDir?: string;
 };
 
@@ -45,7 +45,7 @@ export type VideoGenerationRequest = {
   provider: string;
   model: string;
   prompt: string;
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   agentDir?: string;
   authStore?: AuthProfileStore;
   timeoutMs?: number;

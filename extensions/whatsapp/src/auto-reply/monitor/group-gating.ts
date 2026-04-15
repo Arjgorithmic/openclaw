@@ -1,4 +1,4 @@
-import type { loadConfig } from "openclaw/plugin-sdk/config-runtime";
+import type { loadConfig } from "kibo/plugin-sdk/config-runtime";
 import {
   getPrimaryIdentityId,
   getReplyContext,

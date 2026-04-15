@@ -1,15 +1,15 @@
-import { resolveChannelStreamingPreviewChunk } from "openclaw/plugin-sdk/channel-streaming";
-import { type OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-import { resolveTextChunkLimit } from "openclaw/plugin-sdk/reply-chunking";
-import { resolveAccountEntry } from "openclaw/plugin-sdk/routing";
-import { normalizeAccountId } from "openclaw/plugin-sdk/routing";
+import { resolveChannelStreamingPreviewChunk } from "kibo/plugin-sdk/channel-streaming";
+import { type KiboConfig } from "kibo/plugin-sdk/config-runtime";
+import { resolveTextChunkLimit } from "kibo/plugin-sdk/reply-chunking";
+import { resolveAccountEntry } from "kibo/plugin-sdk/routing";
+import { normalizeAccountId } from "kibo/plugin-sdk/routing";
 import { TELEGRAM_TEXT_CHUNK_LIMIT } from "./outbound-adapter.js";
 
 const DEFAULT_TELEGRAM_DRAFT_STREAM_MIN = 200;
 const DEFAULT_TELEGRAM_DRAFT_STREAM_MAX = 800;
 
 export function resolveTelegramDraftStreamingChunking(
-  cfg: OpenClawConfig | undefined,
+  cfg: KiboConfig | undefined,
   accountId?: string | null,
 ): {
   minChars: number;

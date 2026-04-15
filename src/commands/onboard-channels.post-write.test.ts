@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import { createChannelTestPluginBase, createTestRegistry } from "../test-utils/channel-plugins.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
@@ -24,14 +24,14 @@ function setMinimalTelegramOnboardingRegistryForTests(): void {
             capabilities: { chatTypes: ["direct", "group"] },
           }),
           setup: {
-            applyAccountConfig: ({ cfg }: { cfg: OpenClawConfig }) => cfg,
+            applyAccountConfig: ({ cfg }: { cfg: KiboConfig }) => cfg,
           },
           setupWizard: {
             channel: "telegram",
             status: {
               configuredLabel: "Configured",
               unconfiguredLabel: "Not configured",
-              resolveConfigured: ({ cfg }: { cfg: OpenClawConfig }) =>
+              resolveConfigured: ({ cfg }: { cfg: KiboConfig }) =>
                 Boolean(cfg.channels?.telegram?.botToken),
             },
             credentials: [],
@@ -81,20 +81,20 @@ describe("setupChannels post-write hooks", () => {
   it("collects onboarding post-write hooks and runs them against the final config", async () => {
     const select = createQuickstartTelegramSelect();
     const afterConfigWritten = vi.fn(async () => {});
-    const configureInteractive = vi.fn(async ({ cfg }: { cfg: OpenClawConfig }) => ({
+    const configureInteractive = vi.fn(async ({ cfg }: { cfg: KiboConfig }) => ({
       cfg: {
         ...cfg,
         channels: {
           ...cfg.channels,
           telegram: { ...cfg.channels?.telegram, botToken: "new-token" },
         },
-      } as OpenClawConfig,
+      } as KiboConfig,
       accountId: "acct-1",
     }));
     const restore = patchChannelSetupWizardAdapter("telegram", {
       configureInteractive,
       afterConfigWritten,
-      getStatus: vi.fn(async ({ cfg }: { cfg: OpenClawConfig }) => ({
+      getStatus: vi.fn(async ({ cfg }: { cfg: KiboConfig }) => ({
         channel: "telegram",
         configured: Boolean(cfg.channels?.telegram?.botToken),
         statusLines: [],
@@ -107,7 +107,7 @@ describe("setupChannels post-write hooks", () => {
     const runtime = createExitThrowingRuntime();
 
     try {
-      const cfg = await setupChannels({} as OpenClawConfig, runtime, prompter, {
+      const cfg = await setupChannels({} as KiboConfig, runtime, prompter, {
         quickstartDefaults: true,
         skipConfirm: true,
         onPostWriteHook: (hook) => {
@@ -124,7 +124,7 @@ describe("setupChannels post-write hooks", () => {
       });
 
       expect(afterConfigWritten).toHaveBeenCalledWith({
-        previousCfg: {} as OpenClawConfig,
+        previousCfg: {} as KiboConfig,
         cfg,
         accountId: "acct-1",
         runtime,
@@ -147,7 +147,7 @@ describe("setupChannels post-write hooks", () => {
           },
         },
       ],
-      cfg: {} as OpenClawConfig,
+      cfg: {} as KiboConfig,
       runtime,
     });
 

@@ -63,16 +63,16 @@ function createProps(overrides: Partial<SkillsProps> = {}): SkillsProps {
     busyKey: null,
     messages: {},
     detailKey: null,
-    clawhubQuery: "",
-    clawhubResults: null,
-    clawhubSearchLoading: false,
-    clawhubSearchError: null,
-    clawhubDetail: null,
-    clawhubDetailSlug: null,
-    clawhubDetailLoading: false,
-    clawhubDetailError: null,
-    clawhubInstallSlug: null,
-    clawhubInstallMessage: null,
+    kibohubQuery: "",
+    kibohubResults: null,
+    kibohubSearchLoading: false,
+    kibohubSearchError: null,
+    kibohubDetail: null,
+    kibohubDetailSlug: null,
+    kibohubDetailLoading: false,
+    kibohubDetailError: null,
+    kibohubInstallSlug: null,
+    kibohubInstallMessage: null,
     onFilterChange: () => undefined,
     onStatusFilterChange: () => undefined,
     onRefresh: () => undefined,
@@ -82,10 +82,10 @@ function createProps(overrides: Partial<SkillsProps> = {}): SkillsProps {
     onInstall: () => undefined,
     onDetailOpen: () => undefined,
     onDetailClose: () => undefined,
-    onClawHubQueryChange: () => undefined,
-    onClawHubDetailOpen: () => undefined,
-    onClawHubDetailClose: () => undefined,
-    onClawHubInstall: () => undefined,
+    onKiboHubQueryChange: () => undefined,
+    onKiboHubDetailOpen: () => undefined,
+    onKiboHubDetailClose: () => undefined,
+    onKiboHubInstall: () => undefined,
     ...overrides,
   };
 }
@@ -147,26 +147,26 @@ describe("renderSkills", () => {
     expect(onDetailClose).toHaveBeenCalledTimes(1);
   });
 
-  it("renders ClawHub search results and routes detail/install actions", async () => {
+  it("renders KiboHub search results and routes detail/install actions", async () => {
     const container = document.createElement("div");
-    const onClawHubDetailOpen = vi.fn();
-    const onClawHubInstall = vi.fn();
+    const onKiboHubDetailOpen = vi.fn();
+    const onKiboHubInstall = vi.fn();
 
     render(
       renderSkills(
         createProps({
-          clawhubQuery: "git",
-          clawhubResults: [
+          kibohubQuery: "git",
+          kibohubResults: [
             {
               score: 0.95,
               slug: "github",
               displayName: "GitHub",
-              summary: "GitHub integration for OpenClaw",
+              summary: "GitHub integration for Kibo",
               version: "1.2.3",
             },
           ],
-          onClawHubDetailOpen,
-          onClawHubInstall,
+          onKiboHubDetailOpen,
+          onKiboHubInstall,
         }),
       ),
       container,
@@ -175,7 +175,7 @@ describe("renderSkills", () => {
 
     const text = normalizeText(container);
     expect(text).toContain("GitHub");
-    expect(text).toContain("GitHub integration for OpenClaw");
+    expect(text).toContain("GitHub integration for Kibo");
     expect(text).toContain("v1.2.3");
 
     container.querySelector<HTMLElement>(".list-item")?.click();
@@ -183,31 +183,31 @@ describe("renderSkills", () => {
       .querySelector<HTMLButtonElement>(".list-item .btn.btn--sm")
       ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 
-    expect(onClawHubDetailOpen).toHaveBeenCalledTimes(1);
-    expect(onClawHubDetailOpen).toHaveBeenCalledWith("github");
-    expect(onClawHubInstall).toHaveBeenCalledTimes(1);
-    expect(onClawHubInstall).toHaveBeenCalledWith("github");
+    expect(onKiboHubDetailOpen).toHaveBeenCalledTimes(1);
+    expect(onKiboHubDetailOpen).toHaveBeenCalledWith("github");
+    expect(onKiboHubInstall).toHaveBeenCalledTimes(1);
+    expect(onKiboHubInstall).toHaveBeenCalledWith("github");
   });
 
-  it("opens the ClawHub detail dialog and renders install feedback", async () => {
+  it("opens the KiboHub detail dialog and renders install feedback", async () => {
     const container = document.createElement("div");
     const showModal = vi.fn(function (this: HTMLDialogElement) {
       this.setAttribute("open", "");
     });
-    const onClawHubInstall = vi.fn();
+    const onKiboHubInstall = vi.fn();
     installDialogMethod("showModal", showModal);
 
     render(
       renderSkills(
         createProps({
-          clawhubSearchError: "rate limited",
-          clawhubInstallMessage: { kind: "success", text: "Installed github" },
-          clawhubDetailSlug: "github",
-          clawhubDetail: {
+          kibohubSearchError: "rate limited",
+          kibohubInstallMessage: { kind: "success", text: "Installed github" },
+          kibohubDetailSlug: "github",
+          kibohubDetail: {
             skill: {
               slug: "github",
               displayName: "GitHub",
-              summary: "GitHub integration for OpenClaw",
+              summary: "GitHub integration for Kibo",
               createdAt: 1_700_000_000,
               updatedAt: 1_700_000_100,
             },
@@ -220,11 +220,11 @@ describe("renderSkills", () => {
               os: ["macos", "linux"],
             },
             owner: {
-              displayName: "OpenClaw",
-              handle: "openclaw",
+              displayName: "Kibo",
+              handle: "kibo",
             },
           },
-          onClawHubInstall,
+          onKiboHubInstall,
         }),
       ),
       container,
@@ -235,7 +235,7 @@ describe("renderSkills", () => {
     const text = normalizeText(container);
     expect(text).toContain("rate limited");
     expect(text).toContain("Installed github");
-    expect(text).toContain("By OpenClaw (@openclaw)");
+    expect(text).toContain("By Kibo (@kibo)");
     expect(text).toContain("Latest: v1.2.3");
     expect(text).toContain("Platforms: macos, linux");
     expect(text).toContain("Added search support");
@@ -244,8 +244,8 @@ describe("renderSkills", () => {
       .querySelector<HTMLButtonElement>(".md-preview-dialog__body .btn.primary")
       ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 
-    expect(onClawHubInstall).toHaveBeenCalledTimes(1);
-    expect(onClawHubInstall).toHaveBeenCalledWith("github");
+    expect(onKiboHubInstall).toHaveBeenCalledTimes(1);
+    expect(onKiboHubInstall).toHaveBeenCalledWith("github");
   });
 });
 

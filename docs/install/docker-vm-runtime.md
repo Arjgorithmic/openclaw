@@ -1,7 +1,7 @@
 ---
-summary: "Shared Docker VM runtime steps for long-lived OpenClaw Gateway hosts"
+summary: "Shared Docker VM runtime steps for long-lived Kibo Gateway hosts"
 read_when:
-  - You are deploying OpenClaw on a cloud VM with Docker
+  - You are deploying Kibo on a cloud VM with Docker
   - You need the shared binary bake, persistence, and update flow
 title: "Docker VM Runtime"
 ---
@@ -40,15 +40,15 @@ FROM node:24-bookworm
 RUN apt-get update && apt-get install -y socat && rm -rf /var/lib/apt/lists/*
 
 # Example binary 1: Gmail CLI
-RUN curl -L https://github.com/steipete/gog/releases/latest/download/gog_Linux_x86_64.tar.gz \
+RUN curl -L https://github.com/kibo/gog/releases/latest/download/gog_Linux_x86_64.tar.gz \
   | tar -xz -C /usr/local/bin && chmod +x /usr/local/bin/gog
 
 # Example binary 2: Google Places CLI
-RUN curl -L https://github.com/steipete/goplaces/releases/latest/download/goplaces_Linux_x86_64.tar.gz \
+RUN curl -L https://github.com/kibo/goplaces/releases/latest/download/goplaces_Linux_x86_64.tar.gz \
   | tar -xz -C /usr/local/bin && chmod +x /usr/local/bin/goplaces
 
 # Example binary 3: WhatsApp CLI
-RUN curl -L https://github.com/steipete/wacli/releases/latest/download/wacli_Linux_x86_64.tar.gz \
+RUN curl -L https://github.com/kibo/wacli/releases/latest/download/wacli_Linux_x86_64.tar.gz \
   | tar -xz -C /usr/local/bin && chmod +x /usr/local/bin/wacli
 
 # Add more binaries below using the same pattern
@@ -79,7 +79,7 @@ The download URLs above are for x86_64 (amd64). For ARM-based VMs (e.g. Hetzner 
 
 ```bash
 docker compose build
-docker compose up -d openclaw-gateway
+docker compose up -d kibo-gateway
 ```
 
 If build fails with `Killed` or `exit code 137` during `pnpm install --frozen-lockfile`, the VM is out of memory.
@@ -88,9 +88,9 @@ Use a larger machine class before retrying.
 Verify binaries:
 
 ```bash
-docker compose exec openclaw-gateway which gog
-docker compose exec openclaw-gateway which goplaces
-docker compose exec openclaw-gateway which wacli
+docker compose exec kibo-gateway which gog
+docker compose exec kibo-gateway which goplaces
+docker compose exec kibo-gateway which wacli
 ```
 
 Expected output:
@@ -104,7 +104,7 @@ Expected output:
 Verify Gateway:
 
 ```bash
-docker compose logs -f openclaw-gateway
+docker compose logs -f kibo-gateway
 ```
 
 Expected output:
@@ -115,17 +115,17 @@ Expected output:
 
 ## What persists where
 
-OpenClaw runs in Docker, but Docker is not the source of truth.
+Kibo runs in Docker, but Docker is not the source of truth.
 All long-lived state must survive restarts, rebuilds, and reboots.
 
 | Component           | Location                          | Persistence mechanism  | Notes                                                         |
 | ------------------- | --------------------------------- | ---------------------- | ------------------------------------------------------------- |
-| Gateway config      | `/home/node/.openclaw/`           | Host volume mount      | Includes `openclaw.json`, `.env`                              |
-| Model auth profiles | `/home/node/.openclaw/agents/`    | Host volume mount      | `agents/<agentId>/agent/auth-profiles.json` (OAuth, API keys) |
-| Skill configs       | `/home/node/.openclaw/skills/`    | Host volume mount      | Skill-level state                                             |
-| Agent workspace     | `/home/node/.openclaw/workspace/` | Host volume mount      | Code and agent artifacts                                      |
-| WhatsApp session    | `/home/node/.openclaw/`           | Host volume mount      | Preserves QR login                                            |
-| Gmail keyring       | `/home/node/.openclaw/`           | Host volume + password | Requires `GOG_KEYRING_PASSWORD`                               |
+| Gateway config      | `/home/node/.kibo/`           | Host volume mount      | Includes `kibo.json`, `.env`                              |
+| Model auth profiles | `/home/node/.kibo/agents/`    | Host volume mount      | `agents/<agentId>/agent/auth-profiles.json` (OAuth, API keys) |
+| Skill configs       | `/home/node/.kibo/skills/`    | Host volume mount      | Skill-level state                                             |
+| Agent workspace     | `/home/node/.kibo/workspace/` | Host volume mount      | Code and agent artifacts                                      |
+| WhatsApp session    | `/home/node/.kibo/`           | Host volume mount      | Preserves QR login                                            |
+| Gmail keyring       | `/home/node/.kibo/`           | Host volume + password | Requires `GOG_KEYRING_PASSWORD`                               |
 | External binaries   | `/usr/local/bin/`                 | Docker image           | Must be baked at build time                                   |
 | Node runtime        | Container filesystem              | Docker image           | Rebuilt every image build                                     |
 | OS packages         | Container filesystem              | Docker image           | Do not install at runtime                                     |
@@ -133,7 +133,7 @@ All long-lived state must survive restarts, rebuilds, and reboots.
 
 ## Updates
 
-To update OpenClaw on the VM:
+To update Kibo on the VM:
 
 ```bash
 git pull

@@ -1,5 +1,5 @@
 import { registerSkillsChangeListener } from "../agents/skills/refresh.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import type { GatewayTailscaleMode } from "../config/types.gateway.js";
 import { getMachineDisplayName } from "../infra/machine-name.js";
 import {
@@ -14,7 +14,7 @@ import { startGatewayMaintenanceTimers } from "./server-maintenance.js";
 
 export async function startGatewayEarlyRuntime(params: {
   minimalTestGateway: boolean;
-  cfgAtStart: OpenClawConfig;
+  cfgAtStart: KiboConfig;
   port: number;
   gatewayTls: { enabled: boolean; fingerprintSha256?: string };
   tailscaleMode: GatewayTailscaleMode;
@@ -52,7 +52,7 @@ export async function startGatewayEarlyRuntime(params: {
   skillsRefreshDelayMs: number;
   getSkillsRefreshTimer: () => ReturnType<typeof setTimeout> | null;
   setSkillsRefreshTimer: (timer: ReturnType<typeof setTimeout> | null) => void;
-  loadConfig: () => OpenClawConfig;
+  loadConfig: () => KiboConfig;
 }) {
   let mcpServer: { port: number; close: () => Promise<void> } | undefined;
   try {

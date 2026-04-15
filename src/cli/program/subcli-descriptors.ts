@@ -79,7 +79,7 @@ const subCliCommandCatalog = defineCommandDescriptorCatalog([
   },
   {
     name: "docs",
-    description: "Search the live OpenClaw docs",
+    description: "Search the live Kibo docs",
     hasSubcommands: false,
   },
   {
@@ -103,8 +103,8 @@ const subCliCommandCatalog = defineCommandDescriptorCatalog([
     hasSubcommands: false,
   },
   {
-    name: "clawbot",
-    description: "Legacy clawbot command aliases",
+    name: "kibobot",
+    description: "Legacy kibobot command aliases",
     hasSubcommands: true,
   },
   {
@@ -114,7 +114,7 @@ const subCliCommandCatalog = defineCommandDescriptorCatalog([
   },
   {
     name: "plugins",
-    description: "Manage OpenClaw plugins and extensions",
+    description: "Manage Kibo plugins and extensions",
     hasSubcommands: true,
   },
   {
@@ -144,7 +144,7 @@ const subCliCommandCatalog = defineCommandDescriptorCatalog([
   },
   {
     name: "update",
-    description: "Update OpenClaw and inspect update channel status",
+    description: "Update Kibo and inspect update channel status",
     hasSubcommands: true,
   },
   {

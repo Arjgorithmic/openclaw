@@ -30,7 +30,7 @@ describe("sandbox ssh helpers", () => {
   it("materializes inline ssh auth data into a temp config", async () => {
     const session = await createSshSandboxSessionFromSettings({
       command: "ssh",
-      target: "peter@example.com:2222",
+      target: "kibo@example.com:2222",
       strictHostKeyChecking: true,
       updateHostKeys: false,
       identityData: "PRIVATE KEY",
@@ -40,9 +40,9 @@ describe("sandbox ssh helpers", () => {
     sessions.push(session);
 
     const config = await fs.readFile(session.configPath, "utf8");
-    expect(config).toContain("Host openclaw-sandbox");
+    expect(config).toContain("Host kibo-sandbox");
     expect(config).toContain("HostName example.com");
-    expect(config).toContain("User peter");
+    expect(config).toContain("User kibo");
     expect(config).toContain("Port 2222");
     expect(config).toContain("StrictHostKeyChecking yes");
     expect(config).toContain("UpdateHostKeys no");
@@ -58,7 +58,7 @@ describe("sandbox ssh helpers", () => {
   it("normalizes CRLF and escaped-newline private keys before writing temp files", async () => {
     const session = await createSshSandboxSessionFromSettings({
       command: "ssh",
-      target: "peter@example.com:2222",
+      target: "kibo@example.com:2222",
       strictHostKeyChecking: true,
       updateHostKeys: false,
       identityData:
@@ -79,7 +79,7 @@ describe("sandbox ssh helpers", () => {
   it("normalizes mixed real and escaped newlines in private keys", async () => {
     const session = await createSshSandboxSessionFromSettings({
       command: "ssh",
-      target: "peter@example.com:2222",
+      target: "kibo@example.com:2222",
       strictHostKeyChecking: true,
       updateHostKeys: false,
       identityData:
@@ -113,7 +113,7 @@ describe("sandbox ssh helpers", () => {
   it.runIf(process.platform !== "win32")(
     "rejects upload trees with symlinks that escape the local workspace",
     async () => {
-      const localDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-ssh-upload-"));
+      const localDir = await fs.mkdtemp(path.join(os.tmpdir(), "kibo-ssh-upload-"));
       tempDirs.push(localDir);
       await fs.symlink("/etc", path.join(localDir, "escape"));
 
@@ -121,8 +121,8 @@ describe("sandbox ssh helpers", () => {
         uploadDirectoryToSshTarget({
           session: {
             command: "ssh",
-            configPath: "/tmp/openclaw-test-ssh-config",
-            host: "openclaw-sandbox",
+            configPath: "/tmp/kibo-test-ssh-config",
+            host: "kibo-sandbox",
           },
           localDir,
           remoteDir: "/remote/workspace",
@@ -134,7 +134,7 @@ describe("sandbox ssh helpers", () => {
   it.runIf(process.platform !== "win32")(
     "allows in-workspace symlinks that point to hardlinked files",
     async () => {
-      const localDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-ssh-upload-safe-"));
+      const localDir = await fs.mkdtemp(path.join(os.tmpdir(), "kibo-ssh-upload-safe-"));
       tempDirs.push(localDir);
       const fakeSsh = path.join(localDir, "fake-ssh.sh");
       await fs.writeFile(fakeSsh, "#!/bin/sh\ncat >/dev/null\n", { mode: 0o755 });
@@ -146,8 +146,8 @@ describe("sandbox ssh helpers", () => {
         uploadDirectoryToSshTarget({
           session: {
             command: fakeSsh,
-            configPath: "/tmp/openclaw-test-ssh-config",
-            host: "openclaw-sandbox",
+            configPath: "/tmp/kibo-test-ssh-config",
+            host: "kibo-sandbox",
           },
           localDir,
           remoteDir: "/remote/workspace",

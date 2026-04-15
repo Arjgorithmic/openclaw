@@ -1,15 +1,15 @@
-import { loadConfig, type OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-import { resolveMarkdownTableMode } from "openclaw/plugin-sdk/config-runtime";
-import { kindFromMime } from "openclaw/plugin-sdk/media-runtime";
-import { resolveOutboundAttachmentFromUrl } from "openclaw/plugin-sdk/media-runtime";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import { loadConfig, type KiboConfig } from "kibo/plugin-sdk/config-runtime";
+import { resolveMarkdownTableMode } from "kibo/plugin-sdk/config-runtime";
+import { kindFromMime } from "kibo/plugin-sdk/media-runtime";
+import { resolveOutboundAttachmentFromUrl } from "kibo/plugin-sdk/media-runtime";
+import { normalizeLowercaseStringOrEmpty } from "kibo/plugin-sdk/text-runtime";
 import { resolveSignalAccount } from "./accounts.js";
 import { signalRpcRequest } from "./client.js";
 import { markdownToSignalText, type SignalTextStyleRange } from "./format.js";
 import { resolveSignalRpcContext } from "./rpc-context.js";
 
 export type SignalSendOpts = {
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   baseUrl?: string;
   account?: string;
   accountId?: string;
@@ -41,11 +41,11 @@ type SignalTarget =
   | { type: "username"; username: string };
 
 let signalConfigRuntimePromise:
-  | Promise<typeof import("openclaw/plugin-sdk/config-runtime")>
+  | Promise<typeof import("kibo/plugin-sdk/config-runtime")>
   | undefined;
 
 async function loadSignalConfigRuntime() {
-  signalConfigRuntimePromise ??= import("openclaw/plugin-sdk/config-runtime");
+  signalConfigRuntimePromise ??= import("kibo/plugin-sdk/config-runtime");
   return await signalConfigRuntimePromise;
 }
 

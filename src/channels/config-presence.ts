@@ -4,7 +4,7 @@ import {
   hasBundledChannelPersistedAuthState,
   listBundledChannelIdsWithPersistedAuthState,
 } from "../channels/plugins/persisted-auth-state.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { resolveStateDir } from "../config/paths.js";
 import { hasNonEmptyString } from "../infra/outbound/channel-target.js";
 import { isRecord } from "../utils.js";
@@ -39,7 +39,7 @@ function hasPersistedChannelState(env: NodeJS.ProcessEnv): boolean {
 const PERSISTED_AUTH_STATE_CHANNEL_IDS = listBundledChannelIdsWithPersistedAuthState();
 
 export function listPotentialConfiguredChannelIds(
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   env: NodeJS.ProcessEnv = process.env,
   options: ChannelPresenceOptions = {},
 ): string[] {
@@ -81,7 +81,7 @@ export function listPotentialConfiguredChannelIds(
 }
 
 function hasEnvConfiguredChannel(
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   env: NodeJS.ProcessEnv,
   options: ChannelPresenceOptions = {},
 ): boolean {
@@ -104,7 +104,7 @@ function hasEnvConfiguredChannel(
 }
 
 export function hasPotentialConfiguredChannels(
-  cfg: OpenClawConfig | null | undefined,
+  cfg: KiboConfig | null | undefined,
   env: NodeJS.ProcessEnv = process.env,
   options: ChannelPresenceOptions = {},
 ): boolean {

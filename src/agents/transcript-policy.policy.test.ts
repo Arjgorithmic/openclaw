@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 
 vi.unmock("../plugins/provider-runtime.js");
 vi.unmock("../plugins/provider-runtime.runtime.js");
@@ -12,19 +12,19 @@ const MISTRAL_PLUGIN_CONFIG = {
       mistral: { enabled: true },
     },
   },
-} as OpenClawConfig;
+} as KiboConfig;
 
 function createProviderRuntimeSmokeContext(): {
-  config: OpenClawConfig;
+  config: KiboConfig;
   env: NodeJS.ProcessEnv;
   workspaceDir: string;
 } {
   const env = { ...process.env };
-  delete env.OPENCLAW_BUNDLED_PLUGINS_DIR;
-  delete env.OPENCLAW_SKIP_PROVIDERS;
-  delete env.OPENCLAW_SKIP_CHANNELS;
-  delete env.OPENCLAW_SKIP_CRON;
-  delete env.OPENCLAW_TEST_MINIMAL_GATEWAY;
+  delete env.KIBO_BUNDLED_PLUGINS_DIR;
+  delete env.KIBO_SKIP_PROVIDERS;
+  delete env.KIBO_SKIP_CHANNELS;
+  delete env.KIBO_SKIP_CRON;
+  delete env.KIBO_TEST_MINIMAL_GATEWAY;
   return {
     config: {},
     env,

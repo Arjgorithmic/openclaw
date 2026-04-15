@@ -11,17 +11,17 @@ import type {
   ImageGenerationProviderPlugin,
   MediaUnderstandingProviderPlugin,
   MusicGenerationProviderPlugin,
-  OpenClawPluginChannelRegistration,
-  OpenClawPluginCliCommandDescriptor,
-  OpenClawPluginCliRegistrar,
-  OpenClawPluginCommandDefinition,
-  OpenClawPluginHttpRouteAuth,
-  OpenClawPluginHttpRouteHandler,
-  OpenClawPluginHttpRouteMatch,
-  OpenClawPluginReloadRegistration,
-  OpenClawPluginSecurityAuditCollector,
-  OpenClawPluginService,
-  OpenClawPluginToolFactory,
+  KiboPluginChannelRegistration,
+  KiboPluginCliCommandDescriptor,
+  KiboPluginCliRegistrar,
+  KiboPluginCommandDefinition,
+  KiboPluginHttpRouteAuth,
+  KiboPluginHttpRouteHandler,
+  KiboPluginHttpRouteMatch,
+  KiboPluginReloadRegistration,
+  KiboPluginSecurityAuditCollector,
+  KiboPluginService,
+  KiboPluginToolFactory,
   PluginBundleFormat,
   PluginConfigUiHint,
   PluginConversationBindingResolvedEvent,
@@ -43,7 +43,7 @@ import type {
 export type PluginToolRegistration = {
   pluginId: string;
   pluginName?: string;
-  factory: OpenClawPluginToolFactory;
+  factory: KiboPluginToolFactory;
   names: string[];
   optional: boolean;
   source: string;
@@ -53,9 +53,9 @@ export type PluginToolRegistration = {
 export type PluginCliRegistration = {
   pluginId: string;
   pluginName?: string;
-  register: OpenClawPluginCliRegistrar;
+  register: KiboPluginCliRegistrar;
   commands: string[];
-  descriptors: OpenClawPluginCliCommandDescriptor[];
+  descriptors: KiboPluginCliCommandDescriptor[];
   source: string;
   rootDir?: string;
 };
@@ -63,9 +63,9 @@ export type PluginCliRegistration = {
 export type PluginHttpRouteRegistration = {
   pluginId?: string;
   path: string;
-  handler: OpenClawPluginHttpRouteHandler;
-  auth: OpenClawPluginHttpRouteAuth;
-  match: OpenClawPluginHttpRouteMatch;
+  handler: KiboPluginHttpRouteHandler;
+  auth: KiboPluginHttpRouteAuth;
+  match: KiboPluginHttpRouteMatch;
   source?: string;
 };
 
@@ -142,7 +142,7 @@ export type PluginHookRegistration = {
 export type PluginServiceRegistration = {
   pluginId: string;
   pluginName?: string;
-  service: OpenClawPluginService;
+  service: KiboPluginService;
   source: string;
   rootDir?: string;
 };
@@ -150,7 +150,7 @@ export type PluginServiceRegistration = {
 export type PluginReloadRegistration = {
   pluginId: string;
   pluginName?: string;
-  registration: OpenClawPluginReloadRegistration;
+  registration: KiboPluginReloadRegistration;
   source: string;
   rootDir?: string;
 };
@@ -158,7 +158,7 @@ export type PluginReloadRegistration = {
 export type PluginNodeHostCommandRegistration = {
   pluginId: string;
   pluginName?: string;
-  command: import("./types.js").OpenClawPluginNodeHostCommand;
+  command: import("./types.js").KiboPluginNodeHostCommand;
   source: string;
   rootDir?: string;
 };
@@ -166,7 +166,7 @@ export type PluginNodeHostCommandRegistration = {
 export type PluginSecurityAuditCollectorRegistration = {
   pluginId: string;
   pluginName?: string;
-  collector: OpenClawPluginSecurityAuditCollector;
+  collector: KiboPluginSecurityAuditCollector;
   source: string;
   rootDir?: string;
 };
@@ -174,7 +174,7 @@ export type PluginSecurityAuditCollectorRegistration = {
 export type PluginCommandRegistration = {
   pluginId: string;
   pluginName?: string;
-  command: OpenClawPluginCommandDefinition;
+  command: KiboPluginCommandDefinition;
   source: string;
   rootDir?: string;
 };
@@ -279,11 +279,11 @@ export type PluginRegistryParams = {
 };
 
 export type PluginRegistrationMode = import("./types.js").PluginRegistrationMode;
-export type OpenClawPluginNodeHostCommand = import("./types.js").OpenClawPluginNodeHostCommand;
-export type OpenClawPluginToolContext = import("./types.js").OpenClawPluginToolContext;
-export type OpenClawPluginHttpRouteParams = import("./types.js").OpenClawPluginHttpRouteParams;
-export type OpenClawPluginHookOptions = import("./types.js").OpenClawPluginHookOptions;
+export type KiboPluginNodeHostCommand = import("./types.js").KiboPluginNodeHostCommand;
+export type KiboPluginToolContext = import("./types.js").KiboPluginToolContext;
+export type KiboPluginHttpRouteParams = import("./types.js").KiboPluginHttpRouteParams;
+export type KiboPluginHookOptions = import("./types.js").KiboPluginHookOptions;
 export type PluginHookHandlerMap = import("./types.js").PluginHookHandlerMap;
-export type OpenClawPluginApi = import("./types.js").OpenClawPluginApi;
+export type KiboPluginApi = import("./types.js").KiboPluginApi;
 export type TypedPluginHook = TypedPluginHookRegistration;
-export type OpenClawPluginChannelReg = OpenClawPluginChannelRegistration;
+export type KiboPluginChannelReg = KiboPluginChannelRegistration;

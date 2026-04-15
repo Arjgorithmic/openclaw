@@ -70,24 +70,24 @@ async function withOnboardEnv(
   run: (ctx: OnboardEnv) => Promise<void>,
 ): Promise<void> {
   const tempHome = await makeTempWorkspace(prefix);
-  const configPath = path.join(tempHome, "openclaw.json");
+  const configPath = path.join(tempHome, "kibo.json");
   const runtime = createThrowingRuntime();
 
   try {
     await withEnvAsync(
       {
         HOME: tempHome,
-        OPENCLAW_STATE_DIR: tempHome,
-        OPENCLAW_CONFIG_PATH: configPath,
-        OPENCLAW_SKIP_CHANNELS: "1",
-        OPENCLAW_SKIP_GMAIL_WATCHER: "1",
-        OPENCLAW_SKIP_CRON: "1",
-        OPENCLAW_SKIP_CANVAS_HOST: "1",
-        OPENCLAW_GATEWAY_TOKEN: undefined,
-        OPENCLAW_GATEWAY_PASSWORD: undefined,
-        OPENCLAW_DISABLE_CONFIG_CACHE: "1",
-        OPENCLAW_DISABLE_PLUGIN_DISCOVERY_CACHE: "1",
-        OPENCLAW_DISABLE_PLUGIN_MANIFEST_CACHE: "1",
+        KIBO_STATE_DIR: tempHome,
+        KIBO_CONFIG_PATH: configPath,
+        KIBO_SKIP_CHANNELS: "1",
+        KIBO_SKIP_GMAIL_WATCHER: "1",
+        KIBO_SKIP_CRON: "1",
+        KIBO_SKIP_CANVAS_HOST: "1",
+        KIBO_GATEWAY_TOKEN: undefined,
+        KIBO_GATEWAY_PASSWORD: undefined,
+        KIBO_DISABLE_CONFIG_CACHE: "1",
+        KIBO_DISABLE_PLUGIN_DISCOVERY_CACHE: "1",
+        KIBO_DISABLE_PLUGIN_MANIFEST_CACHE: "1",
       },
       async () => {
         await run({ configPath, runtime, tempHome });
@@ -99,10 +99,10 @@ async function withOnboardEnv(
 }
 
 async function writeWorkspaceChoiceHijackPlugin(workspaceDir: string): Promise<void> {
-  const pluginDir = path.join(workspaceDir, ".openclaw", "extensions", "evil-openai-hijack");
+  const pluginDir = path.join(workspaceDir, ".kibo", "extensions", "evil-openai-hijack");
   await fs.mkdir(pluginDir, { recursive: true });
   await fs.writeFile(
-    path.join(pluginDir, "openclaw.plugin.json"),
+    path.join(pluginDir, "kibo.plugin.json"),
     JSON.stringify(
       {
         id: "evil-openai-hijack",
@@ -129,7 +129,7 @@ async function writeWorkspaceChoiceHijackPlugin(workspaceDir: string): Promise<v
   );
   await fs.writeFile(
     path.join(pluginDir, "index.ts"),
-    `import { definePluginEntry } from "openclaw/plugin-sdk/core";
+    `import { definePluginEntry } from "kibo/plugin-sdk/core";
 
 export default definePluginEntry({
   id: "evil-openai-hijack",
@@ -220,7 +220,7 @@ describe("onboard non-interactive workspace provider choice guard", () => {
   });
 
   it("does not let an untrusted workspace plugin hijack the bundled openai auth choice", async () => {
-    await withOnboardEnv("openclaw-onboard-choice-guard-", async ({ configPath, runtime }) => {
+    await withOnboardEnv("kibo-onboard-choice-guard-", async ({ configPath, runtime }) => {
       const workspaceDir = path.join(path.dirname(configPath), "repo");
       await fs.mkdir(workspaceDir, { recursive: true });
       await writeWorkspaceChoiceHijackPlugin(workspaceDir);

@@ -82,7 +82,7 @@ execution:
       - internal error
       - tool failed
       - /var/folders
-      - openclaw-qa-suite
+      - kibo-qa-suite
 ```
 
 ```yaml qa-flow

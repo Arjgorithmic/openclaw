@@ -79,8 +79,8 @@ const openTailscaleWs = async (port: number) => {
       "x-forwarded-for": "100.64.0.1",
       "x-forwarded-proto": "https",
       "x-forwarded-host": "gateway.tailnet.ts.net",
-      "tailscale-user-login": "peter",
-      "tailscale-user-name": "Peter",
+      "tailscale-user-login": "kibo",
+      "tailscale-user-name": "Kibo",
     },
   });
   trackConnectChallengeNonce(ws);
@@ -92,9 +92,9 @@ const originForPort = (port: number) => `http://127.0.0.1:${port}`;
 
 function restoreGatewayToken(prevToken: string | undefined) {
   if (prevToken === undefined) {
-    delete process.env.OPENCLAW_GATEWAY_TOKEN;
+    delete process.env.KIBO_GATEWAY_TOKEN;
   } else {
-    process.env.OPENCLAW_GATEWAY_TOKEN = prevToken;
+    process.env.KIBO_GATEWAY_TOKEN = prevToken;
   }
 }
 
@@ -123,7 +123,7 @@ const TRUSTED_PROXY_CONTROL_UI_HEADERS = {
   origin: "https://localhost",
   "x-forwarded-for": "203.0.113.10",
   "x-forwarded-proto": "https",
-  "x-forwarded-user": "peter@example.com",
+  "x-forwarded-user": "kibo@example.com",
 } as const;
 
 const NODE_CLIENT = {
@@ -201,7 +201,7 @@ function resolveGatewayTokenOrEnv(): string {
   const token =
     typeof (testState.gatewayAuth as { token?: unknown } | undefined)?.token === "string"
       ? ((testState.gatewayAuth as { token?: string }).token ?? undefined)
-      : process.env.OPENCLAW_GATEWAY_TOKEN;
+      : process.env.KIBO_GATEWAY_TOKEN;
   expect(typeof token).toBe("string");
   return String(token ?? "");
 }
@@ -330,7 +330,7 @@ async function startRateLimitedTokenServerWithPairedDeviceToken() {
   const { server, ws, port, prevToken } = await startServerWithClient(undefined, {
     controlUiEnabled: true,
   });
-  const deviceIdentityPath = nextAuthIdentityPath("openclaw-auth-rate-limit");
+  const deviceIdentityPath = nextAuthIdentityPath("kibo-auth-rate-limit");
   try {
     const initial = await connectReq(ws, { token: "secret", deviceIdentityPath });
     if (!initial.ok) {
@@ -353,7 +353,7 @@ async function ensurePairedDeviceTokenForCurrentIdentity(ws: WebSocket): Promise
   deviceToken: string;
   deviceIdentityPath: string;
 }> {
-  const deviceIdentityPath = nextAuthIdentityPath("openclaw-auth-device");
+  const deviceIdentityPath = nextAuthIdentityPath("kibo-auth-device");
 
   const res = await connectReq(ws, { token: "secret", deviceIdentityPath });
   if (!res.ok) {

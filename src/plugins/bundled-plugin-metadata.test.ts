@@ -224,7 +224,7 @@ describe("bundled plugin metadata", () => {
   });
 
   it("prefers built generated paths when present and falls back to source paths", () => {
-    const tempRoot = createGeneratedPluginTempRoot("openclaw-bundled-plugin-metadata-");
+    const tempRoot = createGeneratedPluginTempRoot("kibo-bundled-plugin-metadata-");
     const pluginRoot = path.join(tempRoot, "extensions", "plugin");
     const distPluginRoot = path.join(tempRoot, "dist", "extensions", "plugin");
 
@@ -238,7 +238,7 @@ describe("bundled plugin metadata", () => {
   });
 
   it("resolves plugin-local generated entry paths when the plugin dir is provided", () => {
-    const tempRoot = createGeneratedPluginTempRoot("openclaw-bundled-plugin-metadata-local-");
+    const tempRoot = createGeneratedPluginTempRoot("kibo-bundled-plugin-metadata-local-");
     const pluginRoot = path.join(tempRoot, "extensions", "alpha");
     const distPluginRoot = path.join(tempRoot, "dist", "extensions", "alpha");
 
@@ -260,18 +260,18 @@ describe("bundled plugin metadata", () => {
   });
 
   it("resolves bundled repo entry paths from dist before workspace source", () => {
-    const tempRoot = createGeneratedPluginTempRoot("openclaw-bundled-plugin-repo-entry-");
+    const tempRoot = createGeneratedPluginTempRoot("kibo-bundled-plugin-repo-entry-");
     const pluginRoot = path.join(tempRoot, "extensions", "alpha");
     const distPluginRoot = path.join(tempRoot, "dist", "extensions", "alpha");
 
     writeJson(path.join(pluginRoot, "package.json"), {
-      name: "@openclaw/alpha",
+      name: "@kibo/alpha",
       version: "0.0.1",
-      openclaw: {
+      kibo: {
         extensions: ["./index.ts"],
       },
     });
-    writeJson(path.join(pluginRoot, "openclaw.plugin.json"), {
+    writeJson(path.join(pluginRoot, "kibo.plugin.json"), {
       id: "alpha",
       configSchema: { type: "object" },
     });
@@ -299,12 +299,12 @@ describe("bundled plugin metadata", () => {
   });
 
   it("merges runtime channel schema metadata with manifest-owned channel config fields", () => {
-    const tempRoot = createGeneratedPluginTempRoot("openclaw-bundled-plugin-channel-configs-");
+    const tempRoot = createGeneratedPluginTempRoot("kibo-bundled-plugin-channel-configs-");
 
     writeJson(path.join(tempRoot, "extensions", "alpha", "package.json"), {
-      name: "@openclaw/alpha",
+      name: "@kibo/alpha",
       version: "0.0.1",
-      openclaw: {
+      kibo: {
         extensions: ["./index.ts"],
         channel: {
           id: "alpha",
@@ -314,7 +314,7 @@ describe("bundled plugin metadata", () => {
         },
       },
     });
-    writeJson(path.join(tempRoot, "extensions", "alpha", "openclaw.plugin.json"), {
+    writeJson(path.join(tempRoot, "extensions", "alpha", "kibo.plugin.json"), {
       id: "alpha",
       channels: ["alpha"],
       configSchema: { type: "object" },
@@ -376,17 +376,17 @@ describe("bundled plugin metadata", () => {
   });
 
   it("captures top-level public surface artifacts without duplicating the primary entrypoints", () => {
-    const tempRoot = createGeneratedPluginTempRoot("openclaw-bundled-plugin-public-artifacts-");
+    const tempRoot = createGeneratedPluginTempRoot("kibo-bundled-plugin-public-artifacts-");
 
     writeJson(path.join(tempRoot, "extensions", "alpha", "package.json"), {
-      name: "@openclaw/alpha",
+      name: "@kibo/alpha",
       version: "0.0.1",
-      openclaw: {
+      kibo: {
         extensions: ["./index.ts"],
         setupEntry: "./setup-entry.ts",
       },
     });
-    writeJson(path.join(tempRoot, "extensions", "alpha", "openclaw.plugin.json"), {
+    writeJson(path.join(tempRoot, "extensions", "alpha", "kibo.plugin.json"), {
       id: "alpha",
       configSchema: { type: "object" },
     });
@@ -420,13 +420,13 @@ describe("bundled plugin metadata", () => {
   });
 
   it("loads channel config metadata from built public surfaces in dist-only roots", () => {
-    const tempRoot = createGeneratedPluginTempRoot("openclaw-bundled-plugin-dist-config-");
+    const tempRoot = createGeneratedPluginTempRoot("kibo-bundled-plugin-dist-config-");
     const distRoot = path.join(tempRoot, "dist");
 
     writeJson(path.join(distRoot, "extensions", "alpha", "package.json"), {
-      name: "@openclaw/alpha",
+      name: "@kibo/alpha",
       version: "0.0.1",
-      openclaw: {
+      kibo: {
         extensions: ["./index.ts"],
         channel: {
           id: "alpha",
@@ -435,7 +435,7 @@ describe("bundled plugin metadata", () => {
         },
       },
     });
-    writeJson(path.join(distRoot, "extensions", "alpha", "openclaw.plugin.json"), {
+    writeJson(path.join(distRoot, "extensions", "alpha", "kibo.plugin.json"), {
       id: "alpha",
       configSchema: {
         type: "object",

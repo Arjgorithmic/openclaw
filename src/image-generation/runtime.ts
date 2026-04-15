@@ -1,7 +1,7 @@
 import type { AuthProfileStore } from "../agents/auth-profiles.js";
 import { describeFailoverError, isFailoverError } from "../agents/failover-error.js";
 import type { FallbackAttempt } from "../agents/model-fallback.types.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import {
@@ -25,7 +25,7 @@ import type {
 const log = createSubsystemLogger("image-generation");
 
 export type GenerateImageParams = {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   prompt: string;
   agentDir?: string;
   authStore?: AuthProfileStore;
@@ -47,7 +47,7 @@ export type GenerateImageRuntimeResult = {
   ignoredOverrides: ImageGenerationIgnoredOverride[];
 };
 
-function buildNoImageGenerationModelConfiguredMessage(cfg: OpenClawConfig): string {
+function buildNoImageGenerationModelConfiguredMessage(cfg: KiboConfig): string {
   return buildNoCapabilityModelConfiguredMessage({
     capabilityLabel: "image-generation",
     modelConfigKey: "imageGenerationModel",
@@ -55,7 +55,7 @@ function buildNoImageGenerationModelConfiguredMessage(cfg: OpenClawConfig): stri
   });
 }
 
-export function listRuntimeImageGenerationProviders(params?: { config?: OpenClawConfig }) {
+export function listRuntimeImageGenerationProviders(params?: { config?: KiboConfig }) {
   return listImageGenerationProviders(params?.config);
 }
 

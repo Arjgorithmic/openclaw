@@ -15,13 +15,13 @@ const exclude = sharedTest.exclude ?? [];
 export function loadIncludePatternsFromEnv(
   env: Record<string, string | undefined> = process.env,
 ): string[] | null {
-  return loadPatternListFromEnv("OPENCLAW_VITEST_INCLUDE_FILE", env);
+  return loadPatternListFromEnv("KIBO_VITEST_INCLUDE_FILE", env);
 }
 
 export function loadExtraExcludePatternsFromEnv(
   env: Record<string, string | undefined> = process.env,
 ): string[] {
-  return loadPatternListFromEnv("OPENCLAW_VITEST_EXTRA_EXCLUDE_FILE", env) ?? [];
+  return loadPatternListFromEnv("KIBO_VITEST_EXTRA_EXCLUDE_FILE", env) ?? [];
 }
 
 export function createUnitVitestConfigWithOptions(
@@ -53,7 +53,7 @@ export function createUnitVitestConfigWithOptions(
       isolate,
       ...(isolate ? { runner: undefined } : { runner: "./test/non-isolated-runner.ts" }),
       setupFiles: [
-        ...new Set([...(sharedTest.setupFiles ?? []), "test/setup-openclaw-runtime.ts"]),
+        ...new Set([...(sharedTest.setupFiles ?? []), "test/setup-kibo-runtime.ts"]),
       ],
       include: loadIncludePatternsFromEnv(env) ?? cliIncludePatterns ?? defaultIncludePatterns,
       exclude: [

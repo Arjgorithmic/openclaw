@@ -42,7 +42,7 @@ function buildParams(
     directives: {} as HandleCommandsParams["directives"],
     elevated: { enabled: true, allowed: true, failures: [] },
     sessionKey: String(ctx.SessionKey ?? "agent:main:main"),
-    workspaceDir: "/tmp/openclaw-commands-subagents",
+    workspaceDir: "/tmp/kibo-commands-subagents",
     defaultGroupActivation: () => "mention",
     resolvedVerboseLevel: "off",
     resolvedReasoningLevel: "off",

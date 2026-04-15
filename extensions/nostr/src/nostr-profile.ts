@@ -6,7 +6,7 @@
  */
 
 import { finalizeEvent, SimplePool, type Event } from "nostr-tools";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { formatErrorMessage } from "kibo/plugin-sdk/error-runtime";
 import { type NostrProfile, NostrProfileSchema } from "./config-schema.js";
 
 // ============================================================================

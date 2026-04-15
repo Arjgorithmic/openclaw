@@ -1,4 +1,4 @@
-import { buildAgentSessionKey, deriveLastRoutePolicy } from "openclaw/plugin-sdk/routing";
+import { buildAgentSessionKey, deriveLastRoutePolicy } from "kibo/plugin-sdk/routing";
 import {
   getSessionBindingService,
   resolveAgentIdFromSessionKey,

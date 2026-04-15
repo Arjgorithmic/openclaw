@@ -26,35 +26,35 @@ describe("gateway cli backend connect", () => {
     async () => {
       const envSnapshot = captureEnv([
         "HOME",
-        "OPENCLAW_STATE_DIR",
-        "OPENCLAW_CONFIG_PATH",
-        "OPENCLAW_GATEWAY_TOKEN",
-        "OPENCLAW_SKIP_CHANNELS",
-        "OPENCLAW_SKIP_PROVIDERS",
-        "OPENCLAW_SKIP_GMAIL_WATCHER",
-        "OPENCLAW_SKIP_CRON",
-        "OPENCLAW_SKIP_CANVAS_HOST",
-        "OPENCLAW_SKIP_BROWSER_CONTROL_SERVER",
-        "OPENCLAW_BUNDLED_PLUGINS_DIR",
-        "OPENCLAW_TEST_MINIMAL_GATEWAY",
+        "KIBO_STATE_DIR",
+        "KIBO_CONFIG_PATH",
+        "KIBO_GATEWAY_TOKEN",
+        "KIBO_SKIP_CHANNELS",
+        "KIBO_SKIP_PROVIDERS",
+        "KIBO_SKIP_GMAIL_WATCHER",
+        "KIBO_SKIP_CRON",
+        "KIBO_SKIP_CANVAS_HOST",
+        "KIBO_SKIP_BROWSER_CONTROL_SERVER",
+        "KIBO_BUNDLED_PLUGINS_DIR",
+        "KIBO_TEST_MINIMAL_GATEWAY",
       ]);
 
-      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-gateway-connect-home-"));
-      const configPath = path.join(tempHome, ".openclaw", "openclaw.json");
-      const bundledPluginsDir = path.join(tempHome, "openclaw-test-no-bundled-extensions");
+      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "kibo-gateway-connect-home-"));
+      const configPath = path.join(tempHome, ".kibo", "kibo.json");
+      const bundledPluginsDir = path.join(tempHome, "kibo-test-no-bundled-extensions");
       const token = `test-${Date.now()}`;
       process.env.HOME = tempHome;
-      process.env.OPENCLAW_STATE_DIR = path.join(tempHome, ".openclaw");
-      process.env.OPENCLAW_CONFIG_PATH = configPath;
-      process.env.OPENCLAW_GATEWAY_TOKEN = token;
-      process.env.OPENCLAW_SKIP_CHANNELS = "1";
-      process.env.OPENCLAW_SKIP_PROVIDERS = "1";
-      process.env.OPENCLAW_SKIP_GMAIL_WATCHER = "1";
-      process.env.OPENCLAW_SKIP_CRON = "1";
-      process.env.OPENCLAW_SKIP_CANVAS_HOST = "1";
-      process.env.OPENCLAW_SKIP_BROWSER_CONTROL_SERVER = "1";
-      process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
-      process.env.OPENCLAW_TEST_MINIMAL_GATEWAY = "1";
+      process.env.KIBO_STATE_DIR = path.join(tempHome, ".kibo");
+      process.env.KIBO_CONFIG_PATH = configPath;
+      process.env.KIBO_GATEWAY_TOKEN = token;
+      process.env.KIBO_SKIP_CHANNELS = "1";
+      process.env.KIBO_SKIP_PROVIDERS = "1";
+      process.env.KIBO_SKIP_GMAIL_WATCHER = "1";
+      process.env.KIBO_SKIP_CRON = "1";
+      process.env.KIBO_SKIP_CANVAS_HOST = "1";
+      process.env.KIBO_SKIP_BROWSER_CONTROL_SERVER = "1";
+      process.env.KIBO_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
+      process.env.KIBO_TEST_MINIMAL_GATEWAY = "1";
       await fs.mkdir(path.dirname(configPath), { recursive: true });
       await fs.mkdir(bundledPluginsDir, { recursive: true });
       await fs.writeFile(

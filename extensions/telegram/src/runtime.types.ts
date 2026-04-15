@@ -1,5 +1,5 @@
-import type { ChannelMessageActionAdapter } from "openclaw/plugin-sdk/channel-contract";
-import type { PluginRuntime } from "openclaw/plugin-sdk/runtime-store";
+import type { ChannelMessageActionAdapter } from "kibo/plugin-sdk/channel-contract";
+import type { PluginRuntime } from "kibo/plugin-sdk/runtime-store";
 
 export type TelegramProbeFn = typeof import("./probe.js").probeTelegram;
 export type TelegramAuditCollectFn = typeof import("./audit.js").collectTelegramUnmentionedGroupIds;

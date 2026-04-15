@@ -1,28 +1,28 @@
 ---
-summary: "Move (migrate) an OpenClaw install from one machine to another"
+summary: "Move (migrate) an Kibo install from one machine to another"
 read_when:
-  - You are moving OpenClaw to a new laptop/server
+  - You are moving Kibo to a new laptop/server
   - You want to preserve sessions, auth, and channel logins (WhatsApp, etc.)
 title: "Migration Guide"
 ---
 
-# Migrating OpenClaw to a New Machine
+# Migrating Kibo to a New Machine
 
-This guide moves an OpenClaw gateway to a new machine without redoing onboarding.
+This guide moves an Kibo gateway to a new machine without redoing onboarding.
 
 ## What Gets Migrated
 
-When you copy the **state directory** (`~/.openclaw/` by default) and your **workspace**, you preserve:
+When you copy the **state directory** (`~/.kibo/` by default) and your **workspace**, you preserve:
 
-- **Config** -- `openclaw.json` and all gateway settings
+- **Config** -- `kibo.json` and all gateway settings
 - **Auth** -- per-agent `auth-profiles.json` (API keys + OAuth), plus any channel/provider state under `credentials/`
 - **Sessions** -- conversation history and agent state
 - **Channel state** -- WhatsApp login, Telegram session, etc.
 - **Workspace files** -- `MEMORY.md`, `USER.md`, skills, and prompts
 
 <Tip>
-Run `openclaw status` on the old machine to confirm your state directory path.
-Custom profiles use `~/.openclaw-<profile>/` or a path set via `OPENCLAW_STATE_DIR`.
+Run `kibo status` on the old machine to confirm your state directory path.
+Custom profiles use `~/.kibo-<profile>/` or a path set via `KIBO_STATE_DIR`.
 </Tip>
 
 ## Migration Steps
@@ -32,18 +32,18 @@ Custom profiles use `~/.openclaw-<profile>/` or a path set via `OPENCLAW_STATE_D
     On the **old** machine, stop the gateway so files are not changing mid-copy, then archive:
 
     ```bash
-    openclaw gateway stop
+    kibo gateway stop
     cd ~
-    tar -czf openclaw-state.tgz .openclaw
+    tar -czf kibo-state.tgz .kibo
     ```
 
-    If you use multiple profiles (e.g. `~/.openclaw-work`), archive each separately.
+    If you use multiple profiles (e.g. `~/.kibo-work`), archive each separately.
 
   </Step>
 
-  <Step title="Install OpenClaw on the new machine">
+  <Step title="Install Kibo on the new machine">
     [Install](/install) the CLI (and Node if needed) on the new machine.
-    It is fine if onboarding creates a fresh `~/.openclaw/` -- you will overwrite it next.
+    It is fine if onboarding creates a fresh `~/.kibo/` -- you will overwrite it next.
   </Step>
 
   <Step title="Copy state directory and workspace">
@@ -51,7 +51,7 @@ Custom profiles use `~/.openclaw-<profile>/` or a path set via `OPENCLAW_STATE_D
 
     ```bash
     cd ~
-    tar -xzf openclaw-state.tgz
+    tar -xzf kibo-state.tgz
     ```
 
     Ensure hidden directories were included and file ownership matches the user that will run the gateway.
@@ -62,9 +62,9 @@ Custom profiles use `~/.openclaw-<profile>/` or a path set via `OPENCLAW_STATE_D
     On the new machine, run [Doctor](/gateway/doctor) to apply config migrations and repair services:
 
     ```bash
-    openclaw doctor
-    openclaw gateway restart
-    openclaw status
+    kibo doctor
+    kibo gateway restart
+    kibo status
     ```
 
   </Step>
@@ -74,12 +74,12 @@ Custom profiles use `~/.openclaw-<profile>/` or a path set via `OPENCLAW_STATE_D
 
 <AccordionGroup>
   <Accordion title="Profile or state-dir mismatch">
-    If the old gateway used `--profile` or `OPENCLAW_STATE_DIR` and the new one does not,
+    If the old gateway used `--profile` or `KIBO_STATE_DIR` and the new one does not,
     channels will appear logged out and sessions will be empty.
-    Launch the gateway with the **same** profile or state-dir you migrated, then rerun `openclaw doctor`.
+    Launch the gateway with the **same** profile or state-dir you migrated, then rerun `kibo doctor`.
   </Accordion>
 
-  <Accordion title="Copying only openclaw.json">
+  <Accordion title="Copying only kibo.json">
     The config file alone is not enough. Model auth profiles live under
     `agents/<agentId>/agent/auth-profiles.json`, and channel/provider state still
     lives under `credentials/`. Always migrate the **entire** state directory.
@@ -106,7 +106,7 @@ Custom profiles use `~/.openclaw-<profile>/` or a path set via `OPENCLAW_STATE_D
 
 On the new machine, confirm:
 
-- [ ] `openclaw status` shows the gateway running
+- [ ] `kibo status` shows the gateway running
 - [ ] Channels are still connected (no re-pairing needed)
 - [ ] The dashboard opens and shows existing sessions
 - [ ] Workspace files (memory, configs) are present

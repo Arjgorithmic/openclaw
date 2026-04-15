@@ -1,15 +1,15 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/provider-auth";
-import { normalizeOptionalSecretInput } from "openclaw/plugin-sdk/provider-auth";
-import { resolveEnvApiKey } from "openclaw/plugin-sdk/provider-auth-runtime";
+import type { KiboConfig } from "kibo/plugin-sdk/provider-auth";
+import { normalizeOptionalSecretInput } from "kibo/plugin-sdk/provider-auth";
+import { resolveEnvApiKey } from "kibo/plugin-sdk/provider-auth-runtime";
 import {
   hasConfiguredSecretInput,
   normalizeResolvedSecretInputString,
-} from "openclaw/plugin-sdk/secret-input";
+} from "kibo/plugin-sdk/secret-input";
 import {
   fetchWithSsrFGuard,
   formatErrorMessage,
   type SsrFPolicy,
-} from "openclaw/plugin-sdk/ssrf-runtime";
+} from "kibo/plugin-sdk/ssrf-runtime";
 import { resolveOllamaApiBase } from "./provider-models.js";
 
 export type OllamaEmbeddingProvider = {
@@ -21,7 +21,7 @@ export type OllamaEmbeddingProvider = {
 };
 
 type OllamaEmbeddingOptions = {
-  config: OpenClawConfig;
+  config: KiboConfig;
   agentDir?: string;
   provider?: string;
   remote?: {

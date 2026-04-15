@@ -1,7 +1,7 @@
-import { resolveNativeSkillsEnabled } from "openclaw/plugin-sdk/config-runtime";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-import { readChannelAllowFromStore } from "openclaw/plugin-sdk/conversation-runtime";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { resolveNativeSkillsEnabled } from "kibo/plugin-sdk/config-runtime";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
+import { readChannelAllowFromStore } from "kibo/plugin-sdk/conversation-runtime";
+import { normalizeOptionalString } from "kibo/plugin-sdk/text-runtime";
 import type { ResolvedTelegramAccount } from "./accounts.js";
 import { isNumericTelegramUserId, normalizeTelegramAllowFromEntry } from "./allow-from.js";
 
@@ -21,7 +21,7 @@ function collectInvalidTelegramAllowFromEntries(params: { entries: unknown; targ
 }
 
 export async function collectTelegramSecurityAuditFindings(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId?: string | null;
   account: ResolvedTelegramAccount;
 }) {

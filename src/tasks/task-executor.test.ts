@@ -33,7 +33,7 @@ import {
   resetTaskRegistryForTests,
 } from "./task-registry.js";
 
-const ORIGINAL_STATE_DIR = process.env.OPENCLAW_STATE_DIR;
+const ORIGINAL_STATE_DIR = process.env.KIBO_STATE_DIR;
 const hoisted = vi.hoisted(() => {
   const sendMessageMock = vi.fn();
   const cancelSessionMock = vi.fn();
@@ -56,7 +56,7 @@ vi.mock("../agents/subagent-control.js", () => ({
 }));
 
 async function withTaskExecutorStateDir(run: (stateDir: string) => Promise<void>): Promise<void> {
-  await withStateDirEnv("openclaw-task-executor-", async ({ stateDir }) => {
+  await withStateDirEnv("kibo-task-executor-", async ({ stateDir }) => {
     setTaskRegistryDeliveryRuntimeForTests({
       sendMessage: hoisted.sendMessageMock,
     });
@@ -84,9 +84,9 @@ async function withTaskExecutorStateDir(run: (stateDir: string) => Promise<void>
 describe("task-executor", () => {
   afterEach(() => {
     if (ORIGINAL_STATE_DIR === undefined) {
-      delete process.env.OPENCLAW_STATE_DIR;
+      delete process.env.KIBO_STATE_DIR;
     } else {
-      process.env.OPENCLAW_STATE_DIR = ORIGINAL_STATE_DIR;
+      process.env.KIBO_STATE_DIR = ORIGINAL_STATE_DIR;
     }
     resetSystemEventsForTest();
     resetHeartbeatWakeStateForTests();
@@ -188,7 +188,7 @@ describe("task-executor", () => {
         scopeKind: "session",
         childSessionKey: "agent:main:main",
         runId: "run-executor-kind",
-        task: "Generate lobster video",
+        task: "Generate shell video",
         startedAt: 10,
         deliveryStatus: "not_applicable",
       });

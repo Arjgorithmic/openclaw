@@ -1,7 +1,7 @@
 import { Type } from "@sinclair/typebox";
-import { defineSingleProviderPluginEntry } from "openclaw/plugin-sdk/provider-entry";
-import { buildProviderReplayFamilyHooks } from "openclaw/plugin-sdk/provider-model-shared";
-import { jsonResult, readProviderEnvValue } from "openclaw/plugin-sdk/provider-web-search";
+import { defineSingleProviderPluginEntry } from "kibo/plugin-sdk/provider-entry";
+import { buildProviderReplayFamilyHooks } from "kibo/plugin-sdk/provider-model-shared";
+import { jsonResult, readProviderEnvValue } from "kibo/plugin-sdk/provider-web-search";
 import {
   applyXaiModelCompat,
   normalizeXaiModelId,
@@ -102,7 +102,7 @@ function createLazyCodeExecutionTool(ctx: {
           error: "missing_xai_api_key",
           message:
             "code_execution needs an xAI API key. Set XAI_API_KEY in the Gateway environment, or configure plugins.entries.xai.config.webSearch.apiKey.",
-          docs: "https://docs.openclaw.ai/tools/code-execution",
+          docs: "https://github.com/Arjgorithmic/openclaw/tools/code-execution",
         });
       }
       return await tool.execute(toolCallId, args);

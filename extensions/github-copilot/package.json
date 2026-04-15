@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/github-copilot-provider",
+  "name": "@kibo/github-copilot-provider",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw GitHub Copilot provider plugin",
+  "description": "Kibo GitHub Copilot provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ]

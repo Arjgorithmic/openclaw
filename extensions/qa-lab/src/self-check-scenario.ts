@@ -1,8 +1,8 @@
 import { extractQaToolPayload } from "./extract-tool-payload.js";
-import { qaChannelPlugin, type OpenClawConfig } from "./runtime-api.js";
+import { qaChannelPlugin, type KiboConfig } from "./runtime-api.js";
 import type { QaScenarioDefinition } from "./scenario.js";
 
-export function createQaSelfCheckScenario(cfg: OpenClawConfig): QaScenarioDefinition {
+export function createQaSelfCheckScenario(cfg: KiboConfig): QaScenarioDefinition {
   return {
     name: "Synthetic Slack-class roundtrip",
     steps: [

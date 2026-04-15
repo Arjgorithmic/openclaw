@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/amazon-bedrock-provider",
+  "name": "@kibo/amazon-bedrock-provider",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw Amazon Bedrock provider plugin",
+  "description": "Kibo Amazon Bedrock provider plugin",
   "type": "module",
   "dependencies": {
     "@aws-sdk/client-bedrock": "3.1024.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "kibo": {
     "bundle": {
       "stageRuntimeDependencies": true
     },

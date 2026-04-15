@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/firecrawl-plugin",
+  "name": "@kibo/firecrawl-plugin",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw Firecrawl plugin",
+  "description": "Kibo Firecrawl plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ]

@@ -1,10 +1,10 @@
-import { definePluginEntry, type ProviderAuthContext } from "openclaw/plugin-sdk/plugin-entry";
+import { definePluginEntry, type ProviderAuthContext } from "kibo/plugin-sdk/plugin-entry";
 import {
   coerceSecretRef,
   ensureAuthProfileStore,
   listProfilesForProvider,
-} from "openclaw/plugin-sdk/provider-auth";
-import { normalizeOptionalLowercaseString } from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/provider-auth";
+import { normalizeOptionalLowercaseString } from "kibo/plugin-sdk/text-runtime";
 import { PROVIDER_ID, resolveCopilotForwardCompatModel } from "./models.js";
 import { buildGithubCopilotReplayPolicy } from "./replay-policy.js";
 import { wrapCopilotProviderStream } from "./stream.js";

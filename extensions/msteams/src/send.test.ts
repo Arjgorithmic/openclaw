@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../runtime-api.js";
+import type { KiboConfig } from "../runtime-api.js";
 import { deleteMessageMSTeams, editMessageMSTeams, sendMessageMSTeams } from "./send.js";
 
 const mockState = vi.hoisted(() => ({
@@ -18,16 +18,16 @@ const mockState = vi.hoisted(() => ({
   buildTeamsFileInfoCard: vi.fn(),
 }));
 
-vi.mock("openclaw/plugin-sdk/msteams", () => ({
+vi.mock("kibo/plugin-sdk/msteams", () => ({
   loadOutboundMediaFromUrl: mockState.loadOutboundMediaFromUrl,
 }));
 
-vi.mock("openclaw/plugin-sdk/config-runtime", () => ({
+vi.mock("kibo/plugin-sdk/config-runtime", () => ({
   resolveMarkdownTableMode: mockState.resolveMarkdownTableMode,
 }));
 
-vi.mock("openclaw/plugin-sdk/text-runtime", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("openclaw/plugin-sdk/text-runtime")>();
+vi.mock("kibo/plugin-sdk/text-runtime", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("kibo/plugin-sdk/text-runtime")>();
   return {
     ...actual,
     convertMarkdownTables: mockState.convertMarkdownTables,
@@ -198,7 +198,7 @@ describe("sendMessageMSTeams", () => {
     });
 
     await sendMessageMSTeams({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as KiboConfig,
       to: "conversation:19:conversation@thread.tacv2",
       text: "hello",
       mediaUrl: "file:///tmp/agent-workspace/inline.png",
@@ -237,7 +237,7 @@ describe("sendMessageMSTeams", () => {
 
     await expect(
       sendMessageMSTeams({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as KiboConfig,
         to: "conversation:19:conversation@thread.tacv2",
         text: "hello",
       }),
@@ -274,7 +274,7 @@ describe("sendMessageMSTeams", () => {
     });
 
     await sendMessageMSTeams({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as KiboConfig,
       to: "conversation:19:bot-framework-id@thread.tacv2",
       text: "here is a file",
       mediaUrl: "https://example.com/doc.pdf",
@@ -307,7 +307,7 @@ describe("sendMessageMSTeams", () => {
     });
 
     await sendMessageMSTeams({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as KiboConfig,
       to: "conversation:19:fallback-id@thread.tacv2",
       text: "report",
       mediaUrl: "https://example.com/report.pdf",
@@ -355,7 +355,7 @@ describe("editMessageMSTeams", () => {
     });
 
     const result = await editMessageMSTeams({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as KiboConfig,
       to: "conversation:19:conversation@thread.tacv2",
       activityId: "activity-123",
       text: "Updated message text",
@@ -380,7 +380,7 @@ describe("editMessageMSTeams", () => {
 
     await expect(
       editMessageMSTeams({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as KiboConfig,
         to: "conversation:19:conversation@thread.tacv2",
         activityId: "activity-123",
         text: "Updated text",
@@ -421,7 +421,7 @@ describe("deleteMessageMSTeams", () => {
     });
 
     const result = await deleteMessageMSTeams({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as KiboConfig,
       to: "conversation:19:conversation@thread.tacv2",
       activityId: "activity-456",
     });
@@ -441,7 +441,7 @@ describe("deleteMessageMSTeams", () => {
 
     await expect(
       deleteMessageMSTeams({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as KiboConfig,
         to: "conversation:19:conversation@thread.tacv2",
         activityId: "activity-456",
       }),
@@ -475,7 +475,7 @@ describe("deleteMessageMSTeams", () => {
     });
 
     await deleteMessageMSTeams({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as KiboConfig,
       to: "conversation:19:conv@thread.tacv2",
       activityId: "activity-789",
     });

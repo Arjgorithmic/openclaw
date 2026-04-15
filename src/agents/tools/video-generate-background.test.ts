@@ -43,14 +43,14 @@ describe("video generate background helpers", () => {
         channel: "discord",
         to: "channel:1",
       },
-      prompt: "friendly lobster surfing",
+      prompt: "friendly shell surfing",
       providerId: "openai",
     });
 
     expect(handle).toMatchObject({
       taskId: "task-123",
       requesterSessionKey: "agent:main:discord:direct:123",
-      taskLabel: "friendly lobster surfing",
+      taskLabel: "friendly shell surfing",
     });
     expect(taskExecutorMocks.createRunningTaskRun).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -67,7 +67,7 @@ describe("video generate background helpers", () => {
         taskId: "task-123",
         runId: "tool:video_generate:abc",
         requesterSessionKey: "agent:main:discord:direct:123",
-        taskLabel: "friendly lobster surfing",
+        taskLabel: "friendly shell surfing",
       },
       progressSummary: "Saving generated video",
     });
@@ -96,12 +96,12 @@ describe("video generate background helpers", () => {
           to: "channel:1",
           threadId: "thread-1",
         },
-        taskLabel: "friendly lobster surfing",
+        taskLabel: "friendly shell surfing",
       },
       status: "ok",
       statusLabel: "completed successfully",
-      result: "Generated 1 video.\nMEDIA:/tmp/generated-lobster.mp4",
-      mediaUrls: ["/tmp/generated-lobster.mp4"],
+      result: "Generated 1 video.\nMEDIA:/tmp/generated-shell.mp4",
+      mediaUrls: ["/tmp/generated-shell.mp4"],
     });
 
     expect(taskDeliveryRuntimeMocks.sendMessage).not.toHaveBeenCalled();
@@ -125,11 +125,11 @@ describe("video generate background helpers", () => {
           to: "channel:1",
           threadId: "thread-1",
         },
-        taskLabel: "friendly lobster surfing",
+        taskLabel: "friendly shell surfing",
       },
       status: "ok",
       statusLabel: "completed successfully",
-      result: "Generated 1 video.\nMEDIA:/tmp/generated-lobster.mp4",
+      result: "Generated 1 video.\nMEDIA:/tmp/generated-shell.mp4",
     });
 
     expect(taskDeliveryRuntimeMocks.sendMessage).toHaveBeenCalledWith(
@@ -138,7 +138,7 @@ describe("video generate background helpers", () => {
         to: "channel:1",
         threadId: "thread-1",
         content: "Generated 1 video.",
-        mediaUrls: ["/tmp/generated-lobster.mp4"],
+        mediaUrls: ["/tmp/generated-shell.mp4"],
       }),
     );
     expect(announceDeliveryMocks.deliverSubagentAnnouncement).not.toHaveBeenCalled();
@@ -162,12 +162,12 @@ describe("video generate background helpers", () => {
           to: "channel:1",
           threadId: "thread-1",
         },
-        taskLabel: "friendly lobster surfing",
+        taskLabel: "friendly shell surfing",
       },
       status: "ok",
       statusLabel: "completed successfully",
-      result: "Generated 1 video.\nMEDIA:/tmp/generated-lobster.mp4",
-      mediaUrls: ["/tmp/generated-lobster.mp4"],
+      result: "Generated 1 video.\nMEDIA:/tmp/generated-shell.mp4",
+      mediaUrls: ["/tmp/generated-shell.mp4"],
     });
 
     expect(announceDeliveryMocks.deliverSubagentAnnouncement).toHaveBeenCalledWith(
@@ -183,8 +183,8 @@ describe("video generate background helpers", () => {
             source: "video_generation",
             announceType: "video generation task",
             status: "ok",
-            result: expect.stringContaining("MEDIA:/tmp/generated-lobster.mp4"),
-            mediaUrls: ["/tmp/generated-lobster.mp4"],
+            result: expect.stringContaining("MEDIA:/tmp/generated-shell.mp4"),
+            mediaUrls: ["/tmp/generated-shell.mp4"],
             replyInstruction: expect.stringContaining("Prefer the message tool for delivery"),
           }),
         ]),

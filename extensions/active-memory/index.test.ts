@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk/plugin-entry";
+import type { KiboPluginApi } from "kibo/plugin-sdk/plugin-entry";
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import plugin from "./index.js";
 
@@ -26,9 +26,9 @@ const hoisted = vi.hoisted(() => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/config-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/config-runtime")>(
-    "openclaw/plugin-sdk/config-runtime",
+vi.mock("kibo/plugin-sdk/config-runtime", async () => {
+  const actual = await vi.importActual<typeof import("kibo/plugin-sdk/config-runtime")>(
+    "kibo/plugin-sdk/config-runtime",
   );
   return {
     ...actual,
@@ -55,7 +55,7 @@ describe("active-memory plugin", () => {
       agent: {
         runEmbeddedPiAgent,
         session: {
-          resolveStorePath: vi.fn(() => "/tmp/openclaw-session-store.json"),
+          resolveStorePath: vi.fn(() => "/tmp/kibo-session-store.json"),
           loadSessionStore: vi.fn(() => hoisted.sessionStore),
           saveSessionStore: vi.fn(async () => {}),
         },
@@ -80,7 +80,7 @@ describe("active-memory plugin", () => {
 
   beforeEach(async () => {
     vi.clearAllMocks();
-    stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-active-memory-test-"));
+    stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "kibo-active-memory-test-"));
     configFile = {
       plugins: {
         entries: {
@@ -111,7 +111,7 @@ describe("active-memory plugin", () => {
     runEmbeddedPiAgent.mockResolvedValue({
       payloads: [{ text: "- lemon pepper wings\n- blue cheese" }],
     });
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
   });
 
   afterEach(async () => {
@@ -406,7 +406,7 @@ describe("active-memory plugin", () => {
       agents: ["main"],
       allowedChatTypes: ["direct", "group"],
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
 
     const result = await hooks.before_prompt_build(
       { prompt: "what wings should we order?", messages: [] },
@@ -509,7 +509,7 @@ describe("active-memory plugin", () => {
       agents: ["main"],
       queryMode: "message",
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
 
     await hooks.before_prompt_build(
       {
@@ -537,7 +537,7 @@ describe("active-memory plugin", () => {
       queryMode: "message",
       promptStyle: "preference-only",
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
 
     await hooks.before_prompt_build(
       {
@@ -582,7 +582,7 @@ describe("active-memory plugin", () => {
       agents: ["main"],
       thinking: "medium",
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
 
     await hooks.before_prompt_build(
       {
@@ -608,7 +608,7 @@ describe("active-memory plugin", () => {
       agents: ["main"],
       promptAppend: "Prefer stable long-term preferences over one-off events.",
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
 
     await hooks.before_prompt_build(
       {
@@ -637,7 +637,7 @@ describe("active-memory plugin", () => {
       promptOverride: "Custom memory prompt. Return NONE or one user fact.",
       promptAppend: "Extra custom instruction.",
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
 
     await hooks.before_prompt_build(
       {
@@ -710,7 +710,7 @@ describe("active-memory plugin", () => {
     api.pluginConfig = {
       agents: ["main"],
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
 
     await hooks.before_prompt_build(
       { prompt: "what wings should i order? temp transcript", messages: [] },
@@ -735,7 +735,7 @@ describe("active-memory plugin", () => {
       agents: ["main"],
       modelFallbackPolicy: "resolved-only",
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
 
     const result = await hooks.before_prompt_build(
       { prompt: "what wings should i order? no fallback", messages: [] },
@@ -872,7 +872,7 @@ describe("active-memory plugin", () => {
       timeoutMs: 250,
       logging: true,
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
     let lastAbortSignal: AbortSignal | undefined;
     runEmbeddedPiAgent.mockImplementation(async (params: { abortSignal?: AbortSignal }) => {
       lastAbortSignal = params.abortSignal;
@@ -918,7 +918,7 @@ describe("active-memory plugin", () => {
       agents: ["main"],
       logging: true,
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
 
     await hooks.before_prompt_build(
       { prompt: "what wings should i order? session id cache", messages: [] },
@@ -1037,7 +1037,7 @@ describe("active-memory plugin", () => {
       agents: ["main"],
       queryMode: "message",
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
 
     await hooks.before_prompt_build(
       {
@@ -1065,7 +1065,7 @@ describe("active-memory plugin", () => {
       agents: ["main"],
       queryMode: "full",
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
 
     await hooks.before_prompt_build(
       {
@@ -1096,7 +1096,7 @@ describe("active-memory plugin", () => {
       agents: ["main"],
       queryMode: "recent",
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
 
     await hooks.before_prompt_build(
       {
@@ -1174,7 +1174,7 @@ describe("active-memory plugin", () => {
       agents: ["main"],
       maxSummaryChars: 40,
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
     runEmbeddedPiAgent.mockResolvedValueOnce({
       payloads: [
         {
@@ -1211,7 +1211,7 @@ describe("active-memory plugin", () => {
       agents: ["main"],
       maxSummaryChars: 90,
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
 
     await hooks.before_prompt_build(
       { prompt: "what wings should i order? prompt-count-check", messages: [] },
@@ -1231,7 +1231,7 @@ describe("active-memory plugin", () => {
   it("keeps subagent transcripts off disk by default by using a temp session file", async () => {
     const mkdtempSpy = vi
       .spyOn(fs, "mkdtemp")
-      .mockResolvedValue("/tmp/openclaw-active-memory-temp");
+      .mockResolvedValue("/tmp/kibo-active-memory-temp");
     const rmSpy = vi.spyOn(fs, "rm").mockResolvedValue(undefined);
 
     await hooks.before_prompt_build(
@@ -1246,9 +1246,9 @@ describe("active-memory plugin", () => {
 
     expect(mkdtempSpy).toHaveBeenCalled();
     expect(runEmbeddedPiAgent.mock.calls.at(-1)?.[0]?.sessionFile).toBe(
-      "/tmp/openclaw-active-memory-temp/session.jsonl",
+      "/tmp/kibo-active-memory-temp/session.jsonl",
     );
-    expect(rmSpy).toHaveBeenCalledWith("/tmp/openclaw-active-memory-temp", {
+    expect(rmSpy).toHaveBeenCalledWith("/tmp/kibo-active-memory-temp", {
       recursive: true,
       force: true,
     });
@@ -1261,7 +1261,7 @@ describe("active-memory plugin", () => {
       transcriptDir: "active-memory-subagents",
       logging: true,
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
     const mkdirSpy = vi.spyOn(fs, "mkdir").mockResolvedValue(undefined);
     const mkdtempSpy = vi.spyOn(fs, "mkdtemp");
     const rmSpy = vi.spyOn(fs, "rm").mockResolvedValue(undefined);
@@ -1305,7 +1305,7 @@ describe("active-memory plugin", () => {
       transcriptDir: "C:/temp/escape",
       logging: true,
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
     const mkdirSpy = vi.spyOn(fs, "mkdir").mockResolvedValue(undefined);
 
     await hooks.before_prompt_build(
@@ -1342,7 +1342,7 @@ describe("active-memory plugin", () => {
       transcriptDir: "active-memory-subagents",
       logging: true,
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
     const mkdirSpy = vi.spyOn(fs, "mkdir").mockResolvedValue(undefined);
 
     await hooks.before_prompt_build(
@@ -1409,7 +1409,7 @@ describe("active-memory plugin", () => {
       agents: ["main"],
       logging: true,
     };
-    plugin.register(api as unknown as OpenClawPluginApi);
+    plugin.register(api as unknown as KiboPluginApi);
 
     for (let index = 0; index <= 1000; index += 1) {
       await hooks.before_prompt_build(

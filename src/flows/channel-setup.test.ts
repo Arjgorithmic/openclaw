@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const resolveAgentWorkspaceDir = vi.hoisted(() =>
-  vi.fn((_cfg?: unknown, _agentId?: unknown) => "/tmp/openclaw-workspace"),
+  vi.fn((_cfg?: unknown, _agentId?: unknown) => "/tmp/kibo-workspace"),
 );
 const resolveDefaultAgentId = vi.hoisted(() => vi.fn((_cfg?: unknown) => "default"));
 const listChannelPluginCatalogEntries = vi.hoisted(() => vi.fn((_opts?: unknown): unknown[] => []));
@@ -85,12 +85,12 @@ import { setupChannels } from "./channel-setup.js";
 describe("setupChannels workspace shadow exclusion", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    resolveAgentWorkspaceDir.mockReturnValue("/tmp/openclaw-workspace");
+    resolveAgentWorkspaceDir.mockReturnValue("/tmp/kibo-workspace");
     resolveDefaultAgentId.mockReturnValue("default");
     listChannelPluginCatalogEntries.mockReturnValue([
       {
         id: "telegram",
-        pluginId: "@openclaw/telegram-plugin",
+        pluginId: "@kibo/telegram-plugin",
       },
     ]);
     getChannelSetupPlugin.mockReturnValue(undefined);
@@ -112,7 +112,7 @@ describe("setupChannels workspace shadow exclusion", () => {
   it("preloads configured external plugins from the bundled fallback for untrusted shadows", async () => {
     listChannelPluginCatalogEntries.mockImplementation((opts?: unknown) =>
       (opts as { excludeWorkspace?: boolean } | undefined)?.excludeWorkspace
-        ? [{ id: "telegram", pluginId: "@openclaw/telegram-plugin", origin: "bundled" }]
+        ? [{ id: "telegram", pluginId: "@kibo/telegram-plugin", origin: "bundled" }]
         : [{ id: "telegram", pluginId: "evil-telegram-shadow", origin: "workspace" }],
     );
 
@@ -132,8 +132,8 @@ describe("setupChannels workspace shadow exclusion", () => {
     expect(loadChannelSetupPluginRegistrySnapshotForChannel).toHaveBeenCalledWith(
       expect.objectContaining({
         channel: "telegram",
-        pluginId: "@openclaw/telegram-plugin",
-        workspaceDir: "/tmp/openclaw-workspace",
+        pluginId: "@kibo/telegram-plugin",
+        workspaceDir: "/tmp/kibo-workspace",
       }),
     );
   });
@@ -161,7 +161,7 @@ describe("setupChannels workspace shadow exclusion", () => {
       expect.objectContaining({
         channel: "telegram",
         pluginId: "trusted-telegram-shadow",
-        workspaceDir: "/tmp/openclaw-workspace",
+        workspaceDir: "/tmp/kibo-workspace",
       }),
     );
   });

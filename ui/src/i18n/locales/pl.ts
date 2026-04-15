@@ -179,7 +179,7 @@ export const pl: TranslationMap = {
     skills: "Skills i klucze API.",
     nodes: "Sparowane urządzenia i polecenia.",
     chat: "Czat Gateway do szybkich interwencji.",
-    config: "Edytuj openclaw.json.",
+    config: "Edytuj kibo.json.",
     communications: "Kanały, wiadomości i ustawienia audio.",
     appearance: "Motyw, UI i ustawienia kreatora konfiguracji.",
     automation: "Polecenia, hooki, cron i pluginy.",
@@ -238,7 +238,7 @@ export const pl: TranslationMap = {
     pairing: {
       hint: "To urządzenie wymaga zatwierdzenia parowania przez host Gateway.",
       mobileHint:
-        "Na urządzeniu mobilnym? Skopiuj pełny URL (w tym #token=...) z openclaw dashboard --no-open na komputerze.",
+        "Na urządzeniu mobilnym? Skopiuj pełny URL (w tym #token=...) z kibo dashboard --no-open na komputerze.",
     },
     insecure: {
       hint: "Ta strona używa HTTP, więc przeglądarka blokuje tożsamość urządzenia. Użyj HTTPS (Tailscale Serve) lub otwórz {url} na hoście Gateway.",

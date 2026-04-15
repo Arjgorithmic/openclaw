@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import type { PluginWebSearchProviderEntry } from "../plugins/types.js";
 
 const { resolvePluginWebSearchProvidersMock } = vi.hoisted(() => ({
@@ -39,8 +39,8 @@ vi.mock("../plugins/web-search-providers.runtime.js", () => ({
   resolvePluginWebSearchProviders: resolvePluginWebSearchProvidersMock,
 }));
 
-function asConfig(value: unknown): OpenClawConfig {
-  return value as OpenClawConfig;
+function asConfig(value: unknown): KiboConfig {
+  return value as KiboConfig;
 }
 
 let clearConfigCache: typeof import("../config/config.js").clearConfigCache;
@@ -96,7 +96,7 @@ describe("runtime web tools state", () => {
       env: {
         WEB_SEARCH_GEMINI_API_KEY: "web-search-gemini-ref",
       },
-      agentDirs: ["/tmp/openclaw-agent-main"],
+      agentDirs: ["/tmp/kibo-agent-main"],
       loadAuthStore: () => ({ version: 1, profiles: {} }),
     });
 

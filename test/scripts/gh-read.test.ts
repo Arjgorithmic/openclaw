@@ -8,16 +8,16 @@ import {
 
 describe("gh-read helpers", () => {
   it("finds repo from gh args", () => {
-    expect(parseRepoArg(["pr", "view", "42", "-R", "openclaw/openclaw"])).toBe("openclaw/openclaw");
-    expect(parseRepoArg(["run", "list", "--repo=openclaw/docs"])).toBe("openclaw/docs");
+    expect(parseRepoArg(["pr", "view", "42", "-R", "kibo/kibo"])).toBe("kibo/kibo");
+    expect(parseRepoArg(["run", "list", "--repo=kibo/docs"])).toBe("kibo/docs");
     expect(parseRepoArg(["pr", "view", "42"])).toBeNull();
   });
 
   it("normalizes repo strings from common git formats", () => {
-    expect(normalizeRepo("openclaw/openclaw")).toBe("openclaw/openclaw");
-    expect(normalizeRepo("github.com/openclaw/openclaw")).toBe("openclaw/openclaw");
-    expect(normalizeRepo("https://github.com/openclaw/openclaw.git")).toBe("openclaw/openclaw");
-    expect(normalizeRepo("git@github.com:openclaw/openclaw.git")).toBe("openclaw/openclaw");
+    expect(normalizeRepo("kibo/kibo")).toBe("kibo/kibo");
+    expect(normalizeRepo("github.com/kibo/kibo")).toBe("kibo/kibo");
+    expect(normalizeRepo("https://github.com/kibo/kibo.git")).toBe("kibo/kibo");
+    expect(normalizeRepo("git@github.com:kibo/kibo.git")).toBe("kibo/kibo");
     expect(normalizeRepo("invalid")).toBeNull();
   });
 

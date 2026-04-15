@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { HandleCommandsParams } from "./commands-types.js";
 
-const { createOpenClawCodingToolsMock } = vi.hoisted(() => ({
-  createOpenClawCodingToolsMock: vi.fn(() => []),
+const { createKiboCodingToolsMock } = vi.hoisted(() => ({
+  createKiboCodingToolsMock: vi.fn(() => []),
 }));
 
 vi.mock("../../agents/bootstrap-files.js", () => ({
@@ -97,11 +97,11 @@ describe("resolveCommandsSystemPromptBundle", () => {
   beforeEach(async () => {
     vi.restoreAllMocks();
     vi.resetModules();
-    createOpenClawCodingToolsMock.mockClear();
-    createOpenClawCodingToolsMock.mockReturnValue([]);
+    createKiboCodingToolsMock.mockClear();
+    createKiboCodingToolsMock.mockReturnValue([]);
     const piTools = await import("../../agents/pi-tools.js");
-    vi.spyOn(piTools, "createOpenClawCodingTools").mockImplementation(
-      createOpenClawCodingToolsMock,
+    vi.spyOn(piTools, "createKiboCodingTools").mockImplementation(
+      createKiboCodingToolsMock,
     );
     const ttsRuntime = await import("../../tts/tts.js");
     vi.spyOn(ttsRuntime, "buildTtsSystemPromptHint").mockReturnValue(undefined);
@@ -111,7 +111,7 @@ describe("resolveCommandsSystemPromptBundle", () => {
     const { resolveCommandsSystemPromptBundle } = await import("./commands-system-prompt.js");
     await resolveCommandsSystemPromptBundle(makeParams());
 
-    expect(createOpenClawCodingToolsMock).toHaveBeenCalledWith(
+    expect(createKiboCodingToolsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         allowGatewaySubagentBinding: true,
         sessionKey: "agent:main:default",

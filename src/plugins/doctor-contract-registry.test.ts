@@ -14,7 +14,7 @@ let clearPluginDoctorContractRegistryCache: typeof import("./doctor-contract-reg
 let listPluginDoctorLegacyConfigRules: typeof import("./doctor-contract-registry.js").listPluginDoctorLegacyConfigRules;
 
 function makeTempDir(): string {
-  return makeTrackedTempDir("openclaw-doctor-contract-registry", tempDirs);
+  return makeTrackedTempDir("kibo-doctor-contract-registry", tempDirs);
 }
 
 afterEach(() => {

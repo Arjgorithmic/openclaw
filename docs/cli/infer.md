@@ -1,14 +1,14 @@
 ---
 summary: "Infer-first CLI for provider-backed model, image, audio, TTS, video, web, and embedding workflows"
 read_when:
-  - Adding or modifying `openclaw infer` commands
+  - Adding or modifying `kibo infer` commands
   - Designing stable headless capability automation
 title: "Inference CLI"
 ---
 
 # Inference CLI
 
-`openclaw infer` is the canonical headless surface for provider-backed inference workflows.
+`kibo infer` is the canonical headless surface for provider-backed inference workflows.
 
 It intentionally exposes capability families, not raw gateway RPC names and not raw agent tool ids.
 
@@ -17,7 +17,7 @@ It intentionally exposes capability families, not raw gateway RPC names and not 
 Copy and paste this to an agent:
 
 ```text
-Read https://docs.openclaw.ai/cli/infer, then create a skill that routes my common workflows to `openclaw infer`.
+Read https://github.com/Arjgorithmic/openclaw/cli/infer, then create a skill that routes my common workflows to `kibo infer`.
 Focus on model runs, image generation, video generation, audio transcription, TTS, web search, and embeddings.
 ```
 
@@ -25,34 +25,34 @@ A good infer-based skill should:
 
 - map common user intents to the correct infer subcommand
 - include a few canonical infer examples for the workflows it covers
-- prefer `openclaw infer ...` in examples and suggestions
+- prefer `kibo infer ...` in examples and suggestions
 - avoid re-documenting the entire infer surface inside the skill body
 
 Typical infer-focused skill coverage:
 
-- `openclaw infer model run`
-- `openclaw infer image generate`
-- `openclaw infer audio transcribe`
-- `openclaw infer tts convert`
-- `openclaw infer web search`
-- `openclaw infer embedding create`
+- `kibo infer model run`
+- `kibo infer image generate`
+- `kibo infer audio transcribe`
+- `kibo infer tts convert`
+- `kibo infer web search`
+- `kibo infer embedding create`
 
 ## Why use infer
 
-`openclaw infer` provides one consistent CLI for provider-backed inference tasks inside OpenClaw.
+`kibo infer` provides one consistent CLI for provider-backed inference tasks inside Kibo.
 
 Benefits:
 
-- Use the providers and models already configured in OpenClaw instead of wiring up one-off wrappers for each backend.
+- Use the providers and models already configured in Kibo instead of wiring up one-off wrappers for each backend.
 - Keep model, image, audio transcription, TTS, video, web, and embedding workflows under one command tree.
 - Use a stable `--json` output shape for scripts, automation, and agent-driven workflows.
-- Prefer a first-party OpenClaw surface when the task is fundamentally "run inference."
+- Prefer a first-party Kibo surface when the task is fundamentally "run inference."
 - Use the normal local path without requiring the gateway for most infer commands.
 
 ## Command tree
 
 ```text
- openclaw infer
+ kibo infer
   list
   inspect
 
@@ -106,20 +106,20 @@ This table maps common inference tasks to the corresponding infer command.
 
 | Task                    | Command                                                                | Notes                                                |
 | ----------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------- |
-| Run a text/model prompt | `openclaw infer model run --prompt "..." --json`                       | Uses the normal local path by default                |
-| Generate an image       | `openclaw infer image generate --prompt "..." --json`                  | Use `image edit` when starting from an existing file |
-| Describe an image file  | `openclaw infer image describe --file ./image.png --json`              | `--model` must be `<provider/model>`                 |
-| Transcribe audio        | `openclaw infer audio transcribe --file ./memo.m4a --json`             | `--model` must be `<provider/model>`                 |
-| Synthesize speech       | `openclaw infer tts convert --text "..." --output ./speech.mp3 --json` | `tts status` is gateway-oriented                     |
-| Generate a video        | `openclaw infer video generate --prompt "..." --json`                  |                                                      |
-| Describe a video file   | `openclaw infer video describe --file ./clip.mp4 --json`               | `--model` must be `<provider/model>`                 |
-| Search the web          | `openclaw infer web search --query "..." --json`                       |                                                      |
-| Fetch a web page        | `openclaw infer web fetch --url https://example.com --json`            |                                                      |
-| Create embeddings       | `openclaw infer embedding create --text "..." --json`                  |                                                      |
+| Run a text/model prompt | `kibo infer model run --prompt "..." --json`                       | Uses the normal local path by default                |
+| Generate an image       | `kibo infer image generate --prompt "..." --json`                  | Use `image edit` when starting from an existing file |
+| Describe an image file  | `kibo infer image describe --file ./image.png --json`              | `--model` must be `<provider/model>`                 |
+| Transcribe audio        | `kibo infer audio transcribe --file ./memo.m4a --json`             | `--model` must be `<provider/model>`                 |
+| Synthesize speech       | `kibo infer tts convert --text "..." --output ./speech.mp3 --json` | `tts status` is gateway-oriented                     |
+| Generate a video        | `kibo infer video generate --prompt "..." --json`                  |                                                      |
+| Describe a video file   | `kibo infer video describe --file ./clip.mp4 --json`               | `--model` must be `<provider/model>`                 |
+| Search the web          | `kibo infer web search --query "..." --json`                       |                                                      |
+| Fetch a web page        | `kibo infer web fetch --url https://example.com --json`            |                                                      |
+| Create embeddings       | `kibo infer embedding create --text "..." --json`                  |                                                      |
 
 ## Behavior
 
-- `openclaw infer ...` is the primary CLI surface for these workflows.
+- `kibo infer ...` is the primary CLI surface for these workflows.
 - Use `--json` when the output will be consumed by another command or script.
 - Use `--provider` or `--model provider/model` when a specific backend is required.
 - For `image describe`, `audio transcribe`, and `video describe`, `--model` must use the form `<provider/model>`.
@@ -132,10 +132,10 @@ This table maps common inference tasks to the corresponding infer command.
 Use `model` for provider-backed text inference and model/provider inspection.
 
 ```bash
-openclaw infer model run --prompt "Reply with exactly: smoke-ok" --json
-openclaw infer model run --prompt "Summarize this changelog entry" --provider openai --json
-openclaw infer model providers --json
-openclaw infer model inspect --name gpt-5.4 --json
+kibo infer model run --prompt "Reply with exactly: smoke-ok" --json
+kibo infer model run --prompt "Summarize this changelog entry" --provider openai --json
+kibo infer model providers --json
+kibo infer model inspect --name gpt-5.4 --json
 ```
 
 Notes:
@@ -148,10 +148,10 @@ Notes:
 Use `image` for generation, edit, and description.
 
 ```bash
-openclaw infer image generate --prompt "friendly lobster illustration" --json
-openclaw infer image generate --prompt "cinematic product photo of headphones" --json
-openclaw infer image describe --file ./photo.jpg --json
-openclaw infer image describe --file ./ui-screenshot.png --model openai/gpt-4.1-mini --json
+kibo infer image generate --prompt "friendly shell illustration" --json
+kibo infer image generate --prompt "cinematic product photo of headphones" --json
+kibo infer image describe --file ./photo.jpg --json
+kibo infer image describe --file ./ui-screenshot.png --model openai/gpt-4.1-mini --json
 ```
 
 Notes:
@@ -164,9 +164,9 @@ Notes:
 Use `audio` for file transcription.
 
 ```bash
-openclaw infer audio transcribe --file ./memo.m4a --json
-openclaw infer audio transcribe --file ./team-sync.m4a --language en --prompt "Focus on names and action items" --json
-openclaw infer audio transcribe --file ./memo.m4a --model openai/whisper-1 --json
+kibo infer audio transcribe --file ./memo.m4a --json
+kibo infer audio transcribe --file ./team-sync.m4a --language en --prompt "Focus on names and action items" --json
+kibo infer audio transcribe --file ./memo.m4a --model openai/whisper-1 --json
 ```
 
 Notes:
@@ -179,10 +179,10 @@ Notes:
 Use `tts` for speech synthesis and TTS provider state.
 
 ```bash
-openclaw infer tts convert --text "hello from openclaw" --output ./hello.mp3 --json
-openclaw infer tts convert --text "Your build is complete" --output ./build-complete.mp3 --json
-openclaw infer tts providers --json
-openclaw infer tts status --json
+kibo infer tts convert --text "hello from kibo" --output ./hello.mp3 --json
+kibo infer tts convert --text "Your build is complete" --output ./build-complete.mp3 --json
+kibo infer tts providers --json
+kibo infer tts status --json
 ```
 
 Notes:
@@ -195,10 +195,10 @@ Notes:
 Use `video` for generation and description.
 
 ```bash
-openclaw infer video generate --prompt "cinematic sunset over the ocean" --json
-openclaw infer video generate --prompt "slow drone shot over a forest lake" --json
-openclaw infer video describe --file ./clip.mp4 --json
-openclaw infer video describe --file ./clip.mp4 --model openai/gpt-4.1-mini --json
+kibo infer video generate --prompt "cinematic sunset over the ocean" --json
+kibo infer video generate --prompt "slow drone shot over a forest lake" --json
+kibo infer video describe --file ./clip.mp4 --json
+kibo infer video describe --file ./clip.mp4 --model openai/gpt-4.1-mini --json
 ```
 
 Notes:
@@ -210,10 +210,10 @@ Notes:
 Use `web` for search and fetch workflows.
 
 ```bash
-openclaw infer web search --query "OpenClaw docs" --json
-openclaw infer web search --query "OpenClaw infer web providers" --json
-openclaw infer web fetch --url https://docs.openclaw.ai/cli/infer --json
-openclaw infer web providers --json
+kibo infer web search --query "Kibo docs" --json
+kibo infer web search --query "Kibo infer web providers" --json
+kibo infer web fetch --url https://github.com/Arjgorithmic/openclaw/cli/infer --json
+kibo infer web providers --json
 ```
 
 Notes:
@@ -225,9 +225,9 @@ Notes:
 Use `embedding` for vector creation and embedding provider inspection.
 
 ```bash
-openclaw infer embedding create --text "friendly lobster" --json
-openclaw infer embedding create --text "customer support ticket: delayed shipment" --model openai/text-embedding-3-large --json
-openclaw infer embedding providers --json
+kibo infer embedding create --text "friendly shell" --json
+kibo infer embedding create --text "customer support ticket: delayed shipment" --model openai/text-embedding-3-large --json
+kibo infer embedding providers --json
 ```
 
 ## JSON output
@@ -261,20 +261,20 @@ Top-level fields are stable:
 
 ```bash
 # Bad
-openclaw infer media image generate --prompt "friendly lobster"
+kibo infer media image generate --prompt "friendly shell"
 
 # Good
-openclaw infer image generate --prompt "friendly lobster"
+kibo infer image generate --prompt "friendly shell"
 ```
 
 ```bash
 # Bad
-openclaw infer audio transcribe --file ./memo.m4a --model whisper-1 --json
+kibo infer audio transcribe --file ./memo.m4a --model whisper-1 --json
 
 # Good
-openclaw infer audio transcribe --file ./memo.m4a --model openai/whisper-1 --json
+kibo infer audio transcribe --file ./memo.m4a --model openai/whisper-1 --json
 ```
 
 ## Notes
 
-- `openclaw capability ...` is an alias for `openclaw infer ...`.
+- `kibo capability ...` is an alias for `kibo infer ...`.

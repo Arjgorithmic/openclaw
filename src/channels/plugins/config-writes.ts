@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../config/config.js";
+import type { KiboConfig } from "../../config/config.js";
 import { normalizeLowercaseStringOrEmpty } from "../../shared/string-coerce.js";
 import { isInternalMessageChannel } from "../../utils/message-channel.js";
 import {
@@ -18,7 +18,7 @@ export type ConfigWriteTarget = ConfigWriteTargetLike<ChannelId>;
 export type ConfigWriteAuthorizationResult = ConfigWriteAuthorizationResultLike<ChannelId>;
 
 export function resolveChannelConfigWrites(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   channelId?: ChannelId | null;
   accountId?: string | null;
 }): boolean {
@@ -26,7 +26,7 @@ export function resolveChannelConfigWrites(params: {
 }
 
 export function authorizeConfigWrite(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   origin?: ConfigWriteScope;
   target?: ConfigWriteTarget;
   allowBypass?: boolean;

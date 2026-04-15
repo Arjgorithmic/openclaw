@@ -1,5 +1,5 @@
 /* ===========================================
-   Dreams Tab – Sleeping Lobster Animation
+   Dreams Tab – Sleeping Mascot Animation
    =========================================== */
 
 .dreams-page {
@@ -59,15 +59,15 @@
   user-select: none;
 }
 
-/* ---- Breathing lobster ---- */
+/* ---- Breathing mascot ---- */
 
-.dreams__lobster {
+.dreams__mascot {
   animation: dreams-breathe 4s ease-in-out infinite;
-  filter: drop-shadow(0 0 40px rgba(255, 77, 77, 0.25));
+  filter: drop-shadow(0 0 40px rgba(255, 225, 53, 0.25));
   transition: filter 0.6s ease;
 }
 
-.dreams__lobster svg {
+.dreams__mascot svg {
   width: 160px;
   height: 160px;
 }
@@ -110,7 +110,7 @@
   animation: dreams-float-z 4s ease-out infinite;
 }
 
-/* Z's originate from the lobster's head and float up-right at an angle.
+/* Z's originate from the mascot's head and float up-right at an angle.
    Use nth-of-type because Z's are <span> while stars/moon/glow are <div>. */
 .dreams__z:nth-of-type(1) {
   font-size: 14px;
@@ -177,7 +177,7 @@
   left: calc(50% - 200px);
   padding: 16px 20px;
   background: var(--accent-subtle);
-  border: 1px solid rgba(255, 92, 92, 0.12);
+  border: 1px solid rgba(255, 225, 53, 0.12);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -221,7 +221,7 @@
   position: absolute;
   border-radius: 50%;
   background: var(--accent-subtle);
-  border: 1px solid rgba(255, 92, 92, 0.1);
+  border: 1px solid rgba(255, 225, 53, 0.1);
   animation: dreams-bubble-float 6s ease-in-out infinite;
 }
 
@@ -257,7 +257,7 @@
   }
 }
 
-/* ---- Ambient glow under lobster ---- */
+/* ---- Ambient glow under mascot ---- */
 
 .dreams__glow {
   position: absolute;
@@ -267,7 +267,7 @@
   width: 240px;
   height: 100px;
   border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(255, 77, 77, 0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(255, 225, 53, 0.08) 0%, transparent 70%);
   pointer-events: none;
   animation: dreams-glow-pulse 4s ease-in-out infinite;
 }
@@ -543,8 +543,8 @@
 
 /* ---- Idle / inactive state ---- */
 
-.dreams--idle .dreams__lobster {
-  filter: drop-shadow(0 0 20px rgba(255, 77, 77, 0.1));
+.dreams--idle .dreams__mascot {
+  filter: drop-shadow(0 0 20px rgba(255, 225, 53, 0.1));
 }
 
 .dreams--idle .dreams__status-dot {
@@ -587,7 +587,7 @@
     135deg,
     transparent 30%,
     rgba(251, 191, 36, 0.012) 45%,
-    rgba(255, 77, 77, 0.015) 55%,
+    rgba(255, 225, 53, 0.015) 55%,
     transparent 70%
   );
   background-size: 400% 400%;

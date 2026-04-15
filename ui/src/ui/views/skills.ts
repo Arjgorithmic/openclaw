@@ -2,8 +2,8 @@ import { html, nothing } from "lit";
 import { ref } from "lit/directives/ref.js";
 import { t } from "../../i18n/index.ts";
 import type {
-  ClawHubSearchResult,
-  ClawHubSkillDetail,
+  KiboHubSearchResult,
+  KiboHubSkillDetail,
   SkillMessageMap,
 } from "../controllers/skills.ts";
 import { clampText } from "../format.ts";
@@ -37,16 +37,16 @@ export type SkillsProps = {
   busyKey: string | null;
   messages: SkillMessageMap;
   detailKey: string | null;
-  clawhubQuery: string;
-  clawhubResults: ClawHubSearchResult[] | null;
-  clawhubSearchLoading: boolean;
-  clawhubSearchError: string | null;
-  clawhubDetail: ClawHubSkillDetail | null;
-  clawhubDetailSlug: string | null;
-  clawhubDetailLoading: boolean;
-  clawhubDetailError: string | null;
-  clawhubInstallSlug: string | null;
-  clawhubInstallMessage: { kind: "success" | "error"; text: string } | null;
+  kibohubQuery: string;
+  kibohubResults: KiboHubSearchResult[] | null;
+  kibohubSearchLoading: boolean;
+  kibohubSearchError: string | null;
+  kibohubDetail: KiboHubSkillDetail | null;
+  kibohubDetailSlug: string | null;
+  kibohubDetailLoading: boolean;
+  kibohubDetailError: string | null;
+  kibohubInstallSlug: string | null;
+  kibohubInstallMessage: { kind: "success" | "error"; text: string } | null;
   onFilterChange: (next: string) => void;
   onStatusFilterChange: (next: SkillsStatusFilter) => void;
   onRefresh: () => void;
@@ -56,10 +56,10 @@ export type SkillsProps = {
   onInstall: (skillKey: string, name: string, installId: string) => void;
   onDetailOpen: (skillKey: string) => void;
   onDetailClose: () => void;
-  onClawHubQueryChange: (query: string) => void;
-  onClawHubDetailOpen: (slug: string) => void;
-  onClawHubDetailClose: () => void;
-  onClawHubInstall: (slug: string) => void;
+  onKiboHubQueryChange: (query: string) => void;
+  onKiboHubDetailOpen: (slug: string) => void;
+  onKiboHubDetailClose: () => void;
+  onKiboHubInstall: (slug: string) => void;
 };
 
 type StatusTabDef = { id: SkillsStatusFilter; label: string };
@@ -176,7 +176,7 @@ export function renderSkills(props: SkillsProps) {
 
       <div style="margin-top: 16px; border-top: 1px solid var(--border); padding-top: 16px;">
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-          <div style="font-weight: 600;">ClawHub</div>
+          <div style="font-weight: 600;">KiboHub</div>
           <div class="muted" style="font-size: 13px;">
             Search and install skills from the registry
           </div>
@@ -184,30 +184,30 @@ export function renderSkills(props: SkillsProps) {
         <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
           <label class="field" style="flex: 1; min-width: 180px;">
             <input
-              .value=${props.clawhubQuery}
+              .value=${props.kibohubQuery}
               @input=${(e: Event) =>
-                props.onClawHubQueryChange((e.target as HTMLInputElement).value)}
-              placeholder="Search ClawHub skills…"
+                props.onKiboHubQueryChange((e.target as HTMLInputElement).value)}
+              placeholder="Search KiboHub skills…"
               autocomplete="off"
-              name="clawhub-search"
+              name="kibohub-search"
             />
           </label>
-          ${props.clawhubSearchLoading ? html`<span class="muted">Searching…</span>` : nothing}
+          ${props.kibohubSearchLoading ? html`<span class="muted">Searching…</span>` : nothing}
         </div>
-        ${props.clawhubSearchError
+        ${props.kibohubSearchError
           ? html`<div class="callout danger" style="margin-top: 8px;">
-              ${props.clawhubSearchError}
+              ${props.kibohubSearchError}
             </div>`
           : nothing}
-        ${props.clawhubInstallMessage
+        ${props.kibohubInstallMessage
           ? html`<div
-              class="callout ${props.clawhubInstallMessage.kind === "error" ? "danger" : "success"}"
+              class="callout ${props.kibohubInstallMessage.kind === "error" ? "danger" : "success"}"
               style="margin-top: 8px;"
             >
-              ${props.clawhubInstallMessage.text}
+              ${props.kibohubInstallMessage.text}
             </div>`
           : nothing}
-        ${renderClawHubResults(props)}
+        ${renderKiboHubResults(props)}
       </div>
 
       ${props.error
@@ -241,17 +241,17 @@ export function renderSkills(props: SkillsProps) {
     </section>
 
     ${detailSkill ? renderSkillDetail(detailSkill, props) : nothing}
-    ${props.clawhubDetailSlug ? renderClawHubDetailDialog(props) : nothing}
+    ${props.kibohubDetailSlug ? renderKiboHubDetailDialog(props) : nothing}
   `;
 }
 
-function renderClawHubResults(props: SkillsProps) {
-  const results = props.clawhubResults;
+function renderKiboHubResults(props: SkillsProps) {
+  const results = props.kibohubResults;
   if (!results) {
     return nothing;
   }
   if (results.length === 0) {
-    return html`<div class="muted" style="margin-top: 8px;">No skills found on ClawHub.</div>`;
+    return html`<div class="muted" style="margin-top: 8px;">No skills found on KiboHub.</div>`;
   }
   return html`
     <div class="list" style="margin-top: 8px;">
@@ -259,7 +259,7 @@ function renderClawHubResults(props: SkillsProps) {
         (r) => html`
           <div
             class="list-item list-item-clickable"
-            @click=${() => props.onClawHubDetailOpen(r.slug)}
+            @click=${() => props.onKiboHubDetailOpen(r.slug)}
           >
             <div class="list-main">
               <div class="list-title">${r.displayName}</div>
@@ -271,13 +271,13 @@ function renderClawHubResults(props: SkillsProps) {
                 : nothing}
               <button
                 class="btn btn--sm"
-                ?disabled=${props.clawhubInstallSlug !== null}
+                ?disabled=${props.kibohubInstallSlug !== null}
                 @click=${(e: Event) => {
                   e.stopPropagation();
-                  props.onClawHubInstall(r.slug);
+                  props.onKiboHubInstall(r.slug);
                 }}
               >
-                ${props.clawhubInstallSlug === r.slug ? "Installing\u2026" : "Install"}
+                ${props.kibohubInstallSlug === r.slug ? "Installing\u2026" : "Install"}
               </button>
             </div>
           </div>
@@ -287,8 +287,8 @@ function renderClawHubResults(props: SkillsProps) {
   `;
 }
 
-function renderClawHubDetailDialog(props: SkillsProps) {
-  const detail = props.clawhubDetail;
+function renderKiboHubDetailDialog(props: SkillsProps) {
+  const detail = props.kibohubDetail;
   const ensureModalOpen = (el?: Element) => {
     if (!(el instanceof HTMLDialogElement) || el.open) {
       return;
@@ -306,12 +306,12 @@ function renderClawHubDetailDialog(props: SkillsProps) {
           dialog.close();
         }
       }}
-      @close=${props.onClawHubDetailClose}
+      @close=${props.onKiboHubDetailClose}
     >
       <div class="md-preview-dialog__panel">
         <div class="md-preview-dialog__header">
           <div class="md-preview-dialog__title">
-            ${detail?.skill?.displayName ?? props.clawhubDetailSlug}
+            ${detail?.skill?.displayName ?? props.kibohubDetailSlug}
           </div>
           <button
             class="btn btn--sm"
@@ -323,10 +323,10 @@ function renderClawHubDetailDialog(props: SkillsProps) {
           </button>
         </div>
         <div class="md-preview-dialog__body" style="display: grid; gap: 16px;">
-          ${props.clawhubDetailLoading
+          ${props.kibohubDetailLoading
             ? html`<div class="muted">${t("common.loading")}</div>`
-            : props.clawhubDetailError
-              ? html`<div class="callout danger">${props.clawhubDetailError}</div>`
+            : props.kibohubDetailError
+              ? html`<div class="callout danger">${props.kibohubDetailError}</div>`
               : detail?.skill
                 ? html`
                     <div style="font-size: 14px; line-height: 1.5;">
@@ -359,14 +359,14 @@ function renderClawHubDetailDialog(props: SkillsProps) {
                       : nothing}
                     <button
                       class="btn primary"
-                      ?disabled=${props.clawhubInstallSlug !== null}
+                      ?disabled=${props.kibohubInstallSlug !== null}
                       @click=${() => {
-                        if (props.clawhubDetailSlug) {
-                          props.onClawHubInstall(props.clawhubDetailSlug);
+                        if (props.kibohubDetailSlug) {
+                          props.onKiboHubInstall(props.kibohubDetailSlug);
                         }
                       }}
                     >
-                      ${props.clawhubInstallSlug === props.clawhubDetailSlug
+                      ${props.kibohubInstallSlug === props.kibohubDetailSlug
                         ? "Installing\u2026"
                         : `Install ${detail.skill.displayName}`}
                     </button>
@@ -418,7 +418,7 @@ function renderSkillDetail(skill: SkillStatusEntry, props: SkillsProps) {
   const apiKey = props.edits[skill.skillKey] ?? "";
   const message = props.messages[skill.skillKey] ?? null;
   const canInstall = skill.install.length > 0 && skill.missing.bins.length > 0;
-  const showBundledBadge = Boolean(skill.bundled && skill.source !== "openclaw-bundled");
+  const showBundledBadge = Boolean(skill.bundled && skill.source !== "kibo-bundled");
   const missing = computeSkillMissing(skill);
   const reasons = computeSkillReasons(skill);
   const ensureModalOpen = (el?: Element) => {

@@ -1,24 +1,24 @@
 {
-  "name": "@openclaw/nostr",
+  "name": "@kibo/nostr",
   "version": "2026.4.10",
-  "description": "OpenClaw Nostr channel plugin for NIP-04 encrypted DMs",
+  "description": "Kibo Nostr channel plugin for NIP-04 encrypted DMs",
   "type": "module",
   "dependencies": {
     "nostr-tools": "^2.23.3"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*",
+    "kibo": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.4.10"
+    "kibo": ">=2026.4.10"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "kibo": {
       "optional": true
     }
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ],
@@ -34,7 +34,7 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@openclaw/nostr",
+      "npmSpec": "@kibo/nostr",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.10"
     },
@@ -42,13 +42,13 @@
       "pluginApi": ">=2026.4.10"
     },
     "build": {
-      "openclawVersion": "2026.4.10"
+      "kiboVersion": "2026.4.10"
     },
     "bundle": {
       "stageRuntimeDependencies": true
     },
     "release": {
-      "publishToClawHub": true,
+      "publishToKiboHub": true,
       "publishToNpm": true
     }
   }

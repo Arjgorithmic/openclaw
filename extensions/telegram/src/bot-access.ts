@@ -3,9 +3,9 @@ import {
   isSenderIdAllowed,
   mergeDmAllowFromSources,
   type AllowlistMatch,
-} from "openclaw/plugin-sdk/allow-from";
-import { createSubsystemLogger } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/allow-from";
+import { createSubsystemLogger } from "kibo/plugin-sdk/runtime-env";
+import { normalizeOptionalString } from "kibo/plugin-sdk/text-runtime";
 
 export type NormalizedAllowFrom = {
   entries: string[];

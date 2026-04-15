@@ -2,7 +2,7 @@ import { mkdirSync, rmSync } from "node:fs";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { resolveSessionTranscriptsDirForAgent } from "openclaw/plugin-sdk/memory-core";
+import { resolveSessionTranscriptsDirForAgent } from "kibo/plugin-sdk/memory-core";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   clearMemoryEmbeddingProviders as clearRegistry,
@@ -118,7 +118,7 @@ describe("memory index", () => {
   const managersForCleanup = new Set<MemoryIndexManager>();
 
   beforeAll(async () => {
-    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-mem-fixtures-"));
+    fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), "kibo-mem-fixtures-"));
     workspaceDir = path.join(fixtureRoot, "workspace");
     memoryDir = path.join(workspaceDir, "memory");
     indexMainPath = path.join(workspaceDir, "index-main.sqlite");
@@ -140,7 +140,7 @@ describe("memory index", () => {
   beforeEach(async () => {
     // Perf: most suites don't need atomic swap behavior for full reindexes.
     // Keep atomic reindex tests on the safe path.
-    vi.stubEnv("OPENCLAW_TEST_MEMORY_UNSAFE_REINDEX", "1");
+    vi.stubEnv("KIBO_TEST_MEMORY_UNSAFE_REINDEX", "1");
     clearRegistry();
     registerBuiltInMemoryEmbeddingProviders({ registerMemoryEmbeddingProvider: registerAdapter });
     embedBatchCalls = 0;
@@ -382,7 +382,7 @@ describe("memory index", () => {
   it("prefers exact session transcript hits in FTS-only mode", async () => {
     forceNoProvider = true;
     const stateDir = path.join(workspaceDir, ".state-session-ranking");
-    vi.stubEnv("OPENCLAW_STATE_DIR", stateDir);
+    vi.stubEnv("KIBO_STATE_DIR", stateDir);
     try {
       const cfg = createCfg({
         storePath: path.join(workspaceDir, "index-fts-session-ranking.sqlite"),
@@ -449,7 +449,7 @@ describe("memory index", () => {
   it("bootstraps an empty index on first search so session transcript hits are available", async () => {
     forceNoProvider = true;
     const stateDir = path.join(workspaceDir, ".state-session-bootstrap");
-    vi.stubEnv("OPENCLAW_STATE_DIR", stateDir);
+    vi.stubEnv("KIBO_STATE_DIR", stateDir);
     try {
       const cfg = createCfg({
         storePath: path.join(workspaceDir, "index-fts-session-bootstrap.sqlite"),

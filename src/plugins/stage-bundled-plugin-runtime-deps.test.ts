@@ -40,19 +40,19 @@ afterEach(() => {
 
 describe("stageBundledPluginRuntimeDeps", () => {
   it("drops Lark SDK type cargo while keeping runtime entrypoints", () => {
-    const repoRoot = makeRepoRoot("openclaw-stage-bundled-runtime-deps-");
+    const repoRoot = makeRepoRoot("kibo-stage-bundled-runtime-deps-");
 
     writeRepoFile(
       repoRoot,
       "dist/extensions/feishu/package.json",
       JSON.stringify(
         {
-          name: "@openclaw/feishu",
+          name: "@kibo/feishu",
           version: "2026.4.10",
           dependencies: {
             "@larksuiteoapi/node-sdk": "^1.60.0",
           },
-          openclaw: {
+          kibo: {
             bundle: {
               stageRuntimeDependencies: true,
             },
@@ -113,29 +113,29 @@ describe("stageBundledPluginRuntimeDeps", () => {
   });
 
   it("strips non-runtime dependency sections before temp npm staging", async () => {
-    const repoRoot = makeRepoRoot("openclaw-stage-bundled-runtime-manifest-");
+    const repoRoot = makeRepoRoot("kibo-stage-bundled-runtime-manifest-");
     writeRepoFile(
       repoRoot,
       "dist/extensions/amazon-bedrock/package.json",
       JSON.stringify(
         {
-          name: "@openclaw/amazon-bedrock-provider",
+          name: "@kibo/amazon-bedrock-provider",
           version: "2026.4.10",
           dependencies: {
             "@aws-sdk/client-bedrock": "3.1024.0",
           },
           devDependencies: {
-            "@openclaw/plugin-sdk": "workspace:*",
+            "@kibo/plugin-sdk": "workspace:*",
           },
           peerDependencies: {
-            openclaw: "^0.0.0",
+            kibo: "^0.0.0",
           },
           peerDependenciesMeta: {
-            openclaw: {
+            kibo: {
               optional: true,
             },
           },
-          openclaw: {
+          kibo: {
             bundle: {
               stageRuntimeDependencies: true,
             },

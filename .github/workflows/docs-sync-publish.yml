@@ -29,11 +29,11 @@ jobs:
 
       - name: Clone publish repo
         env:
-          OPENCLAW_DOCS_SYNC_TOKEN: ${{ secrets.OPENCLAW_DOCS_SYNC_TOKEN }}
+          KIBO_DOCS_SYNC_TOKEN: ${{ secrets.KIBO_DOCS_SYNC_TOKEN }}
         run: |
           set -euo pipefail
           git clone \
-            "https://x-access-token:${OPENCLAW_DOCS_SYNC_TOKEN}@github.com/openclaw/docs.git" \
+            "https://x-access-token:${KIBO_DOCS_SYNC_TOKEN}@github.com/kibo/docs.git" \
             publish
 
       - name: Sync docs into publish repo
@@ -47,14 +47,14 @@ jobs:
         working-directory: publish
         run: |
           set -euo pipefail
-          if git diff --quiet -- docs .openclaw-sync; then
+          if git diff --quiet -- docs .kibo-sync; then
             echo "No publish-repo changes."
             exit 0
           fi
 
-          git config user.name "openclaw-docs-sync[bot]"
-          git config user.email "openclaw-docs-sync[bot]@users.noreply.github.com"
-          git add docs .openclaw-sync
+          git config user.name "kibo-docs-sync[bot]"
+          git config user.email "kibo-docs-sync[bot]@users.noreply.github.com"
+          git add docs .kibo-sync
           git commit -m "chore(sync): mirror docs from $GITHUB_REPOSITORY@$GITHUB_SHA"
           for attempt in 1 2 3 4 5; do
             git fetch origin main

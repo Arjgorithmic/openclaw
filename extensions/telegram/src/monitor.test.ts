@@ -261,7 +261,7 @@ async function monitorWithAutoAbort(opts: Omit<MonitorTelegramOpts, "abortSignal
   });
 }
 
-vi.mock("openclaw/plugin-sdk/config-runtime", async () => {
+vi.mock("kibo/plugin-sdk/config-runtime", async () => {
   return {
     loadConfig,
     resolveAgentMaxConcurrent: (cfg: { agents?: { defaults?: { maxConcurrent?: number } } }) =>
@@ -306,9 +306,9 @@ vi.mock("@grammyjs/runner", () => ({
   run: runSpy,
 }));
 
-vi.mock("openclaw/plugin-sdk/runtime-env", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/runtime-env")>(
-    "openclaw/plugin-sdk/runtime-env",
+vi.mock("kibo/plugin-sdk/runtime-env", async () => {
+  const actual = await vi.importActual<typeof import("kibo/plugin-sdk/runtime-env")>(
+    "kibo/plugin-sdk/runtime-env",
   );
   return {
     ...actual,

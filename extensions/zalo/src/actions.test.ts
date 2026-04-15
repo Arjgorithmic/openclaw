@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { zaloMessageActions } from "./actions.js";
-import type { OpenClawConfig } from "./runtime-api.js";
+import type { KiboConfig } from "./runtime-api.js";
 
 describe("zaloMessageActions.describeMessageTool", () => {
   it("honors the selected Zalo account during discovery", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: KiboConfig = {
       channels: {
         zalo: {
           enabled: true,

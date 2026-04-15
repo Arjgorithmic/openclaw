@@ -1,18 +1,18 @@
 ---
-summary: "Redirect: flow commands live under `openclaw tasks flow`"
+summary: "Redirect: flow commands live under `kibo tasks flow`"
 read_when:
-  - You encounter openclaw flows in older docs or release notes
+  - You encounter kibo flows in older docs or release notes
 title: "flows (redirect)"
 ---
 
-# `openclaw tasks flow`
+# `kibo tasks flow`
 
-Flow commands are subcommands of `openclaw tasks`, not a standalone `flows` command.
+Flow commands are subcommands of `kibo tasks`, not a standalone `flows` command.
 
 ```bash
-openclaw tasks flow list [--json]
-openclaw tasks flow show <lookup>
-openclaw tasks flow cancel <lookup>
+kibo tasks flow list [--json]
+kibo tasks flow show <lookup>
+kibo tasks flow cancel <lookup>
 ```
 
 For full documentation see [Task Flow](/automation/taskflow) and the [tasks CLI reference](/cli/index#tasks).

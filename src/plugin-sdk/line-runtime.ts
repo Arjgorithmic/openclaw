@@ -1,5 +1,5 @@
 // Manual facade. Keep loader boundary explicit.
-type FacadeModule = typeof import("@openclaw/line/runtime-api.js");
+type FacadeModule = typeof import("@kibo/line/runtime-api.js");
 import { loadActivatedBundledPluginPublicSurfaceModuleSync } from "./facade-runtime.js";
 
 function loadFacadeModule(): FacadeModule {
@@ -134,24 +134,24 @@ export const uploadRichMenuImage: FacadeModule["uploadRichMenuImage"] = ((...arg
   loadFacadeModule()["uploadRichMenuImage"](...args)) as FacadeModule["uploadRichMenuImage"];
 export const uriAction: FacadeModule["uriAction"] = ((...args) =>
   loadFacadeModule()["uriAction"](...args)) as FacadeModule["uriAction"];
-export type Action = import("@openclaw/line/runtime-api.js").Action;
-export type CardAction = import("@openclaw/line/runtime-api.js").CardAction;
-export type CreateRichMenuParams = import("@openclaw/line/runtime-api.js").CreateRichMenuParams;
-export type FlexBox = import("@openclaw/line/runtime-api.js").FlexBox;
-export type FlexBubble = import("@openclaw/line/runtime-api.js").FlexBubble;
-export type FlexButton = import("@openclaw/line/runtime-api.js").FlexButton;
-export type FlexCarousel = import("@openclaw/line/runtime-api.js").FlexCarousel;
-export type FlexComponent = import("@openclaw/line/runtime-api.js").FlexComponent;
-export type FlexContainer = import("@openclaw/line/runtime-api.js").FlexContainer;
-export type FlexImage = import("@openclaw/line/runtime-api.js").FlexImage;
-export type FlexText = import("@openclaw/line/runtime-api.js").FlexText;
-export type LineChannelData = import("@openclaw/line/runtime-api.js").LineChannelData;
-export type LineConfig = import("@openclaw/line/runtime-api.js").LineConfig;
-export type LineProbeResult = import("@openclaw/line/runtime-api.js").LineProbeResult;
-export type ListItem = import("@openclaw/line/runtime-api.js").ListItem;
-export type ResolvedLineAccount = import("@openclaw/line/runtime-api.js").ResolvedLineAccount;
-export type RichMenuArea = import("@openclaw/line/runtime-api.js").RichMenuArea;
-export type RichMenuAreaRequest = import("@openclaw/line/runtime-api.js").RichMenuAreaRequest;
-export type RichMenuRequest = import("@openclaw/line/runtime-api.js").RichMenuRequest;
-export type RichMenuResponse = import("@openclaw/line/runtime-api.js").RichMenuResponse;
-export type RichMenuSize = import("@openclaw/line/runtime-api.js").RichMenuSize;
+export type Action = import("@kibo/line/runtime-api.js").Action;
+export type CardAction = import("@kibo/line/runtime-api.js").CardAction;
+export type CreateRichMenuParams = import("@kibo/line/runtime-api.js").CreateRichMenuParams;
+export type FlexBox = import("@kibo/line/runtime-api.js").FlexBox;
+export type FlexBubble = import("@kibo/line/runtime-api.js").FlexBubble;
+export type FlexButton = import("@kibo/line/runtime-api.js").FlexButton;
+export type FlexCarousel = import("@kibo/line/runtime-api.js").FlexCarousel;
+export type FlexComponent = import("@kibo/line/runtime-api.js").FlexComponent;
+export type FlexContainer = import("@kibo/line/runtime-api.js").FlexContainer;
+export type FlexImage = import("@kibo/line/runtime-api.js").FlexImage;
+export type FlexText = import("@kibo/line/runtime-api.js").FlexText;
+export type LineChannelData = import("@kibo/line/runtime-api.js").LineChannelData;
+export type LineConfig = import("@kibo/line/runtime-api.js").LineConfig;
+export type LineProbeResult = import("@kibo/line/runtime-api.js").LineProbeResult;
+export type ListItem = import("@kibo/line/runtime-api.js").ListItem;
+export type ResolvedLineAccount = import("@kibo/line/runtime-api.js").ResolvedLineAccount;
+export type RichMenuArea = import("@kibo/line/runtime-api.js").RichMenuArea;
+export type RichMenuAreaRequest = import("@kibo/line/runtime-api.js").RichMenuAreaRequest;
+export type RichMenuRequest = import("@kibo/line/runtime-api.js").RichMenuRequest;
+export type RichMenuResponse = import("@kibo/line/runtime-api.js").RichMenuResponse;
+export type RichMenuSize = import("@kibo/line/runtime-api.js").RichMenuSize;

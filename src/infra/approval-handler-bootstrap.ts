@@ -1,6 +1,6 @@
 import { resolveChannelApprovalCapability } from "../channels/plugins/approvals.js";
 import type { ChannelPlugin } from "../channels/plugins/types.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import type { PluginRuntime } from "../plugins/runtime/types.js";
 import {
@@ -18,7 +18,7 @@ const APPROVAL_HANDLER_BOOTSTRAP_RETRY_MS = 1_000;
 
 export async function startChannelApprovalHandlerBootstrap(params: {
   plugin: Pick<ChannelPlugin, "id" | "meta" | "approvalCapability">;
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId: string;
   channelRuntime?: PluginRuntime["channel"];
   logger?: ReturnType<typeof createSubsystemLogger>;

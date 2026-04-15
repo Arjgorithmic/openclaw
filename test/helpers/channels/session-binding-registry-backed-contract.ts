@@ -19,14 +19,14 @@ import {
 import { createTestRegistry } from "../../../src/test-utils/channel-plugins.js";
 import { getSessionBindingContractRegistry } from "./registry-session-binding.js";
 
-type BluebubblesApiSurface = typeof import("@openclaw/bluebubbles/api.js");
-type DiscordTestApiSurface = typeof import("@openclaw/discord/test-api.js");
-type FeishuApiSurface = typeof import("@openclaw/feishu/api.js");
-type IMessageApiSurface = typeof import("@openclaw/imessage/api.js");
-type MatrixApiSurface = typeof import("@openclaw/matrix/api.js");
-type MatrixTestApiSurface = typeof import("@openclaw/matrix/test-api.js");
-type TelegramApiSurface = typeof import("@openclaw/telegram/api.js");
-type TelegramTestApiSurface = typeof import("@openclaw/telegram/test-api.js");
+type BluebubblesApiSurface = typeof import("@kibo/bluebubbles/api.js");
+type DiscordTestApiSurface = typeof import("@kibo/discord/test-api.js");
+type FeishuApiSurface = typeof import("@kibo/feishu/api.js");
+type IMessageApiSurface = typeof import("@kibo/imessage/api.js");
+type MatrixApiSurface = typeof import("@kibo/matrix/api.js");
+type MatrixTestApiSurface = typeof import("@kibo/matrix/test-api.js");
+type TelegramApiSurface = typeof import("@kibo/telegram/api.js");
+type TelegramTestApiSurface = typeof import("@kibo/telegram/test-api.js");
 
 const { bluebubblesPlugin } = loadBundledPluginApiSync<BluebubblesApiSurface>("bluebubbles");
 const { discordPlugin, discordThreadBindingTesting } =
@@ -175,7 +175,7 @@ export function describeSessionBindingRegistryBackedContract(id: string) {
       resetPluginRuntimeStateForTest();
       clearRuntimeConfigSnapshot();
       // Keep the suite hermetic; some contract helpers resolve runtime artifacts through config-aware
-      // plugin boundaries, so never fall back to the developer's real ~/.openclaw/openclaw.json here.
+      // plugin boundaries, so never fall back to the developer's real ~/.kibo/kibo.json here.
       const runtimeConfig = resolveSessionBindingContractRuntimeConfig(entry.id);
       // These registry-backed contract suites intentionally exercise bundled runtime facades.
       // Opt the bundled-runtime cases in so the activation boundary behaves like real runtime usage.

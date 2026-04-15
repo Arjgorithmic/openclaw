@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import {
   buildBootstrapContextFiles,
   DEFAULT_BOOTSTRAP_MAX_CHARS,
@@ -32,7 +32,7 @@ const createLargeBootstrapFiles = (): WorkspaceBootstrapFile[] => [
 
 describe("ensureSessionHeader", () => {
   it("creates transcript files with restrictive permissions", async () => {
-    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-session-header-"));
+    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "kibo-session-header-"));
     try {
       const sessionFile = path.join(tempDir, "nested", "session.jsonl");
       await ensureSessionHeader({ sessionFile, sessionId: "session-1", cwd: tempDir });
@@ -174,7 +174,7 @@ describe("buildBootstrapContextFiles", () => {
 
 type BootstrapLimitResolverCase = {
   name: "bootstrapMaxChars" | "bootstrapTotalMaxChars";
-  resolve: (cfg?: OpenClawConfig) => number;
+  resolve: (cfg?: KiboConfig) => number;
   defaultValue: number;
 };
 
@@ -202,7 +202,7 @@ describe("bootstrap limit resolvers", () => {
     for (const resolver of BOOTSTRAP_LIMIT_RESOLVERS) {
       const cfg = {
         agents: { defaults: { [resolver.name]: 12345 } },
-      } as OpenClawConfig;
+      } as KiboConfig;
       expect(resolver.resolve(cfg)).toBe(12345);
     }
   });
@@ -211,7 +211,7 @@ describe("bootstrap limit resolvers", () => {
     for (const resolver of BOOTSTRAP_LIMIT_RESOLVERS) {
       const cfg = {
         agents: { defaults: { [resolver.name]: -1 } },
-      } as OpenClawConfig;
+      } as KiboConfig;
       expect(resolver.resolve(cfg)).toBe(resolver.defaultValue);
     }
   });
@@ -228,12 +228,12 @@ describe("resolveBootstrapPromptTruncationWarningMode", () => {
     expect(
       resolveBootstrapPromptTruncationWarningMode({
         agents: { defaults: { bootstrapPromptTruncationWarning: "off" } },
-      } as OpenClawConfig),
+      } as KiboConfig),
     ).toBe("off");
     expect(
       resolveBootstrapPromptTruncationWarningMode({
         agents: { defaults: { bootstrapPromptTruncationWarning: "always" } },
-      } as OpenClawConfig),
+      } as KiboConfig),
     ).toBe("always");
   });
 
@@ -241,7 +241,7 @@ describe("resolveBootstrapPromptTruncationWarningMode", () => {
     expect(
       resolveBootstrapPromptTruncationWarningMode({
         agents: { defaults: { bootstrapPromptTruncationWarning: "invalid" } },
-      } as unknown as OpenClawConfig),
+      } as unknown as KiboConfig),
     ).toBe(DEFAULT_BOOTSTRAP_PROMPT_TRUNCATION_WARNING_MODE);
   });
 });

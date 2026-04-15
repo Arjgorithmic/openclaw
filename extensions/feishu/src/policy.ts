@@ -1,10 +1,10 @@
 import {
   normalizeAccountId,
   resolveMergedAccountConfig,
-} from "openclaw/plugin-sdk/account-resolution";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/core";
-import { evaluateSenderGroupAccessForPolicy } from "openclaw/plugin-sdk/group-access";
-import { normalizeOptionalLowercaseString } from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/account-resolution";
+import type { KiboConfig } from "kibo/plugin-sdk/core";
+import { evaluateSenderGroupAccessForPolicy } from "kibo/plugin-sdk/group-access";
+import { normalizeOptionalLowercaseString } from "kibo/plugin-sdk/text-runtime";
 import type { AllowlistMatch, ChannelGroupContext, GroupToolPolicyConfig } from "../runtime-api.js";
 import { normalizeFeishuTarget } from "./targets.js";
 import type { FeishuConfig, FeishuGroupConfig } from "./types.js";
@@ -113,7 +113,7 @@ export function isFeishuGroupAllowed(params: {
 
 export function resolveFeishuReplyPolicy(params: {
   isDirectMessage: boolean;
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId?: string | null;
   groupId?: string | null;
   /**

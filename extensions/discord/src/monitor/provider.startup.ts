@@ -8,11 +8,11 @@ import {
 } from "@buape/carbon";
 import type { GatewayPlugin } from "@buape/carbon/gateway";
 import { VoicePlugin } from "@buape/carbon/voice";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-import { isDangerousNameMatchingEnabled } from "openclaw/plugin-sdk/config-runtime";
-import { danger } from "openclaw/plugin-sdk/runtime-env";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
+import { isDangerousNameMatchingEnabled } from "kibo/plugin-sdk/config-runtime";
+import { danger } from "kibo/plugin-sdk/runtime-env";
+import type { RuntimeEnv } from "kibo/plugin-sdk/runtime-env";
+import { normalizeOptionalString } from "kibo/plugin-sdk/text-runtime";
 import { createDiscordRequestClient } from "../proxy-request-client.js";
 import type { DiscordGuildEntryResolved } from "./allow-list.js";
 import { createDiscordAutoPresenceController } from "./auto-presence.js";
@@ -227,7 +227,7 @@ export async function fetchDiscordBotIdentity(params: {
 }
 
 export function registerDiscordMonitorListeners(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   client: Pick<Client, "listeners">;
   accountId: string;
   discordConfig: DiscordListenerConfig;

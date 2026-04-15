@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { getActivePluginRegistry } from "../plugins/runtime.js";
 
 let pluginRegistryLoaderModulePromise:
@@ -11,7 +11,7 @@ async function loadPluginRegistryLoaderModule() {
 }
 
 export async function ensureNodeHostPluginRegistry(params: {
-  config: OpenClawConfig;
+  config: KiboConfig;
   env?: NodeJS.ProcessEnv;
 }): Promise<void> {
   (await loadPluginRegistryLoaderModule()).ensurePluginRegistryLoaded({

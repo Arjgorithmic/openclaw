@@ -1,6 +1,6 @@
 import type {
   MusicGenerationProviderPlugin,
-  OpenClawPluginApi,
+  KiboPluginApi,
   VideoGenerationProviderPlugin,
 } from "../../../src/plugins/types.js";
 import { loadBundledPluginPublicSurfaceSync } from "../../../src/test-utils/bundled-plugin-public-surface.js";
@@ -8,7 +8,7 @@ import { registerProviderPlugin } from "../plugins/provider-registration.js";
 
 type BundledPluginEntryModule = {
   default: {
-    register(api: OpenClawPluginApi): void | Promise<void>;
+    register(api: KiboPluginApi): void | Promise<void>;
   };
 };
 

@@ -4,8 +4,8 @@ import type {
   RealtimeVoiceProviderConfig,
   RealtimeVoiceProviderPlugin,
   RealtimeVoiceTool,
-} from "openclaw/plugin-sdk/realtime-voice";
-import { normalizeResolvedSecretInputString } from "openclaw/plugin-sdk/secret-input";
+} from "kibo/plugin-sdk/realtime-voice";
+import { normalizeResolvedSecretInputString } from "kibo/plugin-sdk/secret-input";
 import WebSocket from "ws";
 import {
   asFiniteNumber,

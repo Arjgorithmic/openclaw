@@ -84,7 +84,7 @@ describe("appendAssistantMessageToSessionTranscript", () => {
         messageId: expect.any(String),
         message: expect.objectContaining({
           role: "assistant",
-          provider: "openclaw",
+          provider: "kibo",
           model: "delivery-mirror",
           content: [{ type: "text", text: "Hello from delivery mirror!" }],
         }),
@@ -218,7 +218,7 @@ describe("appendAssistantMessageToSessionTranscript", () => {
           },
         ],
         api: "openai-responses",
-        provider: "openclaw",
+        provider: "kibo",
         model: "delivery-mirror",
         usage: {
           input: 0,
@@ -264,7 +264,7 @@ describe("appendAssistantMessageToSessionTranscript", () => {
         role: "assistant",
         content: [{ type: "text", text: "Done." }],
         api: "openai-responses",
-        provider: "openclaw",
+        provider: "kibo",
         model: "delivery-mirror",
         usage: {
           input: 0,

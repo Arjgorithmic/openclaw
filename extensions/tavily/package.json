@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/tavily-plugin",
+  "name": "@kibo/tavily-plugin",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw Tavily plugin",
+  "description": "Kibo Tavily plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ]

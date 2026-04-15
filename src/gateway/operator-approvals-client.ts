@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } from "../utils/message-channel.js";
 import { resolveGatewayClientBootstrap } from "./client-bootstrap.js";
 import { GatewayClient, type GatewayClientOptions } from "./client.js";
@@ -8,7 +8,7 @@ export async function createOperatorApprovalsGatewayClient(
     GatewayClientOptions,
     "clientDisplayName" | "onClose" | "onConnectError" | "onEvent" | "onHelloOk"
   > & {
-    config: OpenClawConfig;
+    config: KiboConfig;
     gatewayUrl?: string;
   },
 ): Promise<GatewayClient> {
@@ -35,7 +35,7 @@ export async function createOperatorApprovalsGatewayClient(
 
 export async function withOperatorApprovalsGatewayClient<T>(
   params: {
-    config: OpenClawConfig;
+    config: KiboConfig;
     gatewayUrl?: string;
     clientDisplayName: string;
   },

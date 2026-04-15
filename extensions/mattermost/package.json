@@ -1,25 +1,25 @@
 {
-  "name": "@openclaw/mattermost",
+  "name": "@kibo/mattermost",
   "version": "2026.4.10",
-  "description": "OpenClaw Mattermost channel plugin",
+  "description": "Kibo Mattermost channel plugin",
   "type": "module",
   "dependencies": {
     "@sinclair/typebox": "0.34.49",
     "ws": "^8.20.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*",
+    "kibo": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.4.10"
+    "kibo": ">=2026.4.10"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "kibo": {
       "optional": true
     }
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ],
@@ -34,7 +34,7 @@
       "order": 65
     },
     "install": {
-      "npmSpec": "@openclaw/mattermost",
+      "npmSpec": "@kibo/mattermost",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.10"
     }

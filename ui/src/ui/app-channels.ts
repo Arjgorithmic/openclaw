@@ -1,4 +1,4 @@
-import type { OpenClawApp } from "./app.ts";
+import type { KiboApp } from "./app.ts";
 import {
   loadChannels,
   logoutWhatsApp,
@@ -10,28 +10,28 @@ import { normalizeOptionalString } from "./string-coerce.ts";
 import type { NostrProfile } from "./types.ts";
 import { createNostrProfileFormState } from "./views/channels.nostr-profile-form.ts";
 
-export async function handleWhatsAppStart(host: OpenClawApp, force: boolean) {
+export async function handleWhatsAppStart(host: KiboApp, force: boolean) {
   await startWhatsAppLogin(host, force);
   await loadChannels(host, true);
 }
 
-export async function handleWhatsAppWait(host: OpenClawApp) {
+export async function handleWhatsAppWait(host: KiboApp) {
   await waitWhatsAppLogin(host);
   await loadChannels(host, true);
 }
 
-export async function handleWhatsAppLogout(host: OpenClawApp) {
+export async function handleWhatsAppLogout(host: KiboApp) {
   await logoutWhatsApp(host);
   await loadChannels(host, true);
 }
 
-export async function handleChannelConfigSave(host: OpenClawApp) {
+export async function handleChannelConfigSave(host: KiboApp) {
   await saveConfig(host);
   await loadConfig(host);
   await loadChannels(host, true);
 }
 
-export async function handleChannelConfigReload(host: OpenClawApp) {
+export async function handleChannelConfigReload(host: KiboApp) {
   await loadConfig(host);
   await loadChannels(host, true);
 }
@@ -58,7 +58,7 @@ function parseValidationErrors(details: unknown): Record<string, string> {
   return errors;
 }
 
-function resolveNostrAccountId(host: OpenClawApp): string {
+function resolveNostrAccountId(host: KiboApp): string {
   const accounts = host.channelsSnapshot?.channelAccounts?.nostr ?? [];
   return accounts[0]?.accountId ?? host.nostrProfileAccountId ?? "default";
 }
@@ -67,7 +67,7 @@ function buildNostrProfileUrl(accountId: string, suffix = ""): string {
   return `/api/channels/nostr/${encodeURIComponent(accountId)}/profile${suffix}`;
 }
 
-function resolveGatewayHttpAuthHeader(host: OpenClawApp): string | null {
+function resolveGatewayHttpAuthHeader(host: KiboApp): string | null {
   const deviceToken = normalizeOptionalString(host.hello?.auth?.deviceToken);
   if (deviceToken) {
     return `Bearer ${deviceToken}`;
@@ -83,13 +83,13 @@ function resolveGatewayHttpAuthHeader(host: OpenClawApp): string | null {
   return null;
 }
 
-function buildGatewayHttpHeaders(host: OpenClawApp): Record<string, string> {
+function buildGatewayHttpHeaders(host: KiboApp): Record<string, string> {
   const authorization = resolveGatewayHttpAuthHeader(host);
   return authorization ? { Authorization: authorization } : {};
 }
 
 export function handleNostrProfileEdit(
-  host: OpenClawApp,
+  host: KiboApp,
   accountId: string,
   profile: NostrProfile | null,
 ) {
@@ -97,13 +97,13 @@ export function handleNostrProfileEdit(
   host.nostrProfileFormState = createNostrProfileFormState(profile ?? undefined);
 }
 
-export function handleNostrProfileCancel(host: OpenClawApp) {
+export function handleNostrProfileCancel(host: KiboApp) {
   host.nostrProfileFormState = null;
   host.nostrProfileAccountId = null;
 }
 
 export function handleNostrProfileFieldChange(
-  host: OpenClawApp,
+  host: KiboApp,
   field: keyof NostrProfile,
   value: string,
 ) {
@@ -124,7 +124,7 @@ export function handleNostrProfileFieldChange(
   };
 }
 
-export function handleNostrProfileToggleAdvanced(host: OpenClawApp) {
+export function handleNostrProfileToggleAdvanced(host: KiboApp) {
   const state = host.nostrProfileFormState;
   if (!state) {
     return;
@@ -135,7 +135,7 @@ export function handleNostrProfileToggleAdvanced(host: OpenClawApp) {
   };
 }
 
-export async function handleNostrProfileSave(host: OpenClawApp) {
+export async function handleNostrProfileSave(host: KiboApp) {
   const state = host.nostrProfileFormState;
   if (!state || state.saving) {
     return;
@@ -207,7 +207,7 @@ export async function handleNostrProfileSave(host: OpenClawApp) {
   }
 }
 
-export async function handleNostrProfileImport(host: OpenClawApp) {
+export async function handleNostrProfileImport(host: KiboApp) {
   const state = host.nostrProfileFormState;
   if (!state || state.importing) {
     return;

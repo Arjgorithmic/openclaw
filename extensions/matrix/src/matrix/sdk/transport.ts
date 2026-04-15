@@ -1,7 +1,7 @@
 import {
   fetchWithRuntimeDispatcher,
   type PinnedDispatcherPolicy,
-} from "openclaw/plugin-sdk/infra-runtime";
+} from "kibo/plugin-sdk/infra-runtime";
 import {
   buildTimeoutAbortSignal,
   closeDispatcher,

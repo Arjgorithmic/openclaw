@@ -18,11 +18,11 @@ const {
   })),
 }));
 
-vi.mock("openclaw/plugin-sdk/provider-auth-runtime", () => ({
+vi.mock("kibo/plugin-sdk/provider-auth-runtime", () => ({
   resolveApiKeyForProvider: resolveApiKeyForProviderMock,
 }));
 
-vi.mock("openclaw/plugin-sdk/provider-http", () => ({
+vi.mock("kibo/plugin-sdk/provider-http", () => ({
   assertOkOrThrowHttpError: assertOkOrThrowHttpErrorMock,
   postJsonRequest: postJsonRequestMock,
   resolveProviderHttpRequestConfig: resolveProviderHttpRequestConfigMock,
@@ -128,7 +128,7 @@ describe("openai image generation provider", () => {
       },
       release: vi.fn(async () => {}),
     });
-    vi.stubEnv("OPENCLAW_QA_ALLOW_LOCAL_IMAGE_PROVIDER", "1");
+    vi.stubEnv("KIBO_QA_ALLOW_LOCAL_IMAGE_PROVIDER", "1");
 
     const provider = buildOpenAIImageGenerationProvider();
     const result = await provider.generateImage({

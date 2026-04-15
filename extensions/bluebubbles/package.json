@@ -1,21 +1,21 @@
 {
-  "name": "@openclaw/bluebubbles",
+  "name": "@kibo/bluebubbles",
   "version": "2026.4.10",
-  "description": "OpenClaw BlueBubbles channel plugin",
+  "description": "Kibo BlueBubbles channel plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*",
+    "kibo": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.4.10"
+    "kibo": ">=2026.4.10"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "kibo": {
       "optional": true
     }
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ],
@@ -38,7 +38,7 @@
       "order": 75
     },
     "install": {
-      "npmSpec": "@openclaw/bluebubbles",
+      "npmSpec": "@kibo/bluebubbles",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.10"
     },
@@ -46,10 +46,10 @@
       "pluginApi": ">=2026.4.10"
     },
     "build": {
-      "openclawVersion": "2026.4.10"
+      "kiboVersion": "2026.4.10"
     },
     "release": {
-      "publishToClawHub": true,
+      "publishToKiboHub": true,
       "publishToNpm": true
     }
   }

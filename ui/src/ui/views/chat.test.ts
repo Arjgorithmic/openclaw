@@ -150,7 +150,7 @@ function createChatHeaderState(
       locale: "en",
       sessionKey: "main",
       lastActiveSessionKey: "main",
-      theme: "claw",
+      theme: "kibo",
       themeMode: "dark",
       splitRatio: 0.6,
       navCollapsed: false,
@@ -222,7 +222,7 @@ function createProps(overrides: Partial<ChatProps> = {}): ChatProps {
     error: null,
     sessions: createSessions(),
     focusMode: false,
-    assistantName: "OpenClaw",
+    assistantName: "Kibo",
     assistantAvatar: null,
     onRefresh: () => undefined,
     onToggleFocusMode: () => undefined,
@@ -246,7 +246,7 @@ function createOverviewProps(overrides: Partial<OverviewProps> = {}): OverviewPr
       token: "",
       sessionKey: "main",
       lastActiveSessionKey: "main",
-      theme: "claw",
+      theme: "kibo",
       themeMode: "system",
       chatFocusMode: false,
       chatShowThinking: true,
@@ -458,7 +458,7 @@ describe("chat view", () => {
           assistantName: "Assistant",
           assistantAvatar: "A",
           assistantAvatarUrl: null,
-          basePath: "/openclaw/",
+          basePath: "/kibo/",
         }),
       ),
       container,
@@ -468,7 +468,7 @@ describe("chat view", () => {
       ".agent-chat__welcome .agent-chat__avatar--logo img",
     );
     expect(logoImage).not.toBeNull();
-    expect(logoImage?.getAttribute("src")).toBe("/openclaw/favicon.svg");
+    expect(logoImage?.getAttribute("src")).toBe("/kibo/favicon.svg");
   });
 
   it("keeps grouped assistant avatar fallbacks under the mounted base path", () => {
@@ -479,7 +479,7 @@ describe("chat view", () => {
           assistantName: "Assistant",
           assistantAvatar: "A",
           assistantAvatarUrl: null,
-          basePath: "/openclaw/",
+          basePath: "/kibo/",
           messages: [
             {
               role: "assistant",
@@ -496,7 +496,7 @@ describe("chat view", () => {
       ".chat-group.assistant .chat-avatar--logo",
     );
     expect(groupedLogo).not.toBeNull();
-    expect(groupedLogo?.getAttribute("src")).toBe("/openclaw/favicon.svg");
+    expect(groupedLogo?.getAttribute("src")).toBe("/kibo/favicon.svg");
   });
 
   it("keeps the persisted overview locale selected before i18n hydration finishes", async () => {

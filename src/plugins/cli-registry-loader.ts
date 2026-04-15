@@ -1,7 +1,7 @@
 import { collectUniqueCommandDescriptors } from "../cli/program/command-descriptor-utils.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import type { PluginLoadOptions } from "./loader.js";
-import { loadOpenClawPluginCliRegistry, loadOpenClawPlugins } from "./loader.js";
+import { loadKiboPluginCliRegistry, loadKiboPlugins } from "./loader.js";
 import type { PluginRegistry } from "./registry.js";
 import {
   buildPluginRuntimeLoadOptions,
@@ -10,15 +10,15 @@ import {
   type PluginRuntimeLoadContext,
 } from "./runtime/load-context.js";
 import type {
-  OpenClawPluginCliCommandDescriptor,
-  OpenClawPluginCliContext,
+  KiboPluginCliCommandDescriptor,
+  KiboPluginCliContext,
   PluginLogger,
 } from "./types.js";
 
 export type PluginCliLoaderOptions = Pick<PluginLoadOptions, "pluginSdkResolution">;
 
 export type PluginCliPublicLoadParams = {
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   env?: NodeJS.ProcessEnv;
   loaderOptions?: PluginCliLoaderOptions;
   logger?: PluginLogger;
@@ -32,9 +32,9 @@ export type PluginCliRegistryLoadResult = PluginCliLoadContext & {
 
 export type PluginCliCommandGroupEntry = {
   pluginId: string;
-  placeholders: readonly OpenClawPluginCliCommandDescriptor[];
+  placeholders: readonly KiboPluginCliCommandDescriptor[];
   names: readonly string[];
-  register: (program: OpenClawPluginCliContext["program"]) => Promise<void>;
+  register: (program: KiboPluginCliContext["program"]) => Promise<void>;
 };
 
 export function createPluginCliLogger(): PluginLogger {
@@ -75,7 +75,7 @@ function buildPluginCliLoaderParams(
 }
 
 export function resolvePluginCliLoadContext(params: {
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   env?: NodeJS.ProcessEnv;
   logger: PluginLogger;
 }): PluginCliLoadContext {
@@ -92,7 +92,7 @@ export async function loadPluginCliMetadataRegistryWithContext(
 ): Promise<PluginCliRegistryLoadResult> {
   return {
     ...context,
-    registry: await loadOpenClawPluginCliRegistry(
+    registry: await loadKiboPluginCliRegistry(
       buildPluginCliLoaderParams(context, loaderOptions),
     ),
   };
@@ -103,7 +103,7 @@ export async function loadPluginCliCommandRegistryWithContext(params: {
   loaderOptions?: PluginCliLoaderOptions;
   onMetadataFallbackError: (error: unknown) => void;
 }): Promise<PluginCliRegistryLoadResult> {
-  const runtimeRegistry = loadOpenClawPlugins(
+  const runtimeRegistry = loadKiboPlugins(
     buildPluginCliLoaderParams(params.context, params.loaderOptions),
   );
 
@@ -115,7 +115,7 @@ export async function loadPluginCliCommandRegistryWithContext(params: {
   }
 
   try {
-    const metadataRegistry = await loadOpenClawPluginCliRegistry(
+    const metadataRegistry = await loadKiboPluginCliRegistry(
       buildPluginCliLoaderParams(params.context, params.loaderOptions),
     );
     return {
@@ -139,7 +139,7 @@ export async function loadPluginCliCommandRegistryWithContext(params: {
 
 function buildPluginCliCommandGroupEntries(params: {
   registry: PluginRegistry;
-  config: OpenClawConfig;
+  config: KiboConfig;
   workspaceDir: string | undefined;
   logger: PluginLogger;
 }): PluginCliCommandGroupEntry[] {
@@ -164,7 +164,7 @@ function logPluginCliMetadataFallbackError(logger: PluginLogger, error: unknown)
 
 export async function loadPluginCliDescriptors(
   params: PluginCliPublicLoadParams,
-): Promise<OpenClawPluginCliCommandDescriptor[]> {
+): Promise<KiboPluginCliCommandDescriptor[]> {
   try {
     const logger = resolvePluginCliLogger(params.logger);
     const context = resolvePluginCliLoadContext({
@@ -185,7 +185,7 @@ export async function loadPluginCliDescriptors(
 }
 
 export async function loadPluginCliRegistrationEntries(params: {
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   env?: NodeJS.ProcessEnv;
   loaderOptions?: PluginCliLoaderOptions;
   logger?: PluginLogger;

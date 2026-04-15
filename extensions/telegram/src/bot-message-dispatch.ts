@@ -3,21 +3,21 @@ import {
   logAckFailure,
   logTypingFailure,
   removeAckReactionAfterReply,
-} from "openclaw/plugin-sdk/channel-feedback";
-import { createChannelReplyPipeline } from "openclaw/plugin-sdk/channel-reply-pipeline";
-import { resolveChannelStreamingBlockEnabled } from "openclaw/plugin-sdk/channel-streaming";
+} from "kibo/plugin-sdk/channel-feedback";
+import { createChannelReplyPipeline } from "kibo/plugin-sdk/channel-reply-pipeline";
+import { resolveChannelStreamingBlockEnabled } from "kibo/plugin-sdk/channel-streaming";
 import type {
-  OpenClawConfig,
+  KiboConfig,
   ReplyToMode,
   TelegramAccountConfig,
   TelegramDirectConfig,
-} from "openclaw/plugin-sdk/config-runtime";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { clearHistoryEntriesIfEnabled } from "openclaw/plugin-sdk/reply-history";
-import { resolveSendableOutboundReplyParts } from "openclaw/plugin-sdk/reply-payload";
-import type { ReplyPayload } from "openclaw/plugin-sdk/reply-runtime";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
-import { danger, logVerbose } from "openclaw/plugin-sdk/runtime-env";
+} from "kibo/plugin-sdk/config-runtime";
+import { formatErrorMessage } from "kibo/plugin-sdk/error-runtime";
+import { clearHistoryEntriesIfEnabled } from "kibo/plugin-sdk/reply-history";
+import { resolveSendableOutboundReplyParts } from "kibo/plugin-sdk/reply-payload";
+import type { ReplyPayload } from "kibo/plugin-sdk/reply-runtime";
+import type { RuntimeEnv } from "kibo/plugin-sdk/runtime-env";
+import { danger, logVerbose } from "kibo/plugin-sdk/runtime-env";
 import { defaultTelegramBotDeps, type TelegramBotDeps } from "./bot-deps.js";
 import type { TelegramMessageContext } from "./bot-message-context.js";
 import {
@@ -70,7 +70,7 @@ const EMPTY_RESPONSE_FALLBACK = "No response generated. Please try again.";
 /** Minimum chars before sending first streaming message (improves push notification UX) */
 const DRAFT_MIN_INITIAL_CHARS = 30;
 
-async function resolveStickerVisionSupport(cfg: OpenClawConfig, agentId: string) {
+async function resolveStickerVisionSupport(cfg: KiboConfig, agentId: string) {
   try {
     const catalog = await loadModelCatalog({ config: cfg });
     const defaultModel = resolveDefaultModelForAgent({ cfg, agentId });
@@ -118,7 +118,7 @@ export function pruneStickerMediaFromContext(
 type DispatchTelegramMessageParams = {
   context: TelegramMessageContext;
   bot: Bot;
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   runtime: RuntimeEnv;
   replyToMode: ReplyToMode;
   streamMode: TelegramStreamMode;
@@ -131,7 +131,7 @@ type DispatchTelegramMessageParams = {
 type TelegramReasoningLevel = "off" | "on" | "stream";
 
 function resolveTelegramReasoningLevel(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   sessionKey?: string;
   agentId: string;
   telegramDeps: TelegramBotDeps;

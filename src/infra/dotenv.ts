@@ -15,54 +15,54 @@ const BLOCKED_WORKSPACE_DOTENV_KEYS = new Set([
   "ANTHROPIC_API_KEY",
   "ANTHROPIC_OAUTH_TOKEN",
   "BROWSER_EXECUTABLE_PATH",
-  "CLAWHUB_AUTH_TOKEN",
-  "CLAWHUB_CONFIG_PATH",
-  "CLAWHUB_TOKEN",
-  "CLAWHUB_URL",
+  "KIBOHUB_AUTH_TOKEN",
+  "KIBOHUB_CONFIG_PATH",
+  "KIBOHUB_TOKEN",
+  "KIBOHUB_URL",
   "HTTP_PROXY",
   "HTTPS_PROXY",
   "NODE_TLS_REJECT_UNAUTHORIZED",
   "NO_PROXY",
   "OPENAI_API_KEY",
   "OPENAI_API_KEYS",
-  "OPENCLAW_AGENT_DIR",
-  "OPENCLAW_ALLOW_INSECURE_PRIVATE_WS",
-  "OPENCLAW_ALLOW_PROJECT_LOCAL_BIN",
-  "OPENCLAW_BROWSER_EXECUTABLE_PATH",
-  "OPENCLAW_BROWSER_CONTROL_MODULE",
-  "OPENCLAW_BUNDLED_HOOKS_DIR",
-  "OPENCLAW_BUNDLED_PLUGINS_DIR",
-  "OPENCLAW_BUNDLED_SKILLS_DIR",
-  "OPENCLAW_CACHE_TRACE",
-  "OPENCLAW_CACHE_TRACE_FILE",
-  "OPENCLAW_CACHE_TRACE_MESSAGES",
-  "OPENCLAW_CACHE_TRACE_PROMPT",
-  "OPENCLAW_CACHE_TRACE_SYSTEM",
-  "OPENCLAW_CONFIG_PATH",
-  "OPENCLAW_GATEWAY_PASSWORD",
-  "OPENCLAW_GATEWAY_PORT",
-  "OPENCLAW_GATEWAY_SECRET",
-  "OPENCLAW_GATEWAY_TOKEN",
-  "OPENCLAW_GATEWAY_URL",
-  "OPENCLAW_HOME",
-  "OPENCLAW_LIVE_ANTHROPIC_KEY",
-  "OPENCLAW_LIVE_ANTHROPIC_KEYS",
-  "OPENCLAW_LIVE_GEMINI_KEY",
-  "OPENCLAW_LIVE_OPENAI_KEY",
-  "OPENCLAW_MPM_CATALOG_PATHS",
-  "OPENCLAW_NODE_EXEC_FALLBACK",
-  "OPENCLAW_NODE_EXEC_HOST",
-  "OPENCLAW_OAUTH_DIR",
-  "OPENCLAW_PINNED_PYTHON",
-  "OPENCLAW_PINNED_WRITE_PYTHON",
-  "OPENCLAW_PLUGIN_CATALOG_PATHS",
-  "OPENCLAW_PROFILE",
-  "OPENCLAW_RAW_STREAM",
-  "OPENCLAW_RAW_STREAM_PATH",
-  "OPENCLAW_SHOW_SECRETS",
-  "OPENCLAW_SKIP_BROWSER_CONTROL_SERVER",
-  "OPENCLAW_STATE_DIR",
-  "OPENCLAW_TEST_TAILSCALE_BINARY",
+  "KIBO_AGENT_DIR",
+  "KIBO_ALLOW_INSECURE_PRIVATE_WS",
+  "KIBO_ALLOW_PROJECT_LOCAL_BIN",
+  "KIBO_BROWSER_EXECUTABLE_PATH",
+  "KIBO_BROWSER_CONTROL_MODULE",
+  "KIBO_BUNDLED_HOOKS_DIR",
+  "KIBO_BUNDLED_PLUGINS_DIR",
+  "KIBO_BUNDLED_SKILLS_DIR",
+  "KIBO_CACHE_TRACE",
+  "KIBO_CACHE_TRACE_FILE",
+  "KIBO_CACHE_TRACE_MESSAGES",
+  "KIBO_CACHE_TRACE_PROMPT",
+  "KIBO_CACHE_TRACE_SYSTEM",
+  "KIBO_CONFIG_PATH",
+  "KIBO_GATEWAY_PASSWORD",
+  "KIBO_GATEWAY_PORT",
+  "KIBO_GATEWAY_SECRET",
+  "KIBO_GATEWAY_TOKEN",
+  "KIBO_GATEWAY_URL",
+  "KIBO_HOME",
+  "KIBO_LIVE_ANTHROPIC_KEY",
+  "KIBO_LIVE_ANTHROPIC_KEYS",
+  "KIBO_LIVE_GEMINI_KEY",
+  "KIBO_LIVE_OPENAI_KEY",
+  "KIBO_MPM_CATALOG_PATHS",
+  "KIBO_NODE_EXEC_FALLBACK",
+  "KIBO_NODE_EXEC_HOST",
+  "KIBO_OAUTH_DIR",
+  "KIBO_PINNED_PYTHON",
+  "KIBO_PINNED_WRITE_PYTHON",
+  "KIBO_PLUGIN_CATALOG_PATHS",
+  "KIBO_PROFILE",
+  "KIBO_RAW_STREAM",
+  "KIBO_RAW_STREAM_PATH",
+  "KIBO_SHOW_SECRETS",
+  "KIBO_SKIP_BROWSER_CONTROL_SERVER",
+  "KIBO_STATE_DIR",
+  "KIBO_TEST_TAILSCALE_BINARY",
   "PI_CODING_AGENT_DIR",
   "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH",
   "UV_PYTHON",
@@ -72,12 +72,12 @@ const BLOCKED_WORKSPACE_DOTENV_KEYS = new Set([
 const BLOCKED_WORKSPACE_DOTENV_SUFFIXES = ["_BASE_URL"];
 const BLOCKED_WORKSPACE_DOTENV_PREFIXES = [
   "ANTHROPIC_API_KEY_",
-  "CLAWHUB_",
+  "KIBOHUB_",
   "OPENAI_API_KEY_",
-  "OPENCLAW_CLAWHUB_",
-  "OPENCLAW_DISABLE_",
-  "OPENCLAW_SKIP_",
-  "OPENCLAW_UPDATE_",
+  "KIBO_KIBOHUB_",
+  "KIBO_DISABLE_",
+  "KIBO_SKIP_",
+  "KIBO_UPDATE_",
 ];
 
 function shouldBlockWorkspaceRuntimeDotEnvKey(key: string): boolean {
@@ -85,7 +85,7 @@ function shouldBlockWorkspaceRuntimeDotEnvKey(key: string): boolean {
 }
 
 function shouldBlockRuntimeDotEnvKey(key: string): boolean {
-  // The global ~/.openclaw/.env (or OPENCLAW_STATE_DIR/.env) is a trusted
+  // The global ~/.kibo/.env (or KIBO_STATE_DIR/.env) is a trusted
   // operator-controlled runtime surface. Workspace .env is untrusted and gets
   // the strict blocklist, but the trusted global fallback is allowed to set
   // runtime vars like proxy/base-url/auth values.
@@ -236,11 +236,11 @@ export function loadGlobalRuntimeDotEnvFiles(opts?: { quiet?: boolean; stateEnvP
   const stateEnvPath = opts?.stateEnvPath ?? path.join(resolveConfigDir(process.env), ".env");
   const defaultStateEnvPath = path.join(
     resolveRequiredHomeDir(process.env, os.homedir),
-    ".openclaw",
+    ".kibo",
     ".env",
   );
   const hasExplicitNonDefaultStateDir =
-    process.env.OPENCLAW_STATE_DIR?.trim() !== undefined &&
+    process.env.KIBO_STATE_DIR?.trim() !== undefined &&
     path.resolve(stateEnvPath) !== path.resolve(defaultStateEnvPath);
   const parsedFiles = [
     readDotEnvFile({
@@ -255,7 +255,7 @@ export function loadGlobalRuntimeDotEnvFiles(opts?: { quiet?: boolean; stateEnvP
         filePath: path.join(
           resolveRequiredHomeDir(process.env, os.homedir),
           ".config",
-          "openclaw",
+          "kibo",
           "gateway.env",
         ),
         shouldBlockKey: shouldBlockRuntimeDotEnvKey,
@@ -272,7 +272,7 @@ export function loadDotEnv(opts?: { quiet?: boolean }) {
   const cwdEnvPath = path.join(process.cwd(), ".env");
   loadWorkspaceDotEnvFile(cwdEnvPath, { quiet });
 
-  // Then load global fallback: ~/.openclaw/.env (or OPENCLAW_STATE_DIR/.env),
+  // Then load global fallback: ~/.kibo/.env (or KIBO_STATE_DIR/.env),
   // without overriding any env vars already present.
   loadGlobalRuntimeDotEnvFiles({ quiet });
 }

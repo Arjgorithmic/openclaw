@@ -4,7 +4,7 @@ description: Transcribe audio via OpenAI Audio Transcriptions API (Whisper).
 homepage: https://platform.openai.com/docs/guides/speech-to-text
 metadata:
   {
-    "openclaw":
+    "kibo":
       {
         "emoji": "🌐",
         "requires": { "bins": ["curl"], "env": ["OPENAI_API_KEY"] },
@@ -43,13 +43,13 @@ Defaults:
 ```bash
 {baseDir}/scripts/transcribe.sh /path/to/audio.ogg --model whisper-1 --out /tmp/transcript.txt
 {baseDir}/scripts/transcribe.sh /path/to/audio.m4a --language en
-{baseDir}/scripts/transcribe.sh /path/to/audio.m4a --prompt "Speaker names: Peter, Daniel"
+{baseDir}/scripts/transcribe.sh /path/to/audio.m4a --prompt "Speaker names: Kibo, Daniel"
 {baseDir}/scripts/transcribe.sh /path/to/audio.m4a --json --out /tmp/transcript.json
 ```
 
 ## API key
 
-Set `OPENAI_API_KEY`, or configure it in the active OpenClaw config file (`$OPENCLAW_CONFIG_PATH`, default `~/.openclaw/openclaw.json`). Optionally set `OPENAI_BASE_URL` (for example `http://127.0.0.1:51805/v1`) to use an OpenAI-compatible proxy or local gateway:
+Set `OPENAI_API_KEY`, or configure it in the active Kibo config file (`$KIBO_CONFIG_PATH`, default `~/.kibo/kibo.json`). Optionally set `OPENAI_BASE_URL` (for example `http://127.0.0.1:51805/v1`) to use an OpenAI-compatible proxy or local gateway:
 
 ```json5
 {

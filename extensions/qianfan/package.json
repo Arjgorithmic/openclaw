@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/qianfan-provider",
+  "name": "@kibo/qianfan-provider",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw Qianfan provider plugin",
+  "description": "Kibo Qianfan provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ]

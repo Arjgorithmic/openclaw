@@ -1,7 +1,7 @@
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk/plugin-entry";
-import { createProviderApiKeyAuthMethod } from "openclaw/plugin-sdk/provider-auth-api-key";
-import { buildProviderReplayFamilyHooks } from "openclaw/plugin-sdk/provider-model-shared";
-import { buildProviderStreamFamilyHooks } from "openclaw/plugin-sdk/provider-stream-family";
+import type { KiboPluginApi } from "kibo/plugin-sdk/plugin-entry";
+import { createProviderApiKeyAuthMethod } from "kibo/plugin-sdk/provider-auth-api-key";
+import { buildProviderReplayFamilyHooks } from "kibo/plugin-sdk/provider-model-shared";
+import { buildProviderStreamFamilyHooks } from "kibo/plugin-sdk/provider-stream-family";
 import {
   GOOGLE_GEMINI_DEFAULT_MODEL,
   applyGoogleGeminiModelDefault,
@@ -18,7 +18,7 @@ const GOOGLE_GEMINI_PROVIDER_HOOKS = {
   ...buildProviderStreamFamilyHooks("google-thinking"),
 };
 
-export function registerGoogleProvider(api: OpenClawPluginApi) {
+export function registerGoogleProvider(api: KiboPluginApi) {
   api.registerProvider({
     id: "google",
     label: "Google AI Studio",

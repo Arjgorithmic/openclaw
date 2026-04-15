@@ -1,15 +1,15 @@
-import { createChannelPairingChallengeIssuer } from "openclaw/plugin-sdk/channel-pairing";
-import { loadConfig } from "openclaw/plugin-sdk/config-runtime";
+import { createChannelPairingChallengeIssuer } from "kibo/plugin-sdk/channel-pairing";
+import { loadConfig } from "kibo/plugin-sdk/config-runtime";
 import {
   resolveDefaultGroupPolicy,
   warnMissingProviderGroupPolicyFallbackOnce,
-} from "openclaw/plugin-sdk/config-runtime";
-import { upsertChannelPairingRequest } from "openclaw/plugin-sdk/conversation-runtime";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
+} from "kibo/plugin-sdk/config-runtime";
+import { upsertChannelPairingRequest } from "kibo/plugin-sdk/conversation-runtime";
+import { logVerbose } from "kibo/plugin-sdk/runtime-env";
 import {
   readStoreAllowFromForDmPolicy,
   resolveDmGroupAccessWithLists,
-} from "openclaw/plugin-sdk/security-runtime";
+} from "kibo/plugin-sdk/security-runtime";
 import { resolveWhatsAppAccount } from "../accounts.js";
 import { resolveWhatsAppRuntimeGroupPolicy } from "../runtime-group-policy.js";
 import { isSelfChatMode, normalizeE164 } from "../text-runtime.js";

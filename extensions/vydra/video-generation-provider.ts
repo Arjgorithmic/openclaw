@@ -1,6 +1,6 @@
-import { isProviderApiKeyConfigured } from "openclaw/plugin-sdk/provider-auth";
-import { assertOkOrThrowHttpError, postJsonRequest } from "openclaw/plugin-sdk/provider-http";
-import type { VideoGenerationProvider } from "openclaw/plugin-sdk/video-generation";
+import { isProviderApiKeyConfigured } from "kibo/plugin-sdk/provider-auth";
+import { assertOkOrThrowHttpError, postJsonRequest } from "kibo/plugin-sdk/provider-http";
+import type { VideoGenerationProvider } from "kibo/plugin-sdk/video-generation";
 import {
   DEFAULT_VYDRA_VIDEO_MODEL,
   downloadVydraAsset,

@@ -9,8 +9,8 @@ import { execFile } from "node:child_process";
 import * as fs from "node:fs";
 import * as os from "node:os";
 import * as path from "node:path";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
+import { formatErrorMessage } from "kibo/plugin-sdk/error-runtime";
+import { resolvePreferredKiboTmpDir } from "kibo/plugin-sdk/temp-path";
 import { debugLog, debugWarn } from "./debug-log.js";
 
 // Basic platform information.
@@ -37,7 +37,7 @@ export function isWindows(): boolean {
  * Priority:
  * 1. `os.homedir()`
  * 2. `$HOME` or `%USERPROFILE%`
- * 3. the OpenClaw temp directory as a last resort
+ * 3. the Kibo temp directory as a last resort
  */
 export function getHomeDir(): string {
   try {
@@ -54,14 +54,14 @@ export function getHomeDir(): string {
   }
 
   // Final fallback.
-  return resolvePreferredOpenClawTmpDir();
+  return resolvePreferredKiboTmpDir();
 }
 
 /**
- * Return a path under `~/.openclaw/qqbot`, creating it on demand.
+ * Return a path under `~/.kibo/qqbot`, creating it on demand.
  */
 export function getQQBotDataDir(...subPaths: string[]): string {
-  const dir = path.join(getHomeDir(), ".openclaw", "qqbot", ...subPaths);
+  const dir = path.join(getHomeDir(), ".kibo", "qqbot", ...subPaths);
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
@@ -69,13 +69,13 @@ export function getQQBotDataDir(...subPaths: string[]): string {
 }
 
 /**
- * Return a path under `~/.openclaw/media/qqbot`, creating it on demand.
+ * Return a path under `~/.kibo/media/qqbot`, creating it on demand.
  *
- * Unlike `getQQBotDataDir`, this lives under OpenClaw's core media allowlist so
+ * Unlike `getQQBotDataDir`, this lives under Kibo's core media allowlist so
  * downloaded images and audio can be accessed by framework media tooling.
  */
 export function getQQBotMediaDir(...subPaths: string[]): string {
-  const dir = path.join(getHomeDir(), ".openclaw", "media", "qqbot", ...subPaths);
+  const dir = path.join(getHomeDir(), ".kibo", "media", "qqbot", ...subPaths);
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
@@ -84,9 +84,9 @@ export function getQQBotMediaDir(...subPaths: string[]): string {
 
 // Temporary directory helpers.
 
-/** Return the preferred OpenClaw temp directory. */
+/** Return the preferred Kibo temp directory. */
 export function getTempDir(): string {
-  return resolvePreferredOpenClawTmpDir();
+  return resolvePreferredKiboTmpDir();
 }
 
 // Tilde expansion.
@@ -144,7 +144,7 @@ export function resolveQQBotLocalMediaPath(p: string): string {
   const homeDir = getHomeDir();
   const mediaRoot = getQQBotMediaDir();
   const dataRoot = getQQBotDataDir();
-  const workspaceRoot = path.join(homeDir, ".openclaw", "workspace", "qqbot");
+  const workspaceRoot = path.join(homeDir, ".kibo", "workspace", "qqbot");
   const candidateRoots = [
     { from: workspaceRoot, to: mediaRoot },
     { from: dataRoot, to: mediaRoot },

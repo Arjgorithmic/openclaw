@@ -1,14 +1,14 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "name": "OpenClaw",
+  "name": "Kibo",
   "description": "Self-hosted gateway that connects Discord, Google Chat, iMessage, Matrix, Microsoft Teams, Signal, Slack, Telegram, WhatsApp, Zalo, and more to AI coding agents. Run one Gateway process on your own machine and message your AI assistant from anywhere.",
   "theme": "mint",
   "icons": {
     "library": "lucide"
   },
   "logo": {
-    "light": "/assets/pixel-lobster.svg",
-    "dark": "/assets/pixel-lobster.svg"
+    "light": "/assets/pixel-banana.svg",
+    "dark": "/assets/pixel-banana.svg"
   },
   "fonts": {
     "body": {
@@ -18,11 +18,11 @@
       "family": "DM Sans"
     }
   },
-  "favicon": "/assets/pixel-lobster.svg",
+  "favicon": "/assets/pixel-banana.svg",
   "colors": {
-    "primary": "#FF5A36",
-    "dark": "#FF5A36",
-    "light": "#FF8A6B"
+    "primary": "#FFE135",
+    "dark": "#FFE135",
+    "light": "#FFF59D"
   },
   "styling": {
     "codeblocks": {
@@ -36,17 +36,17 @@
     "links": [
       {
         "label": "GitHub",
-        "href": "https://github.com/openclaw/openclaw",
+        "href": "https://github.com/kibo/kibo",
         "icon": "github"
       },
       {
         "label": "Releases",
-        "href": "https://github.com/openclaw/openclaw/releases",
+        "href": "https://github.com/kibo/kibo/releases",
         "icon": "package"
       },
       {
         "label": "Discord",
-        "href": "https://discord.com/invite/clawd",
+        "href": "https://discord.com/invite/kibo",
         "icon": "discord"
       }
     ]
@@ -345,32 +345,32 @@
       "destination": "/nodes/camera"
     },
     {
-      "source": "/clawd",
-      "destination": "/start/openclaw"
+      "source": "/kibo",
+      "destination": "/start/kibo"
     },
     {
-      "source": "/start/clawd",
-      "destination": "/start/openclaw"
+      "source": "/start/kibo",
+      "destination": "/start/kibo"
     },
     {
-      "source": "/start/clawd/",
-      "destination": "/start/openclaw"
+      "source": "/start/kibo/",
+      "destination": "/start/kibo"
     },
     {
       "source": "/start/pairing",
       "destination": "/channels/pairing"
     },
     {
-      "source": "/clawhub",
-      "destination": "/tools/clawhub"
+      "source": "/kibohub",
+      "destination": "/tools/kibohub"
     },
     {
-      "source": "/clawdhub",
-      "destination": "/tools/clawhub"
+      "source": "/kibohub",
+      "destination": "/tools/kibohub"
     },
     {
-      "source": "/tools/clawdhub",
-      "destination": "/tools/clawhub"
+      "source": "/tools/kibohub",
+      "destination": "/tools/kibohub"
     },
     {
       "source": "/configuration",
@@ -937,7 +937,7 @@
               {
                 "group": "Guides",
                 "pages": [
-                  "start/openclaw",
+                  "start/kibo",
                   "start/wizard-cli-reference",
                   "start/wizard-cli-automation"
                 ]
@@ -956,7 +956,7 @@
                 "pages": [
                   "install/ansible",
                   "install/bun",
-                  "install/clawdock",
+                  "install/kiboock",
                   "install/docker",
                   "install/nix",
                   "install/podman"
@@ -1144,7 +1144,7 @@
                   "tools/creating-skills",
                   "tools/skills-config",
                   "tools/slash-commands",
-                  "tools/clawhub",
+                  "tools/kibohub",
                   "prose"
                 ]
               },
@@ -1200,7 +1200,7 @@
                   "tools/image-generation",
                   "tools/music-generation",
                   "tools/llm-task",
-                  "tools/lobster",
+                  "tools/shell",
                   "tools/loop-detection",
                   "tools/pdf",
                   "tools/reactions",
@@ -1498,7 +1498,7 @@
                     "group": "Utility",
                     "pages": [
                       "cli/acp",
-                      "cli/clawbot",
+                      "cli/kibobot",
                       "cli/completion",
                       "cli/dns",
                       "cli/docs",

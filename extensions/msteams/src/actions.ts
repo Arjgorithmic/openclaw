@@ -1,10 +1,10 @@
-import { createMessageToolCardSchema } from "openclaw/plugin-sdk/channel-actions";
+import { createMessageToolCardSchema } from "kibo/plugin-sdk/channel-actions";
 import type {
   ChannelMessageActionAdapter,
   ChannelMessageToolDiscovery,
-} from "openclaw/plugin-sdk/channel-contract";
-import { createLazyRuntimeNamedExport } from "openclaw/plugin-sdk/lazy-runtime";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/channel-contract";
+import { createLazyRuntimeNamedExport } from "kibo/plugin-sdk/lazy-runtime";
+import { normalizeOptionalString } from "kibo/plugin-sdk/text-runtime";
 import type { ChannelMessageActionName, ChannelPlugin } from "./channel-api.js";
 import { resolveMSTeamsCredentials } from "./token.js";
 

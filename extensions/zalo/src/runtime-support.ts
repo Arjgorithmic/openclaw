@@ -1,19 +1,19 @@
-export type { ReplyPayload } from "openclaw/plugin-sdk/reply-runtime";
-export type { OpenClawConfig, GroupPolicy } from "openclaw/plugin-sdk/config-runtime";
-export type { MarkdownTableMode } from "openclaw/plugin-sdk/config-runtime";
-export type { BaseTokenResolution } from "openclaw/plugin-sdk/channel-contract";
+export type { ReplyPayload } from "kibo/plugin-sdk/reply-runtime";
+export type { KiboConfig, GroupPolicy } from "kibo/plugin-sdk/config-runtime";
+export type { MarkdownTableMode } from "kibo/plugin-sdk/config-runtime";
+export type { BaseTokenResolution } from "kibo/plugin-sdk/channel-contract";
 export type {
   BaseProbeResult,
   ChannelAccountSnapshot,
   ChannelMessageActionAdapter,
   ChannelMessageActionName,
   ChannelStatusIssue,
-} from "openclaw/plugin-sdk/channel-contract";
-export type { SecretInput } from "openclaw/plugin-sdk/secret-input";
-export type { SenderGroupAccessDecision } from "openclaw/plugin-sdk/group-access";
-export type { ChannelPlugin, PluginRuntime, WizardPrompter } from "openclaw/plugin-sdk/core";
-export type { RuntimeEnv } from "openclaw/plugin-sdk/runtime";
-export type { OutboundReplyPayload } from "openclaw/plugin-sdk/reply-payload";
+} from "kibo/plugin-sdk/channel-contract";
+export type { SecretInput } from "kibo/plugin-sdk/secret-input";
+export type { SenderGroupAccessDecision } from "kibo/plugin-sdk/group-access";
+export type { ChannelPlugin, PluginRuntime, WizardPrompter } from "kibo/plugin-sdk/core";
+export type { RuntimeEnv } from "kibo/plugin-sdk/runtime";
+export type { OutboundReplyPayload } from "kibo/plugin-sdk/reply-payload";
 export {
   DEFAULT_ACCOUNT_ID,
   buildChannelConfigSchema,
@@ -23,7 +23,7 @@ export {
   normalizeAccountId,
   readStringParam,
   resolveClientIp,
-} from "openclaw/plugin-sdk/core";
+} from "kibo/plugin-sdk/core";
 export {
   applyAccountNameToChannelSection,
   applySetupAccountConfigPatch,
@@ -33,44 +33,44 @@ export {
   promptSingleChannelSecretInput,
   runSingleChannelSecretStep,
   setTopLevelChannelDmPolicyWithAllowFrom,
-} from "openclaw/plugin-sdk/setup";
+} from "kibo/plugin-sdk/setup";
 export {
   buildSecretInputSchema,
   hasConfiguredSecretInput,
   normalizeResolvedSecretInputString,
   normalizeSecretInputString,
-} from "openclaw/plugin-sdk/secret-input";
+} from "kibo/plugin-sdk/secret-input";
 export {
   buildTokenChannelStatusSummary,
   PAIRING_APPROVED_MESSAGE,
-} from "openclaw/plugin-sdk/channel-status";
-export { buildBaseAccountStatusSnapshot } from "openclaw/plugin-sdk/status-helpers";
-export { chunkTextForOutbound } from "openclaw/plugin-sdk/text-chunking";
+} from "kibo/plugin-sdk/channel-status";
+export { buildBaseAccountStatusSnapshot } from "kibo/plugin-sdk/status-helpers";
+export { chunkTextForOutbound } from "kibo/plugin-sdk/text-chunking";
 export {
   formatAllowFromLowercase,
   isNormalizedSenderAllowed,
-} from "openclaw/plugin-sdk/allow-from";
-export { addWildcardAllowFrom } from "openclaw/plugin-sdk/setup";
-export { evaluateSenderGroupAccess } from "openclaw/plugin-sdk/group-access";
-export { resolveOpenProviderRuntimeGroupPolicy } from "openclaw/plugin-sdk/config-runtime";
+} from "kibo/plugin-sdk/allow-from";
+export { addWildcardAllowFrom } from "kibo/plugin-sdk/setup";
+export { evaluateSenderGroupAccess } from "kibo/plugin-sdk/group-access";
+export { resolveOpenProviderRuntimeGroupPolicy } from "kibo/plugin-sdk/config-runtime";
 export {
   warnMissingProviderGroupPolicyFallbackOnce,
   resolveDefaultGroupPolicy,
-} from "openclaw/plugin-sdk/config-runtime";
-export { createChannelPairingController } from "openclaw/plugin-sdk/channel-pairing";
-export { createChannelReplyPipeline } from "openclaw/plugin-sdk/channel-reply-pipeline";
-export { logTypingFailure } from "openclaw/plugin-sdk/channel-feedback";
+} from "kibo/plugin-sdk/config-runtime";
+export { createChannelPairingController } from "kibo/plugin-sdk/channel-pairing";
+export { createChannelReplyPipeline } from "kibo/plugin-sdk/channel-reply-pipeline";
+export { logTypingFailure } from "kibo/plugin-sdk/channel-feedback";
 export {
   deliverTextOrMediaReply,
   isNumericTargetId,
   sendPayloadWithChunkedTextAndMedia,
-} from "openclaw/plugin-sdk/reply-payload";
+} from "kibo/plugin-sdk/reply-payload";
 export {
   resolveDirectDmAuthorizationOutcome,
   resolveSenderCommandAuthorizationWithRuntime,
-} from "openclaw/plugin-sdk/command-auth";
-export { resolveInboundRouteEnvelopeBuilderWithRuntime } from "openclaw/plugin-sdk/inbound-envelope";
-export { waitForAbortSignal } from "openclaw/plugin-sdk/runtime";
+} from "kibo/plugin-sdk/command-auth";
+export { resolveInboundRouteEnvelopeBuilderWithRuntime } from "kibo/plugin-sdk/inbound-envelope";
+export { waitForAbortSignal } from "kibo/plugin-sdk/runtime";
 export {
   applyBasicWebhookRequestGuards,
   createFixedWindowRateLimiter,
@@ -83,8 +83,8 @@ export {
   WEBHOOK_ANOMALY_COUNTER_DEFAULTS,
   WEBHOOK_RATE_LIMIT_DEFAULTS,
   withResolvedWebhookRequestPipeline,
-} from "openclaw/plugin-sdk/webhook-ingress";
+} from "kibo/plugin-sdk/webhook-ingress";
 export type {
   RegisterWebhookPluginRouteOptions,
   RegisterWebhookTargetOptions,
-} from "openclaw/plugin-sdk/webhook-ingress";
+} from "kibo/plugin-sdk/webhook-ingress";

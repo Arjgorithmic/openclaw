@@ -1,6 +1,6 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
 
 export type IMessageAccountConfig = Omit<
-  NonNullable<NonNullable<OpenClawConfig["channels"]>["imessage"]>,
+  NonNullable<NonNullable<KiboConfig["channels"]>["imessage"]>,
   "accounts" | "defaultAccount"
 >;

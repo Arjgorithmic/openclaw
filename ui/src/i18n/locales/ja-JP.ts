@@ -181,7 +181,7 @@ export const ja_JP: TranslationMap = {
     skills: "Skills と API キー。",
     nodes: "ペアリング済みデバイスとコマンド。",
     chat: "すばやく介入するための Gateway チャット。",
-    config: "openclaw.json を編集。",
+    config: "kibo.json を編集。",
     communications: "チャンネル、メッセージ、音声設定。",
     appearance: "テーマ、UI、セットアップウィザードの設定。",
     automation: "コマンド、フック、cron、プラグイン。",
@@ -241,7 +241,7 @@ export const ja_JP: TranslationMap = {
     pairing: {
       hint: "このデバイスは Gateway ホストからのペアリング承認が必要です。",
       mobileHint:
-        "モバイルを使用していますか？ デスクトップで openclaw dashboard --no-open から完全な URL（#token=... を含む）をコピーしてください。",
+        "モバイルを使用していますか？ デスクトップで kibo dashboard --no-open から完全な URL（#token=... を含む）をコピーしてください。",
     },
     insecure: {
       hint: "このページは HTTP のため、ブラウザーがデバイス ID をブロックしています。HTTPS（Tailscale Serve）を使用するか、Gateway ホストで {url} を開いてください。",

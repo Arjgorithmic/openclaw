@@ -68,9 +68,9 @@ if (options.field) {
 if (options.format === "shell") {
   process.stdout.write(
     [
-      `OPENCLAW_IOS_VERSION=${version.canonicalVersion}`,
-      `OPENCLAW_MARKETING_VERSION=${version.marketingVersion}`,
-      `OPENCLAW_BUILD_VERSION=${version.buildVersion}`,
+      `KIBO_IOS_VERSION=${version.canonicalVersion}`,
+      `KIBO_MARKETING_VERSION=${version.marketingVersion}`,
+      `KIBO_BUILD_VERSION=${version.buildVersion}`,
     ].join("\n") + "\n",
   );
 } else {

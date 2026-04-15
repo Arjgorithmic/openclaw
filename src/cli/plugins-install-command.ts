@@ -1,13 +1,13 @@
 import fs from "node:fs";
 import { collectChannelDoctorStaleConfigMutations } from "../commands/doctor/shared/channel-doctor.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { loadConfig, readConfigFileSnapshot } from "../config/config.js";
 import { installHooksFromNpmSpec, installHooksFromPath } from "../hooks/install.js";
 import { resolveArchiveKind } from "../infra/archive.js";
-import { parseClawHubPluginSpec } from "../infra/clawhub.js";
+import { parseKiboHubPluginSpec } from "../infra/kibohub.js";
 import { extractErrorCode, formatErrorMessage } from "../infra/errors.js";
 import { type BundledPluginSource, findBundledPluginSource } from "../plugins/bundled-sources.js";
-import { formatClawHubSpecifier, installPluginFromClawHub } from "../plugins/clawhub.js";
+import { formatKiboHubSpecifier, installPluginFromKiboHub } from "../plugins/kibohub.js";
 import type { InstallSafetyOverrides } from "../plugins/install-security-scan.js";
 import { installPluginFromNpmSpec, installPluginFromPath } from "../plugins/install.js";
 import { clearPluginManifestRegistryCache } from "../plugins/manifest-registry.js";
@@ -30,10 +30,10 @@ import {
   resolveBundledInstallPlanForNpmFailure,
 } from "./plugin-install-plan.js";
 import {
-  buildPreferredClawHubSpec,
+  buildPreferredKiboHubSpec,
   createHookPackInstallLogger,
   createPluginInstallLogger,
-  decidePreferredClawHubFallback,
+  decidePreferredKiboHubFallback,
   formatPluginInstallWithHookFallbackError,
 } from "./plugins-command-helpers.js";
 import { persistHookPackInstall, persistPluginInstall } from "./plugins-install-persist.js";
@@ -49,7 +49,7 @@ function resolveInstallSafetyOverrides(overrides: InstallSafetyOverrides): Insta
 }
 
 async function installBundledPluginSource(params: {
-  config: OpenClawConfig;
+  config: KiboConfig;
   rawSpec: string;
   bundledSource: BundledPluginSource;
   warning: string;
@@ -79,7 +79,7 @@ async function installBundledPluginSource(params: {
 }
 
 async function tryInstallHookPackFromLocalPath(params: {
-  config: OpenClawConfig;
+  config: KiboConfig;
   resolvedPath: string;
   installMode: "install" | "update";
   safetyOverrides?: InstallSafetyOverrides;
@@ -159,7 +159,7 @@ async function tryInstallHookPackFromLocalPath(params: {
 }
 
 async function tryInstallHookPackFromNpmSpec(params: {
-  config: OpenClawConfig;
+  config: KiboConfig;
   installMode: "install" | "update";
   spec: string;
   pin?: boolean;
@@ -216,17 +216,17 @@ function buildInvalidPluginInstallConfigError(message: string): Error {
 
 async function loadConfigFromSnapshotForInstall(
   request: PluginInstallRequestContext,
-): Promise<OpenClawConfig> {
+): Promise<KiboConfig> {
   if (resolvePluginInstallInvalidConfigPolicy(request) !== "allow-bundled-recovery") {
     throw buildInvalidPluginInstallConfigError(
-      "Config invalid; run `openclaw doctor --fix` before installing plugins.",
+      "Config invalid; run `kibo doctor --fix` before installing plugins.",
     );
   }
   const snapshot = await readConfigFileSnapshot();
   const parsed = (snapshot.parsed ?? {}) as Record<string, unknown>;
   if (!snapshot.exists || Object.keys(parsed).length === 0) {
     throw buildInvalidPluginInstallConfigError(
-      "Config file could not be parsed; run `openclaw doctor` to repair it.",
+      "Config file could not be parsed; run `kibo doctor` to repair it.",
     );
   }
   if (
@@ -236,7 +236,7 @@ async function loadConfigFromSnapshotForInstall(
   ) {
     const pluginLabel = request.bundledPluginId ?? "the requested plugin";
     throw buildInvalidPluginInstallConfigError(
-      `Config invalid outside the bundled recovery path for ${pluginLabel}; run \`openclaw doctor --fix\` before reinstalling it.`,
+      `Config invalid outside the bundled recovery path for ${pluginLabel}; run \`kibo doctor --fix\` before reinstalling it.`,
     );
   }
   let nextConfig = snapshot.config;
@@ -248,7 +248,7 @@ async function loadConfigFromSnapshotForInstall(
 
 export async function loadConfigForInstall(
   request: PluginInstallRequestContext,
-): Promise<OpenClawConfig> {
+): Promise<KiboConfig> {
   try {
     return loadConfig();
   } catch (err) {
@@ -467,9 +467,9 @@ export async function runPluginInstallCommand(params: {
     return;
   }
 
-  const clawhubSpec = parseClawHubPluginSpec(raw);
-  if (clawhubSpec) {
-    const result = await installPluginFromClawHub({
+  const kibohubSpec = parseKiboHubPluginSpec(raw);
+  if (kibohubSpec) {
+    const result = await installPluginFromKiboHub({
       ...safetyOverrides,
       mode: installMode,
       spec: raw,
@@ -485,57 +485,57 @@ export async function runPluginInstallCommand(params: {
       config: cfg,
       pluginId: result.pluginId,
       install: {
-        source: "clawhub",
-        spec: formatClawHubSpecifier({
-          name: result.clawhub.clawhubPackage,
-          version: result.clawhub.version,
+        source: "kibohub",
+        spec: formatKiboHubSpecifier({
+          name: result.kibohub.kibohubPackage,
+          version: result.kibohub.version,
         }),
         installPath: result.targetDir,
         version: result.version,
-        integrity: result.clawhub.integrity,
-        resolvedAt: result.clawhub.resolvedAt,
-        clawhubUrl: result.clawhub.clawhubUrl,
-        clawhubPackage: result.clawhub.clawhubPackage,
-        clawhubFamily: result.clawhub.clawhubFamily,
-        clawhubChannel: result.clawhub.clawhubChannel,
+        integrity: result.kibohub.integrity,
+        resolvedAt: result.kibohub.resolvedAt,
+        kibohubUrl: result.kibohub.kibohubUrl,
+        kibohubPackage: result.kibohub.kibohubPackage,
+        kibohubFamily: result.kibohub.kibohubFamily,
+        kibohubChannel: result.kibohub.kibohubChannel,
       },
     });
     return;
   }
 
-  const preferredClawHubSpec = buildPreferredClawHubSpec(raw);
-  if (preferredClawHubSpec) {
-    const clawhubResult = await installPluginFromClawHub({
+  const preferredKiboHubSpec = buildPreferredKiboHubSpec(raw);
+  if (preferredKiboHubSpec) {
+    const kibohubResult = await installPluginFromKiboHub({
       ...safetyOverrides,
       mode: installMode,
-      spec: preferredClawHubSpec,
+      spec: preferredKiboHubSpec,
       logger: createPluginInstallLogger(),
     });
-    if (clawhubResult.ok) {
+    if (kibohubResult.ok) {
       clearPluginManifestRegistryCache();
       await persistPluginInstall({
         config: cfg,
-        pluginId: clawhubResult.pluginId,
+        pluginId: kibohubResult.pluginId,
         install: {
-          source: "clawhub",
-          spec: formatClawHubSpecifier({
-            name: clawhubResult.clawhub.clawhubPackage,
-            version: clawhubResult.clawhub.version,
+          source: "kibohub",
+          spec: formatKiboHubSpecifier({
+            name: kibohubResult.kibohub.kibohubPackage,
+            version: kibohubResult.kibohub.version,
           }),
-          installPath: clawhubResult.targetDir,
-          version: clawhubResult.version,
-          integrity: clawhubResult.clawhub.integrity,
-          resolvedAt: clawhubResult.clawhub.resolvedAt,
-          clawhubUrl: clawhubResult.clawhub.clawhubUrl,
-          clawhubPackage: clawhubResult.clawhub.clawhubPackage,
-          clawhubFamily: clawhubResult.clawhub.clawhubFamily,
-          clawhubChannel: clawhubResult.clawhub.clawhubChannel,
+          installPath: kibohubResult.targetDir,
+          version: kibohubResult.version,
+          integrity: kibohubResult.kibohub.integrity,
+          resolvedAt: kibohubResult.kibohub.resolvedAt,
+          kibohubUrl: kibohubResult.kibohub.kibohubUrl,
+          kibohubPackage: kibohubResult.kibohub.kibohubPackage,
+          kibohubFamily: kibohubResult.kibohub.kibohubFamily,
+          kibohubChannel: kibohubResult.kibohub.kibohubChannel,
         },
       });
       return;
     }
-    if (decidePreferredClawHubFallback(clawhubResult) !== "fallback_to_npm") {
-      defaultRuntime.error(clawhubResult.error);
+    if (decidePreferredKiboHubFallback(kibohubResult) !== "fallback_to_npm") {
+      defaultRuntime.error(kibohubResult.error);
       return defaultRuntime.exit(1);
     }
   }

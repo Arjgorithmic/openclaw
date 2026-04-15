@@ -655,9 +655,9 @@ function renderChatView(state: UiState): string {
 
 function messageAvatar(m: Message): { emoji: string; bg: string; role: string } {
   if (m.direction === "outbound") {
-    return { emoji: "\uD83E\uDD80", bg: "#7c6cff", role: "Claw" }; // 🦀
+    return { emoji: "\uD83C\uDF4C", bg: "#7c6cff", role: "Kibo" }; // 🦀
   }
-  return { emoji: "\uD83E\uDD9E", bg: "#d97706", role: "Clawfather" }; // 🦞
+  return { emoji: "\uD83C\uDF4C", bg: "#d97706", role: "Kibofather" }; // 🦞
 }
 
 function renderMessage(m: Message): string {

@@ -47,24 +47,24 @@ describe("shared/node-match", () => {
     ).toBe("mac-studio");
   });
 
-  it("prefers a unique current OpenClaw client over a legacy clawdbot client", () => {
+  it("prefers a unique current Kibo client over a legacy kibobot client", () => {
     expect(
       resolveNodeIdFromCandidates(
         [
           {
             nodeId: "legacy-mac",
-            displayName: "Peter’s Mac Studio",
-            clientId: "clawdbot-macos",
+            displayName: "Kibo’s Mac Studio",
+            clientId: "kibobot-macos",
             connected: false,
           },
           {
             nodeId: "current-mac",
-            displayName: "Peter’s Mac Studio",
-            clientId: "openclaw-macos",
+            displayName: "Kibo’s Mac Studio",
+            clientId: "kibo-macos",
             connected: false,
           },
         ],
-        "Peter's Mac Studio",
+        "Kibo's Mac Studio",
       ),
     ).toBe("current-mac");
   });
@@ -111,27 +111,27 @@ describe("shared/node-match", () => {
         [
           {
             nodeId: "legacy-mac",
-            displayName: "Peter’s Mac Studio",
-            clientId: "clawdbot-macos",
+            displayName: "Kibo’s Mac Studio",
+            clientId: "kibobot-macos",
             connected: true,
           },
           {
             nodeId: "other-mac",
-            displayName: "Peter’s Mac Studio",
-            clientId: "openclaw-macos",
+            displayName: "Kibo’s Mac Studio",
+            clientId: "kibo-macos",
             connected: true,
           },
           {
             nodeId: "third-mac",
-            displayName: "Peter’s Mac Studio",
-            clientId: "openclaw-macos",
+            displayName: "Kibo’s Mac Studio",
+            clientId: "kibo-macos",
             connected: true,
           },
         ],
-        "Peter's Mac Studio",
+        "Kibo's Mac Studio",
       ),
     ).toThrow(
-      /ambiguous node: Peter's Mac Studio.*node=other-mac.*client=openclaw-macos.*node=third-mac.*client=openclaw-macos/,
+      /ambiguous node: Kibo's Mac Studio.*node=other-mac.*client=kibo-macos.*node=third-mac.*client=kibo-macos/,
     );
   });
 

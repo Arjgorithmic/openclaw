@@ -28,11 +28,11 @@ function resolveGuiDomain(): string {
 }
 
 function resolveLaunchAgentLabel(env?: Record<string, string | undefined>): string {
-  const envLabel = normalizeOptionalString(env?.OPENCLAW_LAUNCHD_LABEL);
+  const envLabel = normalizeOptionalString(env?.KIBO_LAUNCHD_LABEL);
   if (envLabel) {
     return envLabel;
   }
-  return resolveGatewayLaunchAgentLabel(env?.OPENCLAW_PROFILE);
+  return resolveGatewayLaunchAgentLabel(env?.KIBO_PROFILE);
 }
 
 export function resolveLaunchdRestartTarget(
@@ -61,7 +61,7 @@ export function isCurrentProcessLaunchdServiceLabel(
   if (launchdLabel) {
     return launchdLabel === label;
   }
-  const configuredLabel = normalizeOptionalString(env.OPENCLAW_LAUNCHD_LABEL);
+  const configuredLabel = normalizeOptionalString(env.KIBO_LAUNCHD_LABEL);
   return Boolean(configuredLabel && configuredLabel === label);
 }
 
@@ -119,7 +119,7 @@ export function scheduleDetachedLaunchdRestartHandoff(params: {
       [
         "-c",
         buildLaunchdRestartScript(params.mode),
-        "openclaw-launchd-restart-handoff",
+        "kibo-launchd-restart-handoff",
         target.serviceTarget,
         target.domain,
         target.plistPath,

@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/anthropic-vertex-provider",
+  "name": "@kibo/anthropic-vertex-provider",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw Anthropic Vertex provider plugin",
+  "description": "Kibo Anthropic Vertex provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ]

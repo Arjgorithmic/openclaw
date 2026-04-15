@@ -1,8 +1,8 @@
-import { resolveChannelGroupRequireMention } from "openclaw/plugin-sdk/channel-policy";
-import { resolveExactLineGroupConfigKey, type OpenClawConfig } from "./channel-api.js";
+import { resolveChannelGroupRequireMention } from "kibo/plugin-sdk/channel-policy";
+import { resolveExactLineGroupConfigKey, type KiboConfig } from "./channel-api.js";
 
 type LineGroupContext = {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId?: string | null;
   groupId?: string | null;
 };

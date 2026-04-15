@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 
 const loadPluginManifestRegistry = vi.hoisted(() => vi.fn());
 
@@ -7,8 +7,8 @@ vi.mock("./runtime-manifest.runtime.js", () => ({
   loadPluginManifestRegistry,
 }));
 
-function asConfig(value: unknown): OpenClawConfig {
-  return value as OpenClawConfig;
+function asConfig(value: unknown): KiboConfig {
+  return value as KiboConfig;
 }
 
 let clearConfigCache: typeof import("../config/config.js").clearConfigCache;

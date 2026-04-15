@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "./config.js";
+import type { KiboConfig } from "./config.js";
 
 export type PluginAutoEnableCandidate =
   | {
@@ -40,7 +40,7 @@ export type PluginAutoEnableCandidate =
     };
 
 export type PluginAutoEnableResult = {
-  config: OpenClawConfig;
+  config: KiboConfig;
   changes: string[];
   autoEnabledReasons: Record<string, string[]>;
 };

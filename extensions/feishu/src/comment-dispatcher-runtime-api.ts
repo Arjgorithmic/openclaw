@@ -1,6 +1,6 @@
 export {
   createReplyPrefixContext,
-  type ClawdbotConfig,
+  type KibobotConfig,
   type ReplyPayload,
   type RuntimeEnv,
 } from "../runtime-api.js";

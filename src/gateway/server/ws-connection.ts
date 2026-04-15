@@ -131,15 +131,15 @@ export function attachGatewayWsConnectionHandler(params: AttachGatewayWsConnecti
       ?.remoteAddress;
     const preauthBudgetKey = (
       socket as WebSocket & {
-        __openclawPreauthBudgetClaimed?: boolean;
-        __openclawPreauthBudgetKey?: string;
+        __kiboPreauthBudgetClaimed?: boolean;
+        __kiboPreauthBudgetKey?: string;
       }
-    ).__openclawPreauthBudgetKey;
+    ).__kiboPreauthBudgetKey;
     (
       socket as WebSocket & {
-        __openclawPreauthBudgetClaimed?: boolean;
+        __kiboPreauthBudgetClaimed?: boolean;
       }
-    ).__openclawPreauthBudgetClaimed = true;
+    ).__kiboPreauthBudgetClaimed = true;
     const headerValue = (value: string | string[] | undefined) =>
       Array.isArray(value) ? value[0] : value;
     const requestHost = headerValue(upgradeReq.headers.host);

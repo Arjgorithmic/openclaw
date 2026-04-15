@@ -38,14 +38,14 @@ describe("config view", () => {
     onUpdate: vi.fn(),
     onSubsectionChange: vi.fn(),
     version: "2026.3.11",
-    theme: "claw" as ThemeName,
+    theme: "kibo" as ThemeName,
     themeMode: "system" as ThemeMode,
     setTheme: vi.fn(),
     setThemeMode: vi.fn(),
     borderRadius: 50,
     setBorderRadius: vi.fn(),
     gatewayUrl: "",
-    assistantName: "OpenClaw",
+    assistantName: "Kibo",
   });
 
   function findActionButtons(container: HTMLElement): {
@@ -417,7 +417,7 @@ describe("config view", () => {
       formValue: {
         channels: {
           discord: {
-            token: { source: "env", provider: "default", id: "__OPENCLAW_REDACTED__" },
+            token: { source: "env", provider: "default", id: "__KIBO_REDACTED__" },
           },
         },
       },
@@ -473,7 +473,7 @@ describe("config view", () => {
       formValue: {
         channels: {
           discord: {
-            token: { source: "env", provider: "default", id: "__OPENCLAW_REDACTED__" },
+            token: { source: "env", provider: "default", id: "__KIBO_REDACTED__" },
           },
         },
       },

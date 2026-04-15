@@ -349,7 +349,7 @@ describe("matrix onboarding", () => {
       },
       text: {
         "Matrix homeserver URL": "https://matrix.example.org",
-        "Matrix device name (optional)": "OpenClaw Gateway",
+        "Matrix device name (optional)": "Kibo Gateway",
       },
       confirm: {
         "Matrix credentials already configured. Keep them?": true,
@@ -480,7 +480,7 @@ describe("matrix onboarding", () => {
       },
       text: {
         "Matrix homeserver URL": "https://matrix.example.org",
-        "Matrix device name (optional)": "OpenClaw Gateway",
+        "Matrix device name (optional)": "Kibo Gateway",
       },
       confirm: {
         "Matrix credentials already configured. Keep them?": true,
@@ -532,7 +532,7 @@ describe("matrix onboarding", () => {
       },
       text: {
         "Matrix homeserver URL": "https://matrix.example.org",
-        "Matrix device name (optional)": "OpenClaw Gateway",
+        "Matrix device name (optional)": "Kibo Gateway",
       },
       confirm: {
         "Matrix credentials already configured. Keep them?": true,

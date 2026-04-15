@@ -1,11 +1,11 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-import { mergeInboundPathRoots } from "openclaw/plugin-sdk/media-runtime";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
+import { mergeInboundPathRoots } from "kibo/plugin-sdk/media-runtime";
 import { resolveIMessageAccount } from "./accounts.js";
 
 export const DEFAULT_IMESSAGE_ATTACHMENT_ROOTS = ["/Users/*/Library/Messages/Attachments"] as const;
 
 export function resolveIMessageAttachmentRoots(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId?: string | null;
 }): string[] {
   const account = resolveIMessageAccount(params);
@@ -17,7 +17,7 @@ export function resolveIMessageAttachmentRoots(params: {
 }
 
 export function resolveIMessageRemoteAttachmentRoots(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId?: string | null;
 }): string[] {
   const account = resolveIMessageAccount(params);

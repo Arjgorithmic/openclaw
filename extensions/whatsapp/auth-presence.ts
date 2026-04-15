@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "openclaw/plugin-sdk/account-id";
-import { resolveUserPath } from "openclaw/plugin-sdk/account-resolution";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-import { resolveOAuthDir } from "openclaw/plugin-sdk/state-paths";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "kibo/plugin-sdk/account-id";
+import { resolveUserPath } from "kibo/plugin-sdk/account-resolution";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
+import { resolveOAuthDir } from "kibo/plugin-sdk/state-paths";
 import { hasWebCredsSync } from "./src/creds-files.js";
 
 function addAccountAuthDirs(
@@ -21,7 +21,7 @@ function addAccountAuthDirs(
 }
 
 function listWhatsAppAuthDirs(
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): readonly string[] {
   const oauthDir = resolveOAuthDir(env);
@@ -63,7 +63,7 @@ function listWhatsAppAuthDirs(
 }
 
 export function hasAnyWhatsAppAuth(
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {
   return listWhatsAppAuthDirs(cfg, env).some((authDir) => hasWebCredsSync(authDir));

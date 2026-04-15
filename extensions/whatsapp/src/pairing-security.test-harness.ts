@@ -2,7 +2,7 @@ import {
   resolveDefaultGroupPolicy,
   resolveOpenProviderRuntimeGroupPolicy,
   warnMissingProviderGroupPolicyFallbackOnce,
-} from "openclaw/plugin-sdk/runtime-group-policy";
+} from "kibo/plugin-sdk/runtime-group-policy";
 import { vi, type Mock } from "vitest";
 
 export type AsyncMock<TArgs extends unknown[] = unknown[], TResult = unknown> = {
@@ -23,7 +23,7 @@ export function resetPairingSecurityMocks(config: Record<string, unknown>) {
   upsertPairingRequestMock.mockReset().mockResolvedValue({ code: "PAIRCODE", created: true });
 }
 
-vi.mock("openclaw/plugin-sdk/config-runtime", () => {
+vi.mock("kibo/plugin-sdk/config-runtime", () => {
   return {
     loadConfig: (...args: unknown[]) => loadConfigMock(...args),
     resolveDefaultGroupPolicy,
@@ -32,15 +32,15 @@ vi.mock("openclaw/plugin-sdk/config-runtime", () => {
   };
 });
 
-vi.mock("openclaw/plugin-sdk/conversation-runtime", () => {
+vi.mock("kibo/plugin-sdk/conversation-runtime", () => {
   return {
     upsertChannelPairingRequest: (...args: unknown[]) => upsertPairingRequestMock(...args),
   };
 });
 
-vi.mock("openclaw/plugin-sdk/security-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/security-runtime")>(
-    "openclaw/plugin-sdk/security-runtime",
+vi.mock("kibo/plugin-sdk/security-runtime", async () => {
+  const actual = await vi.importActual<typeof import("kibo/plugin-sdk/security-runtime")>(
+    "kibo/plugin-sdk/security-runtime",
   );
   return {
     ...actual,

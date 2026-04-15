@@ -25,14 +25,14 @@ function writeRuntimeFixtureText(rootDir: string, relativePath: string, value: s
 }
 
 function createBundledWhatsAppRuntimeFixture() {
-  const rootDir = makeTrackedTempDir("openclaw-whatsapp-boundary", tempDirs);
+  const rootDir = makeTrackedTempDir("kibo-whatsapp-boundary", tempDirs);
   for (const [relativePath, value] of Object.entries({
     "package.json": JSON.stringify(
       {
-        name: "openclaw",
+        name: "kibo",
         type: "module",
         bin: {
-          openclaw: "openclaw.mjs",
+          kibo: "kibo.mjs",
         },
         exports: {
           "./plugin-sdk": {
@@ -43,14 +43,14 @@ function createBundledWhatsAppRuntimeFixture() {
       null,
       2,
     ),
-    "openclaw.mjs": "export {};\n",
+    "kibo.mjs": "export {};\n",
     [bundledDistPluginFile("whatsapp", "index.js")]: "export default {};\n",
     [bundledDistPluginFile("whatsapp", "light-runtime-api.js")]:
       'export { getActiveWebListener } from "../../active-listener.js";\n',
     [bundledDistPluginFile("whatsapp", "runtime-api.js")]:
       'export { getActiveWebListener, setActiveWebListener } from "../../active-listener.js";\n',
     "dist/active-listener.js": [
-      'const key = Symbol.for("openclaw.whatsapp.activeListenerState");',
+      'const key = Symbol.for("kibo.whatsapp.activeListenerState");',
       "const g = globalThis;",
       "if (!g[key]) {",
       "  g[key] = { listeners: new Map(), current: null };",

@@ -7,7 +7,7 @@ import {
 import { resolveMemorySearchConfig } from "../agents/memory-search.js";
 import { resolveApiKeyForProvider } from "../agents/model-auth.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { DEFAULT_LOCAL_MODEL } from "../memory-host-sdk/engine-embeddings.js";
 import { checkQmdBinaryAvailability } from "../memory-host-sdk/engine-qmd.js";
@@ -43,7 +43,7 @@ type RuntimeMemoryAuditContext = {
 };
 
 async function resolveRuntimeMemoryAuditContext(
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
 ): Promise<RuntimeMemoryAuditContext | null> {
   const agentId = resolveDefaultAgentId(cfg);
   const result = await getActiveMemorySearchManager({
@@ -78,8 +78,8 @@ function buildMemoryRecallIssueNote(audit: ShortTermAuditSummary): string | null
   const issueLines = audit.issues.map((issue) => `- ${issue.message}`);
   const hasFixableIssue = audit.issues.some((issue) => issue.fixable);
   const guidance = hasFixableIssue
-    ? `Fix: ${formatCliCommand("openclaw doctor --fix")} or ${formatCliCommand("openclaw memory status --fix")}`
-    : `Verify: ${formatCliCommand("openclaw memory status --deep")}`;
+    ? `Fix: ${formatCliCommand("kibo doctor --fix")} or ${formatCliCommand("kibo memory status --fix")}`
+    : `Verify: ${formatCliCommand("kibo memory status --deep")}`;
   return [
     "Memory recall artifacts need attention:",
     ...issueLines,
@@ -88,7 +88,7 @@ function buildMemoryRecallIssueNote(audit: ShortTermAuditSummary): string | null
   ].join("\n");
 }
 
-export async function noteMemoryRecallHealth(cfg: OpenClawConfig): Promise<void> {
+export async function noteMemoryRecallHealth(cfg: KiboConfig): Promise<void> {
   try {
     const context = await resolveRuntimeMemoryAuditContext(cfg);
     const workspaceDir = context?.workspaceDir?.trim();
@@ -115,7 +115,7 @@ export async function noteMemoryRecallHealth(cfg: OpenClawConfig): Promise<void>
 }
 
 export async function maybeRepairMemoryRecallHealth(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   prompter: DoctorPrompter;
 }): Promise<void> {
   try {
@@ -155,7 +155,7 @@ export async function maybeRepairMemoryRecallHealth(params: {
         ? `- rewrote recall store${repair.removedInvalidEntries > 0 ? ` (-${repair.removedInvalidEntries} invalid entries)` : ""}`
         : null,
       repair.removedStaleLock ? "- removed stale promotion lock" : null,
-      `Verify: ${formatCliCommand("openclaw memory status --deep")}`,
+      `Verify: ${formatCliCommand("kibo memory status --deep")}`,
     ].filter(Boolean);
     note(lines.join("\n"), "Doctor changes");
   } catch (err) {
@@ -168,12 +168,12 @@ export async function maybeRepairMemoryRecallHealth(params: {
 
 /**
  * Check whether memory search has a usable embedding provider.
- * Runs as part of `openclaw doctor` — config-only checks where possible;
+ * Runs as part of `kibo doctor` — config-only checks where possible;
  * may spawn a short-lived probe process when `memory.backend=qmd` to verify
  * the configured `qmd` binary is available.
  */
 export async function noteMemorySearchHealth(
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   opts?: {
     gatewayMemoryProbe?: {
       checked: boolean;
@@ -213,10 +213,10 @@ export async function noteMemorySearchHealth(
           "",
           "Fix (pick one):",
           "- Install the supported QMD package: npm install -g @tobilu/qmd (or bun install -g @tobilu/qmd)",
-          `- Set an explicit binary path: ${formatCliCommand("openclaw config set memory.qmd.command /absolute/path/to/qmd")}`,
-          `- Or switch back to builtin memory: ${formatCliCommand("openclaw config set memory.backend builtin")}`,
+          `- Set an explicit binary path: ${formatCliCommand("kibo config set memory.qmd.command /absolute/path/to/qmd")}`,
+          `- Or switch back to builtin memory: ${formatCliCommand("kibo config set memory.backend builtin")}`,
           "",
-          `Verify: ${formatCliCommand("openclaw memory status --deep")}`,
+          `Verify: ${formatCliCommand("kibo memory status --deep")}`,
         ]
           .filter(Boolean)
           .join("\n"),
@@ -242,7 +242,7 @@ export async function noteMemorySearchHealth(
               "but the gateway reports local embeddings are not ready.",
               detail ? `Gateway probe: ${detail}` : null,
               "",
-              `Verify: ${formatCliCommand("openclaw memory status --deep")}`,
+              `Verify: ${formatCliCommand("kibo memory status --deep")}`,
             ]
               .filter(Boolean)
               .join("\n"),
@@ -258,10 +258,10 @@ export async function noteMemorySearchHealth(
           "Fix (pick one):",
           `- Install node-llama-cpp and set a local model path in config`,
           suggestedRemoteProvider
-            ? `- Switch to a remote provider: ${formatCliCommand(`openclaw config set agents.defaults.memorySearch.provider ${suggestedRemoteProvider}`)}`
+            ? `- Switch to a remote provider: ${formatCliCommand(`kibo config set agents.defaults.memorySearch.provider ${suggestedRemoteProvider}`)}`
             : `- Switch to a remote embedding provider in config`,
           "",
-          `Verify: ${formatCliCommand("openclaw memory status --deep")}`,
+          `Verify: ${formatCliCommand("kibo memory status --deep")}`,
         ].join("\n"),
         "Memory search",
       );
@@ -276,7 +276,7 @@ export async function noteMemorySearchHealth(
         [
           `Memory search provider is set to "${resolved.provider}" but the API key was not found in the CLI environment.`,
           "The running gateway reports memory embeddings are ready for the default agent.",
-          `Verify: ${formatCliCommand("openclaw memory status --deep")}`,
+          `Verify: ${formatCliCommand("kibo memory status --deep")}`,
         ].join("\n"),
         "Memory search",
       );
@@ -292,10 +292,10 @@ export async function noteMemorySearchHealth(
         "",
         "Fix (pick one):",
         `- Set ${envVar} in your environment`,
-        `- Configure credentials: ${formatCliCommand("openclaw configure --section model")}`,
-        `- To disable: ${formatCliCommand("openclaw config set agents.defaults.memorySearch.enabled false")}`,
+        `- Configure credentials: ${formatCliCommand("kibo configure --section model")}`,
+        `- To disable: ${formatCliCommand("kibo config set agents.defaults.memorySearch.enabled false")}`,
         "",
-        `Verify: ${formatCliCommand("openclaw memory status --deep")}`,
+        `Verify: ${formatCliCommand("kibo memory status --deep")}`,
       ].join("\n"),
       "Memory search",
     );
@@ -320,7 +320,7 @@ export async function noteMemorySearchHealth(
       [
         'Memory search provider is set to "auto" but the API key was not found in the CLI environment.',
         "The running gateway reports memory embeddings are ready for the default agent.",
-        `Verify: ${formatCliCommand("openclaw memory status --deep")}`,
+        `Verify: ${formatCliCommand("kibo memory status --deep")}`,
       ].join("\n"),
       "Memory search",
     );
@@ -336,11 +336,11 @@ export async function noteMemorySearchHealth(
       "",
       "Fix (pick one):",
       `- Set ${formatMemoryProviderEnvVarList(autoSelectProviders)} in your environment`,
-      `- Configure credentials: ${formatCliCommand("openclaw configure --section model")}`,
+      `- Configure credentials: ${formatCliCommand("kibo configure --section model")}`,
       `- For local embeddings: configure agents.defaults.memorySearch.provider and local model path`,
-      `- To disable: ${formatCliCommand("openclaw config set agents.defaults.memorySearch.enabled false")}`,
+      `- To disable: ${formatCliCommand("kibo config set agents.defaults.memorySearch.enabled false")}`,
       "",
-      `Verify: ${formatCliCommand("openclaw memory status --deep")}`,
+      `Verify: ${formatCliCommand("kibo memory status --deep")}`,
     ].join("\n"),
     "Memory search",
   );
@@ -380,7 +380,7 @@ function hasLocalEmbeddings(local: { modelPath?: string }, useDefaultFallback = 
 
 async function hasApiKeyForProvider(
   provider: string,
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   agentDir: string,
 ): Promise<boolean> {
   const metadata = getBuiltinMemoryEmbeddingProviderDoctorMetadata(provider);

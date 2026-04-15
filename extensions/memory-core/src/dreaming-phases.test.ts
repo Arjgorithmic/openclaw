@@ -1,12 +1,12 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/memory-core";
-import { resolveSessionTranscriptsDirForAgent } from "openclaw/plugin-sdk/memory-core";
+import type { KiboConfig } from "kibo/plugin-sdk/memory-core";
+import { resolveSessionTranscriptsDirForAgent } from "kibo/plugin-sdk/memory-core";
 import {
   resolveMemoryCorePluginConfig,
   resolveMemoryLightDreamingConfig,
   resolveMemoryRemDreamingConfig,
-} from "openclaw/plugin-sdk/memory-core-host-status";
+} from "kibo/plugin-sdk/memory-core-host-status";
 import { describe, expect, it, vi } from "vitest";
 import { __testing } from "./dreaming-phases.js";
 import {
@@ -19,7 +19,7 @@ import { createMemoryCoreTestHarness } from "./test-helpers.js";
 const { createTempWorkspace } = createMemoryCoreTestHarness();
 const DREAMING_TEST_BASE_TIME = new Date("2026-04-05T10:00:00.000Z");
 const DREAMING_TEST_DAY = "2026-04-05";
-const LIGHT_DREAMING_TEST_CONFIG: OpenClawConfig = {
+const LIGHT_DREAMING_TEST_CONFIG: KiboConfig = {
   plugins: {
     entries: {
       "memory-core": {
@@ -41,7 +41,7 @@ const LIGHT_DREAMING_TEST_CONFIG: OpenClawConfig = {
   },
 };
 
-function createHarness(config: OpenClawConfig, workspaceDir?: string) {
+function createHarness(config: KiboConfig, workspaceDir?: string) {
   const logger = {
     info: vi.fn(),
     warn: vi.fn(),
@@ -126,7 +126,7 @@ async function writeDailyNote(workspaceDir: string, lines: string[]): Promise<vo
 }
 
 async function createDreamingWorkspace(): Promise<string> {
-  const workspaceDir = await createTempWorkspace("openclaw-dreaming-phases-");
+  const workspaceDir = await createTempWorkspace("kibo-dreaming-phases-");
   await fs.mkdir(path.join(workspaceDir, "memory"), { recursive: true });
   return workspaceDir;
 }
@@ -142,7 +142,7 @@ async function triggerLightDreaming(
 ): Promise<void> {
   setDreamingTestTime(offsetMinutes);
   await beforeAgentReply(
-    { cleanedBody: "__openclaw_memory_core_light_sleep__" },
+    { cleanedBody: "__kibo_memory_core_light_sleep__" },
     { trigger: "heartbeat", workspaceDir },
   );
 }
@@ -213,12 +213,12 @@ describe("memory-core dreaming phases", () => {
         {
           cleanedBody: [
             "System: rotate logs",
-            "System: __openclaw_memory_core_light_sleep__",
+            "System: __kibo_memory_core_light_sleep__",
             "",
             "A scheduled reminder has been triggered. The reminder content is:",
             "",
             "rotate logs",
-            "__openclaw_memory_core_light_sleep__",
+            "__kibo_memory_core_light_sleep__",
             "",
             "Handle this reminder internally. Do not relay it to the user unless explicitly requested.",
           ].join("\n"),
@@ -244,16 +244,16 @@ describe("memory-core dreaming phases", () => {
         "- Move backups to S3 Glacier.",
         "",
         "## Light Sleep",
-        "<!-- openclaw:dreaming:light:start -->",
+        "<!-- kibo:dreaming:light:start -->",
         "- Candidate: Old staged summary.",
         "",
         "## Ops",
         "- Rotate access keys.",
         "",
         "## Light Sleep",
-        "<!-- openclaw:dreaming:light:start -->",
+        "<!-- kibo:dreaming:light:start -->",
         "- Candidate: Fresh staged summary.",
-        "<!-- openclaw:dreaming:light:end -->",
+        "<!-- kibo:dreaming:light:end -->",
       ]);
 
       const { beforeAgentReply } = createLightDreamingHarness(workspaceDir);
@@ -301,11 +301,11 @@ describe("memory-core dreaming phases", () => {
     const readSpy = vi.spyOn(fs, "readFile");
     try {
       await beforeAgentReply(
-        { cleanedBody: "__openclaw_memory_core_light_sleep__" },
+        { cleanedBody: "__kibo_memory_core_light_sleep__" },
         { trigger: "heartbeat", workspaceDir },
       );
       await beforeAgentReply(
-        { cleanedBody: "__openclaw_memory_core_light_sleep__" },
+        { cleanedBody: "__kibo_memory_core_light_sleep__" },
         { trigger: "heartbeat", workspaceDir },
       );
     } finally {
@@ -385,8 +385,8 @@ describe("memory-core dreaming phases", () => {
 
   it("checkpoints session transcript ingestion and skips unchanged transcripts", async () => {
     const workspaceDir = await createDreamingWorkspace();
-    vi.stubEnv("OPENCLAW_TEST_FAST", "1");
-    vi.stubEnv("OPENCLAW_STATE_DIR", path.join(workspaceDir, ".state"));
+    vi.stubEnv("KIBO_TEST_FAST", "1");
+    vi.stubEnv("KIBO_STATE_DIR", path.join(workspaceDir, ".state"));
     const sessionsDir = resolveSessionTranscriptsDirForAgent("main");
     await fs.mkdir(sessionsDir, { recursive: true });
     const transcriptPath = path.join(sessionsDir, "dreaming-main.jsonl");
@@ -452,11 +452,11 @@ describe("memory-core dreaming phases", () => {
     let transcriptReadCount = 0;
     try {
       await beforeAgentReply(
-        { cleanedBody: "__openclaw_memory_core_light_sleep__" },
+        { cleanedBody: "__kibo_memory_core_light_sleep__" },
         { trigger: "heartbeat", workspaceDir },
       );
       await beforeAgentReply(
-        { cleanedBody: "__openclaw_memory_core_light_sleep__" },
+        { cleanedBody: "__kibo_memory_core_light_sleep__" },
         { trigger: "heartbeat", workspaceDir },
       );
     } finally {
@@ -496,8 +496,8 @@ describe("memory-core dreaming phases", () => {
 
   it("redacts sensitive session content before writing session corpus", async () => {
     const workspaceDir = await createDreamingWorkspace();
-    vi.stubEnv("OPENCLAW_TEST_FAST", "1");
-    vi.stubEnv("OPENCLAW_STATE_DIR", path.join(workspaceDir, ".state"));
+    vi.stubEnv("KIBO_TEST_FAST", "1");
+    vi.stubEnv("KIBO_STATE_DIR", path.join(workspaceDir, ".state"));
     const sessionsDir = resolveSessionTranscriptsDirForAgent("main");
     await fs.mkdir(sessionsDir, { recursive: true });
     const transcriptPath = path.join(sessionsDir, "dreaming-main.jsonl");
@@ -570,8 +570,8 @@ describe("memory-core dreaming phases", () => {
 
   it("dedupes reset/deleted session archives instead of double-ingesting", async () => {
     const workspaceDir = await createDreamingWorkspace();
-    vi.stubEnv("OPENCLAW_TEST_FAST", "1");
-    vi.stubEnv("OPENCLAW_STATE_DIR", path.join(workspaceDir, ".state"));
+    vi.stubEnv("KIBO_TEST_FAST", "1");
+    vi.stubEnv("KIBO_STATE_DIR", path.join(workspaceDir, ".state"));
     const sessionsDir = resolveSessionTranscriptsDirForAgent("main");
     await fs.mkdir(sessionsDir, { recursive: true });
     const transcriptPath = path.join(sessionsDir, "dreaming-main.jsonl");
@@ -624,7 +624,7 @@ describe("memory-core dreaming phases", () => {
 
     try {
       await beforeAgentReply(
-        { cleanedBody: "__openclaw_memory_core_light_sleep__" },
+        { cleanedBody: "__kibo_memory_core_light_sleep__" },
         { trigger: "heartbeat", workspaceDir },
       );
 
@@ -661,7 +661,7 @@ describe("memory-core dreaming phases", () => {
       await fs.utimes(resetPath, dayTwo, dayTwo);
 
       await beforeAgentReply(
-        { cleanedBody: "__openclaw_memory_core_light_sleep__" },
+        { cleanedBody: "__kibo_memory_core_light_sleep__" },
         { trigger: "heartbeat", workspaceDir },
       );
     } finally {
@@ -696,8 +696,8 @@ describe("memory-core dreaming phases", () => {
 
   it("buckets session snippets by per-message day rather than file mtime", async () => {
     const workspaceDir = await createDreamingWorkspace();
-    vi.stubEnv("OPENCLAW_TEST_FAST", "1");
-    vi.stubEnv("OPENCLAW_STATE_DIR", path.join(workspaceDir, ".state"));
+    vi.stubEnv("KIBO_TEST_FAST", "1");
+    vi.stubEnv("KIBO_STATE_DIR", path.join(workspaceDir, ".state"));
     const sessionsDir = resolveSessionTranscriptsDirForAgent("main");
     await fs.mkdir(sessionsDir, { recursive: true });
     const transcriptPath = path.join(sessionsDir, "dreaming-main.jsonl");
@@ -777,8 +777,8 @@ describe("memory-core dreaming phases", () => {
 
   it("drains >80 unseen transcript messages across multiple unchanged sweeps", async () => {
     const workspaceDir = await createDreamingWorkspace();
-    vi.stubEnv("OPENCLAW_TEST_FAST", "1");
-    vi.stubEnv("OPENCLAW_STATE_DIR", path.join(workspaceDir, ".state"));
+    vi.stubEnv("KIBO_TEST_FAST", "1");
+    vi.stubEnv("KIBO_STATE_DIR", path.join(workspaceDir, ".state"));
     const sessionsDir = resolveSessionTranscriptsDirForAgent("main");
     await fs.mkdir(sessionsDir, { recursive: true });
     const transcriptPath = path.join(sessionsDir, "dreaming-main.jsonl");
@@ -830,15 +830,15 @@ describe("memory-core dreaming phases", () => {
 
     try {
       await beforeAgentReply(
-        { cleanedBody: "__openclaw_memory_core_light_sleep__" },
+        { cleanedBody: "__kibo_memory_core_light_sleep__" },
         { trigger: "heartbeat", workspaceDir },
       );
       await beforeAgentReply(
-        { cleanedBody: "__openclaw_memory_core_light_sleep__" },
+        { cleanedBody: "__kibo_memory_core_light_sleep__" },
         { trigger: "heartbeat", workspaceDir },
       );
       await beforeAgentReply(
-        { cleanedBody: "__openclaw_memory_core_light_sleep__" },
+        { cleanedBody: "__kibo_memory_core_light_sleep__" },
         { trigger: "heartbeat", workspaceDir },
       );
     } finally {
@@ -864,8 +864,8 @@ describe("memory-core dreaming phases", () => {
 
   it("re-ingests rewritten session transcripts after truncate/reset", async () => {
     const workspaceDir = await createDreamingWorkspace();
-    vi.stubEnv("OPENCLAW_TEST_FAST", "1");
-    vi.stubEnv("OPENCLAW_STATE_DIR", path.join(workspaceDir, ".state"));
+    vi.stubEnv("KIBO_TEST_FAST", "1");
+    vi.stubEnv("KIBO_STATE_DIR", path.join(workspaceDir, ".state"));
     const sessionsDir = resolveSessionTranscriptsDirForAgent("main");
     await fs.mkdir(sessionsDir, { recursive: true });
     const transcriptPath = path.join(sessionsDir, "dreaming-main.jsonl");
@@ -918,7 +918,7 @@ describe("memory-core dreaming phases", () => {
 
     try {
       await beforeAgentReply(
-        { cleanedBody: "__openclaw_memory_core_light_sleep__" },
+        { cleanedBody: "__kibo_memory_core_light_sleep__" },
         { trigger: "heartbeat", workspaceDir },
       );
 
@@ -940,7 +940,7 @@ describe("memory-core dreaming phases", () => {
       await fs.utimes(transcriptPath, dayTwo, dayTwo);
 
       await beforeAgentReply(
-        { cleanedBody: "__openclaw_memory_core_light_sleep__" },
+        { cleanedBody: "__kibo_memory_core_light_sleep__" },
         { trigger: "heartbeat", workspaceDir },
       );
     } finally {
@@ -964,8 +964,8 @@ describe("memory-core dreaming phases", () => {
 
   it("ingests sessions when dreaming is enabled even if memorySearch is disabled", async () => {
     const workspaceDir = await createDreamingWorkspace();
-    vi.stubEnv("OPENCLAW_TEST_FAST", "1");
-    vi.stubEnv("OPENCLAW_STATE_DIR", path.join(workspaceDir, ".state"));
+    vi.stubEnv("KIBO_TEST_FAST", "1");
+    vi.stubEnv("KIBO_STATE_DIR", path.join(workspaceDir, ".state"));
     const sessionsDir = resolveSessionTranscriptsDirForAgent("main");
     await fs.mkdir(sessionsDir, { recursive: true });
     const transcriptPath = path.join(sessionsDir, "dreaming-main.jsonl");
@@ -1020,7 +1020,7 @@ describe("memory-core dreaming phases", () => {
 
     try {
       await beforeAgentReply(
-        { cleanedBody: "__openclaw_memory_core_light_sleep__" },
+        { cleanedBody: "__kibo_memory_core_light_sleep__" },
         { trigger: "heartbeat", workspaceDir },
       );
     } finally {
@@ -1314,7 +1314,7 @@ describe("memory-core dreaming phases", () => {
       await triggerLightDreaming(beforeAgentReply, workspaceDir, 5);
     });
     await beforeAgentReply(
-      { cleanedBody: "__openclaw_memory_core_rem_sleep__" },
+      { cleanedBody: "__kibo_memory_core_rem_sleep__" },
       { trigger: "heartbeat", workspaceDir },
     );
 

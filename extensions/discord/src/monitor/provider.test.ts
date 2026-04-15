@@ -1,7 +1,7 @@
 import { EventEmitter } from "node:events";
 import { RateLimitError } from "@buape/carbon";
-import { AcpRuntimeError } from "openclaw/plugin-sdk/acp-runtime";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
+import { AcpRuntimeError } from "kibo/plugin-sdk/acp-runtime";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { createRuntimeChannel } from "../../../../src/plugins/runtime/runtime-channel.js";
 import {
@@ -39,7 +39,7 @@ const {
 
 let monitorDiscordProvider: typeof import("./provider.js").monitorDiscordProvider;
 let providerTesting: typeof import("./provider.js").__testing;
-let runtimeEnvModule: typeof import("openclaw/plugin-sdk/runtime-env");
+let runtimeEnvModule: typeof import("kibo/plugin-sdk/runtime-env");
 
 function createCompatRateLimitError(
   response: Response,
@@ -59,7 +59,7 @@ function createCompatRateLimitError(
   return new RateLimitErrorCtor(response, body, compatRequest);
 }
 
-function createConfigWithDiscordAccount(overrides: Record<string, unknown> = {}): OpenClawConfig {
+function createConfigWithDiscordAccount(overrides: Record<string, unknown> = {}): KiboConfig {
   return {
     channels: {
       discord: {
@@ -71,7 +71,7 @@ function createConfigWithDiscordAccount(overrides: Record<string, unknown> = {})
         },
       },
     },
-  } as OpenClawConfig;
+  } as KiboConfig;
 }
 
 vi.mock("../voice/manager.runtime.js", () => {
@@ -83,7 +83,7 @@ vi.mock("../voice/manager.runtime.js", () => {
 });
 describe("monitorDiscordProvider", () => {
   type ReconcileHealthProbeParams = {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId: string;
     sessionKey: string;
     binding: unknown;
@@ -91,7 +91,7 @@ describe("monitorDiscordProvider", () => {
   };
 
   type ReconcileStartupParams = {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     healthProbe?: (
       params: ReconcileHealthProbeParams,
     ) => Promise<{ status: string; reason?: string }>;
@@ -129,9 +129,9 @@ describe("monitorDiscordProvider", () => {
   };
 
   beforeAll(async () => {
-    vi.doMock("openclaw/plugin-sdk/plugin-runtime", async () => {
-      const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/plugin-runtime")>(
-        "openclaw/plugin-sdk/plugin-runtime",
+    vi.doMock("kibo/plugin-sdk/plugin-runtime", async () => {
+      const actual = await vi.importActual<typeof import("kibo/plugin-sdk/plugin-runtime")>(
+        "kibo/plugin-sdk/plugin-runtime",
       );
       return {
         ...actual,
@@ -148,7 +148,7 @@ describe("monitorDiscordProvider", () => {
     vi.doMock("../token.js", () => ({
       normalizeDiscordToken: (value?: string) => value,
     }));
-    runtimeEnvModule = await import("openclaw/plugin-sdk/runtime-env");
+    runtimeEnvModule = await import("kibo/plugin-sdk/runtime-env");
     vi.spyOn(runtimeEnvModule, "logVerbose").mockImplementation(() => undefined);
     ({ monitorDiscordProvider, __testing: providerTesting } = await import("./provider.js"));
   });

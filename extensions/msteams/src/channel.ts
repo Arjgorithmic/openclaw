@@ -1,16 +1,16 @@
-import { describeAccountSnapshot } from "openclaw/plugin-sdk/account-helpers";
-import { formatAllowFromLowercase } from "openclaw/plugin-sdk/allow-from";
-import { createTopLevelChannelConfigAdapter } from "openclaw/plugin-sdk/channel-config-helpers";
-import { createChatChannelPlugin } from "openclaw/plugin-sdk/channel-core";
-import { createPairingPrefixStripper } from "openclaw/plugin-sdk/channel-pairing";
+import { describeAccountSnapshot } from "kibo/plugin-sdk/account-helpers";
+import { formatAllowFromLowercase } from "kibo/plugin-sdk/allow-from";
+import { createTopLevelChannelConfigAdapter } from "kibo/plugin-sdk/channel-config-helpers";
+import { createChatChannelPlugin } from "kibo/plugin-sdk/channel-core";
+import { createPairingPrefixStripper } from "kibo/plugin-sdk/channel-pairing";
 import {
   createAllowlistProviderGroupPolicyWarningCollector,
   projectConfigWarningCollector,
-} from "openclaw/plugin-sdk/channel-policy";
-import { createLazyRuntimeNamedExport } from "openclaw/plugin-sdk/lazy-runtime";
-import { createRuntimeOutboundDelegates } from "openclaw/plugin-sdk/outbound-runtime";
-import { createComputedAccountStatusAdapter } from "openclaw/plugin-sdk/status-helpers";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/channel-policy";
+import { createLazyRuntimeNamedExport } from "kibo/plugin-sdk/lazy-runtime";
+import { createRuntimeOutboundDelegates } from "kibo/plugin-sdk/outbound-runtime";
+import { createComputedAccountStatusAdapter } from "kibo/plugin-sdk/status-helpers";
+import { normalizeOptionalString } from "kibo/plugin-sdk/text-runtime";
 import { msteamsActionsAdapter } from "./actions.js";
 import { msTeamsApprovalAuth } from "./approval-auth.js";
 import {
@@ -20,7 +20,7 @@ import {
   DEFAULT_ACCOUNT_ID,
   PAIRING_APPROVED_MESSAGE,
   type ChannelPlugin,
-  type OpenClawConfig,
+  type KiboConfig,
 } from "./channel-api.js";
 import { MSTeamsChannelConfigSchema } from "./config-schema.js";
 import { msteamsDirectoryAdapter } from "./directory.js";
@@ -71,7 +71,7 @@ const TEAMS_GRAPH_PERMISSION_HINTS: Record<string, string> = {
 };
 
 const collectMSTeamsSecurityWarnings = createAllowlistProviderGroupPolicyWarningCollector<{
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
 }>({
   providerConfigPresent: (cfg) => cfg.channels?.msteams !== undefined,
   resolveGroupPolicy: ({ cfg }) => cfg.channels?.msteams?.groupPolicy,
@@ -88,7 +88,7 @@ const loadMSTeamsChannelRuntime = createLazyRuntimeNamedExport(
   "msTeamsChannelRuntime",
 );
 
-const resolveMSTeamsChannelConfig = (cfg: OpenClawConfig) => ({
+const resolveMSTeamsChannelConfig = (cfg: KiboConfig) => ({
   allowFrom: cfg.channels?.msteams?.allowFrom,
   defaultTo: cfg.channels?.msteams?.defaultTo,
 });
@@ -367,7 +367,7 @@ export const msteamsPlugin: ChannelPlugin<ResolvedMSTeamsAccount, ProbeMSTeamsRe
       },
     },
     security: {
-      collectWarnings: projectConfigWarningCollector<{ cfg: OpenClawConfig }>(
+      collectWarnings: projectConfigWarningCollector<{ cfg: KiboConfig }>(
         collectMSTeamsSecurityWarnings,
       ),
     },

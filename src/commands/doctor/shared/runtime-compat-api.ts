@@ -1,5 +1,5 @@
 import { isDeepStrictEqual } from "node:util";
-import type { OpenClawConfig } from "../../../config/types.js";
+import type { KiboConfig } from "../../../config/types.js";
 import { applyLegacyDoctorMigrations } from "./legacy-config-compat.js";
 import { normalizeCompatibilityConfigValues } from "./legacy-config-core-migrate.js";
 
@@ -13,9 +13,9 @@ export function applyRuntimeLegacyConfigMigrations(raw: unknown): {
 
   const original = raw as Record<string, unknown>;
   const migrated = applyLegacyDoctorMigrations(original);
-  const base = (migrated.next ?? original) as OpenClawConfig;
+  const base = (migrated.next ?? original) as KiboConfig;
   const normalized = normalizeCompatibilityConfigValues(base);
-  const next = normalized.config as OpenClawConfig & Record<string, unknown>;
+  const next = normalized.config as KiboConfig & Record<string, unknown>;
   const changes = [...migrated.changes, ...normalized.changes];
 
   if (changes.length === 0 || isDeepStrictEqual(next, original)) {

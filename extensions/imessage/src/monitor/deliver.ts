@@ -1,9 +1,9 @@
 import {
   deliverTextOrMediaReply,
   resolveSendableOutboundReplyParts,
-} from "openclaw/plugin-sdk/reply-payload";
-import type { ReplyPayload } from "openclaw/plugin-sdk/reply-runtime";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+} from "kibo/plugin-sdk/reply-payload";
+import type { ReplyPayload } from "kibo/plugin-sdk/reply-runtime";
+import type { RuntimeEnv } from "kibo/plugin-sdk/runtime-env";
 import type { createIMessageRpcClient } from "../client.js";
 import { sendMessageIMessage } from "../send.js";
 import {

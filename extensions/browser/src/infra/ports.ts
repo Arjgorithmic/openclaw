@@ -1,1 +1,1 @@
-export { ensurePortAvailable } from "openclaw/plugin-sdk/browser-security-runtime";
+export { ensurePortAvailable } from "kibo/plugin-sdk/browser-security-runtime";

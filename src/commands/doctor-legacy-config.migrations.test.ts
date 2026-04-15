@@ -2,13 +2,13 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 
 let normalizeCompatibilityConfigValues: typeof import("./doctor-legacy-config.js").normalizeCompatibilityConfigValues;
 let clearPluginSetupRegistryCache: typeof import("../plugins/setup-registry.js").clearPluginSetupRegistryCache;
 
-function asLegacyConfig(value: unknown): OpenClawConfig {
-  return value as OpenClawConfig;
+function asLegacyConfig(value: unknown): KiboConfig {
+  return value as KiboConfig;
 }
 
 function getLegacyProperty(value: unknown, key: string): unknown {
@@ -37,11 +37,11 @@ describe("normalizeCompatibilityConfigValues", () => {
 
   beforeEach(() => {
     vi.doUnmock("./doctor-legacy-config.js");
-    vi.doUnmock("openclaw/plugin-sdk/text-runtime");
+    vi.doUnmock("kibo/plugin-sdk/text-runtime");
     vi.resetModules();
-    previousOauthDir = process.env.OPENCLAW_OAUTH_DIR;
-    tempOauthDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-oauth-"));
-    process.env.OPENCLAW_OAUTH_DIR = tempOauthDir;
+    previousOauthDir = process.env.KIBO_OAUTH_DIR;
+    tempOauthDir = fs.mkdtempSync(path.join(os.tmpdir(), "kibo-oauth-"));
+    process.env.KIBO_OAUTH_DIR = tempOauthDir;
   });
 
   beforeEach(async () => {
@@ -52,9 +52,9 @@ describe("normalizeCompatibilityConfigValues", () => {
 
   afterEach(() => {
     if (previousOauthDir === undefined) {
-      delete process.env.OPENCLAW_OAUTH_DIR;
+      delete process.env.KIBO_OAUTH_DIR;
     } else {
-      process.env.OPENCLAW_OAUTH_DIR = previousOauthDir;
+      process.env.KIBO_OAUTH_DIR = previousOauthDir;
     }
     if (tempOauthDir) {
       fs.rmSync(tempOauthDir, { recursive: true, force: true });
@@ -109,7 +109,7 @@ describe("normalizeCompatibilityConfigValues", () => {
   });
 
   it("copies legacy ack reaction when authDir override exists", () => {
-    const customDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-wa-auth-"));
+    const customDir = fs.mkdtempSync(path.join(os.tmpdir(), "kibo-wa-auth-"));
     try {
       writeCreds(customDir);
 
@@ -452,7 +452,7 @@ describe("normalizeCompatibilityConfigValues", () => {
           allowedHostnames: ["localhost"],
         },
       },
-    } as unknown as OpenClawConfig);
+    } as unknown as KiboConfig);
 
     expect(
       (res.config.browser?.ssrfPolicy as Record<string, unknown> | undefined)?.allowPrivateNetwork,
@@ -472,7 +472,7 @@ describe("normalizeCompatibilityConfigValues", () => {
           dangerouslyAllowPrivateNetwork: false,
         },
       },
-    } as unknown as OpenClawConfig);
+    } as unknown as KiboConfig);
 
     expect(
       (res.config.browser?.ssrfPolicy as Record<string, unknown> | undefined)?.allowPrivateNetwork,
@@ -707,7 +707,7 @@ describe("normalizeCompatibilityConfigValues", () => {
           },
         },
       },
-    } as OpenClawConfig);
+    } as KiboConfig);
 
     expect(res.config.tools?.web?.fetch).toEqual({
       provider: "firecrawl",
@@ -755,7 +755,7 @@ describe("normalizeCompatibilityConfigValues", () => {
           },
         },
       },
-    } as OpenClawConfig);
+    } as KiboConfig);
 
     expect(res.config.plugins?.entries?.firecrawl).toEqual({
       enabled: true,
@@ -778,7 +778,7 @@ describe("normalizeCompatibilityConfigValues", () => {
       talk: {
         voiceId: "voice-123",
         voiceAliases: {
-          Clawd: "VoiceAlias1234567890",
+          Kibo: "VoiceAlias1234567890",
         },
         modelId: "eleven_v3",
         outputFormat: "pcm_44100",
@@ -786,14 +786,14 @@ describe("normalizeCompatibilityConfigValues", () => {
         interruptOnSpeech: false,
         silenceTimeoutMs: 1500,
       },
-    } as unknown as OpenClawConfig);
+    } as unknown as KiboConfig);
 
     expect(res.config.talk).toEqual({
       providers: {
         elevenlabs: {
           voiceId: "voice-123",
           voiceAliases: {
-            Clawd: "VoiceAlias1234567890",
+            Kibo: "VoiceAlias1234567890",
           },
           modelId: "eleven_v3",
           outputFormat: "pcm_44100",
@@ -819,7 +819,7 @@ describe("normalizeCompatibilityConfigValues", () => {
         },
         apiKey: "secret-key",
       },
-    } as unknown as OpenClawConfig);
+    } as unknown as KiboConfig);
 
     expect(res.config.talk).toEqual({
       provider: "elevenlabs",

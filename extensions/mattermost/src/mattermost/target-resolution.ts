@@ -1,12 +1,12 @@
-import { isPrivateNetworkOptInEnabled } from "openclaw/plugin-sdk/ssrf-runtime";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { isPrivateNetworkOptInEnabled } from "kibo/plugin-sdk/ssrf-runtime";
+import { normalizeOptionalString } from "kibo/plugin-sdk/text-runtime";
 import { resolveMattermostAccount } from "./accounts.js";
 import {
   createMattermostClient,
   fetchMattermostUser,
   normalizeMattermostBaseUrl,
 } from "./client.js";
-import type { OpenClawConfig } from "./runtime-api.js";
+import type { KiboConfig } from "./runtime-api.js";
 
 export type MattermostOpaqueTargetResolution = {
   kind: "user" | "channel";
@@ -52,7 +52,7 @@ export function parseMattermostApiStatus(err: unknown): number | undefined {
 
 export async function resolveMattermostOpaqueTarget(params: {
   input: string;
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   accountId?: string | null;
   token?: string;
   baseUrl?: string;

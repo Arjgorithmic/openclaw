@@ -3,11 +3,11 @@ import {
   listChannelPluginCatalogEntries,
   type ChannelPluginCatalogEntry,
 } from "../../channels/plugins/catalog.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { KiboConfig } from "../../config/config.js";
 import { applyPluginAutoEnable } from "../../config/plugin-auto-enable.js";
 import { normalizePluginsConfig, resolveEnableState } from "../../plugins/config-state.js";
 
-function resolveEffectiveTrustConfig(cfg: OpenClawConfig, env?: NodeJS.ProcessEnv): OpenClawConfig {
+function resolveEffectiveTrustConfig(cfg: KiboConfig, env?: NodeJS.ProcessEnv): KiboConfig {
   return applyPluginAutoEnable({
     config: cfg,
     env: env ?? process.env,
@@ -16,7 +16,7 @@ function resolveEffectiveTrustConfig(cfg: OpenClawConfig, env?: NodeJS.ProcessEn
 
 function isTrustedWorkspaceChannelCatalogEntry(
   entry: ChannelPluginCatalogEntry | undefined,
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   env?: NodeJS.ProcessEnv,
 ): boolean {
   if (entry?.origin !== "workspace") {
@@ -36,7 +36,7 @@ function isTrustedWorkspaceChannelCatalogEntry(
 export function getTrustedChannelPluginCatalogEntry(
   channelId: string,
   params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     workspaceDir?: string;
     env?: NodeJS.ProcessEnv;
   },
@@ -54,7 +54,7 @@ export function getTrustedChannelPluginCatalogEntry(
 }
 
 export function listTrustedChannelPluginCatalogEntries(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): ChannelPluginCatalogEntry[] {
@@ -77,7 +77,7 @@ export function listTrustedChannelPluginCatalogEntries(params: {
 }
 
 export function listSetupDiscoveryChannelPluginCatalogEntries(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;
 }): ChannelPluginCatalogEntry[] {

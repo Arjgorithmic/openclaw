@@ -3,7 +3,7 @@ import fs from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { formatErrorMessage } from "kibo/plugin-sdk/error-runtime";
 import type { RuntimeEnv } from "../runtime-api.js";
 
 const REQUIRED_MATRIX_PACKAGES = [

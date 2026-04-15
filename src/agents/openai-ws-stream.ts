@@ -437,7 +437,7 @@ function resolveNativeOpenAISessionHeaders(params: {
   }
   return {
     "x-client-request-id": sessionId,
-    "x-openclaw-session-id": sessionId,
+    "x-kibo-session-id": sessionId,
   };
 }
 
@@ -462,14 +462,14 @@ function resolveNativeOpenAITransportTurnState(params: {
   return {
     headers: {
       ...sessionHeaders,
-      "x-openclaw-turn-id": turnId,
-      "x-openclaw-turn-attempt": attempt,
+      "x-kibo-turn-id": turnId,
+      "x-kibo-turn-attempt": attempt,
     },
     metadata: {
-      openclaw_session_id: sessionHeaders["x-openclaw-session-id"] ?? "",
-      openclaw_turn_id: turnId,
-      openclaw_turn_attempt: attempt,
-      openclaw_transport: params.transport,
+      kibo_session_id: sessionHeaders["x-kibo-session-id"] ?? "",
+      kibo_turn_id: turnId,
+      kibo_turn_attempt: attempt,
+      kibo_transport: params.transport,
     },
   };
 }

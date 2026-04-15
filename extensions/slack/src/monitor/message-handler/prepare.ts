@@ -1,8 +1,8 @@
-import { resolveAckReaction } from "openclaw/plugin-sdk/agent-runtime";
+import { resolveAckReaction } from "kibo/plugin-sdk/agent-runtime";
 import {
   shouldAckReaction as shouldAckReactionGate,
   type AckReactionScope,
-} from "openclaw/plugin-sdk/channel-feedback";
+} from "kibo/plugin-sdk/channel-feedback";
 import {
   buildMentionRegexes,
   formatInboundEnvelope,
@@ -11,24 +11,24 @@ import {
   matchesMentionWithExplicit,
   resolveEnvelopeFormatOptions,
   resolveInboundMentionDecision,
-} from "openclaw/plugin-sdk/channel-inbound";
-import { resolveControlCommandGate } from "openclaw/plugin-sdk/command-auth";
-import { hasControlCommand } from "openclaw/plugin-sdk/command-auth";
-import { shouldHandleTextCommands } from "openclaw/plugin-sdk/command-auth";
-import { enqueueSystemEvent } from "openclaw/plugin-sdk/infra-runtime";
+} from "kibo/plugin-sdk/channel-inbound";
+import { resolveControlCommandGate } from "kibo/plugin-sdk/command-auth";
+import { hasControlCommand } from "kibo/plugin-sdk/command-auth";
+import { shouldHandleTextCommands } from "kibo/plugin-sdk/command-auth";
+import { enqueueSystemEvent } from "kibo/plugin-sdk/infra-runtime";
 import {
   buildPendingHistoryContextFromMap,
   recordPendingHistoryEntryIfEnabled,
-} from "openclaw/plugin-sdk/reply-history";
-import type { FinalizedMsgContext } from "openclaw/plugin-sdk/reply-runtime";
-import { resolveAgentRoute } from "openclaw/plugin-sdk/routing";
-import { resolveThreadSessionKeys } from "openclaw/plugin-sdk/routing";
-import { logVerbose, shouldLogVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { resolvePinnedMainDmOwnerFromAllowlist } from "openclaw/plugin-sdk/security-runtime";
+} from "kibo/plugin-sdk/reply-history";
+import type { FinalizedMsgContext } from "kibo/plugin-sdk/reply-runtime";
+import { resolveAgentRoute } from "kibo/plugin-sdk/routing";
+import { resolveThreadSessionKeys } from "kibo/plugin-sdk/routing";
+import { logVerbose, shouldLogVerbose } from "kibo/plugin-sdk/runtime-env";
+import { resolvePinnedMainDmOwnerFromAllowlist } from "kibo/plugin-sdk/security-runtime";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/text-runtime";
 import { resolveSlackReplyToMode, type ResolvedSlackAccount } from "../../accounts.js";
 import { reactSlackMessage } from "../../actions.js";
 import { hasSlackThreadParticipation } from "../../sent-thread-cache.js";

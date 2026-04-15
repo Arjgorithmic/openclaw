@@ -1,5 +1,5 @@
 import { resolveSubagentLabel, sortSubagentRuns } from "../auto-reply/reply/subagents-utils.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { resolveStorePath } from "../config/sessions/paths.js";
 import { loadSessionStore } from "../config/sessions/store-load.js";
 import type { SessionEntry } from "../config/sessions/types.js";
@@ -52,7 +52,7 @@ export type SessionEntryResolution = {
 };
 
 function resolveStorePathForKey(
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   key: string,
   parsed?: ParsedAgentSessionKey | null,
 ) {
@@ -62,7 +62,7 @@ function resolveStorePathForKey(
 }
 
 export function resolveSessionEntryForKey(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   key: string;
   cache: Map<string, Record<string, SessionEntry>>;
 }): SessionEntryResolution {
@@ -198,7 +198,7 @@ function buildListText(params: {
 }
 
 export function buildSubagentList(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   runs: SubagentRunRecord[];
   recentMinutes: number;
   taskMaxChars?: number;

@@ -1,6 +1,6 @@
-import { createChannelPairingController } from "openclaw/plugin-sdk/channel-pairing";
-import { attachChannelToResult } from "openclaw/plugin-sdk/channel-send-result";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
+import { createChannelPairingController } from "kibo/plugin-sdk/channel-pairing";
+import { attachChannelToResult } from "kibo/plugin-sdk/channel-send-result";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
 import {
   createPreCryptoDirectDmAuthorizer,
   DEFAULT_ACCOUNT_ID,
@@ -54,7 +54,7 @@ function isNostrSenderAllowed(senderPubkey: string, allowFrom: string[]): boolea
 }
 
 async function resolveNostrDirectAccess(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId: string;
   dmPolicy: "pairing" | "allowlist" | "open" | "disabled";
   allowFrom: Array<string | number> | undefined;
@@ -260,7 +260,7 @@ export const nostrPairingTextAdapter = {
     message,
     accountId,
   }: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     id: string;
     message: string;
     accountId?: string;

@@ -3,7 +3,7 @@ import {
   getMediaGenerationRuntimeMocks,
   resetVideoGenerationRuntimeMocks,
 } from "../../test/helpers/media-generation/runtime-module-mocks.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { generateVideo, listRuntimeVideoGenerationProviders } from "./runtime.js";
 import type { VideoGenerationProvider } from "./types.js";
 
@@ -53,7 +53,7 @@ describe("video-generation runtime", () => {
             videoGenerationModel: { primary: "video-plugin/vid-v1" },
           },
         },
-      } as OpenClawConfig,
+      } as KiboConfig,
       prompt: "animate a cat",
       agentDir: "/tmp/agent",
       authStore,
@@ -120,7 +120,7 @@ describe("video-generation runtime", () => {
     ]);
 
     const result = await generateVideo({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as KiboConfig,
       prompt: "animate a cat",
     });
 
@@ -153,10 +153,10 @@ describe("video-generation runtime", () => {
     ];
     mocks.listVideoGenerationProviders.mockReturnValue(providers);
 
-    expect(listRuntimeVideoGenerationProviders({ config: {} as OpenClawConfig })).toEqual(
+    expect(listRuntimeVideoGenerationProviders({ config: {} as KiboConfig })).toEqual(
       providers,
     );
-    expect(mocks.listVideoGenerationProviders).toHaveBeenCalledWith({} as OpenClawConfig);
+    expect(mocks.listVideoGenerationProviders).toHaveBeenCalledWith({} as KiboConfig);
   });
 
   it("normalizes requested durations to supported provider values", async () => {
@@ -185,7 +185,7 @@ describe("video-generation runtime", () => {
             videoGenerationModel: { primary: "video-plugin/vid-v1" },
           },
         },
-      } as OpenClawConfig,
+      } as KiboConfig,
       prompt: "animate a cat",
       durationSeconds: 5,
     });
@@ -246,8 +246,8 @@ describe("video-generation runtime", () => {
             videoGenerationModel: { primary: "openai/sora-2" },
           },
         },
-      } as OpenClawConfig,
-      prompt: "animate a lobster",
+      } as KiboConfig,
+      prompt: "animate a shell",
       size: "1280x720",
       aspectRatio: "16:9",
       resolution: "720P",
@@ -313,8 +313,8 @@ describe("video-generation runtime", () => {
             videoGenerationModel: { primary: "runway/gen4.5" },
           },
         },
-      } as OpenClawConfig,
-      prompt: "animate a lobster",
+      } as KiboConfig,
+      prompt: "animate a shell",
       size: "1280x720",
       inputImages: [{ buffer: Buffer.from("png"), mimeType: "image/png" }],
     });
@@ -351,7 +351,7 @@ describe("video-generation runtime", () => {
     ]);
     mocks.getProviderEnvVars.mockReturnValue(["MOTION_ONE_API_KEY"]);
 
-    const promise = generateVideo({ cfg: {} as OpenClawConfig, prompt: "animate a cat" });
+    const promise = generateVideo({ cfg: {} as KiboConfig, prompt: "animate a cat" });
 
     await expect(promise).rejects.toThrow("No video-generation model configured.");
     await expect(promise).rejects.toThrow(

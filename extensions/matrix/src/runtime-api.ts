@@ -2,7 +2,7 @@ export {
   DEFAULT_ACCOUNT_ID,
   normalizeAccountId,
   normalizeOptionalAccountId,
-} from "openclaw/plugin-sdk/account-id";
+} from "kibo/plugin-sdk/account-id";
 export {
   createActionGate,
   jsonResult,
@@ -10,9 +10,9 @@ export {
   readReactionParams,
   readStringArrayParam,
   readStringParam,
-} from "openclaw/plugin-sdk/channel-actions";
-export { buildChannelConfigSchema } from "openclaw/plugin-sdk/channel-config-primitives";
-export type { ChannelPlugin } from "openclaw/plugin-sdk/channel-core";
+} from "kibo/plugin-sdk/channel-actions";
+export { buildChannelConfigSchema } from "kibo/plugin-sdk/channel-config-primitives";
+export type { ChannelPlugin } from "kibo/plugin-sdk/channel-core";
 export type {
   BaseProbeResult,
   ChannelDirectoryEntry,
@@ -25,30 +25,30 @@ export type {
   ChannelResolveKind,
   ChannelResolveResult,
   ChannelToolSend,
-} from "openclaw/plugin-sdk/channel-contract";
+} from "kibo/plugin-sdk/channel-contract";
 export {
   formatLocationText,
   logInboundDrop,
   toLocationContext,
   type NormalizedLocation,
-} from "openclaw/plugin-sdk/channel-inbound";
-export { resolveAckReaction, logTypingFailure } from "openclaw/plugin-sdk/channel-feedback";
-export type { ChannelSetupInput } from "openclaw/plugin-sdk/setup";
+} from "kibo/plugin-sdk/channel-inbound";
+export { resolveAckReaction, logTypingFailure } from "kibo/plugin-sdk/channel-feedback";
+export type { ChannelSetupInput } from "kibo/plugin-sdk/setup";
 export type {
-  OpenClawConfig,
+  KiboConfig,
   ContextVisibilityMode,
   DmPolicy,
   GroupPolicy,
-} from "openclaw/plugin-sdk/config-runtime";
-export type { GroupToolPolicyConfig } from "openclaw/plugin-sdk/config-runtime";
-export type { WizardPrompter } from "openclaw/plugin-sdk/matrix-runtime-shared";
-export type { SecretInput } from "openclaw/plugin-sdk/secret-input";
+} from "kibo/plugin-sdk/config-runtime";
+export type { GroupToolPolicyConfig } from "kibo/plugin-sdk/config-runtime";
+export type { WizardPrompter } from "kibo/plugin-sdk/matrix-runtime-shared";
+export type { SecretInput } from "kibo/plugin-sdk/secret-input";
 export {
   GROUP_POLICY_BLOCKED_LABEL,
   resolveAllowlistProviderRuntimeGroupPolicy,
   resolveDefaultGroupPolicy,
   warnMissingProviderGroupPolicyFallbackOnce,
-} from "openclaw/plugin-sdk/config-runtime";
+} from "kibo/plugin-sdk/config-runtime";
 export {
   addWildcardAllowFrom,
   formatDocsLink,
@@ -58,8 +58,8 @@ export {
   promptAccountId,
   promptChannelAccessConfig,
   splitSetupEntries,
-} from "openclaw/plugin-sdk/setup";
-export type { RuntimeEnv } from "openclaw/plugin-sdk/runtime";
+} from "kibo/plugin-sdk/setup";
+export type { RuntimeEnv } from "kibo/plugin-sdk/runtime";
 export {
   assertHttpUrlTargetsPrivateNetwork,
   closeDispatcher,
@@ -70,43 +70,43 @@ export {
   ssrfPolicyFromAllowPrivateNetwork,
   type LookupFn,
   type SsrFPolicy,
-} from "openclaw/plugin-sdk/ssrf-runtime";
-export { dispatchReplyFromConfigWithSettledDispatcher } from "openclaw/plugin-sdk/inbound-reply-dispatch";
+} from "kibo/plugin-sdk/ssrf-runtime";
+export { dispatchReplyFromConfigWithSettledDispatcher } from "kibo/plugin-sdk/inbound-reply-dispatch";
 export {
   ensureConfiguredAcpBindingReady,
   resolveConfiguredAcpBindingRecord,
-} from "openclaw/plugin-sdk/acp-binding-runtime";
+} from "kibo/plugin-sdk/acp-binding-runtime";
 export {
   buildProbeChannelStatusSummary,
   collectStatusIssuesFromLastError,
   PAIRING_APPROVED_MESSAGE,
-} from "openclaw/plugin-sdk/channel-status";
+} from "kibo/plugin-sdk/channel-status";
 export {
   getSessionBindingService,
   resolveThreadBindingIdleTimeoutMsForChannel,
   resolveThreadBindingMaxAgeMsForChannel,
-} from "openclaw/plugin-sdk/conversation-runtime";
-export { resolveOutboundSendDep } from "openclaw/plugin-sdk/outbound-runtime";
-export { resolveAgentIdFromSessionKey } from "openclaw/plugin-sdk/routing";
-export { chunkTextForOutbound } from "openclaw/plugin-sdk/text-chunking";
-export { createChannelReplyPipeline } from "openclaw/plugin-sdk/channel-reply-pipeline";
-export { loadOutboundMediaFromUrl } from "openclaw/plugin-sdk/outbound-media";
-export { normalizePollInput, type PollInput } from "openclaw/plugin-sdk/media-runtime";
-export { writeJsonFileAtomically } from "openclaw/plugin-sdk/json-store";
+} from "kibo/plugin-sdk/conversation-runtime";
+export { resolveOutboundSendDep } from "kibo/plugin-sdk/outbound-runtime";
+export { resolveAgentIdFromSessionKey } from "kibo/plugin-sdk/routing";
+export { chunkTextForOutbound } from "kibo/plugin-sdk/text-chunking";
+export { createChannelReplyPipeline } from "kibo/plugin-sdk/channel-reply-pipeline";
+export { loadOutboundMediaFromUrl } from "kibo/plugin-sdk/outbound-media";
+export { normalizePollInput, type PollInput } from "kibo/plugin-sdk/media-runtime";
+export { writeJsonFileAtomically } from "kibo/plugin-sdk/json-store";
 export {
   buildChannelKeyCandidates,
   resolveChannelEntryMatch,
-} from "openclaw/plugin-sdk/channel-targets";
+} from "kibo/plugin-sdk/channel-targets";
 export {
   evaluateGroupRouteAccessForPolicy,
   resolveSenderScopedGroupPolicy,
-} from "openclaw/plugin-sdk/channel-policy";
+} from "kibo/plugin-sdk/channel-policy";
 export {
   formatZonedTimestamp,
   type PluginRuntime,
   type RuntimeLogger,
-} from "openclaw/plugin-sdk/matrix-runtime-shared";
-export type { ReplyPayload } from "openclaw/plugin-sdk/reply-runtime";
+} from "kibo/plugin-sdk/matrix-runtime-shared";
+export type { ReplyPayload } from "kibo/plugin-sdk/reply-runtime";
 // resolveMatrixAccountStringValues already comes from plugin-sdk/matrix.
 // Re-exporting auth-precedence here makes Jiti try to define the same export twice.
 

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const searchSkillsFromClawHubMock = vi.fn();
-const fetchClawHubSkillDetailMock = vi.fn();
+const searchSkillsFromKiboHubMock = vi.fn();
+const fetchKiboHubSkillDetailMock = vi.fn();
 
 vi.mock("../../config/config.js", () => ({
   loadConfig: vi.fn(() => ({})),
@@ -14,17 +14,17 @@ vi.mock("../../agents/agent-scope.js", () => ({
   resolveAgentWorkspaceDir: vi.fn(() => "/tmp/workspace"),
 }));
 
-vi.mock("../../agents/skills-clawhub.js", () => ({
-  installSkillFromClawHub: vi.fn(),
-  updateSkillsFromClawHub: vi.fn(),
-  searchSkillsFromClawHub: (...args: unknown[]) => searchSkillsFromClawHubMock(...args),
+vi.mock("../../agents/skills-kibohub.js", () => ({
+  installSkillFromKiboHub: vi.fn(),
+  updateSkillsFromKiboHub: vi.fn(),
+  searchSkillsFromKiboHub: (...args: unknown[]) => searchSkillsFromKiboHubMock(...args),
 }));
 
-vi.mock("../../infra/clawhub.js", () => ({
-  fetchClawHubSkillDetail: (...args: unknown[]) => fetchClawHubSkillDetailMock(...args),
-  resolveClawHubBaseUrl: vi.fn(() => "https://clawhub.ai"),
-  searchClawHubSkills: vi.fn(),
-  downloadClawHubSkillArchive: vi.fn(),
+vi.mock("../../infra/kibohub.js", () => ({
+  fetchKiboHubSkillDetail: (...args: unknown[]) => fetchKiboHubSkillDetailMock(...args),
+  resolveKiboHubBaseUrl: vi.fn(() => "https://github.com/Arjgorithmic/openclaw"),
+  searchKiboHubSkills: vi.fn(),
+  downloadKiboHubSkillArchive: vi.fn(),
 }));
 
 vi.mock("../../agents/skills-install.js", () => ({
@@ -54,12 +54,12 @@ function callHandler(method: string, params: Record<string, unknown>) {
 
 describe("skills.search handler", () => {
   beforeEach(() => {
-    searchSkillsFromClawHubMock.mockReset();
-    fetchClawHubSkillDetailMock.mockReset();
+    searchSkillsFromKiboHubMock.mockReset();
+    fetchKiboHubSkillDetailMock.mockReset();
   });
 
-  it("searches ClawHub with query and limit", async () => {
-    searchSkillsFromClawHubMock.mockResolvedValue([
+  it("searches KiboHub with query and limit", async () => {
+    searchSkillsFromKiboHubMock.mockResolvedValue([
       {
         score: 0.95,
         slug: "github",
@@ -75,7 +75,7 @@ describe("skills.search handler", () => {
       limit: 10,
     });
 
-    expect(searchSkillsFromClawHubMock).toHaveBeenCalledWith({
+    expect(searchSkillsFromKiboHubMock).toHaveBeenCalledWith({
       query: "github",
       limit: 10,
     });
@@ -96,11 +96,11 @@ describe("skills.search handler", () => {
   });
 
   it("searches without query (browse all)", async () => {
-    searchSkillsFromClawHubMock.mockResolvedValue([]);
+    searchSkillsFromKiboHubMock.mockResolvedValue([]);
 
     const { ok, response } = await callHandler("skills.search", {});
 
-    expect(searchSkillsFromClawHubMock).toHaveBeenCalledWith({
+    expect(searchSkillsFromKiboHubMock).toHaveBeenCalledWith({
       query: undefined,
       limit: undefined,
     });
@@ -108,8 +108,8 @@ describe("skills.search handler", () => {
     expect(response).toEqual({ results: [] });
   });
 
-  it("returns error when ClawHub is unreachable", async () => {
-    searchSkillsFromClawHubMock.mockRejectedValue(new Error("connection refused"));
+  it("returns error when KiboHub is unreachable", async () => {
+    searchSkillsFromKiboHubMock.mockRejectedValue(new Error("connection refused"));
 
     const { ok, error } = await callHandler("skills.search", { query: "test" });
 
@@ -125,7 +125,7 @@ describe("skills.search handler", () => {
 
     expect(ok).toBe(false);
     expect(error).toMatchObject({ code: "INVALID_REQUEST" });
-    expect(searchSkillsFromClawHubMock).not.toHaveBeenCalled();
+    expect(searchSkillsFromKiboHubMock).not.toHaveBeenCalled();
   });
 
   it("rejects limit above maximum", async () => {
@@ -136,14 +136,14 @@ describe("skills.search handler", () => {
 
     expect(ok).toBe(false);
     expect(error).toMatchObject({ code: "INVALID_REQUEST" });
-    expect(searchSkillsFromClawHubMock).not.toHaveBeenCalled();
+    expect(searchSkillsFromKiboHubMock).not.toHaveBeenCalled();
   });
 });
 
 describe("skills.detail handler", () => {
   beforeEach(() => {
-    searchSkillsFromClawHubMock.mockReset();
-    fetchClawHubSkillDetailMock.mockReset();
+    searchSkillsFromKiboHubMock.mockReset();
+    fetchKiboHubSkillDetailMock.mockReset();
   });
 
   it("fetches detail for a valid slug", async () => {
@@ -160,24 +160,24 @@ describe("skills.detail handler", () => {
         createdAt: 1700000000,
       },
       owner: {
-        handle: "openclaw",
-        displayName: "OpenClaw",
+        handle: "kibo",
+        displayName: "Kibo",
       },
     };
-    fetchClawHubSkillDetailMock.mockResolvedValue(detail);
+    fetchKiboHubSkillDetailMock.mockResolvedValue(detail);
 
     const { ok, response, error } = await callHandler("skills.detail", {
       slug: "github",
     });
 
-    expect(fetchClawHubSkillDetailMock).toHaveBeenCalledWith({ slug: "github" });
+    expect(fetchKiboHubSkillDetailMock).toHaveBeenCalledWith({ slug: "github" });
     expect(ok).toBe(true);
     expect(error).toBeUndefined();
     expect(response).toEqual(detail);
   });
 
   it("returns error when slug is not found", async () => {
-    fetchClawHubSkillDetailMock.mockRejectedValue(new Error("not found"));
+    fetchKiboHubSkillDetailMock.mockRejectedValue(new Error("not found"));
 
     const { ok, error } = await callHandler("skills.detail", { slug: "nonexistent" });
 
@@ -190,7 +190,7 @@ describe("skills.detail handler", () => {
 
     expect(ok).toBe(false);
     expect(error).toMatchObject({ code: "INVALID_REQUEST" });
-    expect(fetchClawHubSkillDetailMock).not.toHaveBeenCalled();
+    expect(fetchKiboHubSkillDetailMock).not.toHaveBeenCalled();
   });
 
   it("rejects empty slug", async () => {
@@ -198,6 +198,6 @@ describe("skills.detail handler", () => {
 
     expect(ok).toBe(false);
     expect(error).toMatchObject({ code: "INVALID_REQUEST" });
-    expect(fetchClawHubSkillDetailMock).not.toHaveBeenCalled();
+    expect(fetchKiboHubSkillDetailMock).not.toHaveBeenCalled();
   });
 });

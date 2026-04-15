@@ -1,8 +1,8 @@
 import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
-import type { OpenClawPluginApi } from "../runtime-api.js";
+} from "kibo/plugin-sdk/text-runtime";
+import type { KiboPluginApi } from "../runtime-api.js";
 import { buildFeishuConversationId, parseFeishuConversationId } from "./conversation-id.js";
 import { normalizeFeishuTarget } from "./targets.js";
 import { getFeishuThreadBindingManager } from "./thread-bindings.js";
@@ -379,7 +379,7 @@ export function handleFeishuSubagentEnded(event: FeishuSubagentEndedEvent) {
   manager?.unbindBySessionKey(event.targetSessionKey);
 }
 
-export function registerFeishuSubagentHooks(api: OpenClawPluginApi) {
+export function registerFeishuSubagentHooks(api: KiboPluginApi) {
   api.on("subagent_spawning", (event, ctx) => handleFeishuSubagentSpawning(event, ctx));
   api.on("subagent_delivery_target", (event) => handleFeishuSubagentDeliveryTarget(event));
   api.on("subagent_ended", (event) => handleFeishuSubagentEnded(event));

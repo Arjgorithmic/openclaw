@@ -5,10 +5,10 @@ import {
   hasMeaningfulChannelConfigShallow,
   resolveChannelConfigRecord,
 } from "./channel-configured-shared.js";
-import type { OpenClawConfig } from "./config.js";
+import type { KiboConfig } from "./config.js";
 
 export function isChannelConfigured(
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   channelId: string,
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {

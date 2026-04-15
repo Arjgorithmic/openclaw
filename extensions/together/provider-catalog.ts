@@ -1,4 +1,4 @@
-import type { ModelProviderConfig } from "openclaw/plugin-sdk/provider-model-shared";
+import type { ModelProviderConfig } from "kibo/plugin-sdk/provider-model-shared";
 import {
   buildTogetherModelDefinition,
   TOGETHER_BASE_URL,

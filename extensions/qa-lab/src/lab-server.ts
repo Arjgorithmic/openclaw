@@ -12,8 +12,8 @@ import path from "node:path";
 import type { Duplex } from "node:stream";
 import tls from "node:tls";
 import { fileURLToPath } from "node:url";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import { formatErrorMessage } from "kibo/plugin-sdk/error-runtime";
+import { normalizeLowercaseStringOrEmpty } from "kibo/plugin-sdk/text-runtime";
 import { handleQaBusRequest, writeError, writeJson } from "./bus-server.js";
 import { createQaBusState, type QaBusState } from "./bus-state.js";
 import { createQaRunnerRuntime } from "./harness-runtime.js";
@@ -23,7 +23,7 @@ import {
   createQaRunOutputDir,
   normalizeQaRunSelection,
 } from "./run-config.js";
-import { qaChannelPlugin, setQaChannelRuntime, type OpenClawConfig } from "./runtime-api.js";
+import { qaChannelPlugin, setQaChannelRuntime, type KiboConfig } from "./runtime-api.js";
 import { readQaBootstrapScenarioCatalog } from "./scenario-catalog.js";
 import { runQaSelfCheckAgainstState, type QaSelfCheckResult } from "./self-check.js";
 
@@ -410,14 +410,14 @@ function tryResolveUiAsset(
   return fs.existsSync(fallback) ? fallback : null;
 }
 
-function createQaLabConfig(baseUrl: string): OpenClawConfig {
+function createQaLabConfig(baseUrl: string): KiboConfig {
   return {
     channels: {
       "qa-channel": {
         enabled: true,
         baseUrl,
-        botUserId: "openclaw",
-        botDisplayName: "OpenClaw QA",
+        botUserId: "kibo",
+        botDisplayName: "Kibo QA",
         allowFrom: ["*"],
       },
     },
@@ -495,7 +495,7 @@ export async function startQaLabServer(params?: {
   let controlUiToken = params?.controlUiToken?.trim() || null;
   let gateway:
     | {
-        cfg: OpenClawConfig;
+        cfg: KiboConfig;
         stop: () => Promise<void>;
       }
     | undefined;

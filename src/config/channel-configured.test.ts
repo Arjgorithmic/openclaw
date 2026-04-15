@@ -22,7 +22,7 @@ describe("isChannelConfigured", () => {
     expect(
       isChannelConfigured({}, "irc", {
         IRC_HOST: "irc.example.com",
-        IRC_NICK: "openclaw",
+        IRC_NICK: "kibo",
       }),
     ).toBe(true);
   });
@@ -44,7 +44,7 @@ describe("isChannelConfigured", () => {
   });
 
   it("detects persisted Matrix credentials through package metadata", () => {
-    withTempDirSync({ prefix: "openclaw-channel-configured-" }, (stateDir) => {
+    withTempDirSync({ prefix: "kibo-channel-configured-" }, (stateDir) => {
       fs.mkdirSync(path.join(stateDir, "credentials", "matrix"), { recursive: true });
       fs.writeFileSync(
         path.join(stateDir, "credentials", "matrix", "credentials-ops.json"),
@@ -56,7 +56,7 @@ describe("isChannelConfigured", () => {
         "utf8",
       );
 
-      expect(isChannelConfigured({}, "matrix", { OPENCLAW_STATE_DIR: stateDir })).toBe(true);
+      expect(isChannelConfigured({}, "matrix", { KIBO_STATE_DIR: stateDir })).toBe(true);
     });
   });
 });

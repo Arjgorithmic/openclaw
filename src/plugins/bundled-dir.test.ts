@@ -5,8 +5,8 @@ import { resolveBundledPluginsDir } from "./bundled-dir.js";
 import { cleanupTrackedTempDirs, makeTrackedTempDir } from "./test-helpers/fs-fixtures.js";
 
 const tempDirs: string[] = [];
-const originalBundledDir = process.env.OPENCLAW_BUNDLED_PLUGINS_DIR;
-const originalDisableBundledPlugins = process.env.OPENCLAW_DISABLE_BUNDLED_PLUGINS;
+const originalBundledDir = process.env.KIBO_BUNDLED_PLUGINS_DIR;
+const originalDisableBundledPlugins = process.env.KIBO_DISABLE_BUNDLED_PLUGINS;
 const originalVitest = process.env.VITEST;
 const originalArgv1 = process.argv[1];
 const originalExecArgv = [...process.execArgv];
@@ -15,7 +15,7 @@ function makeRepoRoot(prefix: string): string {
   return makeTrackedTempDir(prefix, tempDirs);
 }
 
-function createOpenClawRoot(params: {
+function createKiboRoot(params: {
   prefix: string;
   hasExtensions?: boolean;
   hasSrc?: boolean;
@@ -41,7 +41,7 @@ function createOpenClawRoot(params: {
   }
   fs.writeFileSync(
     path.join(repoRoot, "package.json"),
-    `${JSON.stringify({ name: "openclaw" }, null, 2)}\n`,
+    `${JSON.stringify({ name: "kibo" }, null, 2)}\n`,
     "utf8",
   );
   return repoRoot;
@@ -52,11 +52,11 @@ function seedBundledPluginTree(rootDir: string, relativeDir: string, pluginId = 
   fs.mkdirSync(pluginDir, { recursive: true });
   fs.writeFileSync(
     path.join(pluginDir, "package.json"),
-    `${JSON.stringify({ name: `@openclaw/${pluginId}` }, null, 2)}\n`,
+    `${JSON.stringify({ name: `@kibo/${pluginId}` }, null, 2)}\n`,
     "utf8",
   );
   fs.writeFileSync(
-    path.join(pluginDir, "openclaw.plugin.json"),
+    path.join(pluginDir, "kibo.plugin.json"),
     `${JSON.stringify({ id: pluginId }, null, 2)}\n`,
     "utf8",
   );
@@ -81,14 +81,14 @@ function expectResolvedBundledDir(params: {
     process.env.VITEST = params.vitest;
   }
   if (params.bundledDirOverride === undefined) {
-    delete process.env.OPENCLAW_BUNDLED_PLUGINS_DIR;
+    delete process.env.KIBO_BUNDLED_PLUGINS_DIR;
   } else {
-    process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = params.bundledDirOverride;
+    process.env.KIBO_BUNDLED_PLUGINS_DIR = params.bundledDirOverride;
   }
   if (params.disableBundledPlugins === undefined) {
-    delete process.env.OPENCLAW_DISABLE_BUNDLED_PLUGINS;
+    delete process.env.KIBO_DISABLE_BUNDLED_PLUGINS;
   } else {
-    process.env.OPENCLAW_DISABLE_BUNDLED_PLUGINS = params.disableBundledPlugins;
+    process.env.KIBO_DISABLE_BUNDLED_PLUGINS = params.disableBundledPlugins;
   }
 
   expect(fs.realpathSync(resolveBundledPluginsDir() ?? "")).toBe(
@@ -144,14 +144,14 @@ function expectInstalledBundledDirScenarioCase(
 afterEach(() => {
   vi.restoreAllMocks();
   if (originalBundledDir === undefined) {
-    delete process.env.OPENCLAW_BUNDLED_PLUGINS_DIR;
+    delete process.env.KIBO_BUNDLED_PLUGINS_DIR;
   } else {
-    process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = originalBundledDir;
+    process.env.KIBO_BUNDLED_PLUGINS_DIR = originalBundledDir;
   }
   if (originalDisableBundledPlugins === undefined) {
-    delete process.env.OPENCLAW_DISABLE_BUNDLED_PLUGINS;
+    delete process.env.KIBO_DISABLE_BUNDLED_PLUGINS;
   } else {
-    process.env.OPENCLAW_DISABLE_BUNDLED_PLUGINS = originalDisableBundledPlugins;
+    process.env.KIBO_DISABLE_BUNDLED_PLUGINS = originalDisableBundledPlugins;
   }
   if (originalVitest === undefined) {
     delete process.env.VITEST;
@@ -169,7 +169,7 @@ describe("resolveBundledPluginsDir", () => {
     [
       "prefers the staged runtime bundled plugin tree from the package root",
       {
-        prefix: "openclaw-bundled-dir-runtime-",
+        prefix: "kibo-bundled-dir-runtime-",
         hasDistRuntimeExtensions: true,
         hasDistExtensions: true,
       },
@@ -180,7 +180,7 @@ describe("resolveBundledPluginsDir", () => {
     [
       "falls back to built dist/extensions in installed package roots",
       {
-        prefix: "openclaw-bundled-dir-dist-",
+        prefix: "kibo-bundled-dir-dist-",
         hasDistExtensions: true,
       },
       {
@@ -190,7 +190,7 @@ describe("resolveBundledPluginsDir", () => {
     [
       "prefers built dist/extensions in a git checkout outside vitest",
       {
-        prefix: "openclaw-bundled-dir-git-built-",
+        prefix: "kibo-bundled-dir-git-built-",
         hasExtensions: true,
         hasSrc: true,
         hasDistRuntimeExtensions: true,
@@ -204,7 +204,7 @@ describe("resolveBundledPluginsDir", () => {
     [
       "prefers source extensions under vitest to avoid stale staged plugins",
       {
-        prefix: "openclaw-bundled-dir-vitest-",
+        prefix: "kibo-bundled-dir-vitest-",
         hasExtensions: true,
         hasDistRuntimeExtensions: true,
         hasDistExtensions: true,
@@ -217,7 +217,7 @@ describe("resolveBundledPluginsDir", () => {
     [
       "prefers source extensions during tsx-driven source execution",
       {
-        prefix: "openclaw-bundled-dir-tsx-",
+        prefix: "kibo-bundled-dir-tsx-",
         hasExtensions: true,
         hasSrc: true,
         hasDistRuntimeExtensions: true,
@@ -232,7 +232,7 @@ describe("resolveBundledPluginsDir", () => {
     [
       "falls back to source extensions in a git checkout when built trees are missing",
       {
-        prefix: "openclaw-bundled-dir-git-",
+        prefix: "kibo-bundled-dir-git-",
         hasExtensions: true,
         hasSrc: true,
         hasGitCheckout: true,
@@ -242,7 +242,7 @@ describe("resolveBundledPluginsDir", () => {
       },
     ],
   ] as const)("%s", (_name, layout, expectation) => {
-    const repoRoot = createOpenClawRoot(layout);
+    const repoRoot = createKiboRoot(layout);
     if (expectation.expectedRelativeDir === path.join("dist-runtime", "extensions")) {
       seedBundledPluginTree(repoRoot, path.join("dist", "extensions"));
       seedBundledPluginTree(repoRoot, path.join("dist-runtime", "extensions"));
@@ -258,8 +258,8 @@ describe("resolveBundledPluginsDir", () => {
   });
 
   it("falls back to source extensions when dist trees exist but do not contain real plugin manifests", () => {
-    const repoRoot = createOpenClawRoot({
-      prefix: "openclaw-bundled-dir-incomplete-built-",
+    const repoRoot = createKiboRoot({
+      prefix: "kibo-bundled-dir-incomplete-built-",
       hasExtensions: true,
       hasSrc: true,
       hasDistRuntimeExtensions: true,
@@ -278,16 +278,16 @@ describe("resolveBundledPluginsDir", () => {
   });
 
   it("returns a stable empty bundled plugin directory when bundled plugins are disabled", () => {
-    const repoRoot = createOpenClawRoot({
-      prefix: "openclaw-bundled-dir-disabled-",
+    const repoRoot = createKiboRoot({
+      prefix: "kibo-bundled-dir-disabled-",
       hasExtensions: true,
       hasSrc: true,
       hasGitCheckout: true,
     });
     vi.spyOn(process, "cwd").mockReturnValue(repoRoot);
     process.argv[1] = "/usr/bin/env";
-    process.env.OPENCLAW_DISABLE_BUNDLED_PLUGINS = "1";
-    delete process.env.OPENCLAW_BUNDLED_PLUGINS_DIR;
+    process.env.KIBO_DISABLE_BUNDLED_PLUGINS = "1";
+    delete process.env.KIBO_BUNDLED_PLUGINS_DIR;
 
     const bundledDir = resolveBundledPluginsDir();
 
@@ -300,13 +300,13 @@ describe("resolveBundledPluginsDir", () => {
     {
       name: "prefers the running CLI package root over an unrelated cwd checkout",
       createScenario: () => {
-        const installedRoot = createOpenClawRoot({
-          prefix: "openclaw-bundled-dir-installed-",
+        const installedRoot = createKiboRoot({
+          prefix: "kibo-bundled-dir-installed-",
           hasDistExtensions: true,
         });
         seedBundledPluginTree(installedRoot, path.join("dist", "extensions"));
-        const cwdRepoRoot = createOpenClawRoot({
-          prefix: "openclaw-bundled-dir-cwd-",
+        const cwdRepoRoot = createKiboRoot({
+          prefix: "kibo-bundled-dir-cwd-",
           hasExtensions: true,
           hasSrc: true,
           hasGitCheckout: true,
@@ -314,21 +314,21 @@ describe("resolveBundledPluginsDir", () => {
         return {
           installedRoot,
           cwd: cwdRepoRoot,
-          argv1: path.join(installedRoot, "openclaw.mjs"),
+          argv1: path.join(installedRoot, "kibo.mjs"),
         };
       },
     },
     {
       name: "falls back to the running installed package when the override path is stale",
       createScenario: () => {
-        const installedRoot = createOpenClawRoot({
-          prefix: "openclaw-bundled-dir-override-",
+        const installedRoot = createKiboRoot({
+          prefix: "kibo-bundled-dir-override-",
           hasDistExtensions: true,
         });
         seedBundledPluginTree(installedRoot, path.join("dist", "extensions"));
         return {
           installedRoot,
-          argv1: path.join(installedRoot, "openclaw.mjs"),
+          argv1: path.join(installedRoot, "kibo.mjs"),
           bundledDirOverride: path.join(installedRoot, "missing-extensions"),
         };
       },

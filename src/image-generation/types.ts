@@ -1,5 +1,5 @@
 import type { AuthProfileStore } from "../agents/auth-profiles.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import type { MediaNormalizationEntry } from "../media-generation/runtime-shared.js";
 
 export type GeneratedImageAsset = {
@@ -27,7 +27,7 @@ export type ImageGenerationSourceImage = {
 };
 
 export type ImageGenerationProviderConfiguredContext = {
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   agentDir?: string;
 };
 
@@ -35,7 +35,7 @@ export type ImageGenerationRequest = {
   provider: string;
   model: string;
   prompt: string;
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   agentDir?: string;
   authStore?: AuthProfileStore;
   timeoutMs?: number;

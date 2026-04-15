@@ -10,7 +10,7 @@ title: "Gateway Protocol"
 # Gateway protocol (WebSocket)
 
 The Gateway WS protocol is the **single control plane + node transport** for
-OpenClaw. All clients (CLI, web UI, macOS app, iOS/Android nodes, headless
+Kibo. All clients (CLI, web UI, macOS app, iOS/Android nodes, headless
 nodes) connect over WebSocket and declare their **role** + **scope** at
 handshake time.
 
@@ -54,7 +54,7 @@ Client → Gateway:
     "permissions": {},
     "auth": { "token": "…" },
     "locale": "en-US",
-    "userAgent": "openclaw-cli/1.2.3",
+    "userAgent": "kibo-cli/1.2.3",
     "device": {
       "id": "device_fingerprint",
       "publicKey": "…",
@@ -139,7 +139,7 @@ roles still need scopes under their own role prefix.
     "permissions": { "camera.capture": true, "screen.record": false },
     "auth": { "token": "…" },
     "locale": "en-US",
-    "userAgent": "openclaw-ios/1.2.3",
+    "userAgent": "kibo-ios/1.2.3",
     "device": {
       "id": "device_fingerprint",
       "publicKey": "…",
@@ -461,14 +461,14 @@ implemented in `src/gateway/server-methods/*.ts`.
   - The response includes eligibility, missing requirements, config checks, and
     sanitized install options without exposing raw secret values.
 - Operators may call `skills.search` and `skills.detail` (`operator.read`) for
-  ClawHub discovery metadata.
+  KiboHub discovery metadata.
 - Operators may call `skills.install` (`operator.admin`) in two modes:
-  - ClawHub mode: `{ source: "clawhub", slug, version?, force? }` installs a
+  - KiboHub mode: `{ source: "kibohub", slug, version?, force? }` installs a
     skill folder into the default agent workspace `skills/` directory.
   - Gateway installer mode: `{ name, installId, dangerouslyForceUnsafeInstall?, timeoutMs? }`
-    runs a declared `metadata.openclaw.install` action on the gateway host.
+    runs a declared `metadata.kibo.install` action on the gateway host.
 - Operators may call `skills.update` (`operator.admin`) in two modes:
-  - ClawHub mode updates one tracked slug or all tracked ClawHub installs in
+  - KiboHub mode updates one tracked slug or all tracked KiboHub installs in
     the default agent workspace.
   - Config mode patches `skills.entries.<skillKey>` values such as `enabled`,
     `apiKey`, and `env`.
@@ -552,7 +552,7 @@ implemented in `src/gateway/server-methods/*.ts`.
 - Pairing approvals are required for new device IDs unless local auto-approval
   is enabled.
 - Pairing auto-approval is centered on direct local loopback connects.
-- OpenClaw also has a narrow backend/container-local self-connect path for
+- Kibo also has a narrow backend/container-local self-connect path for
   trusted shared-secret helper flows.
 - Same-host tailnet or LAN connects are still treated as remote for pairing and
   require approval.

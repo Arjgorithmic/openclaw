@@ -1,7 +1,7 @@
 {
-  "name": "@openclaw/diagnostics-otel",
+  "name": "@kibo/diagnostics-otel",
   "version": "2026.4.10",
-  "description": "OpenClaw diagnostics OpenTelemetry exporter",
+  "description": "Kibo diagnostics OpenTelemetry exporter",
   "type": "module",
   "dependencies": {
     "@opentelemetry/api": "^1.9.1",
@@ -17,9 +17,9 @@
     "@opentelemetry/semantic-conventions": "^1.40.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ],
@@ -27,10 +27,10 @@
       "pluginApi": ">=2026.4.10"
     },
     "build": {
-      "openclawVersion": "2026.4.10"
+      "kiboVersion": "2026.4.10"
     },
     "release": {
-      "publishToClawHub": true,
+      "publishToKiboHub": true,
       "publishToNpm": true
     }
   }

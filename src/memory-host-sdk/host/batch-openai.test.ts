@@ -97,7 +97,7 @@ describe("runOpenAiEmbeddingBatches", () => {
         errorPrefix: "openai batch create failed",
         body: expect.objectContaining({
           endpoint: OPENAI_BATCH_ENDPOINT,
-          metadata: { source: "openclaw-memory", agent: "main" },
+          metadata: { source: "kibo-memory", agent: "main" },
         }),
       }),
     );

@@ -1,8 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { messagingApi } from "@line/bot-sdk";
-import { loadConfig } from "openclaw/plugin-sdk/config-runtime";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import { loadConfig } from "kibo/plugin-sdk/config-runtime";
+import { logVerbose } from "kibo/plugin-sdk/runtime-env";
+import { normalizeLowercaseStringOrEmpty } from "kibo/plugin-sdk/text-runtime";
 import { resolveLineAccount } from "./accounts.js";
 import { datetimePickerAction, messageAction, postbackAction, uriAction } from "./actions.js";
 import { resolveLineChannelAccessToken } from "./channel-access-token.js";

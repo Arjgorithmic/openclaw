@@ -95,7 +95,7 @@ export function resolveMcpRequestContext(
   return {
     sessionKey: resolveScopedSessionKey(cfg, getHeader(req, "x-session-key")),
     messageProvider:
-      normalizeMessageChannel(getHeader(req, "x-openclaw-message-channel")) ?? undefined,
-    accountId: normalizeOptionalString(getHeader(req, "x-openclaw-account-id")),
+      normalizeMessageChannel(getHeader(req, "x-kibo-message-channel")) ?? undefined,
+    accountId: normalizeOptionalString(getHeader(req, "x-kibo-account-id")),
   };
 }

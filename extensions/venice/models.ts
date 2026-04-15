@@ -1,6 +1,6 @@
-import type { ModelDefinitionConfig } from "openclaw/plugin-sdk/provider-model-shared";
-import { createSubsystemLogger, retryAsync } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import type { ModelDefinitionConfig } from "kibo/plugin-sdk/provider-model-shared";
+import { createSubsystemLogger, retryAsync } from "kibo/plugin-sdk/runtime-env";
+import { normalizeLowercaseStringOrEmpty } from "kibo/plugin-sdk/text-runtime";
 
 const log = createSubsystemLogger("venice-models");
 

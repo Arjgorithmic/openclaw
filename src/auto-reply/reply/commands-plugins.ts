@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import { buildNpmInstallRecordFields } from "../../cli/npm-resolution.js";
 import {
-  buildPreferredClawHubSpec,
+  buildPreferredKiboHubSpec,
   createPluginInstallLogger,
-  decidePreferredClawHubFallback,
+  decidePreferredKiboHubFallback,
   resolveFileNpmSpecToLocalPath,
 } from "../../cli/plugins-command-helpers.js";
 import { persistPluginInstall } from "../../cli/plugins-install-persist.js";
@@ -12,11 +12,11 @@ import {
   validateConfigObjectWithPlugins,
   writeConfigFile,
 } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { KiboConfig } from "../../config/config.js";
 import type { PluginInstallRecord } from "../../config/types.plugins.js";
 import { resolveArchiveKind } from "../../infra/archive.js";
-import { parseClawHubPluginSpec } from "../../infra/clawhub.js";
-import { installPluginFromClawHub } from "../../plugins/clawhub.js";
+import { parseKiboHubPluginSpec } from "../../infra/kibohub.js";
+import { installPluginFromKiboHub } from "../../plugins/kibohub.js";
 import { installPluginFromNpmSpec, installPluginFromPath } from "../../plugins/install.js";
 import { clearPluginManifestRegistryCache } from "../../plugins/manifest-registry.js";
 import type { PluginRecord } from "../../plugins/registry.js";
@@ -47,7 +47,7 @@ function renderJsonBlock(label: string, value: unknown): string {
 
 function buildPluginInspectJson(params: {
   id: string;
-  config: OpenClawConfig;
+  config: KiboConfig;
   report: PluginStatusReport;
 }): {
   inspect: NonNullable<ReturnType<typeof buildPluginInspectReport>>;
@@ -78,7 +78,7 @@ function buildPluginInspectJson(params: {
 }
 
 function buildAllPluginInspectJson(params: {
-  config: OpenClawConfig;
+  config: KiboConfig;
   report: PluginStatusReport;
 }): Array<{
   inspect: ReturnType<typeof buildAllPluginInspectReports>[number];
@@ -120,8 +120,8 @@ function formatPluginsList(report: PluginStatusReport): string {
     `🔌 Plugins (${loaded}/${report.plugins.length} loaded)`,
     ...report.plugins.map((plugin) => {
       const format = plugin.bundleFormat
-        ? `${plugin.format ?? "openclaw"}/${plugin.bundleFormat}`
-        : (plugin.format ?? "openclaw");
+        ? `${plugin.format ?? "kibo"}/${plugin.bundleFormat}`
+        : (plugin.format ?? "kibo");
       return `- ${formatPluginLabel(plugin)} [${plugin.status}] ${format}`;
     }),
   ];
@@ -158,7 +158,7 @@ function looksLikeLocalPluginInstallSpec(raw: string): boolean {
 
 async function installPluginFromPluginsCommand(params: {
   raw: string;
-  config: OpenClawConfig;
+  config: KiboConfig;
 }): Promise<{ ok: true; pluginId: string } | { ok: false; error: string }> {
   const fileSpec = resolveFileNpmSpecToLocalPath(params.raw);
   if (fileSpec && !fileSpec.ok) {
@@ -194,9 +194,9 @@ async function installPluginFromPluginsCommand(params: {
     return { ok: false, error: `Path not found: ${resolved}` };
   }
 
-  const clawhubSpec = parseClawHubPluginSpec(params.raw);
-  if (clawhubSpec) {
-    const result = await installPluginFromClawHub({
+  const kibohubSpec = parseKiboHubPluginSpec(params.raw);
+  if (kibohubSpec) {
+    const result = await installPluginFromKiboHub({
       spec: params.raw,
       logger: createPluginInstallLogger(),
     });
@@ -208,49 +208,49 @@ async function installPluginFromPluginsCommand(params: {
       config: params.config,
       pluginId: result.pluginId,
       install: {
-        source: "clawhub",
+        source: "kibohub",
         spec: params.raw,
         installPath: result.targetDir,
         version: result.version,
-        integrity: result.clawhub.integrity,
-        resolvedAt: result.clawhub.resolvedAt,
-        clawhubUrl: result.clawhub.clawhubUrl,
-        clawhubPackage: result.clawhub.clawhubPackage,
-        clawhubFamily: result.clawhub.clawhubFamily,
-        clawhubChannel: result.clawhub.clawhubChannel,
+        integrity: result.kibohub.integrity,
+        resolvedAt: result.kibohub.resolvedAt,
+        kibohubUrl: result.kibohub.kibohubUrl,
+        kibohubPackage: result.kibohub.kibohubPackage,
+        kibohubFamily: result.kibohub.kibohubFamily,
+        kibohubChannel: result.kibohub.kibohubChannel,
       },
     });
     return { ok: true, pluginId: result.pluginId };
   }
 
-  const preferredClawHubSpec = buildPreferredClawHubSpec(params.raw);
-  if (preferredClawHubSpec) {
-    const clawhubResult = await installPluginFromClawHub({
-      spec: preferredClawHubSpec,
+  const preferredKiboHubSpec = buildPreferredKiboHubSpec(params.raw);
+  if (preferredKiboHubSpec) {
+    const kibohubResult = await installPluginFromKiboHub({
+      spec: preferredKiboHubSpec,
       logger: createPluginInstallLogger(),
     });
-    if (clawhubResult.ok) {
+    if (kibohubResult.ok) {
       clearPluginManifestRegistryCache();
       await persistPluginInstall({
         config: params.config,
-        pluginId: clawhubResult.pluginId,
+        pluginId: kibohubResult.pluginId,
         install: {
-          source: "clawhub",
-          spec: preferredClawHubSpec,
-          installPath: clawhubResult.targetDir,
-          version: clawhubResult.version,
-          integrity: clawhubResult.clawhub.integrity,
-          resolvedAt: clawhubResult.clawhub.resolvedAt,
-          clawhubUrl: clawhubResult.clawhub.clawhubUrl,
-          clawhubPackage: clawhubResult.clawhub.clawhubPackage,
-          clawhubFamily: clawhubResult.clawhub.clawhubFamily,
-          clawhubChannel: clawhubResult.clawhub.clawhubChannel,
+          source: "kibohub",
+          spec: preferredKiboHubSpec,
+          installPath: kibohubResult.targetDir,
+          version: kibohubResult.version,
+          integrity: kibohubResult.kibohub.integrity,
+          resolvedAt: kibohubResult.kibohub.resolvedAt,
+          kibohubUrl: kibohubResult.kibohub.kibohubUrl,
+          kibohubPackage: kibohubResult.kibohub.kibohubPackage,
+          kibohubFamily: kibohubResult.kibohub.kibohubFamily,
+          kibohubChannel: kibohubResult.kibohub.kibohubChannel,
         },
       });
-      return { ok: true, pluginId: clawhubResult.pluginId };
+      return { ok: true, pluginId: kibohubResult.pluginId };
     }
-    if (decidePreferredClawHubFallback(clawhubResult) !== "fallback_to_npm") {
-      return { ok: false, error: clawhubResult.error };
+    if (decidePreferredKiboHubFallback(kibohubResult) !== "fallback_to_npm") {
+      return { ok: false, error: kibohubResult.error };
     }
   }
 
@@ -283,7 +283,7 @@ async function loadPluginCommandState(
   | {
       ok: true;
       path: string;
-      config: OpenClawConfig;
+      config: KiboConfig;
       report: PluginStatusReport;
     }
   | { ok: false; path: string; error: string }
@@ -309,7 +309,7 @@ async function loadPluginCommandState(
 }
 
 async function loadPluginCommandConfig(): Promise<
-  { ok: true; path: string; config: OpenClawConfig } | { ok: false; path: string; error: string }
+  { ok: true; path: string; config: KiboConfig } | { ok: false; path: string; error: string }
 > {
   const snapshot = await readConfigFileSnapshot();
   if (!snapshot.valid) {

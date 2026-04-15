@@ -4,7 +4,7 @@ import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { AcpRuntimeError } from "../../acp/runtime/errors.js";
 import type { AcpSessionStoreEntry } from "../../acp/runtime/session-meta.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { KiboConfig } from "../../config/config.js";
 import type { SessionBindingRecord } from "../../infra/outbound/session-binding-service.js";
 import type { MediaUnderstandingSkipError } from "../../media-understanding/errors.js";
 import { withFetchPreconnect } from "../../test-utils/fetch-mock.js";
@@ -23,8 +23,8 @@ const managerMocks = vi.hoisted(() => ({
 }));
 
 const policyMocks = vi.hoisted(() => ({
-  resolveAcpDispatchPolicyError: vi.fn<(cfg: OpenClawConfig) => AcpRuntimeError | null>(() => null),
-  resolveAcpAgentPolicyError: vi.fn<(cfg: OpenClawConfig, agent: string) => AcpRuntimeError | null>(
+  resolveAcpDispatchPolicyError: vi.fn<(cfg: KiboConfig) => AcpRuntimeError | null>(() => null),
+  resolveAcpAgentPolicyError: vi.fn<(cfg: KiboConfig, agent: string) => AcpRuntimeError | null>(
     () => null,
   ),
 }));
@@ -61,7 +61,7 @@ const ttsMocks = vi.hoisted(() => ({
     const params = paramsUnknown as { payload: unknown };
     return params.payload;
   }),
-  resolveTtsConfig: vi.fn((_cfg: OpenClawConfig) => ({ mode: "final" })),
+  resolveTtsConfig: vi.fn((_cfg: KiboConfig) => ({ mode: "final" })),
 }));
 
 const mediaUnderstandingMocks = vi.hoisted(() => ({
@@ -70,7 +70,7 @@ const mediaUnderstandingMocks = vi.hoisted(() => ({
 
 const sessionMetaMocks = vi.hoisted(() => ({
   readAcpSessionEntry: vi.fn<
-    (params: { sessionKey: string; cfg?: OpenClawConfig }) => AcpSessionStoreEntry | null
+    (params: { sessionKey: string; cfg?: KiboConfig }) => AcpSessionStoreEntry | null
   >(() => null),
 }));
 
@@ -109,7 +109,7 @@ function setReadyAcpResolution() {
   });
 }
 
-function createAcpConfigWithVisibleToolTags(): OpenClawConfig {
+function createAcpConfigWithVisibleToolTags(): KiboConfig {
   return createAcpTestConfig({
     acp: {
       enabled: true,
@@ -125,7 +125,7 @@ function createAcpConfigWithVisibleToolTags(): OpenClawConfig {
 
 async function runDispatch(params: {
   bodyForAgent: string;
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   dispatcher?: ReplyDispatcher;
   shouldRouteToOriginating?: boolean;
   originatingChannel?: string;
@@ -252,9 +252,9 @@ describe("tryDispatchAcpReply", () => {
       getAcpSessionManager: () => managerMocks,
     }));
     vi.doMock("../../acp/policy.js", () => ({
-      resolveAcpDispatchPolicyError: (cfg: OpenClawConfig) =>
+      resolveAcpDispatchPolicyError: (cfg: KiboConfig) =>
         policyMocks.resolveAcpDispatchPolicyError(cfg),
-      resolveAcpAgentPolicyError: (cfg: OpenClawConfig, agent: string) =>
+      resolveAcpAgentPolicyError: (cfg: KiboConfig, agent: string) =>
         policyMocks.resolveAcpAgentPolicyError(cfg, agent),
     }));
     vi.doMock("./route-reply.js", () => ({
@@ -272,7 +272,7 @@ describe("tryDispatchAcpReply", () => {
     }));
     vi.doMock("../../tts/tts.js", () => ({
       maybeApplyTtsToPayload: (params: unknown) => ttsMocks.maybeApplyTtsToPayload(params),
-      resolveTtsConfig: (cfg: OpenClawConfig) => ttsMocks.resolveTtsConfig(cfg),
+      resolveTtsConfig: (cfg: KiboConfig) => ttsMocks.resolveTtsConfig(cfg),
     }));
     vi.doMock("../../tts/tts.runtime.js", () => ({
       maybeApplyTtsToPayload: (params: unknown) => ttsMocks.maybeApplyTtsToPayload(params),
@@ -293,11 +293,11 @@ describe("tryDispatchAcpReply", () => {
         mediaUnderstandingMocks.applyMediaUnderstanding(params),
     }));
     vi.doMock("../../acp/runtime/session-meta.js", () => ({
-      readAcpSessionEntry: (params: { sessionKey: string; cfg?: OpenClawConfig }) =>
+      readAcpSessionEntry: (params: { sessionKey: string; cfg?: KiboConfig }) =>
         sessionMetaMocks.readAcpSessionEntry(params),
     }));
     vi.doMock("./dispatch-acp-session.runtime.js", () => ({
-      readAcpSessionEntry: (params: { sessionKey: string; cfg?: OpenClawConfig }) =>
+      readAcpSessionEntry: (params: { sessionKey: string; cfg?: KiboConfig }) =>
         sessionMetaMocks.readAcpSessionEntry(params),
     }));
     vi.doMock("../../infra/outbound/session-binding-service.js", () => ({
@@ -854,11 +854,11 @@ describe("tryDispatchAcpReply", () => {
         : [],
     );
     sessionMetaMocks.readAcpSessionEntry.mockImplementation(
-      (params: { sessionKey: string; cfg?: OpenClawConfig }) =>
+      (params: { sessionKey: string; cfg?: KiboConfig }) =>
         params.sessionKey === canonicalSessionKey
           ? {
               cfg: params.cfg ?? createAcpTestConfig(),
-              storePath: "/tmp/openclaw-session-store.json",
+              storePath: "/tmp/kibo-session-store.json",
               sessionKey: canonicalSessionKey,
               storeSessionKey: canonicalSessionKey,
               acp: createAcpSessionMeta({
@@ -927,11 +927,11 @@ describe("tryDispatchAcpReply", () => {
         : [],
     );
     sessionMetaMocks.readAcpSessionEntry.mockImplementation(
-      (params: { sessionKey: string; cfg?: OpenClawConfig }) =>
+      (params: { sessionKey: string; cfg?: KiboConfig }) =>
         params.sessionKey === canonicalSessionKey
           ? {
               cfg: params.cfg ?? createAcpTestConfig(),
-              storePath: "/tmp/openclaw-session-store.json",
+              storePath: "/tmp/kibo-session-store.json",
               sessionKey: canonicalSessionKey,
               storeSessionKey: canonicalSessionKey,
               acp: createAcpSessionMeta({

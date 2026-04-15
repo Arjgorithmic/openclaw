@@ -1,10 +1,10 @@
-export { loadConfig, resolveMarkdownTableMode } from "openclaw/plugin-sdk/config-runtime";
-export type { PollInput, MediaKind } from "openclaw/plugin-sdk/media-runtime";
+export { loadConfig, resolveMarkdownTableMode } from "kibo/plugin-sdk/config-runtime";
+export type { PollInput, MediaKind } from "kibo/plugin-sdk/media-runtime";
 export {
   buildOutboundMediaLoadOptions,
   getImageMetadata,
   isGifMedia,
   kindFromMime,
   normalizePollInput,
-} from "openclaw/plugin-sdk/media-runtime";
-export { loadWebMedia } from "openclaw/plugin-sdk/web-media";
+} from "kibo/plugin-sdk/media-runtime";
+export { loadWebMedia } from "kibo/plugin-sdk/web-media";

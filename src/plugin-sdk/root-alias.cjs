@@ -17,7 +17,7 @@ const shouldPreferSourceGraph =
   !isDistRootAlias &&
   (process.env.NODE_ENV !== "production" ||
     Boolean(process.env.VITEST) ||
-    process.env.OPENCLAW_PLUGIN_SDK_SOURCE_IN_TESTS === "1");
+    process.env.KIBO_PLUGIN_SDK_SOURCE_IN_TESTS === "1");
 
 function emptyPluginConfigSchema() {
   function error(message) {
@@ -77,7 +77,7 @@ function resolveControlCommandGate(params) {
 function onDiagnosticEvent(listener) {
   const diagnosticEvents = loadDiagnosticEventsModule();
   if (!diagnosticEvents || typeof diagnosticEvents.onDiagnosticEvent !== "function") {
-    throw new Error("openclaw/plugin-sdk root alias could not resolve onDiagnosticEvent");
+    throw new Error("kibo/plugin-sdk root alias could not resolve onDiagnosticEvent");
   }
   return diagnosticEvents.onDiagnosticEvent(listener);
 }
@@ -128,13 +128,13 @@ function buildPluginSdkAliasMap(useDist) {
   const normalizeTarget = (target) =>
     process.platform === "win32" ? target.replace(/\\/g, "/") : target;
   const aliasMap = {
-    "openclaw/plugin-sdk": normalizeTarget(__filename),
+    "kibo/plugin-sdk": normalizeTarget(__filename),
   };
 
   for (const subpath of listPluginSdkExportedSubpaths()) {
     const candidate = path.join(pluginSdkDir, `${subpath}${ext}`);
     if (fs.existsSync(candidate)) {
-      aliasMap[`openclaw/plugin-sdk/${subpath}`] = normalizeTarget(candidate);
+      aliasMap[`kibo/plugin-sdk/${subpath}`] = normalizeTarget(candidate);
     }
   }
 
@@ -153,7 +153,7 @@ function getJiti(tryNative) {
     alias: buildPluginSdkAliasMap(effectiveTryNative),
     interopDefault: true,
     // Prefer Node's native sync ESM loader for built dist/plugin-sdk/*.js files
-    // so local plugins do not create a second transpiled OpenClaw core graph.
+    // so local plugins do not create a second transpiled Kibo core graph.
     tryNative: effectiveTryNative,
     extensions: [".ts", ".tsx", ".mts", ".cts", ".mtsx", ".ctsx", ".js", ".mjs", ".cjs", ".json"],
   });

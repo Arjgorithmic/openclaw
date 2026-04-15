@@ -16,8 +16,8 @@ Native Linux companion apps are planned. Contributions are welcome if you want t
 ## Beginner quick path (VPS)
 
 1. Install Node 24 (recommended; Node 22 LTS, currently `22.14+`, still works for compatibility)
-2. `npm i -g openclaw@latest`
-3. `openclaw onboard --install-daemon`
+2. `npm i -g kibo@latest`
+3. `kibo onboard --install-daemon`
 4. From your laptop: `ssh -N -L 18789:127.0.0.1:18789 <user>@<host>`
 5. Open `http://127.0.0.1:18789/` and authenticate with the configured shared secret (token by default; password if you set `gateway.auth.mode: "password"`)
 
@@ -39,19 +39,19 @@ Full Linux server guide: [Linux Server](/vps). Step-by-step VPS example: [exe.de
 Use one of these:
 
 ```
-openclaw onboard --install-daemon
+kibo onboard --install-daemon
 ```
 
 Or:
 
 ```
-openclaw gateway install
+kibo gateway install
 ```
 
 Or:
 
 ```
-openclaw configure
+kibo configure
 ```
 
 Select **Gateway service** when prompted.
@@ -59,29 +59,29 @@ Select **Gateway service** when prompted.
 Repair/migrate:
 
 ```
-openclaw doctor
+kibo doctor
 ```
 
 ## System control (systemd user unit)
 
-OpenClaw installs a systemd **user** service by default. Use a **system**
-service for shared or always-on servers. `openclaw gateway install` and
-`openclaw onboard --install-daemon` already render the current canonical unit
+Kibo installs a systemd **user** service by default. Use a **system**
+service for shared or always-on servers. `kibo gateway install` and
+`kibo onboard --install-daemon` already render the current canonical unit
 for you; write one by hand only when you need a custom system/service-manager
 setup. The full service guidance lives in the [Gateway runbook](/gateway).
 
 Minimal setup:
 
-Create `~/.config/systemd/user/openclaw-gateway[-<profile>].service`:
+Create `~/.config/systemd/user/kibo-gateway[-<profile>].service`:
 
 ```
 [Unit]
-Description=OpenClaw Gateway (profile: <profile>, v<version>)
+Description=Kibo Gateway (profile: <profile>, v<version>)
 After=network-online.target
 Wants=network-online.target
 
 [Service]
-ExecStart=/usr/local/bin/openclaw gateway --port 18789
+ExecStart=/usr/local/bin/kibo gateway --port 18789
 Restart=always
 RestartSec=5
 TimeoutStopSec=30
@@ -96,5 +96,5 @@ WantedBy=default.target
 Enable it:
 
 ```
-systemctl --user enable --now openclaw-gateway[-<profile>].service
+systemctl --user enable --now kibo-gateway[-<profile>].service
 ```

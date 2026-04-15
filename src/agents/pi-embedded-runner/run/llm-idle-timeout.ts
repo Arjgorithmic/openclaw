@@ -1,6 +1,6 @@
 import type { StreamFn } from "@mariozechner/pi-agent-core";
 import { streamSimple } from "@mariozechner/pi-ai";
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { KiboConfig } from "../../../config/config.js";
 import type { EmbeddedRunTrigger } from "./params.js";
 
 /**
@@ -21,7 +21,7 @@ const MAX_SAFE_TIMEOUT_MS = 2_147_000_000;
  * @returns Idle timeout in milliseconds, or 0 to disable
  */
 export function resolveLlmIdleTimeoutMs(params?: {
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   trigger?: EmbeddedRunTrigger;
 }): number {
   const raw = params?.cfg?.agents?.defaults?.llm?.idleTimeoutSeconds;

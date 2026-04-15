@@ -1,5 +1,5 @@
-import { formatErrorMessage as sharedFormatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import { asNullableObjectRecord, readStringField } from "openclaw/plugin-sdk/text-runtime";
+import { formatErrorMessage as sharedFormatErrorMessage } from "kibo/plugin-sdk/error-runtime";
+import { asNullableObjectRecord, readStringField } from "kibo/plugin-sdk/text-runtime";
 import { normalizeShip } from "../targets.js";
 
 // Cite types for message references

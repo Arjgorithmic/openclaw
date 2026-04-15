@@ -4,7 +4,7 @@ import { t } from "../i18n/index.ts";
 import { refreshChat, refreshChatAvatar } from "./app-chat.ts";
 import { syncUrlWithSessionKey } from "./app-settings.ts";
 import type { AppViewState } from "./app-view-state.ts";
-import { OpenClawApp } from "./app.ts";
+import { KiboApp } from "./app.ts";
 import { createChatModelOverride } from "./chat-model-ref.ts";
 import {
   resolveChatModelOverrideValue,
@@ -59,10 +59,10 @@ function resetChatStateForSessionSwitch(state: AppViewState, sessionKey: string)
   state.fallbackStatus = null;
   state.chatAvatarUrl = null;
   state.chatQueue = [];
-  (state as unknown as OpenClawApp).chatStreamStartedAt = null;
+  (state as unknown as KiboApp).chatStreamStartedAt = null;
   state.chatRunId = null;
-  (state as unknown as OpenClawApp).resetToolStream();
-  (state as unknown as OpenClawApp).resetChatScroll();
+  (state as unknown as KiboApp).resetToolStream();
+  (state as unknown as KiboApp).resetChatScroll();
   state.applySettings({
     ...state.settings,
     sessionKey,
@@ -252,7 +252,7 @@ export function renderChatControls(state: AppViewState) {
         class="btn btn--sm btn--icon"
         ?disabled=${state.chatLoading || !state.connected}
         @click=${async () => {
-          const app = state as unknown as OpenClawApp;
+          const app = state as unknown as KiboApp;
           app.chatManualRefreshInFlight = true;
           app.chatNewMessagesBelow = false;
           await app.updateComplete;

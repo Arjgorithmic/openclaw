@@ -6,14 +6,14 @@ import type {
   ChannelDoctorEmptyAllowlistAccountContext,
   ChannelDoctorSequenceResult,
 } from "../../../channels/plugins/types.adapters.js";
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { KiboConfig } from "../../../config/config.js";
 
 type ChannelDoctorEntry = {
   channelId: string;
   doctor: ChannelDoctorAdapter;
 };
 
-function collectConfiguredChannelIds(cfg: OpenClawConfig): string[] {
+function collectConfiguredChannelIds(cfg: KiboConfig): string[] {
   const channels =
     cfg.channels && typeof cfg.channels === "object" && !Array.isArray(cfg.channels)
       ? cfg.channels
@@ -61,7 +61,7 @@ function listChannelDoctorEntries(channelIds?: readonly string[]): ChannelDoctor
 }
 
 export async function runChannelDoctorConfigSequences(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   env: NodeJS.ProcessEnv;
   shouldRepair: boolean;
 }): Promise<ChannelDoctorSequenceResult> {
@@ -79,7 +79,7 @@ export async function runChannelDoctorConfigSequences(params: {
 }
 
 export function collectChannelDoctorCompatibilityMutations(
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
 ): ChannelDoctorConfigMutation[] {
   const channelIds = collectConfiguredChannelIds(cfg);
   if (channelIds.length === 0) {
@@ -99,7 +99,7 @@ export function collectChannelDoctorCompatibilityMutations(
 }
 
 export async function collectChannelDoctorStaleConfigMutations(
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
 ): Promise<ChannelDoctorConfigMutation[]> {
   const mutations: ChannelDoctorConfigMutation[] = [];
   let nextCfg = cfg;
@@ -115,7 +115,7 @@ export async function collectChannelDoctorStaleConfigMutations(
 }
 
 export async function collectChannelDoctorPreviewWarnings(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   doctorFixCommand: string;
 }): Promise<string[]> {
   const warnings: string[] = [];
@@ -129,7 +129,7 @@ export async function collectChannelDoctorPreviewWarnings(params: {
 }
 
 export async function collectChannelDoctorMutableAllowlistWarnings(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
 }): Promise<string[]> {
   const warnings: string[] = [];
   for (const entry of listChannelDoctorEntries()) {
@@ -142,7 +142,7 @@ export async function collectChannelDoctorMutableAllowlistWarnings(params: {
 }
 
 export async function collectChannelDoctorRepairMutations(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   doctorFixCommand: string;
 }): Promise<ChannelDoctorConfigMutation[]> {
   const mutations: ChannelDoctorConfigMutation[] = [];

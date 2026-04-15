@@ -47,7 +47,7 @@ vi.mock("@line/bot-sdk", () => ({
   messagingApi: { MessagingApiClient: MessagingApiClientMock },
 }));
 
-vi.mock("openclaw/plugin-sdk/config-runtime", () => ({
+vi.mock("kibo/plugin-sdk/config-runtime", () => ({
   loadConfig: loadConfigMock,
 }));
 
@@ -59,13 +59,13 @@ vi.mock("./channel-access-token.js", () => ({
   resolveLineChannelAccessToken: resolveLineChannelAccessTokenMock,
 }));
 
-vi.mock("openclaw/plugin-sdk/infra-runtime", () => ({
+vi.mock("kibo/plugin-sdk/infra-runtime", () => ({
   recordChannelActivity: recordChannelActivityMock,
 }));
 
-vi.mock("openclaw/plugin-sdk/runtime-env", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/runtime-env")>(
-    "openclaw/plugin-sdk/runtime-env",
+vi.mock("kibo/plugin-sdk/runtime-env", async () => {
+  const actual = await vi.importActual<typeof import("kibo/plugin-sdk/runtime-env")>(
+    "kibo/plugin-sdk/runtime-env",
   );
   return {
     ...actual,
@@ -257,16 +257,16 @@ describe("LINE send helpers", () => {
 
   it("caches profile results by default", async () => {
     getProfileMock.mockResolvedValue({
-      displayName: "Peter",
-      pictureUrl: "https://example.com/peter.jpg",
+      displayName: "Kibo",
+      pictureUrl: "https://example.com/kibo.jpg",
     });
 
     const first = await sendModule.getUserProfile("U-cache");
     const second = await sendModule.getUserProfile("U-cache");
 
     expect(first).toEqual({
-      displayName: "Peter",
-      pictureUrl: "https://example.com/peter.jpg",
+      displayName: "Kibo",
+      pictureUrl: "https://example.com/kibo.jpg",
     });
     expect(second).toEqual(first);
     expect(getProfileMock).toHaveBeenCalledTimes(1);

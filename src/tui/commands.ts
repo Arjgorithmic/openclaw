@@ -1,7 +1,7 @@
 import type { SlashCommand } from "@mariozechner/pi-tui";
 import { listChatCommands, listChatCommandsForConfig } from "../auto-reply/commands-registry.js";
 import { formatThinkingLevels, listThinkingLevelLabels } from "../auto-reply/thinking.js";
-import type { OpenClawConfig } from "../config/types.js";
+import type { KiboConfig } from "../config/types.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 
 const VERBOSE_LEVELS = ["on", "off"];
@@ -17,7 +17,7 @@ export type ParsedCommand = {
 };
 
 export type SlashCommandOptions = {
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   provider?: string;
   model?: string;
 };

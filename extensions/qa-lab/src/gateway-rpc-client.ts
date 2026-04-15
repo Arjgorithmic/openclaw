@@ -1,4 +1,4 @@
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { formatErrorMessage } from "kibo/plugin-sdk/error-runtime";
 import { callGatewayFromCli } from "./runtime-api.js";
 
 type QaGatewayRpcRequestOptions = {

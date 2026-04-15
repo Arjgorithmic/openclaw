@@ -64,8 +64,8 @@ import type { DreamingStatus } from "./controllers/dreaming.ts";
 import type { ExecApprovalRequest } from "./controllers/exec-approval.ts";
 import type { ExecApprovalsFile, ExecApprovalsSnapshot } from "./controllers/exec-approvals.ts";
 import type {
-  ClawHubSearchResult,
-  ClawHubSkillDetail,
+  KiboHubSearchResult,
+  KiboHubSkillDetail,
   SkillMessage,
 } from "./controllers/skills.ts";
 import type { GatewayBrowserClient, GatewayHelloOk } from "./gateway.ts";
@@ -103,7 +103,7 @@ import type { NostrProfileFormState } from "./views/channels.nostr-profile-form.
 
 declare global {
   interface Window {
-    __OPENCLAW_CONTROL_UI_BASE_PATH__?: string;
+    __KIBO_CONTROL_UI_BASE_PATH__?: string;
   }
 }
 
@@ -122,7 +122,7 @@ function resolveOnboardingMode(): boolean {
   return normalized === "1" || normalized === "true" || normalized === "yes" || normalized === "on";
 }
 
-export class OpenClawApp extends LitElement {
+export class KiboApp extends LitElement {
   private i18nController = new I18nController(this);
   clientInstanceId = generateUUID();
   connectGeneration = 0;
@@ -139,7 +139,7 @@ export class OpenClawApp extends LitElement {
   @state() tab: Tab = "chat";
   @state() onboarding = resolveOnboardingMode();
   @state() connected = false;
-  @state() theme: ThemeName = this.settings.theme ?? "claw";
+  @state() theme: ThemeName = this.settings.theme ?? "kibo";
   @state() themeMode: ThemeMode = this.settings.themeMode ?? "system";
   @state() themeResolved: ResolvedTheme = "dark";
   @state() themeOrder: ThemeName[] = this.buildThemeOrder(this.theme);
@@ -432,16 +432,16 @@ export class OpenClawApp extends LitElement {
   @state() skillsBusyKey: string | null = null;
   @state() skillMessages: Record<string, SkillMessage> = {};
   @state() skillsDetailKey: string | null = null;
-  @state() clawhubSearchQuery = "";
-  @state() clawhubSearchResults: ClawHubSearchResult[] | null = null;
-  @state() clawhubSearchLoading = false;
-  @state() clawhubSearchError: string | null = null;
-  @state() clawhubDetail: ClawHubSkillDetail | null = null;
-  @state() clawhubDetailSlug: string | null = null;
-  @state() clawhubDetailLoading = false;
-  @state() clawhubDetailError: string | null = null;
-  @state() clawhubInstallSlug: string | null = null;
-  @state() clawhubInstallMessage: { kind: "success" | "error"; text: string } | null = null;
+  @state() kibohubSearchQuery = "";
+  @state() kibohubSearchResults: KiboHubSearchResult[] | null = null;
+  @state() kibohubSearchLoading = false;
+  @state() kibohubSearchError: string | null = null;
+  @state() kibohubDetail: KiboHubSkillDetail | null = null;
+  @state() kibohubDetailSlug: string | null = null;
+  @state() kibohubDetailLoading = false;
+  @state() kibohubDetailError: string | null = null;
+  @state() kibohubInstallSlug: string | null = null;
+  @state() kibohubInstallMessage: { kind: "success" | "error"; text: string } | null = null;
 
   @state() healthLoading = false;
   @state() healthResult: HealthSummary | null = null;
@@ -791,6 +791,6 @@ export class OpenClawApp extends LitElement {
   }
 }
 
-if (!customElements.get("openclaw-app")) {
-  customElements.define("openclaw-app", OpenClawApp);
+if (!customElements.get("kibo-app")) {
+  customElements.define("kibo-app", KiboApp);
 }

@@ -180,7 +180,7 @@ export const tr: TranslationMap = {
     skills: "Skills ve API anahtarları.",
     nodes: "Eşleştirilmiş cihazlar ve komutlar.",
     chat: "Hızlı müdahaleler için Gateway sohbeti.",
-    config: "openclaw.json dosyasını düzenleyin.",
+    config: "kibo.json dosyasını düzenleyin.",
     communications: "Kanallar, mesajlar ve ses ayarları.",
     appearance: "Tema, UI ve kurulum sihirbazı ayarları.",
     automation: "Komutlar, kancalar, cron ve eklentiler.",
@@ -240,7 +240,7 @@ export const tr: TranslationMap = {
     pairing: {
       hint: "Bu cihazın Gateway ana bilgisayarından eşleştirme onayı alması gerekiyor.",
       mobileHint:
-        "Mobilde misiniz? Masaüstünüzde openclaw dashboard --no-open komutundan tam URL'yi (#token=... dahil) kopyalayın.",
+        "Mobilde misiniz? Masaüstünüzde kibo dashboard --no-open komutundan tam URL'yi (#token=... dahil) kopyalayın.",
     },
     insecure: {
       hint: "Bu sayfa HTTP olduğu için tarayıcı cihaz kimliğini engelliyor. HTTPS (Tailscale Serve) kullanın veya Gateway ana bilgisayarında {url} adresini açın.",

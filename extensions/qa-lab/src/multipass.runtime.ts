@@ -3,11 +3,11 @@ import fs from "node:fs";
 import { access, appendFile, mkdir, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
+import { resolvePreferredKiboTmpDir } from "kibo/plugin-sdk/temp-path";
 
-const MULTIPASS_MOUNTED_REPO_PATH = "/workspace/openclaw-host";
-const MULTIPASS_GUEST_REPO_PATH = "/workspace/openclaw";
-const MULTIPASS_GUEST_CODEX_HOME_PATH = "/workspace/openclaw-codex-home";
+const MULTIPASS_MOUNTED_REPO_PATH = "/workspace/kibo-host";
+const MULTIPASS_GUEST_REPO_PATH = "/workspace/kibo";
+const MULTIPASS_GUEST_CODEX_HOME_PATH = "/workspace/kibo-codex-home";
 const MULTIPASS_GUEST_PACKAGES = [
   "build-essential",
   "ca-certificates",
@@ -31,15 +31,15 @@ const MULTIPASS_GUEST_RUN_TIMEOUT_MS = 60 * 60 * 1000;
 
 const QA_LIVE_ENV_ALIASES = Object.freeze([
   {
-    liveVar: "OPENCLAW_LIVE_OPENAI_KEY",
+    liveVar: "KIBO_LIVE_OPENAI_KEY",
     providerVar: "OPENAI_API_KEY",
   },
   {
-    liveVar: "OPENCLAW_LIVE_ANTHROPIC_KEY",
+    liveVar: "KIBO_LIVE_ANTHROPIC_KEY",
     providerVar: "ANTHROPIC_API_KEY",
   },
   {
-    liveVar: "OPENCLAW_LIVE_GEMINI_KEY",
+    liveVar: "KIBO_LIVE_GEMINI_KEY",
     providerVar: "GEMINI_API_KEY",
   },
 ]);
@@ -59,18 +59,18 @@ const QA_LIVE_ALLOWED_ENV_VARS = Object.freeze([
   "OPENAI_API_KEY",
   "OPENAI_API_KEYS",
   "OPENAI_BASE_URL",
-  "OPENCLAW_LIVE_ANTHROPIC_KEY",
-  "OPENCLAW_LIVE_ANTHROPIC_KEYS",
-  "OPENCLAW_LIVE_GEMINI_KEY",
-  "OPENCLAW_LIVE_OPENAI_KEY",
-  "OPENCLAW_QA_LIVE_PROVIDER_CONFIG_PATH",
-  "OPENCLAW_CONFIG_PATH",
+  "KIBO_LIVE_ANTHROPIC_KEY",
+  "KIBO_LIVE_ANTHROPIC_KEYS",
+  "KIBO_LIVE_GEMINI_KEY",
+  "KIBO_LIVE_OPENAI_KEY",
+  "KIBO_QA_LIVE_PROVIDER_CONFIG_PATH",
+  "KIBO_CONFIG_PATH",
   "VOYAGE_API_KEY",
 ]);
 const QA_LIVE_ALLOWED_ENV_PATTERNS = Object.freeze([
   /^[A-Z0-9_]+_API_KEYS$/u,
   /^[A-Z0-9_]+_API_KEY_[0-9]+$/u,
-  /^OPENCLAW_LIVE_[A-Z0-9_]+_KEYS$/u,
+  /^KIBO_LIVE_[A-Z0-9_]+_KEYS$/u,
 ]);
 
 export const qaMultipassDefaultResources = {
@@ -266,10 +266,10 @@ function resolveUserPath(value: string, env: NodeJS.ProcessEnv = process.env) {
 
 function resolveLiveProviderConfigPath(env: NodeJS.ProcessEnv = process.env) {
   const explicit =
-    env.OPENCLAW_QA_LIVE_PROVIDER_CONFIG_PATH?.trim() || env.OPENCLAW_CONFIG_PATH?.trim();
+    env.KIBO_QA_LIVE_PROVIDER_CONFIG_PATH?.trim() || env.KIBO_CONFIG_PATH?.trim();
   return explicit
     ? { path: resolveUserPath(explicit, env), explicit: true }
-    : { path: path.join(os.homedir(), ".openclaw", "openclaw.json"), explicit: false };
+    : { path: path.join(os.homedir(), ".kibo", "kibo.json"), explicit: false };
 }
 
 function resolveQaLiveCliAuthEnv(baseEnv: NodeJS.ProcessEnv) {
@@ -349,12 +349,12 @@ export function createQaMultipassPlan(params: {
     liveProviderConfig && fs.existsSync(liveProviderConfig.path)
       ? liveProviderConfig.path
       : undefined;
-  const vmName = `openclaw-qa-${createVmSuffix()}`;
+  const vmName = `kibo-qa-${createVmSuffix()}`;
   const guestOutputDir = resolveGuestMountedPath(params.repoRoot, outputDir);
   const qaCommand = appendScenarioArgs(
     [
       "pnpm",
-      "openclaw",
+      "kibo",
       "qa",
       "suite",
       "--provider-mode",
@@ -419,15 +419,15 @@ export function renderQaMultipassGuestScript(
       .filter(
         ([key]) =>
           key !== "CODEX_HOME" &&
-          key !== "OPENCLAW_CONFIG_PATH" &&
-          key !== "OPENCLAW_QA_LIVE_PROVIDER_CONFIG_PATH",
+          key !== "KIBO_CONFIG_PATH" &&
+          key !== "KIBO_QA_LIVE_PROVIDER_CONFIG_PATH",
       )
       .map(([key, value]) => `${key}=${shellQuote(redactSecrets ? "<redacted>" : value)}`),
     ...(plan.guestCodexHomePath ? [`CODEX_HOME=${shellQuote(plan.guestCodexHomePath)}`] : []),
     ...(plan.guestLiveProviderConfigPath
       ? [
-          `OPENCLAW_CONFIG_PATH=${shellQuote(plan.guestLiveProviderConfigPath)}`,
-          `OPENCLAW_QA_LIVE_PROVIDER_CONFIG_PATH=${shellQuote(plan.guestLiveProviderConfigPath)}`,
+          `KIBO_CONFIG_PATH=${shellQuote(plan.guestLiveProviderConfigPath)}`,
+          `KIBO_QA_LIVE_PROVIDER_CONFIG_PATH=${shellQuote(plan.guestLiveProviderConfigPath)}`,
         ]
       : []),
     plan.qaCommand.map(shellQuote).join(" "),
@@ -640,7 +640,7 @@ export async function runQaMultipass(params: {
   await mkdir(plan.outputDir, { recursive: true });
   await writeFile(
     plan.hostLogPath,
-    `# OpenClaw QA Multipass host log\nvmName=${plan.vmName}\noutputDir=${plan.outputDir}\n\n`,
+    `# Kibo QA Multipass host log\nvmName=${plan.vmName}\noutputDir=${plan.outputDir}\n\n`,
     "utf8",
   );
   await writeFile(
@@ -662,13 +662,13 @@ export async function runQaMultipass(params: {
       );
     }
     throw new Error(
-      `Multipass is not installed on this host. Install it with '${resolveMultipassInstallHint()}', then rerun 'pnpm openclaw qa suite --runner multipass'.`,
+      `Multipass is not installed on this host. Install it with '${resolveMultipassInstallHint()}', then rerun 'pnpm kibo qa suite --runner multipass'.`,
       { cause: error },
     );
   }
 
   const hostTransferDirPath = await fs.promises.mkdtemp(
-    path.join(resolvePreferredOpenClawTmpDir(), `${plan.vmName}-qa-suite-`),
+    path.join(resolvePreferredKiboTmpDir(), `${plan.vmName}-qa-suite-`),
   );
   const hostTransferScriptPath = path.join(hostTransferDirPath, "guest-run.sh");
   await writeFile(hostTransferScriptPath, renderQaMultipassGuestScript(plan), {

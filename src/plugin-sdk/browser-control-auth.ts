@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
 
 export type BrowserControlAuth = {
@@ -7,7 +7,7 @@ export type BrowserControlAuth = {
 };
 
 type EnsureBrowserControlAuthParams = {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   env?: NodeJS.ProcessEnv;
 };
 
@@ -17,7 +17,7 @@ type EnsureBrowserControlAuthResult = {
 };
 
 type BrowserControlAuthSurface = {
-  resolveBrowserControlAuth: (cfg?: OpenClawConfig, env?: NodeJS.ProcessEnv) => BrowserControlAuth;
+  resolveBrowserControlAuth: (cfg?: KiboConfig, env?: NodeJS.ProcessEnv) => BrowserControlAuth;
   shouldAutoGenerateBrowserAuth: (env: NodeJS.ProcessEnv) => boolean;
   ensureBrowserControlAuth: (
     params: EnsureBrowserControlAuthParams,
@@ -32,7 +32,7 @@ function loadBrowserControlAuthSurface(): BrowserControlAuthSurface {
 }
 
 export function resolveBrowserControlAuth(
-  cfg?: OpenClawConfig,
+  cfg?: KiboConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): BrowserControlAuth {
   return loadBrowserControlAuthSurface().resolveBrowserControlAuth(cfg, env);

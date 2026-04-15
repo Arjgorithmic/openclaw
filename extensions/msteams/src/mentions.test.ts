@@ -67,10 +67,10 @@ describe("parseMentions", () => {
   });
 
   it("handles mention with spaces in name", () => {
-    const result = parseMentions("@[John Peter Smith](28:a1b2c3)");
+    const result = parseMentions("@[John Kibo Smith](28:a1b2c3)");
 
-    expect(result.text).toBe("<at>John Peter Smith</at>");
-    expect(requireFirstEntity(result).mentioned.name).toBe("John Peter Smith");
+    expect(result.text).toBe("<at>John Kibo Smith</at>");
+    expect(requireFirstEntity(result).mentioned.name).toBe("John Kibo Smith");
   });
 
   it("trims whitespace from id and name", () => {

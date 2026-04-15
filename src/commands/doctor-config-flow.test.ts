@@ -350,10 +350,10 @@ describe("doctor config flow", () => {
     const noteSpy = vi.spyOn(noteModule, "note").mockImplementation(() => {});
     try {
       await withTempHome(async (home) => {
-        const stateDir = path.join(home, ".openclaw");
+        const stateDir = path.join(home, ".kibo");
         await fs.mkdir(path.join(stateDir, "matrix"), { recursive: true });
         await fs.writeFile(
-          path.join(stateDir, "openclaw.json"),
+          path.join(stateDir, "kibo.json"),
           JSON.stringify({
             channels: {
               matrix: {
@@ -381,7 +381,7 @@ describe("doctor config flow", () => {
       );
       expect(warning?.[0]).toContain("Legacy sync store:");
       expect(warning?.[0]).toContain(
-        'Run "openclaw doctor --fix" to migrate this Matrix state now.',
+        'Run "kibo doctor --fix" to migrate this Matrix state now.',
       );
     } finally {
       noteSpy.mockRestore();
@@ -392,7 +392,7 @@ describe("doctor config flow", () => {
     const noteSpy = vi.spyOn(noteModule, "note").mockImplementation(() => {});
     try {
       await withTempHome(async (home) => {
-        const stateDir = path.join(home, ".openclaw");
+        const stateDir = path.join(home, ".kibo");
         const { rootDir: accountRoot } = resolveMatrixAccountStorageRoot({
           stateDir,
           homeserver: "https://matrix.example.org",
@@ -401,7 +401,7 @@ describe("doctor config flow", () => {
         });
         await fs.mkdir(path.join(accountRoot, "crypto"), { recursive: true });
         await fs.writeFile(
-          path.join(stateDir, "openclaw.json"),
+          path.join(stateDir, "kibo.json"),
           JSON.stringify({
             channels: {
               matrix: {
@@ -438,10 +438,10 @@ describe("doctor config flow", () => {
     const noteSpy = vi.spyOn(noteModule, "note").mockImplementation(() => {});
     try {
       await withTempHome(async (home) => {
-        const stateDir = path.join(home, ".openclaw");
+        const stateDir = path.join(home, ".kibo");
         await fs.mkdir(path.join(stateDir, "matrix"), { recursive: true });
         await fs.writeFile(
-          path.join(stateDir, "openclaw.json"),
+          path.join(stateDir, "kibo.json"),
           JSON.stringify({
             channels: {
               matrix: {
@@ -498,10 +498,10 @@ describe("doctor config flow", () => {
 
   it("creates a Matrix migration snapshot before doctor repair mutates Matrix state", async () => {
     await withTempHome(async (home) => {
-      const stateDir = path.join(home, ".openclaw");
+      const stateDir = path.join(home, ".kibo");
       await fs.mkdir(path.join(stateDir, "matrix"), { recursive: true });
       await fs.writeFile(
-        path.join(stateDir, "openclaw.json"),
+        path.join(stateDir, "kibo.json"),
         JSON.stringify({
           channels: {
             matrix: {
@@ -519,7 +519,7 @@ describe("doctor config flow", () => {
         confirm: async () => false,
       });
 
-      const snapshotDir = path.join(home, "Backups", "openclaw-migrations");
+      const snapshotDir = path.join(home, "Backups", "kibo-migrations");
       const snapshotEntries = await fs.readdir(snapshotDir);
       expect(snapshotEntries.some((entry) => entry.endsWith(".tar.gz"))).toBe(true);
 
@@ -528,7 +528,7 @@ describe("doctor config flow", () => {
       ) as {
         archivePath: string;
       };
-      expect(marker.archivePath).toContain(path.join("Backups", "openclaw-migrations"));
+      expect(marker.archivePath).toContain(path.join("Backups", "kibo-migrations"));
     });
   });
 
@@ -544,8 +544,8 @@ describe("doctor config flow", () => {
         installs: {
           matrix: {
             source: "path",
-            sourcePath: "/tmp/openclaw-matrix-missing",
-            installPath: "/tmp/openclaw-matrix-missing",
+            sourcePath: "/tmp/kibo-matrix-missing",
+            installPath: "/tmp/kibo-matrix-missing",
           },
         },
       },
@@ -553,7 +553,7 @@ describe("doctor config flow", () => {
 
     expect(
       doctorWarnings.some(
-        (line) => line.includes("custom path") && line.includes("/tmp/openclaw-matrix-missing"),
+        (line) => line.includes("custom path") && line.includes("/tmp/kibo-matrix-missing"),
       ),
     ).toBe(true);
   });
@@ -977,10 +977,10 @@ describe("doctor config flow", () => {
 
   it("converts numeric discord ids to strings on repair", async () => {
     await withTempHome(async (home) => {
-      const configDir = path.join(home, ".openclaw");
+      const configDir = path.join(home, ".kibo");
       await fs.mkdir(configDir, { recursive: true });
       await fs.writeFile(
-        path.join(configDir, "openclaw.json"),
+        path.join(configDir, "kibo.json"),
         JSON.stringify(
           {
             channels: {
@@ -1221,11 +1221,11 @@ describe("doctor config flow", () => {
 
   it('repairs dmPolicy="allowlist" by restoring allowFrom from pairing store on repair', async () => {
     const result = await withTempHome(async (home) => {
-      const configDir = path.join(home, ".openclaw");
+      const configDir = path.join(home, ".kibo");
       const credentialsDir = path.join(configDir, "credentials");
       await fs.mkdir(credentialsDir, { recursive: true });
       await fs.writeFile(
-        path.join(configDir, "openclaw.json"),
+        path.join(configDir, "kibo.json"),
         JSON.stringify(
           {
             channels: {
@@ -1475,7 +1475,7 @@ describe("doctor config flow", () => {
         noteSpy.mock.calls.some(
           ([message, title]) =>
             title === "Doctor" &&
-            String(message).includes('Run "openclaw doctor --fix" to migrate legacy config keys.'),
+            String(message).includes('Run "kibo doctor --fix" to migrate legacy config keys.'),
         ),
       ).toBe(true);
     } finally {
@@ -1509,7 +1509,7 @@ describe("doctor config flow", () => {
         noteSpy.mock.calls.some(
           ([message, title]) =>
             title === "Doctor" &&
-            String(message).includes('Run "openclaw doctor --fix" to migrate legacy config keys.'),
+            String(message).includes('Run "kibo doctor --fix" to migrate legacy config keys.'),
         ),
       ).toBe(true);
     } finally {
@@ -1545,7 +1545,7 @@ describe("doctor config flow", () => {
         noteSpy.mock.calls.some(
           ([message, title]) =>
             title === "Doctor" &&
-            String(message).includes('Run "openclaw doctor --fix" to migrate legacy config keys.'),
+            String(message).includes('Run "kibo doctor --fix" to migrate legacy config keys.'),
         ),
       ).toBe(true);
     } finally {
@@ -1628,7 +1628,7 @@ describe("doctor config flow", () => {
         noteSpy.mock.calls.some(
           ([message, title]) =>
             title === "Doctor" &&
-            String(message).includes('Run "openclaw doctor --fix" to migrate legacy config keys.'),
+            String(message).includes('Run "kibo doctor --fix" to migrate legacy config keys.'),
         ),
       ).toBe(true);
     } finally {
@@ -1758,7 +1758,7 @@ describe("doctor config flow", () => {
         noteSpy.mock.calls.some(
           ([message, title]) =>
             title === "Doctor" &&
-            String(message).includes('Run "openclaw doctor --fix" to migrate legacy config keys.'),
+            String(message).includes('Run "kibo doctor --fix" to migrate legacy config keys.'),
         ),
       ).toBe(true);
     } finally {
@@ -1866,10 +1866,10 @@ describe("doctor config flow", () => {
   it("does not report repeat talk provider normalization on consecutive repair runs", async () => {
     await withTempHome(async (home) => {
       const providerId = "acme-speech";
-      const configDir = path.join(home, ".openclaw");
+      const configDir = path.join(home, ".kibo");
       await fs.mkdir(configDir, { recursive: true });
       await fs.writeFile(
-        path.join(configDir, "openclaw.json"),
+        path.join(configDir, "kibo.json"),
         JSON.stringify(
           {
             talk: {

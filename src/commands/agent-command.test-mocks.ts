@@ -19,10 +19,10 @@ vi.mock("../logging/subsystem.js", () => {
 });
 
 vi.mock("../agents/workspace.js", () => ({
-  DEFAULT_AGENT_WORKSPACE_DIR: "/tmp/openclaw-workspace",
+  DEFAULT_AGENT_WORKSPACE_DIR: "/tmp/kibo-workspace",
   DEFAULT_AGENTS_FILENAME: "AGENTS.md",
   DEFAULT_IDENTITY_FILENAME: "IDENTITY.md",
-  resolveDefaultAgentWorkspaceDir: () => "/tmp/openclaw-workspace",
+  resolveDefaultAgentWorkspaceDir: () => "/tmp/kibo-workspace",
   ensureAgentWorkspace: vi.fn(async ({ dir }: { dir: string }) => ({ dir })),
 }));
 

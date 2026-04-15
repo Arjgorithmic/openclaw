@@ -1,7 +1,7 @@
 ---
-summary: "Use Vydra image, video, and speech in OpenClaw"
+summary: "Use Vydra image, video, and speech in Kibo"
 read_when:
-  - You want Vydra media generation in OpenClaw
+  - You want Vydra media generation in Kibo
   - You need Vydra API key setup guidance
 title: "Vydra"
 ---
@@ -14,7 +14,7 @@ The bundled Vydra plugin adds:
 - video generation via `vydra/veo3` and `vydra/kling`
 - speech synthesis via Vydra's ElevenLabs-backed TTS route
 
-OpenClaw uses the same `VYDRA_API_KEY` for all three capabilities.
+Kibo uses the same `VYDRA_API_KEY` for all three capabilities.
 
 ## Important base URL
 
@@ -27,7 +27,7 @@ Vydra's apex host (`https://vydra.ai/api/v1`) currently redirects to `www`. Some
 Interactive onboarding:
 
 ```bash
-openclaw onboard --auth-choice vydra-api-key
+kibo onboard --auth-choice vydra-api-key
 ```
 
 Or set the env var directly:
@@ -56,7 +56,7 @@ Set it as the default image provider:
 }
 ```
 
-Current bundled support is text-to-image only. Vydra's hosted edit routes expect remote image URLs, and OpenClaw does not add a Vydra-specific upload bridge in the bundled plugin yet.
+Current bundled support is text-to-image only. Vydra's hosted edit routes expect remote image URLs, and Kibo does not add a Vydra-specific upload bridge in the bundled plugin yet.
 
 See [Image Generation](/tools/image-generation) for shared tool behavior.
 
@@ -91,8 +91,8 @@ Notes:
 Provider-specific live coverage:
 
 ```bash
-OPENCLAW_LIVE_TEST=1 \
-OPENCLAW_LIVE_VYDRA_VIDEO=1 \
+KIBO_LIVE_TEST=1 \
+KIBO_LIVE_VYDRA_VIDEO=1 \
 pnpm test:live -- extensions/vydra/vydra.live.test.ts
 ```
 
@@ -104,7 +104,7 @@ The bundled Vydra live file now covers:
 Override the remote image fixture when needed:
 
 ```bash
-export OPENCLAW_LIVE_VYDRA_KLING_IMAGE_URL="https://example.com/reference.png"
+export KIBO_LIVE_VYDRA_KLING_IMAGE_URL="https://example.com/reference.png"
 ```
 
 See [Video Generation](/tools/video-generation) for shared tool behavior.

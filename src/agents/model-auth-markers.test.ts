@@ -2,22 +2,22 @@ import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vite
 import { captureEnv, withEnvAsync } from "../test-utils/env.js";
 
 const PLUGIN_MANIFEST_ENV_KEYS = [
-  "OPENCLAW_BUNDLED_PLUGINS_DIR",
-  "OPENCLAW_DISABLE_BUNDLED_PLUGINS",
-  "OPENCLAW_SKIP_PROVIDERS",
-  "OPENCLAW_SKIP_CHANNELS",
-  "OPENCLAW_SKIP_CRON",
-  "OPENCLAW_TEST_MINIMAL_GATEWAY",
+  "KIBO_BUNDLED_PLUGINS_DIR",
+  "KIBO_DISABLE_BUNDLED_PLUGINS",
+  "KIBO_SKIP_PROVIDERS",
+  "KIBO_SKIP_CHANNELS",
+  "KIBO_SKIP_CRON",
+  "KIBO_TEST_MINIMAL_GATEWAY",
 ] as const;
 
 function cleanPluginManifestEnv(): Record<(typeof PLUGIN_MANIFEST_ENV_KEYS)[number], undefined> {
   return {
-    OPENCLAW_BUNDLED_PLUGINS_DIR: undefined,
-    OPENCLAW_DISABLE_BUNDLED_PLUGINS: undefined,
-    OPENCLAW_SKIP_PROVIDERS: undefined,
-    OPENCLAW_SKIP_CHANNELS: undefined,
-    OPENCLAW_SKIP_CRON: undefined,
-    OPENCLAW_TEST_MINIMAL_GATEWAY: undefined,
+    KIBO_BUNDLED_PLUGINS_DIR: undefined,
+    KIBO_DISABLE_BUNDLED_PLUGINS: undefined,
+    KIBO_SKIP_PROVIDERS: undefined,
+    KIBO_SKIP_CHANNELS: undefined,
+    KIBO_SKIP_CRON: undefined,
+    KIBO_TEST_MINIMAL_GATEWAY: undefined,
   };
 }
 

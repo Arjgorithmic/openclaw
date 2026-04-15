@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { sendProactive } from "./proactive.js";
 
@@ -41,7 +41,7 @@ describe("qqbot proactive sends", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as KiboConfig;
 
     const result = await sendProactive(
       {

@@ -5,7 +5,7 @@ export {
   writeConfigFile,
   type BrowserConfig,
   type BrowserProfileConfig,
-  type OpenClawConfig,
+  type KiboConfig,
 } from "../config/config.js";
 export { resolveConfigPath, resolveGatewayPort } from "../config/paths.js";
 export {

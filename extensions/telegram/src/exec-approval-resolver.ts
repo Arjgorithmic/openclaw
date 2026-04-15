@@ -1,9 +1,9 @@
-import { resolveApprovalOverGateway } from "openclaw/plugin-sdk/approval-gateway-runtime";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-import type { ExecApprovalReplyDecision } from "openclaw/plugin-sdk/infra-runtime";
+import { resolveApprovalOverGateway } from "kibo/plugin-sdk/approval-gateway-runtime";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
+import type { ExecApprovalReplyDecision } from "kibo/plugin-sdk/infra-runtime";
 
 export type ResolveTelegramExecApprovalParams = {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   approvalId: string;
   decision: ExecApprovalReplyDecision;
   senderId?: string | null;

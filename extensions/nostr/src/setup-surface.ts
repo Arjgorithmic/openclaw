@@ -1,10 +1,10 @@
-import type { ChannelSetupAdapter } from "openclaw/plugin-sdk/channel-setup";
-import { DEFAULT_ACCOUNT_ID } from "openclaw/plugin-sdk/routing";
+import type { ChannelSetupAdapter } from "kibo/plugin-sdk/channel-setup";
+import { DEFAULT_ACCOUNT_ID } from "kibo/plugin-sdk/routing";
 import {
   hasConfiguredSecretInput,
   normalizeSecretInputString,
-} from "openclaw/plugin-sdk/secret-input";
-import type { ChannelSetupDmPolicy, ChannelSetupWizard, DmPolicy } from "openclaw/plugin-sdk/setup";
+} from "kibo/plugin-sdk/secret-input";
+import type { ChannelSetupDmPolicy, ChannelSetupWizard, DmPolicy } from "kibo/plugin-sdk/setup";
 import {
   createStandardChannelSetupStatus,
   createTopLevelChannelDmPolicy,
@@ -14,7 +14,7 @@ import {
   parseSetupEntriesWithParser,
   patchTopLevelChannelConfigSection,
   splitSetupEntries,
-} from "openclaw/plugin-sdk/setup";
+} from "kibo/plugin-sdk/setup";
 import { DEFAULT_RELAYS } from "./default-relays.js";
 import { getPublicKeyFromPrivate, normalizePubkey } from "./nostr-bus.js";
 import { resolveDefaultNostrAccountId, resolveNostrAccount } from "./types.js";

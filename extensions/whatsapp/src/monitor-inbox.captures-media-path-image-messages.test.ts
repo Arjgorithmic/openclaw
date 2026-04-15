@@ -11,9 +11,9 @@ import {
 let monitorWebInbox: typeof import("./inbound.js").monitorWebInbox;
 const inboundLoggerInfoMock = vi.hoisted(() => vi.fn());
 
-vi.mock("openclaw/plugin-sdk/text-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/text-runtime")>(
-    "openclaw/plugin-sdk/text-runtime",
+vi.mock("kibo/plugin-sdk/text-runtime", async () => {
+  const actual = await vi.importActual<typeof import("kibo/plugin-sdk/text-runtime")>(
+    "kibo/plugin-sdk/text-runtime",
   );
   return {
     ...actual,
@@ -236,7 +236,7 @@ describe("web monitor inbox", () => {
             ephemeralMessage: {
               message: {
                 extendedTextMessage: {
-                  text: "oh hey @Clawd UK !",
+                  text: "oh hey @Kibo UK !",
                   contextInfo: { mentionedJid: ["123@s.whatsapp.net"] },
                 },
               },
@@ -248,7 +248,7 @@ describe("web monitor inbox", () => {
     expectSingleGroupMessage(onMessage, {
       chatType: "group",
       conversationId: "424242@g.us",
-      body: "oh hey @Clawd UK !",
+      body: "oh hey @Kibo UK !",
       mentionedJids: ["123@s.whatsapp.net"],
       senderE164: "+888",
     });

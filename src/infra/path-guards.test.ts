@@ -25,7 +25,7 @@ afterEach(() => {
 
 describe("normalizeWindowsPathForComparison", () => {
   it.each([
-    ["\\\\?\\C:\\Users\\Peter/Repo", "c:\\users\\peter\\repo"],
+    ["\\\\?\\C:\\Users\\Kibo/Repo", "c:\\users\\kibo\\repo"],
     ["\\\\?\\UNC\\Server\\Share\\Folder", "\\\\server\\share\\folder"],
     ["\\\\?\\unc\\Server\\Share\\Folder", "\\\\server\\share\\folder"],
   ])("normalizes windows path %s", (input, expected) => {

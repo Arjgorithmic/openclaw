@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/testing";
+import type { KiboConfig } from "kibo/plugin-sdk/testing";
 import { beforeEach, describe, expect, it, vi, type Mock } from "vitest";
 
 type UnknownMock = Mock<(...args: unknown[]) => unknown>;
@@ -10,9 +10,9 @@ export const loadCronStore: AsyncUnknownMock = vi.fn();
 export const resolveCronStorePath: UnknownMock = vi.fn();
 export const saveCronStore: AsyncUnknownMock = vi.fn();
 
-vi.mock("openclaw/plugin-sdk/config-runtime", async () => {
-  const actual = await vi.importActual<typeof import("openclaw/plugin-sdk/config-runtime")>(
-    "openclaw/plugin-sdk/config-runtime",
+vi.mock("kibo/plugin-sdk/config-runtime", async () => {
+  const actual = await vi.importActual<typeof import("kibo/plugin-sdk/config-runtime")>(
+    "kibo/plugin-sdk/config-runtime",
   );
   return {
     ...actual,
@@ -43,7 +43,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
 
     it("skips writeback when target is already numeric", async () => {
       await maybePersistResolvedTelegramTarget({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as KiboConfig,
         rawTarget: "-100123",
         resolvedChatId: "-100123",
       });
@@ -57,7 +57,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
         await maybePersistResolvedTelegramTarget({
           cfg: {
             cron: { store: "/tmp/cron/jobs.json" },
-          } as OpenClawConfig,
+          } as KiboConfig,
           rawTarget: "t.me/mychannel",
           resolvedChatId: "-100123",
           gatewayClientScopes: ["operator.write"],
@@ -73,7 +73,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
         await maybePersistResolvedTelegramTarget({
           cfg: {
             cron: { store: "/tmp/cron/jobs.json" },
-          } as OpenClawConfig,
+          } as KiboConfig,
           rawTarget: "t.me/mychannel",
           resolvedChatId: "-100123",
           gatewayClientScopes: [],
@@ -102,7 +102,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
             },
           },
         },
-        writeOptions: { expectedConfigPath: "/tmp/openclaw.json" },
+        writeOptions: { expectedConfigPath: "/tmp/kibo.json" },
       });
       loadCronStore.mockResolvedValue({
         version: 1,
@@ -115,7 +115,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
       await maybePersistResolvedTelegramTarget({
         cfg: {
           cron: { store: "/tmp/cron/jobs.json" },
-        } as OpenClawConfig,
+        } as KiboConfig,
         rawTarget: "t.me/mychannel",
         resolvedChatId: "-100123",
       });
@@ -134,7 +134,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
             },
           },
         }),
-        expect.objectContaining({ expectedConfigPath: "/tmp/openclaw.json" }),
+        expect.objectContaining({ expectedConfigPath: "/tmp/kibo.json" }),
       );
       expect(saveCronStore).toHaveBeenCalledTimes(1);
       expect(saveCronStore).toHaveBeenCalledWith(
@@ -164,7 +164,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
       loadCronStore.mockResolvedValue({ version: 1, jobs: [] });
 
       await maybePersistResolvedTelegramTarget({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as KiboConfig,
         rawTarget: "t.me/mychannel:topic:9",
         resolvedChatId: "-100123",
       });
@@ -200,7 +200,7 @@ export function installMaybePersistResolvedTelegramTargetTests(params?: {
       });
 
       await maybePersistResolvedTelegramTarget({
-        cfg: {} as OpenClawConfig,
+        cfg: {} as KiboConfig,
         rawTarget: "@MyChannel",
         resolvedChatId: "-100123",
       });

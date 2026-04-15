@@ -18,10 +18,10 @@ import {
   runOpenAiEmbeddingBatches,
   runVoyageEmbeddingBatches,
   type MemoryEmbeddingProviderAdapter,
-} from "openclaw/plugin-sdk/memory-core-host-engine-embeddings";
-import { resolveUserPath } from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
-import { getProviderEnvVars } from "openclaw/plugin-sdk/provider-env-vars";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/memory-core-host-engine-embeddings";
+import { resolveUserPath } from "kibo/plugin-sdk/memory-core-host-engine-foundation";
+import { getProviderEnvVars } from "kibo/plugin-sdk/provider-env-vars";
+import { normalizeLowercaseStringOrEmpty } from "kibo/plugin-sdk/text-runtime";
 import { formatErrorMessage } from "../dreaming-shared.js";
 import { filterUnregisteredMemoryEmbeddingProviderAdapters } from "./provider-adapter-registration.js";
 
@@ -80,7 +80,7 @@ function formatLocalSetupError(err: unknown): string {
     "To enable local embeddings:",
     "1) Use Node 24 (recommended for installs/updates; Node 22 LTS, currently 22.14+, remains supported)",
     missing
-      ? "2) Reinstall OpenClaw (this should install node-llama-cpp): npm i -g openclaw@latest"
+      ? "2) Reinstall Kibo (this should install node-llama-cpp): npm i -g kibo@latest"
       : null,
     "3) If you use pnpm: pnpm approve-builds (select node-llama-cpp), then pnpm rebuild node-llama-cpp",
     ...["openai", "gemini", "voyage", "mistral"].map(

@@ -1,6 +1,6 @@
 import type { ReplyPayload } from "../../auto-reply/types.js";
 import type { ConfiguredBindingRule } from "../../config/bindings.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { KiboConfig } from "../../config/config.js";
 import type { LegacyConfigRule } from "../../config/legacy.shared.js";
 import type { GroupToolPolicyConfig } from "../../config/types.tools.js";
 import type { ChannelApprovalNativeRuntimeAdapter } from "../../infra/approval-handler-runtime.js";
@@ -67,34 +67,34 @@ type BivariantCallback<T extends (...args: never[]) => unknown> = {
 
 export type ChannelSetupAdapter = {
   resolveAccountId?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string;
     input?: ChannelSetupInput;
   }) => string;
   resolveBindingAccountId?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     agentId: string;
     accountId?: string;
   }) => string | undefined;
   applyAccountName?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId: string;
     name?: string;
-  }) => OpenClawConfig;
+  }) => KiboConfig;
   applyAccountConfig: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId: string;
     input: ChannelSetupInput;
-  }) => OpenClawConfig;
+  }) => KiboConfig;
   afterAccountConfigWritten?: (params: {
-    previousCfg: OpenClawConfig;
-    cfg: OpenClawConfig;
+    previousCfg: KiboConfig;
+    cfg: KiboConfig;
     accountId: string;
     input: ChannelSetupInput;
     runtime: RuntimeEnv;
   }) => Promise<void> | void;
   validateInput?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId: string;
     input: ChannelSetupInput;
   }) => string | null;
@@ -106,38 +106,38 @@ export type ChannelSetupAdapter = {
 };
 
 export type ChannelConfigAdapter<ResolvedAccount> = {
-  listAccountIds: (cfg: OpenClawConfig) => string[];
-  resolveAccount: (cfg: OpenClawConfig, accountId?: string | null) => ResolvedAccount;
-  inspectAccount?: (cfg: OpenClawConfig, accountId?: string | null) => unknown;
-  defaultAccountId?: (cfg: OpenClawConfig) => string;
+  listAccountIds: (cfg: KiboConfig) => string[];
+  resolveAccount: (cfg: KiboConfig, accountId?: string | null) => ResolvedAccount;
+  inspectAccount?: (cfg: KiboConfig, accountId?: string | null) => unknown;
+  defaultAccountId?: (cfg: KiboConfig) => string;
   setAccountEnabled?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId: string;
     enabled: boolean;
-  }) => OpenClawConfig;
-  deleteAccount?: (params: { cfg: OpenClawConfig; accountId: string }) => OpenClawConfig;
-  isEnabled?: BivariantCallback<(account: ResolvedAccount, cfg: OpenClawConfig) => boolean>;
-  disabledReason?: BivariantCallback<(account: ResolvedAccount, cfg: OpenClawConfig) => string>;
+  }) => KiboConfig;
+  deleteAccount?: (params: { cfg: KiboConfig; accountId: string }) => KiboConfig;
+  isEnabled?: BivariantCallback<(account: ResolvedAccount, cfg: KiboConfig) => boolean>;
+  disabledReason?: BivariantCallback<(account: ResolvedAccount, cfg: KiboConfig) => string>;
   isConfigured?: BivariantCallback<
-    (account: ResolvedAccount, cfg: OpenClawConfig) => boolean | Promise<boolean>
+    (account: ResolvedAccount, cfg: KiboConfig) => boolean | Promise<boolean>
   >;
-  unconfiguredReason?: BivariantCallback<(account: ResolvedAccount, cfg: OpenClawConfig) => string>;
+  unconfiguredReason?: BivariantCallback<(account: ResolvedAccount, cfg: KiboConfig) => string>;
   describeAccount?: BivariantCallback<
-    (account: ResolvedAccount, cfg: OpenClawConfig) => ChannelAccountSnapshot
+    (account: ResolvedAccount, cfg: KiboConfig) => ChannelAccountSnapshot
   >;
   resolveAllowFrom?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
   }) => Array<string | number> | undefined;
   formatAllowFrom?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
     allowFrom: Array<string | number>;
   }) => string[];
-  hasConfiguredState?: (params: { cfg: OpenClawConfig; env?: NodeJS.ProcessEnv }) => boolean;
-  hasPersistedAuthState?: (params: { cfg: OpenClawConfig; env?: NodeJS.ProcessEnv }) => boolean;
+  hasConfiguredState?: (params: { cfg: KiboConfig; env?: NodeJS.ProcessEnv }) => boolean;
+  hasPersistedAuthState?: (params: { cfg: KiboConfig; env?: NodeJS.ProcessEnv }) => boolean;
   resolveDefaultTo?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
   }) => string | undefined;
 };
@@ -150,7 +150,7 @@ export type ChannelSecretsAdapter = {
     value: unknown;
   }>;
   collectRuntimeConfigAssignments?: (params: {
-    config: OpenClawConfig;
+    config: KiboConfig;
     defaults: SecretDefaults | undefined;
     context: ResolverContext;
   }) => void;
@@ -163,7 +163,7 @@ export type ChannelGroupAdapter = {
 };
 
 export type ChannelOutboundContext = {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   to: string;
   text: string;
   mediaUrl?: string;
@@ -214,18 +214,18 @@ export type ChannelOutboundAdapter = {
   normalizePayload?: (params: { payload: ReplyPayload }) => ReplyPayload | null;
   shouldSkipPlainTextSanitization?: (params: { payload: ReplyPayload }) => boolean;
   resolveEffectiveTextChunkLimit?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
     fallbackLimit?: number;
   }) => number | undefined;
   shouldSuppressLocalPayloadPrompt?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
     payload: ReplyPayload;
     hint?: ChannelOutboundPayloadHint;
   }) => boolean;
   beforeDeliverPayload?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     target: ChannelOutboundTargetRef;
     payload: ReplyPayload;
     hint?: ChannelOutboundPayloadHint;
@@ -247,7 +247,7 @@ export type ChannelOutboundAdapter = {
     targetThreadId?: string;
   }) => boolean;
   resolveTarget?: (params: {
-    cfg?: OpenClawConfig;
+    cfg?: KiboConfig;
     to?: string;
     allowFrom?: string[];
     accountId?: string | null;
@@ -269,13 +269,13 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
   buildChannelSummary?: BivariantCallback<
     (params: {
       account: ResolvedAccount;
-      cfg: OpenClawConfig;
+      cfg: KiboConfig;
       defaultAccountId: string;
       snapshot: ChannelAccountSnapshot;
     }) => Record<string, unknown> | Promise<Record<string, unknown>>
   >;
   probeAccount?: BivariantCallback<
-    (params: { account: ResolvedAccount; timeoutMs: number; cfg: OpenClawConfig }) => Promise<Probe>
+    (params: { account: ResolvedAccount; timeoutMs: number; cfg: KiboConfig }) => Promise<Probe>
   >;
   formatCapabilitiesProbe?: BivariantCallback<
     (params: { probe: Probe }) => ChannelCapabilitiesDisplayLine[]
@@ -284,7 +284,7 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
     (params: {
       account: ResolvedAccount;
       timeoutMs: number;
-      cfg: OpenClawConfig;
+      cfg: KiboConfig;
       probe?: Probe;
     }) => Promise<Audit>
   >;
@@ -292,7 +292,7 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
     (params: {
       account: ResolvedAccount;
       timeoutMs: number;
-      cfg: OpenClawConfig;
+      cfg: KiboConfig;
       probe?: Probe;
       audit?: Audit;
       target?: string;
@@ -301,7 +301,7 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
   buildAccountSnapshot?: BivariantCallback<
     (params: {
       account: ResolvedAccount;
-      cfg: OpenClawConfig;
+      cfg: KiboConfig;
       runtime?: ChannelAccountSnapshot;
       probe?: Probe;
       audit?: Audit;
@@ -310,7 +310,7 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
   logSelfId?: BivariantCallback<
     (params: {
       account: ResolvedAccount;
-      cfg: OpenClawConfig;
+      cfg: KiboConfig;
       runtime: RuntimeEnv;
       includeChannelPrefix?: boolean;
     }) => void
@@ -318,7 +318,7 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
   resolveAccountState?: BivariantCallback<
     (params: {
       account: ResolvedAccount;
-      cfg: OpenClawConfig;
+      cfg: KiboConfig;
       configured: boolean;
       enabled: boolean;
     }) => ChannelAccountState
@@ -327,7 +327,7 @@ export type ChannelStatusAdapter<ResolvedAccount, Probe = unknown, Audit = unkno
 };
 
 export type ChannelGatewayContext<ResolvedAccount = unknown> = {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId: string;
   account: ResolvedAccount;
   runtime: RuntimeEnv;
@@ -396,7 +396,7 @@ export type ChannelGatewayContext<ResolvedAccount = unknown> = {
    *   partial stubs are not supported
    *
    * @since Plugin SDK 2026.2.19
-   * @see {@link https://docs.openclaw.ai/plugins/developing-plugins | Plugin SDK documentation}
+   * @see {@link https://github.com/Arjgorithmic/openclaw/plugins/developing-plugins | Plugin SDK documentation}
    */
   channelRuntime?: PluginRuntime["channel"];
 };
@@ -418,7 +418,7 @@ export type ChannelLoginWithQrWaitResult = {
 };
 
 export type ChannelLogoutContext<ResolvedAccount = unknown> = {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId: string;
   account: ResolvedAccount;
   runtime: RuntimeEnv;
@@ -429,7 +429,7 @@ export type ChannelPairingAdapter = {
   idLabel: string;
   normalizeAllowEntry?: (entry: string) => string;
   notifyApproval?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     id: string;
     accountId?: string;
     runtime?: RuntimeEnv;
@@ -439,7 +439,7 @@ export type ChannelPairingAdapter = {
 export type ChannelGatewayAdapter<ResolvedAccount = unknown> = {
   startAccount?: (ctx: ChannelGatewayContext<ResolvedAccount>) => Promise<unknown>;
   stopAccount?: (ctx: ChannelGatewayContext<ResolvedAccount>) => Promise<void>;
-  resolveGatewayAuthBypassPaths?: (params: { cfg: OpenClawConfig }) => string[];
+  resolveGatewayAuthBypassPaths?: (params: { cfg: KiboConfig }) => string[];
   loginWithQrStart?: (params: {
     accountId?: string;
     force?: boolean;
@@ -455,7 +455,7 @@ export type ChannelGatewayAdapter<ResolvedAccount = unknown> = {
 
 export type ChannelAuthAdapter = {
   login?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
     runtime: RuntimeEnv;
     verbose?: boolean;
@@ -465,12 +465,12 @@ export type ChannelAuthAdapter = {
 
 export type ChannelHeartbeatAdapter = {
   checkReady?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
     deps?: ChannelHeartbeatDeps;
   }) => Promise<{ ok: boolean; reason: string }>;
   resolveRecipients?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     opts?: { to?: string; all?: boolean; accountId?: string };
   }) => {
     recipients: string[];
@@ -479,13 +479,13 @@ export type ChannelHeartbeatAdapter = {
 };
 
 type ChannelDirectorySelfParams = {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId?: string | null;
   runtime: RuntimeEnv;
 };
 
 type ChannelDirectoryListParams = {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId?: string | null;
   query?: string | null;
   limit?: number | null;
@@ -493,7 +493,7 @@ type ChannelDirectoryListParams = {
 };
 
 type ChannelDirectoryListGroupMembersParams = {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId?: string | null;
   groupId: string;
   limit?: number | null;
@@ -523,7 +523,7 @@ export type ChannelResolveResult = {
 
 export type ChannelResolverAdapter = {
   resolveTargets: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
     inputs: string[];
     kind: ChannelResolveKind;
@@ -533,7 +533,7 @@ export type ChannelResolverAdapter = {
 
 export type ChannelElevatedAdapter = {
   allowFromFallback?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
   }) => Array<string | number> | undefined;
 };
@@ -569,7 +569,7 @@ export type ChannelCommandAdapter = {
 };
 
 export type ChannelDoctorConfigMutation = {
-  config: OpenClawConfig;
+  config: KiboConfig;
   changes: string[];
   warnings?: string[];
 };
@@ -596,25 +596,25 @@ export type ChannelDoctorAdapter = {
   groupAllowFromFallbackToAllowFrom?: boolean;
   warnOnEmptyGroupSenderAllowlist?: boolean;
   legacyConfigRules?: LegacyConfigRule[];
-  normalizeCompatibilityConfig?: (params: { cfg: OpenClawConfig }) => ChannelDoctorConfigMutation;
+  normalizeCompatibilityConfig?: (params: { cfg: KiboConfig }) => ChannelDoctorConfigMutation;
   collectPreviewWarnings?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     doctorFixCommand: string;
   }) => string[] | Promise<string[]>;
   collectMutableAllowlistWarnings?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
   }) => string[] | Promise<string[]>;
   repairConfig?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     doctorFixCommand: string;
   }) => ChannelDoctorConfigMutation | Promise<ChannelDoctorConfigMutation>;
   runConfigSequence?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     env: NodeJS.ProcessEnv;
     shouldRepair: boolean;
   }) => ChannelDoctorSequenceResult | Promise<ChannelDoctorSequenceResult>;
   cleanStaleConfig?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
   }) => ChannelDoctorConfigMutation | Promise<ChannelDoctorConfigMutation>;
   collectEmptyAllowlistExtraWarnings?: (
     params: ChannelDoctorEmptyAllowlistAccountContext,
@@ -626,18 +626,18 @@ export type ChannelDoctorAdapter = {
 
 export type ChannelLifecycleAdapter = {
   onAccountConfigChanged?: (params: {
-    prevCfg: OpenClawConfig;
-    nextCfg: OpenClawConfig;
+    prevCfg: KiboConfig;
+    nextCfg: KiboConfig;
     accountId: string;
     runtime: RuntimeEnv;
   }) => Promise<void> | void;
   onAccountRemoved?: (params: {
-    prevCfg: OpenClawConfig;
+    prevCfg: KiboConfig;
     accountId: string;
     runtime: RuntimeEnv;
   }) => Promise<void> | void;
   runStartupMaintenance?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     env?: NodeJS.ProcessEnv;
     log: {
       info?: (message: string) => void;
@@ -647,7 +647,7 @@ export type ChannelLifecycleAdapter = {
     logPrefix?: string;
   }) => Promise<void> | void;
   detectLegacyStateMigrations?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     env: NodeJS.ProcessEnv;
     stateDir: string;
     oauthDir: string;
@@ -655,9 +655,9 @@ export type ChannelLifecycleAdapter = {
 };
 
 export type ChannelApprovalDeliveryAdapter = {
-  hasConfiguredDmRoute?: (params: { cfg: OpenClawConfig }) => boolean;
+  hasConfiguredDmRoute?: (params: { cfg: KiboConfig }) => boolean;
   shouldSuppressForwardingFallback?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     approvalKind: ChannelApprovalKind;
     target: ChannelApprovalForwardTarget;
     request: ExecApprovalRequest;
@@ -692,19 +692,19 @@ export type ChannelApprovalNativeDeliveryCapabilities = {
 
 export type ChannelApprovalNativeAdapter = {
   describeDeliveryCapabilities: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
     approvalKind: ChannelApprovalKind;
     request: ChannelApprovalNativeRequest;
   }) => ChannelApprovalNativeDeliveryCapabilities;
   resolveOriginTarget?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
     approvalKind: ChannelApprovalKind;
     request: ChannelApprovalNativeRequest;
   }) => ChannelApprovalNativeTarget | null | Promise<ChannelApprovalNativeTarget | null>;
   resolveApproverDmTargets?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
     approvalKind: ChannelApprovalKind;
     request: ChannelApprovalNativeRequest;
@@ -714,26 +714,26 @@ export type ChannelApprovalNativeAdapter = {
 export type ChannelApprovalRenderAdapter = {
   exec?: {
     buildPendingPayload?: (params: {
-      cfg: OpenClawConfig;
+      cfg: KiboConfig;
       request: ExecApprovalRequest;
       target: ChannelApprovalForwardTarget;
       nowMs: number;
     }) => ReplyPayload | null;
     buildResolvedPayload?: (params: {
-      cfg: OpenClawConfig;
+      cfg: KiboConfig;
       resolved: ExecApprovalResolved;
       target: ChannelApprovalForwardTarget;
     }) => ReplyPayload | null;
   };
   plugin?: {
     buildPendingPayload?: (params: {
-      cfg: OpenClawConfig;
+      cfg: KiboConfig;
       request: PluginApprovalRequest;
       target: ChannelApprovalForwardTarget;
       nowMs: number;
     }) => ReplyPayload | null;
     buildResolvedPayload?: (params: {
-      cfg: OpenClawConfig;
+      cfg: KiboConfig;
       resolved: PluginApprovalResolved;
       target: ChannelApprovalForwardTarget;
     }) => ReplyPayload | null;
@@ -754,7 +754,7 @@ export type ChannelApprovalAdapter = {
 
 export type ChannelApprovalCapability = ChannelApprovalAdapter & {
   authorizeActorAction?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
     senderId?: string | null;
     action: "approve";
@@ -764,19 +764,19 @@ export type ChannelApprovalCapability = ChannelApprovalAdapter & {
     reason?: string;
   };
   getActionAvailabilityState?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
     action: "approve";
     approvalKind?: ChannelApprovalKind;
   }) => ChannelActionAvailabilityState;
   /** Exec-native client availability for the initiating surface; distinct from same-chat auth. */
   getExecInitiatingSurfaceState?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
     action: "approve";
   }) => ChannelActionAvailabilityState;
   resolveApproveCommandBehavior?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
     senderId?: string | null;
     approvalKind: ChannelApprovalKind;
@@ -785,7 +785,7 @@ export type ChannelApprovalCapability = ChannelApprovalAdapter & {
 
 export type ChannelAllowlistAdapter = {
   applyConfigEdit?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     parsedConfig: Record<string, unknown>;
     accountId?: string | null;
     scope: "dm" | "group";
@@ -813,7 +813,7 @@ export type ChannelAllowlistAdapter = {
           }
       >
     | null;
-  readConfig?: (params: { cfg: OpenClawConfig; accountId?: string | null }) =>
+  readConfig?: (params: { cfg: KiboConfig; accountId?: string | null }) =>
     | {
         dmAllowFrom?: Array<string | number>;
         groupAllowFrom?: Array<string | number>;
@@ -829,7 +829,7 @@ export type ChannelAllowlistAdapter = {
         groupOverrides?: Array<{ label: string; entries: Array<string | number> }>;
       }>;
   resolveNames?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId?: string | null;
     scope: "dm" | "group";
     entries: string[];
@@ -943,7 +943,7 @@ export type ChannelConversationBindingSupport = {
     idleTimeoutMs?: number;
     maxAgeMs?: number;
   }>;
-  createManager?: (params: { cfg: OpenClawConfig; accountId?: string | null }) =>
+  createManager?: (params: { cfg: KiboConfig; accountId?: string | null }) =>
     | {
         stop: () => void | Promise<void>;
       }
@@ -954,7 +954,7 @@ export type ChannelConversationBindingSupport = {
 
 export type ChannelSecurityAdapter<ResolvedAccount = unknown> = {
   applyConfigFixes?: (params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     env: NodeJS.ProcessEnv;
   }) => ChannelDoctorConfigMutation | Promise<ChannelDoctorConfigMutation>;
   resolveDmPolicy?: BivariantCallback<
@@ -966,7 +966,7 @@ export type ChannelSecurityAdapter<ResolvedAccount = unknown> = {
   collectAuditFindings?: BivariantCallback<
     (
       ctx: ChannelSecurityContext<ResolvedAccount> & {
-        sourceConfig: OpenClawConfig;
+        sourceConfig: KiboConfig;
         orderedAccountIds: string[];
         hasExplicitAccountPath: boolean;
       },

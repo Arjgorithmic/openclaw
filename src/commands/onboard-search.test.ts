@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import type { PluginWebSearchProviderEntry } from "../plugins/types.js";
 import type { RuntimeEnv } from "../runtime.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
@@ -36,12 +36,12 @@ const SEARCH_PROVIDER_PLUGINS: Record<
   tavily: { pluginId: "tavily", envVars: ["TAVILY_API_KEY"], label: "Tavily" },
 };
 
-function getWebSearchConfig(config: OpenClawConfig | undefined, pluginId: string) {
+function getWebSearchConfig(config: KiboConfig | undefined, pluginId: string) {
   return (config as WebSearchConfigRecord | undefined)?.plugins?.entries?.[pluginId]?.config
     ?.webSearch;
 }
 
-function ensureWebSearchConfig(config: OpenClawConfig, pluginId: string) {
+function ensureWebSearchConfig(config: KiboConfig, pluginId: string) {
   const entries = ((config.plugins ??= {}).entries ??= {});
   const pluginEntry = (entries[pluginId] ??= {}) as {
     enabled?: boolean;
@@ -78,9 +78,9 @@ function createSearchProviderEntry(id: string): PluginWebSearchProviderEntry {
     },
     createTool: () => null,
     applySelectionConfig: (config) => {
-      const next: OpenClawConfig = { ...config, plugins: { ...config.plugins } };
+      const next: KiboConfig = { ...config, plugins: { ...config.plugins } };
       const entries = { ...next.plugins?.entries } as NonNullable<
-        NonNullable<OpenClawConfig["plugins"]>["entries"]
+        NonNullable<KiboConfig["plugins"]>["entries"]
       >;
       entries[metadata.pluginId] = { ...entries[metadata.pluginId], enabled: true };
       next.plugins = { ...next.plugins, entries };
@@ -175,7 +175,7 @@ function createPrompter(params: {
   return { prompter, notes };
 }
 
-function createPerplexityConfig(apiKey: string, enabled?: boolean): OpenClawConfig {
+function createPerplexityConfig(apiKey: string, enabled?: boolean): KiboConfig {
   return {
     tools: {
       web: {
@@ -199,7 +199,7 @@ function createPerplexityConfig(apiKey: string, enabled?: boolean): OpenClawConf
   };
 }
 
-function pluginWebSearchApiKey(config: OpenClawConfig, pluginId: string): unknown {
+function pluginWebSearchApiKey(config: KiboConfig, pluginId: string): unknown {
   const entry = (
     config.plugins?.entries as
       | Record<string, { config?: { webSearch?: { apiKey?: unknown } } }>
@@ -208,7 +208,7 @@ function pluginWebSearchApiKey(config: OpenClawConfig, pluginId: string): unknow
   return entry?.config?.webSearch?.apiKey;
 }
 
-function createDisabledFirecrawlConfig(apiKey?: string): OpenClawConfig {
+function createDisabledFirecrawlConfig(apiKey?: string): KiboConfig {
   return {
     tools: {
       web: {
@@ -236,7 +236,7 @@ function createDisabledFirecrawlConfig(apiKey?: string): OpenClawConfig {
   };
 }
 
-function readFirecrawlPluginApiKey(config: OpenClawConfig): string | undefined {
+function readFirecrawlPluginApiKey(config: KiboConfig): string | undefined {
   const pluginConfig = config.plugins?.entries?.firecrawl?.config as
     | {
         webSearch?: {
@@ -250,7 +250,7 @@ function readFirecrawlPluginApiKey(config: OpenClawConfig): string | undefined {
 async function runBlankPerplexityKeyEntry(
   apiKey: string,
   enabled?: boolean,
-): Promise<OpenClawConfig> {
+): Promise<KiboConfig> {
   const cfg = createPerplexityConfig(apiKey, enabled);
   const { prompter } = createPrompter({
     selectValue: "perplexity",
@@ -262,7 +262,7 @@ async function runBlankPerplexityKeyEntry(
 async function runQuickstartPerplexitySetup(
   apiKey: string,
   enabled?: boolean,
-): Promise<{ result: OpenClawConfig; prompter: WizardPrompter }> {
+): Promise<{ result: KiboConfig; prompter: WizardPrompter }> {
   const cfg = createPerplexityConfig(apiKey, enabled);
   const { prompter } = createPrompter({ selectValue: "perplexity" });
   const result = await setupSearch(cfg, runtime, prompter, {
@@ -293,14 +293,14 @@ describe("setupSearch", () => {
   });
 
   it("returns config unchanged when user skips", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: KiboConfig = {};
     const { prompter } = createPrompter({ selectValue: "__skip__" });
     const result = await setupSearch(cfg, runtime, prompter);
     expect(result).toBe(cfg);
   });
 
   it("sets provider and key for perplexity", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: KiboConfig = {};
     const { prompter } = createPrompter({
       selectValue: "perplexity",
       textValue: "pplx-test-key",
@@ -313,7 +313,7 @@ describe("setupSearch", () => {
   });
 
   it("sets provider and key for brave", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: KiboConfig = {};
     const { prompter } = createPrompter({
       selectValue: "brave",
       textValue: "BSA-test-key",
@@ -326,7 +326,7 @@ describe("setupSearch", () => {
   });
 
   it("sets provider and key for gemini", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: KiboConfig = {};
     const { prompter } = createPrompter({
       selectValue: "gemini",
       textValue: "AIza-test",
@@ -344,7 +344,7 @@ describe("setupSearch", () => {
   });
 
   it("sets provider and key for firecrawl and enables the plugin", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: KiboConfig = {};
     const { prompter } = createPrompter({
       selectValue: "firecrawl",
       textValue: "fc-test-key",
@@ -370,7 +370,7 @@ describe("setupSearch", () => {
   });
 
   it("sets provider and key for grok", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: KiboConfig = {};
     const { prompter } = createPrompter({
       selectValue: "grok",
       textValue: "xai-test",
@@ -383,7 +383,7 @@ describe("setupSearch", () => {
   });
 
   it("sets provider and key for kimi", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: KiboConfig = {};
     const { prompter } = createPrompter({
       selectValues: ["kimi", "https://api.moonshot.ai/v1", "__keep__"],
       textValue: "sk-moonshot",
@@ -404,7 +404,7 @@ describe("setupSearch", () => {
   });
 
   it("sets provider and key for tavily and enables the plugin", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: KiboConfig = {};
     const { prompter } = createPrompter({
       selectValue: "tavily",
       textValue: "tvly-test-key",
@@ -420,7 +420,7 @@ describe("setupSearch", () => {
     const original = process.env.BRAVE_API_KEY;
     delete process.env.BRAVE_API_KEY;
     try {
-      const cfg: OpenClawConfig = {};
+      const cfg: KiboConfig = {};
       const { prompter, notes } = createPrompter({
         selectValue: "brave",
         textValue: "",
@@ -478,7 +478,7 @@ describe("setupSearch", () => {
   });
 
   it("quickstart skips key prompt when canonical plugin config key exists", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: KiboConfig = {
       tools: {
         web: {
           search: {
@@ -513,7 +513,7 @@ describe("setupSearch", () => {
     const original = process.env.XAI_API_KEY;
     delete process.env.XAI_API_KEY;
     try {
-      const cfg: OpenClawConfig = {};
+      const cfg: KiboConfig = {};
       const { prompter } = createPrompter({ selectValue: "grok", textValue: "" });
       const result = await setupSearch(cfg, runtime, prompter, {
         quickstartDefaults: true,
@@ -531,7 +531,7 @@ describe("setupSearch", () => {
   });
 
   it("uses provider-specific credential copy for kimi in onboarding", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: KiboConfig = {};
     const { prompter } = createPrompter({
       selectValue: "kimi",
       textValue: "",
@@ -548,7 +548,7 @@ describe("setupSearch", () => {
     const orig = process.env.BRAVE_API_KEY;
     process.env.BRAVE_API_KEY = "env-brave-key"; // pragma: allowlist secret
     try {
-      const cfg: OpenClawConfig = {};
+      const cfg: KiboConfig = {};
       const { prompter } = createPrompter({ selectValue: "brave" });
       const result = await setupSearch(cfg, runtime, prompter, {
         quickstartDefaults: true,
@@ -581,7 +581,7 @@ describe("setupSearch", () => {
   it("preserves disabled firecrawl plugin state and allowlist when web search stays disabled", async () => {
     const original = process.env.FIRECRAWL_API_KEY;
     process.env.FIRECRAWL_API_KEY = "env-firecrawl-key"; // pragma: allowlist secret
-    const cfg: OpenClawConfig = {
+    const cfg: KiboConfig = {
       tools: {
         web: {
           search: {
@@ -623,7 +623,7 @@ describe("setupSearch", () => {
     const originalOpenRouter = process.env.OPENROUTER_API_KEY;
     delete process.env.PERPLEXITY_API_KEY;
     delete process.env.OPENROUTER_API_KEY;
-    const cfg: OpenClawConfig = {};
+    const cfg: KiboConfig = {};
     try {
       const { prompter } = createPrompter({ selectValue: "perplexity" });
       const result = await setupSearch(cfg, runtime, prompter, {
@@ -655,7 +655,7 @@ describe("setupSearch", () => {
     const originalOpenRouter = process.env.OPENROUTER_API_KEY;
     delete process.env.PERPLEXITY_API_KEY;
     process.env.OPENROUTER_API_KEY = "sk-or-test";
-    const cfg: OpenClawConfig = {};
+    const cfg: KiboConfig = {};
     try {
       const { prompter } = createPrompter({ selectValue: "perplexity" });
       const result = await setupSearch(cfg, runtime, prompter, {
@@ -682,7 +682,7 @@ describe("setupSearch", () => {
   });
 
   it("stores env-backed SecretRef when secretInputMode=ref for brave", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: KiboConfig = {};
     const { prompter } = createPrompter({ selectValue: "brave" });
     const result = await setupSearch(cfg, runtime, prompter, {
       secretInputMode: "ref", // pragma: allowlist secret
@@ -700,7 +700,7 @@ describe("setupSearch", () => {
   it("stores env-backed SecretRef when secretInputMode=ref for tavily", async () => {
     const original = process.env.TAVILY_API_KEY;
     delete process.env.TAVILY_API_KEY;
-    const cfg: OpenClawConfig = {};
+    const cfg: KiboConfig = {};
     try {
       const { prompter } = createPrompter({ selectValue: "tavily" });
       const result = await setupSearch(cfg, runtime, prompter, {
@@ -724,7 +724,7 @@ describe("setupSearch", () => {
   });
 
   it("stores plaintext key when secretInputMode is unset", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: KiboConfig = {};
     const { prompter } = createPrompter({
       selectValue: "brave",
       textValue: "BSA-plain",

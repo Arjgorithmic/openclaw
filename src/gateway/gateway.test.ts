@@ -29,7 +29,7 @@ function nextGatewayId(prefix: string): string {
 }
 
 async function createEmptyBundledPluginsDir(tempHome: string): Promise<string> {
-  const bundledPluginsDir = path.join(tempHome, "openclaw-test-empty-bundled-plugins");
+  const bundledPluginsDir = path.join(tempHome, "kibo-test-empty-bundled-plugins");
   await fs.mkdir(bundledPluginsDir, { recursive: true });
   return bundledPluginsDir;
 }
@@ -39,10 +39,10 @@ async function writeWorkspacePlugin(params: {
   id: string;
   body: string;
 }): Promise<void> {
-  const pluginDir = path.join(params.workspaceDir, ".openclaw", "extensions", params.id);
+  const pluginDir = path.join(params.workspaceDir, ".kibo", "extensions", params.id);
   await fs.mkdir(pluginDir, { recursive: true });
   await fs.writeFile(
-    path.join(pluginDir, "openclaw.plugin.json"),
+    path.join(pluginDir, "kibo.plugin.json"),
     `${JSON.stringify(
       {
         id: params.id,
@@ -101,43 +101,43 @@ describe("gateway e2e", () => {
     async () => {
       const envSnapshot = captureEnv([
         "HOME",
-        "OPENCLAW_STATE_DIR",
-        "OPENCLAW_CONFIG_PATH",
-        "OPENCLAW_GATEWAY_TOKEN",
-        "OPENCLAW_SKIP_CHANNELS",
-        "OPENCLAW_SKIP_GMAIL_WATCHER",
-        "OPENCLAW_SKIP_CRON",
-        "OPENCLAW_SKIP_CANVAS_HOST",
-        "OPENCLAW_SKIP_BROWSER_CONTROL_SERVER",
-        "OPENCLAW_SKIP_PROVIDERS",
-        "OPENCLAW_BUNDLED_PLUGINS_DIR",
-        "OPENCLAW_TEST_MINIMAL_GATEWAY",
+        "KIBO_STATE_DIR",
+        "KIBO_CONFIG_PATH",
+        "KIBO_GATEWAY_TOKEN",
+        "KIBO_SKIP_CHANNELS",
+        "KIBO_SKIP_GMAIL_WATCHER",
+        "KIBO_SKIP_CRON",
+        "KIBO_SKIP_CANVAS_HOST",
+        "KIBO_SKIP_BROWSER_CONTROL_SERVER",
+        "KIBO_SKIP_PROVIDERS",
+        "KIBO_BUNDLED_PLUGINS_DIR",
+        "KIBO_TEST_MINIMAL_GATEWAY",
       ]);
 
       const { baseUrl: openaiBaseUrl, restore } = installOpenAiResponsesMock();
 
-      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-gw-mock-home-"));
+      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "kibo-gw-mock-home-"));
       process.env.HOME = tempHome;
-      process.env.OPENCLAW_STATE_DIR = path.join(tempHome, ".openclaw");
-      delete process.env.OPENCLAW_CONFIG_PATH;
-      process.env.OPENCLAW_SKIP_CHANNELS = "1";
-      process.env.OPENCLAW_SKIP_GMAIL_WATCHER = "1";
-      process.env.OPENCLAW_SKIP_CRON = "1";
-      process.env.OPENCLAW_SKIP_CANVAS_HOST = "1";
-      process.env.OPENCLAW_SKIP_BROWSER_CONTROL_SERVER = "1";
-      process.env.OPENCLAW_SKIP_PROVIDERS = "1";
-      process.env.OPENCLAW_TEST_MINIMAL_GATEWAY = "1";
+      process.env.KIBO_STATE_DIR = path.join(tempHome, ".kibo");
+      delete process.env.KIBO_CONFIG_PATH;
+      process.env.KIBO_SKIP_CHANNELS = "1";
+      process.env.KIBO_SKIP_GMAIL_WATCHER = "1";
+      process.env.KIBO_SKIP_CRON = "1";
+      process.env.KIBO_SKIP_CANVAS_HOST = "1";
+      process.env.KIBO_SKIP_BROWSER_CONTROL_SERVER = "1";
+      process.env.KIBO_SKIP_PROVIDERS = "1";
+      process.env.KIBO_TEST_MINIMAL_GATEWAY = "1";
 
       const token = nextGatewayId("test-token");
-      process.env.OPENCLAW_GATEWAY_TOKEN = token;
+      process.env.KIBO_GATEWAY_TOKEN = token;
 
-      const workspaceDir = path.join(tempHome, "openclaw");
+      const workspaceDir = path.join(tempHome, "kibo");
       await fs.mkdir(workspaceDir, { recursive: true });
-      process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = await createEmptyBundledPluginsDir(tempHome);
+      process.env.KIBO_BUNDLED_PLUGINS_DIR = await createEmptyBundledPluginsDir(tempHome);
 
-      const configDir = path.join(tempHome, ".openclaw");
+      const configDir = path.join(tempHome, ".kibo");
       await fs.mkdir(configDir, { recursive: true });
-      const configPath = path.join(configDir, "openclaw.json");
+      const configPath = path.join(configDir, "kibo.json");
       const mockProvider = buildMockOpenAiResponsesProvider(openaiBaseUrl);
 
       const cfg = {
@@ -212,35 +212,35 @@ describe("gateway e2e", () => {
     async () => {
       const envSnapshot = captureEnv([
         "HOME",
-        "OPENCLAW_STATE_DIR",
-        "OPENCLAW_CONFIG_PATH",
-        "OPENCLAW_GATEWAY_TOKEN",
-        "OPENCLAW_SKIP_CHANNELS",
-        "OPENCLAW_SKIP_GMAIL_WATCHER",
-        "OPENCLAW_SKIP_CRON",
-        "OPENCLAW_SKIP_CANVAS_HOST",
-        "OPENCLAW_SKIP_BROWSER_CONTROL_SERVER",
-        "OPENCLAW_SKIP_PROVIDERS",
-        "OPENCLAW_BUNDLED_PLUGINS_DIR",
+        "KIBO_STATE_DIR",
+        "KIBO_CONFIG_PATH",
+        "KIBO_GATEWAY_TOKEN",
+        "KIBO_SKIP_CHANNELS",
+        "KIBO_SKIP_GMAIL_WATCHER",
+        "KIBO_SKIP_CRON",
+        "KIBO_SKIP_CANVAS_HOST",
+        "KIBO_SKIP_BROWSER_CONTROL_SERVER",
+        "KIBO_SKIP_PROVIDERS",
+        "KIBO_BUNDLED_PLUGINS_DIR",
       ]);
 
-      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-gw-http-tools-home-"));
+      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "kibo-gw-http-tools-home-"));
       process.env.HOME = tempHome;
-      process.env.OPENCLAW_STATE_DIR = path.join(tempHome, ".openclaw");
-      delete process.env.OPENCLAW_CONFIG_PATH;
-      process.env.OPENCLAW_SKIP_CHANNELS = "1";
-      process.env.OPENCLAW_SKIP_GMAIL_WATCHER = "1";
-      process.env.OPENCLAW_SKIP_CRON = "1";
-      process.env.OPENCLAW_SKIP_CANVAS_HOST = "1";
-      process.env.OPENCLAW_SKIP_BROWSER_CONTROL_SERVER = "1";
-      process.env.OPENCLAW_SKIP_PROVIDERS = "1";
+      process.env.KIBO_STATE_DIR = path.join(tempHome, ".kibo");
+      delete process.env.KIBO_CONFIG_PATH;
+      process.env.KIBO_SKIP_CHANNELS = "1";
+      process.env.KIBO_SKIP_GMAIL_WATCHER = "1";
+      process.env.KIBO_SKIP_CRON = "1";
+      process.env.KIBO_SKIP_CANVAS_HOST = "1";
+      process.env.KIBO_SKIP_BROWSER_CONTROL_SERVER = "1";
+      process.env.KIBO_SKIP_PROVIDERS = "1";
 
       const token = nextGatewayId("http-tools-token");
-      process.env.OPENCLAW_GATEWAY_TOKEN = token;
+      process.env.KIBO_GATEWAY_TOKEN = token;
 
-      const workspaceDir = path.join(tempHome, "openclaw");
+      const workspaceDir = path.join(tempHome, "kibo");
       await fs.mkdir(workspaceDir, { recursive: true });
-      process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = await createEmptyBundledPluginsDir(tempHome);
+      process.env.KIBO_BUNDLED_PLUGINS_DIR = await createEmptyBundledPluginsDir(tempHome);
       const registerCountPath = path.join(tempHome, "workspace-plugin-register-count.txt");
       await writeWorkspacePlugin({
         workspaceDir,
@@ -260,9 +260,9 @@ module.exports = {
 `.trimStart(),
       });
 
-      const configDir = path.join(tempHome, ".openclaw");
+      const configDir = path.join(tempHome, ".kibo");
       await fs.mkdir(configDir, { recursive: true });
-      const configPath = path.join(configDir, "openclaw.json");
+      const configPath = path.join(configDir, "kibo.json");
       const cfg = {
         agents: {
           defaults: { workspace: workspaceDir },
@@ -274,7 +274,7 @@ module.exports = {
         gateway: { auth: { token } },
       };
       await fs.writeFile(configPath, `${JSON.stringify(cfg, null, 2)}\n`);
-      process.env.OPENCLAW_CONFIG_PATH = configPath;
+      process.env.KIBO_CONFIG_PATH = configPath;
 
       const port = await getFreeGatewayPort();
       const server = await startGatewayServer(port, {
@@ -322,33 +322,33 @@ module.exports = {
     async () => {
       const envSnapshot = captureEnv([
         "HOME",
-        "OPENCLAW_STATE_DIR",
-        "OPENCLAW_CONFIG_PATH",
-        "OPENCLAW_GATEWAY_TOKEN",
-        "OPENCLAW_SKIP_CHANNELS",
-        "OPENCLAW_SKIP_GMAIL_WATCHER",
-        "OPENCLAW_SKIP_CRON",
-        "OPENCLAW_SKIP_CANVAS_HOST",
-        "OPENCLAW_SKIP_BROWSER_CONTROL_SERVER",
-        "OPENCLAW_SKIP_PROVIDERS",
-        "OPENCLAW_BUNDLED_PLUGINS_DIR",
-        "OPENCLAW_TEST_MINIMAL_GATEWAY",
+        "KIBO_STATE_DIR",
+        "KIBO_CONFIG_PATH",
+        "KIBO_GATEWAY_TOKEN",
+        "KIBO_SKIP_CHANNELS",
+        "KIBO_SKIP_GMAIL_WATCHER",
+        "KIBO_SKIP_CRON",
+        "KIBO_SKIP_CANVAS_HOST",
+        "KIBO_SKIP_BROWSER_CONTROL_SERVER",
+        "KIBO_SKIP_PROVIDERS",
+        "KIBO_BUNDLED_PLUGINS_DIR",
+        "KIBO_TEST_MINIMAL_GATEWAY",
       ]);
 
-      process.env.OPENCLAW_SKIP_CHANNELS = "1";
-      process.env.OPENCLAW_SKIP_GMAIL_WATCHER = "1";
-      process.env.OPENCLAW_SKIP_CRON = "1";
-      process.env.OPENCLAW_SKIP_CANVAS_HOST = "1";
-      process.env.OPENCLAW_SKIP_BROWSER_CONTROL_SERVER = "1";
-      process.env.OPENCLAW_SKIP_PROVIDERS = "1";
-      process.env.OPENCLAW_TEST_MINIMAL_GATEWAY = "1";
-      delete process.env.OPENCLAW_GATEWAY_TOKEN;
+      process.env.KIBO_SKIP_CHANNELS = "1";
+      process.env.KIBO_SKIP_GMAIL_WATCHER = "1";
+      process.env.KIBO_SKIP_CRON = "1";
+      process.env.KIBO_SKIP_CANVAS_HOST = "1";
+      process.env.KIBO_SKIP_BROWSER_CONTROL_SERVER = "1";
+      process.env.KIBO_SKIP_PROVIDERS = "1";
+      process.env.KIBO_TEST_MINIMAL_GATEWAY = "1";
+      delete process.env.KIBO_GATEWAY_TOKEN;
 
-      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-wizard-home-"));
+      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "kibo-wizard-home-"));
       process.env.HOME = tempHome;
-      process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = await createEmptyBundledPluginsDir(tempHome);
-      delete process.env.OPENCLAW_STATE_DIR;
-      delete process.env.OPENCLAW_CONFIG_PATH;
+      process.env.KIBO_BUNDLED_PLUGINS_DIR = await createEmptyBundledPluginsDir(tempHome);
+      delete process.env.KIBO_STATE_DIR;
+      delete process.env.KIBO_CONFIG_PATH;
 
       const wizardToken = nextGatewayId("wiz-token");
       const port = await getFreeGatewayPort();
@@ -456,38 +456,38 @@ module.exports = {
     async () => {
       const envSnapshot = captureEnv([
         "HOME",
-        "OPENCLAW_STATE_DIR",
-        "OPENCLAW_CONFIG_PATH",
-        "OPENCLAW_GATEWAY_TOKEN",
-        "OPENCLAW_SKIP_CHANNELS",
-        "OPENCLAW_SKIP_GMAIL_WATCHER",
-        "OPENCLAW_SKIP_CRON",
-        "OPENCLAW_SKIP_CANVAS_HOST",
-        "OPENCLAW_SKIP_BROWSER_CONTROL_SERVER",
-        "OPENCLAW_SKIP_PROVIDERS",
-        "OPENCLAW_BUNDLED_PLUGINS_DIR",
-        "OPENCLAW_TEST_MINIMAL_GATEWAY",
+        "KIBO_STATE_DIR",
+        "KIBO_CONFIG_PATH",
+        "KIBO_GATEWAY_TOKEN",
+        "KIBO_SKIP_CHANNELS",
+        "KIBO_SKIP_GMAIL_WATCHER",
+        "KIBO_SKIP_CRON",
+        "KIBO_SKIP_CANVAS_HOST",
+        "KIBO_SKIP_BROWSER_CONTROL_SERVER",
+        "KIBO_SKIP_PROVIDERS",
+        "KIBO_BUNDLED_PLUGINS_DIR",
+        "KIBO_TEST_MINIMAL_GATEWAY",
         "DISCORD_BOT_TOKEN",
       ]);
 
-      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-minimal-gateway-home-"));
-      const configPath = path.join(tempHome, ".openclaw", "openclaw.json");
-      const bundledPluginsDir = path.join(tempHome, "openclaw-test-no-bundled-extensions");
+      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "kibo-minimal-gateway-home-"));
+      const configPath = path.join(tempHome, ".kibo", "kibo.json");
+      const bundledPluginsDir = path.join(tempHome, "kibo-test-no-bundled-extensions");
       process.env.HOME = tempHome;
-      process.env.OPENCLAW_STATE_DIR = path.join(tempHome, ".openclaw");
-      process.env.OPENCLAW_CONFIG_PATH = configPath;
-      process.env.OPENCLAW_SKIP_CHANNELS = "1";
-      process.env.OPENCLAW_SKIP_GMAIL_WATCHER = "1";
-      process.env.OPENCLAW_SKIP_CRON = "1";
-      process.env.OPENCLAW_SKIP_CANVAS_HOST = "1";
-      process.env.OPENCLAW_SKIP_BROWSER_CONTROL_SERVER = "1";
-      process.env.OPENCLAW_SKIP_PROVIDERS = "1";
-      process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
-      process.env.OPENCLAW_TEST_MINIMAL_GATEWAY = "1";
+      process.env.KIBO_STATE_DIR = path.join(tempHome, ".kibo");
+      process.env.KIBO_CONFIG_PATH = configPath;
+      process.env.KIBO_SKIP_CHANNELS = "1";
+      process.env.KIBO_SKIP_GMAIL_WATCHER = "1";
+      process.env.KIBO_SKIP_CRON = "1";
+      process.env.KIBO_SKIP_CANVAS_HOST = "1";
+      process.env.KIBO_SKIP_BROWSER_CONTROL_SERVER = "1";
+      process.env.KIBO_SKIP_PROVIDERS = "1";
+      process.env.KIBO_BUNDLED_PLUGINS_DIR = bundledPluginsDir;
+      process.env.KIBO_TEST_MINIMAL_GATEWAY = "1";
       process.env.DISCORD_BOT_TOKEN = "discord-test-token";
 
       const token = nextGatewayId("minimal-token");
-      process.env.OPENCLAW_GATEWAY_TOKEN = token;
+      process.env.KIBO_GATEWAY_TOKEN = token;
       await fs.mkdir(path.dirname(configPath), { recursive: true });
       await fs.mkdir(bundledPluginsDir, { recursive: true });
       await fs.writeFile(

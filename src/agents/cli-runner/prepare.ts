@@ -35,9 +35,9 @@ const prepareDeps = {
   resolveBootstrapContextForRun: resolveBootstrapContextForRunImpl,
   getActiveMcpLoopbackRuntime,
   createMcpLoopbackServerConfig,
-  resolveOpenClawDocsPath: async (
-    params: Parameters<typeof import("../docs-path.js").resolveOpenClawDocsPath>[0],
-  ) => (await import("../docs-path.js")).resolveOpenClawDocsPath(params),
+  resolveKiboDocsPath: async (
+    params: Parameters<typeof import("../docs-path.js").resolveKiboDocsPath>[0],
+  ) => (await import("../docs-path.js")).resolveKiboDocsPath(params),
 };
 
 export function setCliRunnerPrepareTestDeps(overrides: Partial<typeof prepareDeps>): void {
@@ -126,11 +126,11 @@ export async function prepareCliRunContext(
       : undefined,
     env: mcpLoopbackRuntime
       ? {
-          OPENCLAW_MCP_TOKEN: mcpLoopbackRuntime.token,
-          OPENCLAW_MCP_AGENT_ID: sessionAgentId ?? "",
-          OPENCLAW_MCP_ACCOUNT_ID: params.agentAccountId ?? "",
-          OPENCLAW_MCP_SESSION_KEY: params.sessionKey ?? "",
-          OPENCLAW_MCP_MESSAGE_CHANNEL: params.messageProvider ?? "",
+          KIBO_MCP_TOKEN: mcpLoopbackRuntime.token,
+          KIBO_MCP_AGENT_ID: sessionAgentId ?? "",
+          KIBO_MCP_ACCOUNT_ID: params.agentAccountId ?? "",
+          KIBO_MCP_SESSION_KEY: params.sessionKey ?? "",
+          KIBO_MCP_MESSAGE_CHANNEL: params.messageProvider ?? "",
         }
       : undefined,
     warn: (message) => cliBackendLog.warn(message),
@@ -156,7 +156,7 @@ export async function prepareCliRunContext(
     agentId: sessionAgentId,
     defaultAgentId,
   });
-  const docsPath = await prepareDeps.resolveOpenClawDocsPath({
+  const docsPath = await prepareDeps.resolveKiboDocsPath({
     workspaceDir,
     argv1: process.argv[1],
     cwd: process.cwd(),

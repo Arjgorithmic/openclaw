@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-openclaw_live_stage_source_tree() {
+kibo_live_stage_source_tree() {
   local dest_dir="${1:?destination directory required}"
 
   tar -C /src \
@@ -13,7 +13,7 @@ openclaw_live_stage_source_tree() {
     --exclude=.tmp \
     --exclude=.tmp-precommit-venv \
     --exclude=.worktrees \
-    --exclude=__openclaw_vitest__ \
+    --exclude=__kibo_vitest__ \
     --exclude=relay.sock \
     --exclude='*.sock' \
     --exclude='*/*.sock' \
@@ -25,21 +25,21 @@ openclaw_live_stage_source_tree() {
     -cf - . | tar -C "$dest_dir" -xf -
 }
 
-openclaw_live_link_runtime_tree() {
+kibo_live_link_runtime_tree() {
   local dest_dir="${1:?destination directory required}"
 
   ln -s /app/node_modules "$dest_dir/node_modules"
   ln -s /app/dist "$dest_dir/dist"
   if [ -d /app/dist-runtime/extensions ]; then
-    export OPENCLAW_BUNDLED_PLUGINS_DIR=/app/dist-runtime/extensions
+    export KIBO_BUNDLED_PLUGINS_DIR=/app/dist-runtime/extensions
   elif [ -d /app/dist/extensions ]; then
-    export OPENCLAW_BUNDLED_PLUGINS_DIR=/app/dist/extensions
+    export KIBO_BUNDLED_PLUGINS_DIR=/app/dist/extensions
   fi
 }
 
-openclaw_live_stage_state_dir() {
+kibo_live_stage_state_dir() {
   local dest_dir="${1:?destination directory required}"
-  local source_dir="${HOME}/.openclaw"
+  local source_dir="${HOME}/.kibo"
 
   mkdir -p "$dest_dir"
   if [ -d "$source_dir" ]; then
@@ -59,12 +59,12 @@ openclaw_live_stage_state_dir() {
     fi
   fi
 
-  export OPENCLAW_STATE_DIR="$dest_dir"
-  export OPENCLAW_CONFIG_PATH="$dest_dir/openclaw.json"
+  export KIBO_STATE_DIR="$dest_dir"
+  export KIBO_CONFIG_PATH="$dest_dir/kibo.json"
 }
 
-openclaw_live_prepare_staged_config() {
-  if [ ! -f "${OPENCLAW_CONFIG_PATH:-}" ]; then
+kibo_live_prepare_staged_config() {
+  if [ ! -f "${KIBO_CONFIG_PATH:-}" ]; then
     return 0
   fi
 

@@ -1,11 +1,11 @@
-import type { loadConfig } from "openclaw/plugin-sdk/config-runtime";
-import type { resolveAgentRoute } from "openclaw/plugin-sdk/routing";
-import { buildAgentSessionKey, deriveLastRoutePolicy } from "openclaw/plugin-sdk/routing";
+import type { loadConfig } from "kibo/plugin-sdk/config-runtime";
+import type { resolveAgentRoute } from "kibo/plugin-sdk/routing";
+import { buildAgentSessionKey, deriveLastRoutePolicy } from "kibo/plugin-sdk/routing";
 import {
   buildAgentMainSessionKey,
   DEFAULT_MAIN_KEY,
   normalizeAgentId,
-} from "openclaw/plugin-sdk/routing";
+} from "kibo/plugin-sdk/routing";
 import { formatError } from "../../session.js";
 import { whatsappInboundLog } from "../loggers.js";
 import type { WebInboundMsg } from "../types.js";

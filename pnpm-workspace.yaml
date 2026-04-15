@@ -10,7 +10,7 @@ minimumReleaseAgeExclude:
   - "acpx"
   - "basic-ftp"
   - "hono"
-  - "openclaw"
+  - "kibo"
   - "@buape/carbon"
   - "vite"
   - "@cloudflare/workers-types"

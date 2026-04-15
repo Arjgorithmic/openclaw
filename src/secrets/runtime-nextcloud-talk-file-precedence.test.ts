@@ -1,6 +1,6 @@
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import type { AuthProfileStore } from "../agents/auth-profiles.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { createEmptyPluginRegistry } from "../plugins/registry.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import { loadBundledChannelSecretContractApi } from "./channel-contract-api.js";
@@ -29,8 +29,8 @@ vi.mock("../channels/plugins/bootstrap-registry.js", () => {
   };
 });
 
-function asConfig(value: unknown): OpenClawConfig {
-  return value as OpenClawConfig;
+function asConfig(value: unknown): KiboConfig {
+  return value as KiboConfig;
 }
 
 let clearConfigCache: typeof import("../config/config.js").clearConfigCache;
@@ -75,7 +75,7 @@ describe("secrets runtime snapshot nextcloud talk file precedence", () => {
         NEXTCLOUD_BOT_SECRET: "resolved-nextcloud-bot-secret",
         NEXTCLOUD_API_PASSWORD: "resolved-nextcloud-api-password",
       },
-      agentDirs: ["/tmp/openclaw-agent-main"],
+      agentDirs: ["/tmp/kibo-agent-main"],
       loadAuthStore: () => loadAuthStoreWithProfiles({}),
     });
 
@@ -117,7 +117,7 @@ describe("secrets runtime snapshot nextcloud talk file precedence", () => {
         NEXTCLOUD_WORK_BOT_SECRET: "resolved-nextcloud-work-bot-secret",
         NEXTCLOUD_WORK_API_PASSWORD: "resolved-nextcloud-work-api-password",
       },
-      agentDirs: ["/tmp/openclaw-agent-main"],
+      agentDirs: ["/tmp/kibo-agent-main"],
       loadAuthStore: () => loadAuthStoreWithProfiles({}),
     });
 

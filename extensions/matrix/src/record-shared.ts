@@ -1,3 +1,3 @@
-import { isRecord } from "openclaw/plugin-sdk/text-runtime";
+import { isRecord } from "kibo/plugin-sdk/text-runtime";
 
 export { isRecord };

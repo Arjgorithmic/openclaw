@@ -28,7 +28,7 @@ async function confirmPendingGatewayChange(app: ReturnType<typeof mountApp>) {
 }
 
 function expectConfirmedGatewayChange(app: ReturnType<typeof mountApp>) {
-  expect(app.settings.gatewayUrl).toBe("wss://other-gateway.example/openclaw");
+  expect(app.settings.gatewayUrl).toBe("wss://other-gateway.example/kibo");
   expect(app.settings.token).toBe("abc123");
   expect(window.location.search).toBe("");
   expect(window.location.hash).toBe("");
@@ -53,22 +53,22 @@ describe("control UI routing", () => {
   });
 
   it("infers nested base paths", async () => {
-    const app = mountApp("/apps/openclaw/cron");
+    const app = mountApp("/apps/kibo/cron");
     await app.updateComplete;
 
-    expect(app.basePath).toBe("/apps/openclaw");
+    expect(app.basePath).toBe("/apps/kibo");
     expect(app.tab).toBe("cron");
-    expect(window.location.pathname).toBe("/apps/openclaw/cron");
+    expect(window.location.pathname).toBe("/apps/kibo/cron");
   });
 
   it("honors explicit base path overrides", async () => {
-    window.__OPENCLAW_CONTROL_UI_BASE_PATH__ = "/openclaw";
-    const app = mountApp("/openclaw/sessions");
+    window.__KIBO_CONTROL_UI_BASE_PATH__ = "/kibo";
+    const app = mountApp("/kibo/sessions");
     await app.updateComplete;
 
-    expect(app.basePath).toBe("/openclaw");
+    expect(app.basePath).toBe("/kibo");
     expect(app.tab).toBe("sessions");
-    expect(window.location.pathname).toBe("/openclaw/sessions");
+    expect(window.location.pathname).toBe("/kibo/sessions");
   });
 
   it("updates the URL when clicking nav items", async () => {
@@ -139,7 +139,7 @@ describe("control UI routing", () => {
     app.dreamDiaryContent = [
       "# Dream Diary",
       "",
-      "<!-- openclaw:dreaming:diary:start -->",
+      "<!-- kibo:dreaming:diary:start -->",
       "",
       "---",
       "",
@@ -148,14 +148,14 @@ describe("control UI routing", () => {
       "What Happened",
       "1. Stable operator rule surfaced.",
       "",
-      "<!-- openclaw:dreaming:diary:end -->",
+      "<!-- kibo:dreaming:diary:end -->",
     ].join("\n");
     app.requestUpdate();
     await app.updateComplete;
 
     expect(app.tab).toBe("dreams");
     expect(app.querySelector(".dreams__tab")).not.toBeNull();
-    expect(app.querySelector(".dreams__lobster")).not.toBeNull();
+    expect(app.querySelector(".dreams__shell")).not.toBeNull();
   });
 
   it("renders the refreshed top navigation shell", async () => {
@@ -470,7 +470,7 @@ describe("control UI routing", () => {
     await app.updateComplete;
 
     expect(app.settings.token).toBe("abc123");
-    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}").token).toBe(
+    expect(JSON.parse(localStorage.getItem("kibo.control.settings.v1") ?? "{}").token).toBe(
       undefined,
     );
     expect(window.location.pathname).toBe("/ui/overview");
@@ -488,17 +488,17 @@ describe("control UI routing", () => {
 
   it("hydrates token from URL hash when settings already set", async () => {
     localStorage.setItem(
-      "openclaw.control.settings.v1",
-      JSON.stringify({ token: "existing-token", gatewayUrl: "wss://gateway.example/openclaw" }),
+      "kibo.control.settings.v1",
+      JSON.stringify({ token: "existing-token", gatewayUrl: "wss://gateway.example/kibo" }),
     );
     const app = mountApp("/ui/overview#token=abc123");
     await app.updateComplete;
 
     expect(app.settings.token).toBe("abc123");
-    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}")).toMatchObject({
-      gatewayUrl: "wss://gateway.example/openclaw",
+    expect(JSON.parse(localStorage.getItem("kibo.control.settings.v1") ?? "{}")).toMatchObject({
+      gatewayUrl: "wss://gateway.example/kibo",
     });
-    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}").token).toBe(
+    expect(JSON.parse(localStorage.getItem("kibo.control.settings.v1") ?? "{}").token).toBe(
       undefined,
     );
     expect(window.location.pathname).toBe("/ui/overview");
@@ -510,7 +510,7 @@ describe("control UI routing", () => {
     await app.updateComplete;
 
     expect(app.settings.token).toBe("abc123");
-    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}").token).toBe(
+    expect(JSON.parse(localStorage.getItem("kibo.control.settings.v1") ?? "{}").token).toBe(
       undefined,
     );
     expect(window.location.pathname).toBe("/ui/overview");
@@ -525,21 +525,21 @@ describe("control UI routing", () => {
       'input[placeholder="ws://100.x.y.z:18789"]',
     );
     expect(gatewayUrlInput).not.toBeNull();
-    gatewayUrlInput!.value = "wss://other-gateway.example/openclaw";
+    gatewayUrlInput!.value = "wss://other-gateway.example/kibo";
     gatewayUrlInput!.dispatchEvent(new Event("input", { bubbles: true }));
     await app.updateComplete;
 
-    expect(app.settings.gatewayUrl).toBe("wss://other-gateway.example/openclaw");
+    expect(app.settings.gatewayUrl).toBe("wss://other-gateway.example/kibo");
     expect(app.settings.token).toBe("");
   });
 
   it("keeps a hash token pending until the gateway URL change is confirmed", async () => {
     const app = mountApp(
-      "/ui/overview?gatewayUrl=wss://other-gateway.example/openclaw#token=abc123",
+      "/ui/overview?gatewayUrl=wss://other-gateway.example/kibo#token=abc123",
     );
     await app.updateComplete;
 
-    expect(app.settings.gatewayUrl).not.toBe("wss://other-gateway.example/openclaw");
+    expect(app.settings.gatewayUrl).not.toBe("wss://other-gateway.example/kibo");
     expect(app.settings.token).toBe("");
 
     await confirmPendingGatewayChange(app);
@@ -549,11 +549,11 @@ describe("control UI routing", () => {
 
   it("keeps a query token pending until the gateway URL change is confirmed", async () => {
     const app = mountApp(
-      "/ui/overview?gatewayUrl=wss://other-gateway.example/openclaw&token=abc123",
+      "/ui/overview?gatewayUrl=wss://other-gateway.example/kibo&token=abc123",
     );
     await app.updateComplete;
 
-    expect(app.settings.gatewayUrl).not.toBe("wss://other-gateway.example/openclaw");
+    expect(app.settings.gatewayUrl).not.toBe("wss://other-gateway.example/kibo");
     expect(app.settings.token).toBe("");
 
     await confirmPendingGatewayChange(app);
@@ -570,7 +570,7 @@ describe("control UI routing", () => {
     await refreshed.updateComplete;
 
     expect(refreshed.settings.token).toBe("abc123");
-    expect(JSON.parse(localStorage.getItem("openclaw.control.settings.v1") ?? "{}").token).toBe(
+    expect(JSON.parse(localStorage.getItem("kibo.control.settings.v1") ?? "{}").token).toBe(
       undefined,
     );
   });

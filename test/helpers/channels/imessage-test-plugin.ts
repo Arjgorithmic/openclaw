@@ -1,5 +1,5 @@
-import type { ChannelOutboundAdapter } from "openclaw/plugin-sdk/channel-contract";
-import type { ChannelPlugin } from "openclaw/plugin-sdk/core";
+import type { ChannelOutboundAdapter } from "kibo/plugin-sdk/channel-contract";
+import type { ChannelPlugin } from "kibo/plugin-sdk/core";
 import { loadBundledPluginTestApiSync } from "../../../src/test-utils/bundled-plugin-public-surface.js";
 
 type CreateIMessageTestPlugin = (params?: { outbound?: ChannelOutboundAdapter }) => ChannelPlugin;

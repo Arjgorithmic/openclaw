@@ -1,9 +1,9 @@
 import { RequestClient } from "@buape/carbon";
-import { loadConfig } from "openclaw/plugin-sdk/config-runtime";
-import type { RetryConfig, RetryRunner } from "openclaw/plugin-sdk/retry-runtime";
-import { normalizeAccountId } from "openclaw/plugin-sdk/routing";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { loadConfig } from "kibo/plugin-sdk/config-runtime";
+import type { RetryConfig, RetryRunner } from "kibo/plugin-sdk/retry-runtime";
+import { normalizeAccountId } from "kibo/plugin-sdk/routing";
+import type { RuntimeEnv } from "kibo/plugin-sdk/runtime-env";
+import { normalizeOptionalString } from "kibo/plugin-sdk/text-runtime";
 import {
   mergeDiscordAccountConfig,
   resolveDiscordAccount,

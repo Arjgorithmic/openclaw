@@ -1,5 +1,5 @@
 import { Type } from "@sinclair/typebox";
-import { type OpenClawConfig, loadConfig } from "../../config/config.js";
+import { type KiboConfig, loadConfig } from "../../config/config.js";
 import { callGateway } from "../../gateway/call.js";
 import { capArrayByJsonBytes } from "../../gateway/session-utils.fs.js";
 import { jsonUtf8Bytes } from "../../infra/json-utf8-bytes.js";
@@ -175,7 +175,7 @@ function enforceSessionsHistoryHardCap(params: {
 export function createSessionsHistoryTool(opts?: {
   agentSessionKey?: string;
   sandboxed?: boolean;
-  config?: OpenClawConfig;
+  config?: KiboConfig;
   callGateway?: GatewayCaller;
 }): AnyAgentTool {
   return {

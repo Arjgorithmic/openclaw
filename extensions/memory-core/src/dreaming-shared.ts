@@ -1,5 +1,5 @@
-export { asNullableRecord as asRecord } from "openclaw/plugin-sdk/text-runtime";
-export { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+export { asNullableRecord as asRecord } from "kibo/plugin-sdk/text-runtime";
+export { formatErrorMessage } from "kibo/plugin-sdk/error-runtime";
 
 export function normalizeTrimmedString(value: unknown): string | undefined {
   if (typeof value !== "string") {

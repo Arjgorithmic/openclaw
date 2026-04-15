@@ -5,14 +5,14 @@ import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
+import { formatErrorMessage } from "kibo/plugin-sdk/error-runtime";
 import {
   formatMemoryDreamingDay,
   resolveSessionTranscriptsDirForAgent,
-} from "openclaw/plugin-sdk/memory-core";
-import { buildAgentSessionKey } from "openclaw/plugin-sdk/routing";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/memory-core";
+import { buildAgentSessionKey } from "kibo/plugin-sdk/routing";
+import { normalizeLowercaseStringOrEmpty } from "kibo/plugin-sdk/text-runtime";
 import type { QaBusState } from "./bus-state.js";
 import { waitForCronRunCompletion } from "./cron-run-wait.js";
 import {
@@ -56,7 +56,7 @@ type QaSuiteEnvironment = {
   lab: Awaited<ReturnType<typeof startQaLabServer>>;
   mock: Awaited<ReturnType<typeof startQaMockOpenAiServer>> | null;
   gateway: Awaited<ReturnType<typeof startQaGatewayChild>>;
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   repoRoot: string;
   providerMode: "mock-openai" | "live-frontier";
   primaryModel: string;
@@ -136,14 +136,14 @@ export type QaSuiteResult = {
   watchUrl: string;
 };
 
-function createQaActionConfig(baseUrl: string): OpenClawConfig {
+function createQaActionConfig(baseUrl: string): KiboConfig {
   return {
     channels: {
       "qa-channel": {
         enabled: true,
         baseUrl,
-        botUserId: "openclaw",
-        botDisplayName: "OpenClaw QA",
+        botUserId: "kibo",
+        botDisplayName: "Kibo QA",
         allowFrom: ["*"],
       },
     },
@@ -289,11 +289,11 @@ async function runScenario(name: string, steps: QaSuiteStep[]): Promise<QaSuiteS
   const stepResults: QaReportCheck[] = [];
   for (const step of steps) {
     try {
-      if (process.env.OPENCLAW_QA_DEBUG === "1") {
+      if (process.env.KIBO_QA_DEBUG === "1") {
         console.error(`[qa-suite] start scenario="${name}" step="${step.name}"`);
       }
       const details = await step.run();
-      if (process.env.OPENCLAW_QA_DEBUG === "1") {
+      if (process.env.KIBO_QA_DEBUG === "1") {
         console.error(`[qa-suite] pass scenario="${name}" step="${step.name}"`);
       }
       stepResults.push({
@@ -303,7 +303,7 @@ async function runScenario(name: string, steps: QaSuiteStep[]): Promise<QaSuiteS
       });
     } catch (error) {
       const details = formatErrorMessage(error);
-      if (process.env.OPENCLAW_QA_DEBUG === "1") {
+      if (process.env.KIBO_QA_DEBUG === "1") {
         console.error(`[qa-suite] fail scenario="${name}" step="${step.name}" details=${details}`);
       }
       stepResults.push({
@@ -639,7 +639,7 @@ async function runQaCli(
     });
     const timeout = setTimeout(() => {
       child.kill("SIGKILL");
-      reject(new Error(`qa cli timed out: openclaw ${args.join(" ")}`));
+      reject(new Error(`qa cli timed out: kibo ${args.join(" ")}`));
     }, opts?.timeoutMs ?? 60_000);
     child.stdout.on("data", (chunk) => stdout.push(Buffer.from(chunk)));
     child.stderr.on("data", (chunk) => stderr.push(Buffer.from(chunk)));
@@ -875,7 +875,7 @@ async function callPluginToolsMcp(params: {
     stderr: "pipe",
     env: transportEnv,
   });
-  const client = new Client({ name: "openclaw-qa-suite", version: "0.0.0" }, {});
+  const client = new Client({ name: "kibo-qa-suite", version: "0.0.0" }, {});
   try {
     await client.connect(transport);
     const listed = await client.listTools();
@@ -1311,7 +1311,7 @@ export async function runQaSuite(params?: {
       scenarios: [...liveScenarioOutcomes],
     });
     const report = renderQaMarkdownReport({
-      title: "OpenClaw QA Scenario Suite",
+      title: "Kibo QA Scenario Suite",
       startedAt,
       finishedAt,
       checks: [],
@@ -1363,7 +1363,7 @@ export async function runQaSuite(params?: {
       watchUrl: lab.baseUrl,
     } satisfies QaSuiteResult;
   } finally {
-    const keepTemp = process.env.OPENCLAW_QA_KEEP_TEMP === "1" || false;
+    const keepTemp = process.env.KIBO_QA_KEEP_TEMP === "1" || false;
     await gateway.stop({
       keepTemp,
     });

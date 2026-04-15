@@ -22,7 +22,7 @@
         },
         {
           "group": "指南",
-          "pages": ["zh-CN/start/openclaw"]
+          "pages": ["zh-CN/start/kibo"]
         }
       ]
     },
@@ -174,7 +174,7 @@
             "zh-CN/tools/exec-approvals",
             "zh-CN/tools/firecrawl",
             "zh-CN/tools/llm-task",
-            "zh-CN/tools/lobster",
+            "zh-CN/tools/shell",
             "zh-CN/perplexity",
             "zh-CN/tools/reactions",
             "zh-CN/tools/thinking",
@@ -204,7 +204,7 @@
             "zh-CN/tools/slash-commands",
             "zh-CN/tools/skills",
             "zh-CN/tools/skills-config",
-            "zh-CN/tools/clawhub",
+            "zh-CN/tools/kibohub",
             "zh-CN/tools/plugin"
           ]
         },

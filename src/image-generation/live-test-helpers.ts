@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import {
   parseLiveCsvFilter,
   parseProviderModelMap,
@@ -34,7 +34,7 @@ export function parseCsvFilter(raw?: string): Set<string> | null {
   return parseLiveCsvFilter(raw, { lowercase: false });
 }
 
-export function resolveConfiguredLiveImageModels(cfg: OpenClawConfig): Map<string, string> {
+export function resolveConfiguredLiveImageModels(cfg: KiboConfig): Map<string, string> {
   return resolveConfiguredLiveProviderModels(cfg.agents?.defaults?.imageGenerationModel);
 }
 

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig, PluginRuntime, RuntimeEnv } from "../../runtime-api.js";
+import type { KiboConfig, PluginRuntime, RuntimeEnv } from "../../runtime-api.js";
 import type { MSTeamsMessageHandlerDeps } from "../monitor-handler.js";
 import { setMSTeamsRuntime } from "../runtime.js";
 import { createMSTeamsMessageHandler } from "./message-handler.js";
@@ -43,7 +43,7 @@ vi.mock("../reply-dispatcher.js", () => ({
 describe("msteams thread session isolation", () => {
   const channelConversationId = "19:general@thread.tacv2";
 
-  function createDeps(cfg: OpenClawConfig) {
+  function createDeps(cfg: KiboConfig) {
     const recordInboundSession = vi.fn(async (_params: { sessionKey: string }) => undefined);
     const resolveAgentRoute = vi.fn(({ peer }: { peer: { kind: string; id: string } }) => ({
       sessionKey: `agent:main:msteams:${peer.kind}:${peer.id}`,
@@ -147,9 +147,9 @@ describe("msteams thread session isolation", () => {
   }
 
   it("appends thread suffix to session key for channel thread replies", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: KiboConfig = {
       channels: { msteams: { groupPolicy: "open" } },
-    } as OpenClawConfig;
+    } as KiboConfig;
     const { deps, recordInboundSession } = createDeps(cfg);
     const handler = createMSTeamsMessageHandler(deps);
 
@@ -166,9 +166,9 @@ describe("msteams thread session isolation", () => {
   });
 
   it("does not append thread suffix for top-level channel messages", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: KiboConfig = {
       channels: { msteams: { groupPolicy: "open" } },
-    } as OpenClawConfig;
+    } as KiboConfig;
     const { deps, recordInboundSession } = createDeps(cfg);
     const handler = createMSTeamsMessageHandler(deps);
 
@@ -185,9 +185,9 @@ describe("msteams thread session isolation", () => {
   });
 
   it("produces different session keys for different threads in the same channel", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: KiboConfig = {
       channels: { msteams: { groupPolicy: "open" } },
-    } as OpenClawConfig;
+    } as KiboConfig;
     const { deps, recordInboundSession } = createDeps(cfg);
     const handler = createMSTeamsMessageHandler(deps);
 
@@ -210,9 +210,9 @@ describe("msteams thread session isolation", () => {
   });
 
   it("does not affect DM session keys", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: KiboConfig = {
       channels: { msteams: { allowFrom: ["*"] } },
-    } as OpenClawConfig;
+    } as KiboConfig;
     const { deps, recordInboundSession } = createDeps(cfg);
     const handler = createMSTeamsMessageHandler(deps);
 
@@ -236,9 +236,9 @@ describe("msteams thread session isolation", () => {
   });
 
   it("does not affect group chat session keys", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: KiboConfig = {
       channels: { msteams: { groupPolicy: "open" } },
-    } as OpenClawConfig;
+    } as KiboConfig;
     const { deps, recordInboundSession } = createDeps(cfg);
     const handler = createMSTeamsMessageHandler(deps);
 

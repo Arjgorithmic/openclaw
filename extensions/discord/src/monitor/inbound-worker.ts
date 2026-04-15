@@ -1,7 +1,7 @@
-import { createRunStateMachine } from "openclaw/plugin-sdk/channel-lifecycle";
-import { KeyedAsyncQueue } from "openclaw/plugin-sdk/keyed-async-queue";
-import { danger, formatDurationSeconds } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import { createRunStateMachine } from "kibo/plugin-sdk/channel-lifecycle";
+import { KeyedAsyncQueue } from "kibo/plugin-sdk/keyed-async-queue";
+import { danger, formatDurationSeconds } from "kibo/plugin-sdk/runtime-env";
+import { normalizeOptionalString } from "kibo/plugin-sdk/text-runtime";
 import { materializeDiscordInboundJob, type DiscordInboundJob } from "./inbound-job.js";
 import type { RuntimeEnv } from "./message-handler.preflight.types.js";
 import { processDiscordMessage } from "./message-handler.process.js";

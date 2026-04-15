@@ -364,29 +364,20 @@ export const icons = {
       />
     </svg>
   `,
-  lobster: html`
+  banana: html`
     <svg viewBox="0 0 120 120" fill="none">
       <defs>
-        <linearGradient id="lob-g" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#ff4d4d" />
-          <stop offset="100%" stop-color="#991b1b" />
+        <linearGradient id="banana-g" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#FFE135" />
+          <stop offset="100%" stop-color="#EAB308" />
         </linearGradient>
       </defs>
       <path
-        d="M60 10C30 10 15 35 15 55C15 75 30 95 45 100L45 110L55 110L55 100C55 100 60 102 65 100L65 110L75 110L75 100C90 95 105 75 105 55C105 35 90 10 60 10Z"
-        fill="url(#lob-g)"
+        d="M30,30 C30,30 20,50 30,80 C40,110 80,110 90,80 C100,50 90,30 90,30 C90,30 95,20 85,25 C75,30 75,40 75,40 C75,40 75,70 65,85 C55,100 35,95 35,75 C35,55 45,35 45,35 C45,35 50,25 40,25 C30,25 30,30 30,30 Z"
+        fill="url(#banana-g)"
       />
-      <path d="M20 45C5 40 0 50 5 60C10 70 20 65 25 55C28 48 25 45 20 45Z" fill="url(#lob-g)" />
-      <path
-        d="M100 45C115 40 120 50 115 60C110 70 100 65 95 55C92 48 95 45 100 45Z"
-        fill="url(#lob-g)"
-      />
-      <path d="M45 15Q35 5 30 8" stroke="#ff4d4d" stroke-width="3" stroke-linecap="round" />
-      <path d="M75 15Q85 5 90 8" stroke="#ff4d4d" stroke-width="3" stroke-linecap="round" />
-      <circle cx="45" cy="35" r="6" fill="#050810" />
-      <circle cx="75" cy="35" r="6" fill="#050810" />
-      <circle cx="46" cy="34" r="2.5" fill="#00e5cc" />
-      <circle cx="76" cy="34" r="2.5" fill="#00e5cc" />
+      <circle cx="45" cy="45" r="5" fill="#050810" />
+      <circle cx="75" cy="45" r="5" fill="#050810" />
     </svg>
   `,
   refresh: html`

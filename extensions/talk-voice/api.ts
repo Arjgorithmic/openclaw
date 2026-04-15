@@ -1,2 +1,2 @@
-export { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
-export type { OpenClawPluginApi, PluginRuntime } from "openclaw/plugin-sdk/core";
+export { definePluginEntry } from "kibo/plugin-sdk/plugin-entry";
+export type { KiboPluginApi, PluginRuntime } from "kibo/plugin-sdk/core";

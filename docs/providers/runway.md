@@ -1,15 +1,15 @@
 ---
 title: "Runway"
-summary: "Runway video generation setup in OpenClaw"
+summary: "Runway video generation setup in Kibo"
 read_when:
-  - You want to use Runway video generation in OpenClaw
+  - You want to use Runway video generation in Kibo
   - You need the Runway API key/env setup
   - You want to make Runway the default video provider
 ---
 
 # Runway
 
-OpenClaw ships a bundled `runway` provider for hosted video generation.
+Kibo ships a bundled `runway` provider for hosted video generation.
 
 - Provider id: `runway`
 - Auth: `RUNWAYML_API_SECRET` (canonical) or `RUNWAY_API_KEY`
@@ -20,13 +20,13 @@ OpenClaw ships a bundled `runway` provider for hosted video generation.
 1. Set the API key:
 
 ```bash
-openclaw onboard --auth-choice runway-api-key
+kibo onboard --auth-choice runway-api-key
 ```
 
 2. Set Runway as the default video provider:
 
 ```bash
-openclaw config set agents.defaults.videoGenerationModel.primary "runway/gen4.5"
+kibo config set agents.defaults.videoGenerationModel.primary "runway/gen4.5"
 ```
 
 3. Ask the agent to generate a video. Runway will be used automatically.

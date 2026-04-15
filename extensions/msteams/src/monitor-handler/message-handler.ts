@@ -1,5 +1,5 @@
-import { resolveInboundMentionDecision } from "openclaw/plugin-sdk/channel-inbound";
-import { resolveThreadSessionKeys } from "openclaw/plugin-sdk/routing";
+import { resolveInboundMentionDecision } from "kibo/plugin-sdk/channel-inbound";
+import { resolveThreadSessionKeys } from "kibo/plugin-sdk/routing";
 import {
   buildPendingHistoryContextFromMap,
   clearHistoryEntriesIfEnabled,

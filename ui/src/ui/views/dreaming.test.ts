@@ -72,7 +72,7 @@ function buildProps(overrides?: Partial<DreamingProps>): DreamingProps {
     dreamDiaryError: null,
     dreamDiaryPath: "DREAMS.md",
     dreamDiaryContent:
-      "# Dream Diary\n\n<!-- openclaw:dreaming:diary:start -->\n\n---\n\n*April 5, 2026, 3:00 AM*\n\nThe repository whispered of forgotten endpoints tonight.\n\n<!-- openclaw:dreaming:diary:end -->",
+      "# Dream Diary\n\n<!-- kibo:dreaming:diary:start -->\n\n---\n\n*April 5, 2026, 3:00 AM*\n\nThe repository whispered of forgotten endpoints tonight.\n\n<!-- kibo:dreaming:diary:end -->",
     onRefresh: () => {},
     onRefreshDiary: () => {},
     onBackfillDiary: () => {},
@@ -90,9 +90,9 @@ function renderInto(props: DreamingProps): HTMLDivElement {
 }
 
 describe("dreaming view", () => {
-  it("renders the sleeping lobster SVG", () => {
+  it("renders the sleeping shell SVG", () => {
     const container = renderInto(buildProps());
-    const svg = container.querySelector(".dreams__lobster svg");
+    const svg = container.querySelector(".dreams__shell svg");
     expect(svg).not.toBeNull();
   });
 
@@ -241,13 +241,13 @@ describe("dreaming view", () => {
         dreamDiaryContent: [
           "# Dream Diary",
           "",
-          "<!-- openclaw:dreaming:diary:start -->",
+          "<!-- kibo:dreaming:diary:start -->",
           "",
           "---",
           "",
           "*January 1, 2026*",
           "",
-          "<!-- openclaw:dreaming:backfill-entry day=2026-01-01 source=memory/2026-01-01.md -->",
+          "<!-- kibo:dreaming:backfill-entry day=2026-01-01 source=memory/2026-01-01.md -->",
           "",
           "What Happened",
           "1. Always use Happy Together for flights.",
@@ -261,7 +261,7 @@ describe("dreaming view", () => {
           "Possible Lasting Updates",
           "- Use Happy Together for flights.",
           "",
-          "<!-- openclaw:dreaming:diary:end -->",
+          "<!-- kibo:dreaming:diary:end -->",
         ].join("\n"),
       }),
     );
@@ -296,7 +296,7 @@ describe("dreaming view", () => {
         dreamDiaryContent: [
           "# Dream Diary",
           "",
-          "<!-- openclaw:dreaming:diary:start -->",
+          "<!-- kibo:dreaming:diary:start -->",
           "",
           "---",
           "",
@@ -315,7 +315,7 @@ describe("dreaming view", () => {
           "Candidates",
           "- candidate",
           "",
-          "<!-- openclaw:dreaming:diary:end -->",
+          "<!-- kibo:dreaming:diary:end -->",
         ].join("\n"),
       }),
     );

@@ -1,20 +1,20 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { emptyPluginConfigSchema } from "../plugins/config-schema.js";
 import type {
   AnyAgentTool,
   MediaUnderstandingProviderPlugin,
-  OpenClawPluginApi,
-  OpenClawPluginCommandDefinition,
-  OpenClawPluginConfigSchema,
-  OpenClawPluginDefinition,
-  OpenClawPluginNodeHostCommand,
-  OpenClawPluginReloadRegistration,
-  OpenClawPluginSecurityAuditCollector,
-  OpenClawPluginSecurityAuditContext,
-  OpenClawPluginService,
-  OpenClawPluginServiceContext,
-  OpenClawPluginToolContext,
-  OpenClawPluginToolFactory,
+  KiboPluginApi,
+  KiboPluginCommandDefinition,
+  KiboPluginConfigSchema,
+  KiboPluginDefinition,
+  KiboPluginNodeHostCommand,
+  KiboPluginReloadRegistration,
+  KiboPluginSecurityAuditCollector,
+  KiboPluginSecurityAuditContext,
+  KiboPluginService,
+  KiboPluginServiceContext,
+  KiboPluginToolContext,
+  KiboPluginToolFactory,
   PluginLogger,
   ProviderAugmentModelCatalogContext,
   ProviderAuthContext,
@@ -74,15 +74,15 @@ import { createCachedLazyValueGetter } from "./lazy-value.js";
 export type {
   AnyAgentTool,
   MediaUnderstandingProviderPlugin,
-  OpenClawPluginApi,
-  OpenClawPluginNodeHostCommand,
-  OpenClawPluginReloadRegistration,
-  OpenClawPluginSecurityAuditCollector,
-  OpenClawPluginSecurityAuditContext,
-  OpenClawPluginToolContext,
-  OpenClawPluginToolFactory,
+  KiboPluginApi,
+  KiboPluginNodeHostCommand,
+  KiboPluginReloadRegistration,
+  KiboPluginSecurityAuditCollector,
+  KiboPluginSecurityAuditContext,
+  KiboPluginToolContext,
+  KiboPluginToolFactory,
   PluginCommandContext,
-  OpenClawPluginConfigSchema,
+  KiboPluginConfigSchema,
   ProviderDiscoveryContext,
   ProviderCatalogContext,
   ProviderCatalogResult,
@@ -129,18 +129,18 @@ export type {
   ProviderValidateReplayTurnsContext,
   ProviderWebSocketSessionPolicy,
   ProviderWrapStreamFnContext,
-  OpenClawPluginService,
-  OpenClawPluginServiceContext,
+  KiboPluginService,
+  KiboPluginServiceContext,
   ProviderAuthContext,
   ProviderAuthDoctorHintContext,
   ProviderAuthMethodNonInteractiveContext,
   ProviderAuthMethod,
   ProviderAuthResult,
-  OpenClawPluginCommandDefinition,
-  OpenClawPluginDefinition,
+  KiboPluginCommandDefinition,
+  KiboPluginDefinition,
   PluginLogger,
 };
-export type { OpenClawConfig };
+export type { KiboConfig };
 
 export { buildPluginConfigSchema, emptyPluginConfigSchema } from "../plugins/config-schema.js";
 
@@ -149,23 +149,23 @@ type DefinePluginEntryOptions = {
   id: string;
   name: string;
   description: string;
-  kind?: OpenClawPluginDefinition["kind"];
-  configSchema?: OpenClawPluginConfigSchema | (() => OpenClawPluginConfigSchema);
-  reload?: OpenClawPluginDefinition["reload"];
-  nodeHostCommands?: OpenClawPluginDefinition["nodeHostCommands"];
-  securityAuditCollectors?: OpenClawPluginDefinition["securityAuditCollectors"];
-  register: (api: OpenClawPluginApi) => void;
+  kind?: KiboPluginDefinition["kind"];
+  configSchema?: KiboPluginConfigSchema | (() => KiboPluginConfigSchema);
+  reload?: KiboPluginDefinition["reload"];
+  nodeHostCommands?: KiboPluginDefinition["nodeHostCommands"];
+  securityAuditCollectors?: KiboPluginDefinition["securityAuditCollectors"];
+  register: (api: KiboPluginApi) => void;
 };
 
-/** Normalized object shape that OpenClaw loads from a plugin entry module. */
+/** Normalized object shape that Kibo loads from a plugin entry module. */
 type DefinedPluginEntry = {
   id: string;
   name: string;
   description: string;
-  configSchema: OpenClawPluginConfigSchema;
-  register: NonNullable<OpenClawPluginDefinition["register"]>;
+  configSchema: KiboPluginConfigSchema;
+  register: NonNullable<KiboPluginDefinition["register"]>;
 } & Pick<
-  OpenClawPluginDefinition,
+  KiboPluginDefinition,
   "kind" | "reload" | "nodeHostCommands" | "securityAuditCollectors"
 >;
 
@@ -174,7 +174,7 @@ type DefinedPluginEntry = {
  *
  * Use this for provider, tool, command, service, memory, and context-engine
  * plugins. Channel plugins should use `defineChannelPluginEntry(...)` from
- * `openclaw/plugin-sdk/core` so they inherit the channel capability wiring.
+ * `kibo/plugin-sdk/core` so they inherit the channel capability wiring.
  */
 export function definePluginEntry({
   id,

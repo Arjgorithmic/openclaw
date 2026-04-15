@@ -2,11 +2,11 @@ import {
   resolveChannelGroupRequireMention,
   resolveChannelGroupToolsPolicy,
   type GroupToolPolicyConfig,
-} from "openclaw/plugin-sdk/channel-policy";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
+} from "kibo/plugin-sdk/channel-policy";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
 
 type WhatsAppGroupContext = {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId?: string | null;
   groupId?: string | null;
   senderId?: string | null;

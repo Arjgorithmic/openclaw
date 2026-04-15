@@ -5,8 +5,8 @@
 
 import * as http from "node:http";
 import * as https from "node:https";
-import { safeParseJsonWithSchema, safeParseWithSchema } from "openclaw/plugin-sdk/extension-shared";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import { safeParseJsonWithSchema, safeParseWithSchema } from "kibo/plugin-sdk/extension-shared";
+import { normalizeLowercaseStringOrEmpty } from "kibo/plugin-sdk/text-runtime";
 import { z } from "zod";
 
 const MIN_SEND_INTERVAL_MS = 500;

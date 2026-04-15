@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { KiboConfig } from "../../config/config.js";
 import { createAcpDispatchDeliveryCoordinator } from "./dispatch-acp-delivery.js";
 import type { ReplyDispatcher } from "./reply-dispatcher.js";
 import { buildTestCtx } from "./test-ctx.js";
@@ -378,7 +378,7 @@ describe("createAcpDispatchDeliveryCoordinator", () => {
 
   it("routes ACP replies when cfg.channels is missing", async () => {
     const coordinator = createAcpDispatchDeliveryCoordinator({
-      cfg: {} as OpenClawConfig,
+      cfg: {} as KiboConfig,
       ctx: buildTestCtx({
         Provider: "discord",
         Surface: "discord",

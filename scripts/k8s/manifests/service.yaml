@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: openclaw
+  name: kibo
   labels:
-    app: openclaw
+    app: kibo
 spec:
   type: ClusterIP
   selector:
-    app: openclaw
+    app: kibo
   ports:
     - name: gateway
       port: 18789

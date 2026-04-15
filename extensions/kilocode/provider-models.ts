@@ -1,7 +1,7 @@
-import type { KilocodeModelCatalogEntry } from "openclaw/plugin-sdk/provider-model-shared";
-import type { ModelDefinitionConfig } from "openclaw/plugin-sdk/provider-model-shared";
-import { createSubsystemLogger } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+import type { KilocodeModelCatalogEntry } from "kibo/plugin-sdk/provider-model-shared";
+import type { ModelDefinitionConfig } from "kibo/plugin-sdk/provider-model-shared";
+import { createSubsystemLogger } from "kibo/plugin-sdk/runtime-env";
+import { normalizeLowercaseStringOrEmpty } from "kibo/plugin-sdk/text-runtime";
 
 const log = createSubsystemLogger("kilocode-models");
 

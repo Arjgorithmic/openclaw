@@ -1,6 +1,6 @@
 import fs from "node:fs";
-import type { PinnedDispatcherPolicy } from "openclaw/plugin-sdk/infra-runtime";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+import type { PinnedDispatcherPolicy } from "kibo/plugin-sdk/infra-runtime";
+import { normalizeOptionalString } from "kibo/plugin-sdk/text-runtime";
 import type { SsrFPolicy } from "../../runtime-api.js";
 import type { MatrixClient } from "../sdk.js";
 import { resolveValidatedMatrixHomeserverUrl } from "./config.js";
@@ -80,7 +80,7 @@ export async function createMatrixClient(params: {
   }
 
   const cryptoDatabasePrefix = storagePaths
-    ? `openclaw-matrix-${storagePaths.accountKey}-${storagePaths.tokenHash}`
+    ? `kibo-matrix-${storagePaths.accountKey}-${storagePaths.tokenHash}`
     : undefined;
 
   return new MatrixClient(homeserver, params.accessToken, {

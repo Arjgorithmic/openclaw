@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
+import { resolvePreferredKiboTmpDir } from "kibo/plugin-sdk/temp-path";
 import { buildQaGatewayConfig } from "./qa-gateway-config.js";
 
 const QA_FRONTIER_PROVIDER_IDS = ["anthropic", "google", "openai"] as const;
@@ -61,12 +61,12 @@ export function selectQaRunnerModelOptions(rows: ModelRow[]): QaRunnerModelOptio
 
 export async function loadQaRunnerModelOptions(params: { repoRoot: string }) {
   const tempRoot = await fs.mkdtemp(
-    path.join(resolvePreferredOpenClawTmpDir(), "openclaw-qa-model-catalog-"),
+    path.join(resolvePreferredKiboTmpDir(), "kibo-qa-model-catalog-"),
   );
   const workspaceDir = path.join(tempRoot, "workspace");
   const stateDir = path.join(tempRoot, "state");
   const homeDir = path.join(tempRoot, "home");
-  const configPath = path.join(tempRoot, "openclaw.json");
+  const configPath = path.join(tempRoot, "kibo.json");
 
   try {
     await Promise.all([
@@ -100,10 +100,10 @@ export async function loadQaRunnerModelOptions(params: { repoRoot: string }) {
           env: {
             ...process.env,
             HOME: homeDir,
-            OPENCLAW_HOME: homeDir,
-            OPENCLAW_CONFIG_PATH: configPath,
-            OPENCLAW_STATE_DIR: stateDir,
-            OPENCLAW_OAUTH_DIR: path.join(stateDir, "credentials"),
+            KIBO_HOME: homeDir,
+            KIBO_CONFIG_PATH: configPath,
+            KIBO_STATE_DIR: stateDir,
+            KIBO_OAUTH_DIR: path.join(stateDir, "credentials"),
           },
           stdio: ["ignore", "pipe", "pipe"],
         },

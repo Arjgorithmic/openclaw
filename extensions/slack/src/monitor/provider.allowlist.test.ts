@@ -8,9 +8,9 @@ describe("slack allowlist log formatting", () => {
         input: "C0AQXEG6QFJ",
         resolved: true,
         id: "C0AQXEG6QFJ",
-        name: "openclawtest",
+        name: "kibotest",
       }),
-    ).toBe("C0AQXEG6QFJ→openclawtest (id:C0AQXEG6QFJ)");
+    ).toBe("C0AQXEG6QFJ→kibotest (id:C0AQXEG6QFJ)");
   });
 
   it("prints user names alongside ids", () => {
@@ -19,8 +19,8 @@ describe("slack allowlist log formatting", () => {
         input: "U090HHQ029J",
         resolved: true,
         id: "U090HHQ029J",
-        name: "steipete",
+        name: "kibo",
       }),
-    ).toBe("U090HHQ029J→steipete (id:U090HHQ029J)");
+    ).toBe("U090HHQ029J→kibo (id:U090HHQ029J)");
   });
 });

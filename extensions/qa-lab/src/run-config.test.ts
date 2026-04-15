@@ -70,7 +70,7 @@ describe("qa run config", () => {
   });
 
   it("anchors generated run output dirs under the provided repo root", () => {
-    const outputDir = createQaRunOutputDir("/tmp/openclaw-repo");
-    expect(outputDir.startsWith("/tmp/openclaw-repo/.artifacts/qa-e2e/lab-")).toBe(true);
+    const outputDir = createQaRunOutputDir("/tmp/kibo-repo");
+    expect(outputDir.startsWith("/tmp/kibo-repo/.artifacts/qa-e2e/lab-")).toBe(true);
   });
 });

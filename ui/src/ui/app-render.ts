@@ -92,14 +92,14 @@ import {
   toggleSessionCompactionCheckpoints,
 } from "./controllers/sessions.ts";
 import {
-  closeClawHubDetail,
-  installFromClawHub,
+  closeKiboHubDetail,
+  installFromKiboHub,
   installSkill,
-  loadClawHubDetail,
+  loadKiboHubDetail,
   loadSkills,
   saveSkillApiKey,
-  searchClawHub,
-  setClawHubSearchQuery,
+  searchKiboHub,
+  setKiboHubSearchQuery,
   updateSkillEdit,
   updateSkillEnabled,
 } from "./controllers/skills.ts";
@@ -185,14 +185,14 @@ function resolveDreamingNextCycle(
   return formatDreamNextCycle(nextRunAtMs);
 }
 
-let clawhubSearchTimer: ReturnType<typeof setTimeout> | null = null;
+let kibohubSearchTimer: ReturnType<typeof setTimeout> | null = null;
 
 function lazyRender<M>(getter: () => M | null, render: (mod: M) => unknown) {
   const mod = getter();
   return mod ? render(mod) : nothing;
 }
 
-const UPDATE_BANNER_DISMISS_KEY = "openclaw:control-ui:update-banner-dismissed:v1";
+const UPDATE_BANNER_DISMISS_KEY = "kibo:control-ui:update-banner-dismissed:v1";
 const CRON_THINKING_SUGGESTIONS = ["off", "minimal", "low", "medium", "high"];
 const CRON_TIMEZONE_SUGGESTIONS = [
   "UTC",
@@ -850,11 +850,11 @@ export function renderApp(state: AppViewState) {
                       <img
                         class="sidebar-brand__logo"
                         src="${agentLogoUrl(basePath)}"
-                        alt="OpenClaw"
+                        alt="Kibo"
                       />
                       <span class="sidebar-brand__copy">
                         <span class="sidebar-brand__eyebrow">${t("nav.control")}</span>
-                        <span class="sidebar-brand__title">OpenClaw</span>
+                        <span class="sidebar-brand__title">Kibo</span>
                       </span>
                     `}
               </div>
@@ -918,7 +918,7 @@ export function renderApp(state: AppViewState) {
               <div class="sidebar-utility-group">
                 <a
                   class="nav-item nav-item--external sidebar-utility-link"
-                  href="https://docs.openclaw.ai"
+                  href="https://github.com/Arjgorithmic/openclaw"
                   target=${EXTERNAL_LINK_TARGET}
                   rel=${buildExternalLinkRel()}
                   title="${t("common.docs")} (opens in new tab)"
@@ -1655,16 +1655,16 @@ export function renderApp(state: AppViewState) {
                 messages: state.skillMessages,
                 busyKey: state.skillsBusyKey,
                 detailKey: state.skillsDetailKey,
-                clawhubQuery: state.clawhubSearchQuery,
-                clawhubResults: state.clawhubSearchResults,
-                clawhubSearchLoading: state.clawhubSearchLoading,
-                clawhubSearchError: state.clawhubSearchError,
-                clawhubDetail: state.clawhubDetail,
-                clawhubDetailSlug: state.clawhubDetailSlug,
-                clawhubDetailLoading: state.clawhubDetailLoading,
-                clawhubDetailError: state.clawhubDetailError,
-                clawhubInstallSlug: state.clawhubInstallSlug,
-                clawhubInstallMessage: state.clawhubInstallMessage,
+                kibohubQuery: state.kibohubSearchQuery,
+                kibohubResults: state.kibohubSearchResults,
+                kibohubSearchLoading: state.kibohubSearchLoading,
+                kibohubSearchError: state.kibohubSearchError,
+                kibohubDetail: state.kibohubDetail,
+                kibohubDetailSlug: state.kibohubDetailSlug,
+                kibohubDetailLoading: state.kibohubDetailLoading,
+                kibohubDetailError: state.kibohubDetailError,
+                kibohubInstallSlug: state.kibohubInstallSlug,
+                kibohubInstallMessage: state.kibohubInstallMessage,
                 onFilterChange: (next) => (state.skillsFilter = next),
                 onStatusFilterChange: (next) => (state.skillsStatusFilter = next),
                 onRefresh: () => loadSkills(state, { clearMessages: true }),
@@ -1675,16 +1675,16 @@ export function renderApp(state: AppViewState) {
                   installSkill(state, skillKey, name, installId),
                 onDetailOpen: (key) => (state.skillsDetailKey = key),
                 onDetailClose: () => (state.skillsDetailKey = null),
-                onClawHubQueryChange: (query) => {
-                  setClawHubSearchQuery(state, query);
-                  if (clawhubSearchTimer) {
-                    clearTimeout(clawhubSearchTimer);
+                onKiboHubQueryChange: (query) => {
+                  setKiboHubSearchQuery(state, query);
+                  if (kibohubSearchTimer) {
+                    clearTimeout(kibohubSearchTimer);
                   }
-                  clawhubSearchTimer = setTimeout(() => searchClawHub(state, query), 300);
+                  kibohubSearchTimer = setTimeout(() => searchKiboHub(state, query), 300);
                 },
-                onClawHubDetailOpen: (slug) => loadClawHubDetail(state, slug),
-                onClawHubDetailClose: () => closeClawHubDetail(state),
-                onClawHubInstall: (slug) => installFromClawHub(state, slug),
+                onKiboHubDetailOpen: (slug) => loadKiboHubDetail(state, slug),
+                onKiboHubDetailClose: () => closeKiboHubDetail(state),
+                onKiboHubInstall: (slug) => installFromKiboHub(state, slug),
               }),
             )
           : nothing}

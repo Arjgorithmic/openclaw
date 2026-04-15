@@ -3,11 +3,11 @@ import {
   registerProviderPlugin,
   requireRegisteredProvider,
 } from "../../test/helpers/plugins/provider-registration.js";
-import { resolveOpenClawAgentDir } from "../agents/agent-paths.js";
+import { resolveKiboAgentDir } from "../agents/agent-paths.js";
 import { collectProviderApiKeys } from "../agents/live-auth-keys.js";
 import { isLiveProfileKeyModeEnabled, isLiveTestEnabled } from "../agents/live-test-helpers.js";
 import { resolveApiKeyForProvider } from "../agents/model-auth.js";
-import { loadConfig, type OpenClawConfig } from "../config/config.js";
+import { loadConfig, type KiboConfig } from "../config/config.js";
 import { isTruthyEnvValue } from "../infra/env.js";
 import { getShellEnvAppliedKeys, loadShellEnvFallback } from "../infra/shell-env.js";
 import { encodePngRgba, fillPixel } from "../media/png-encode.js";
@@ -25,11 +25,11 @@ import {
 
 const LIVE = isLiveTestEnabled();
 const REQUIRE_PROFILE_KEYS =
-  isLiveProfileKeyModeEnabled() || isTruthyEnvValue(process.env.OPENCLAW_LIVE_REQUIRE_PROFILE_KEYS);
+  isLiveProfileKeyModeEnabled() || isTruthyEnvValue(process.env.KIBO_LIVE_REQUIRE_PROFILE_KEYS);
 const describeLive = LIVE ? describe : describe.skip;
-const providerFilter = parseCsvFilter(process.env.OPENCLAW_LIVE_IMAGE_GENERATION_PROVIDERS);
-const caseFilter = parseCaseFilter(process.env.OPENCLAW_LIVE_IMAGE_GENERATION_CASES);
-const envModelMap = parseProviderModelMap(process.env.OPENCLAW_LIVE_IMAGE_GENERATION_MODELS);
+const providerFilter = parseCsvFilter(process.env.KIBO_LIVE_IMAGE_GENERATION_PROVIDERS);
+const caseFilter = parseCaseFilter(process.env.KIBO_LIVE_IMAGE_GENERATION_CASES);
+const envModelMap = parseProviderModelMap(process.env.KIBO_LIVE_IMAGE_GENERATION_MODELS);
 
 type LiveProviderCase = {
   plugin: Parameters<typeof registerProviderPlugin>[0]["plugin"];
@@ -120,7 +120,7 @@ function createEditReferencePng(): Buffer {
   return encodePngRgba(buf, width, height);
 }
 
-function withPluginsEnabled(cfg: OpenClawConfig): OpenClawConfig {
+function withPluginsEnabled(cfg: KiboConfig): KiboConfig {
   return {
     ...cfg,
     plugins: {
@@ -196,7 +196,7 @@ describeLive("image generation live (provider sweep)", () => {
     async () => {
       const cfg = withPluginsEnabled(loadConfig());
       const configuredModels = resolveConfiguredLiveImageModels(cfg);
-      const agentDir = resolveOpenClawAgentDir();
+      const agentDir = resolveKiboAgentDir();
       const attempted: string[] = [];
       const skipped: string[] = [];
       const failures: string[] = [];

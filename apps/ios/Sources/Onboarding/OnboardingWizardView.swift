@@ -1,6 +1,6 @@
 import CoreImage
 import Combine
-import OpenClawKit
+import KiboKit
 import PhotosUI
 import SwiftUI
 import UIKit
@@ -60,7 +60,7 @@ struct OnboardingWizardView: View {
     @State private var gatewayToken: String = ""
     @State private var gatewayPassword: String = ""
     @State private var connectMessage: String?
-    @State private var statusLine: String = "In your OpenClaw chat, run /pair qr, then scan the code here."
+    @State private var statusLine: String = "In your Kibo chat, run /pair qr, then scan the code here."
     @State private var connectingGatewayID: String?
     @State private var issue: GatewayConnectionIssue = .none
     @State private var didMarkCompleted = false
@@ -300,12 +300,12 @@ struct OnboardingWizardView: View {
                 .foregroundStyle(.tint)
                 .padding(.bottom, 18)
 
-            Text("Welcome to OpenClaw")
+            Text("Welcome to Kibo")
                 .font(.largeTitle.weight(.bold))
                 .multilineTextAlignment(.center)
                 .padding(.bottom, 10)
 
-            Text("Turn this iPhone into a secure OpenClaw node for chat, voice, camera, and device tools.")
+            Text("Turn this iPhone into a secure Kibo node for chat, voice, camera, and device tools.")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -315,7 +315,7 @@ struct OnboardingWizardView: View {
             VStack(alignment: .leading, spacing: 14) {
                 Label("Connect to your gateway", systemImage: "link")
                 Label("Choose device permissions", systemImage: "hand.raised")
-                Label("Use OpenClaw from your phone", systemImage: "message.fill")
+                Label("Use Kibo from your phone", systemImage: "message.fill")
             }
             .font(.subheadline.weight(.semibold))
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -338,7 +338,7 @@ struct OnboardingWizardView: View {
                     Text("Security notice")
                         .font(.headline)
                     Text(
-                        "The connected OpenClaw agent can use device capabilities you enable, such as camera, microphone, photos, contacts, calendar, and location. Continue only if you trust the gateway and agent you connect to.")
+                        "The connected Kibo agent can use device capabilities you enable, such as camera, microphone, photos, contacts, calendar, and location. Continue only if you trust the gateway and agent you connect to.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
@@ -381,7 +381,7 @@ struct OnboardingWizardView: View {
                 .font(.largeTitle.weight(.bold))
                 .padding(.bottom, 8)
 
-            Text("Scan a QR code from your OpenClaw gateway or continue with manual setup.")
+            Text("Scan a QR code from your Kibo gateway or continue with manual setup.")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -390,7 +390,7 @@ struct OnboardingWizardView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text("How to pair")
                     .font(.headline)
-                Text("In your OpenClaw chat, run")
+                Text("In your Kibo chat, run")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                 Text("/pair qr")
@@ -635,15 +635,15 @@ struct OnboardingWizardView: View {
                         if let id = self.currentProblem?.requestId ?? self.issue.requestId, !id.isEmpty {
                             return "Request ID: \(id)"
                         }
-                        return "Request ID: check `openclaw devices list`."
+                        return "Request ID: check `kibo devices list`."
                     }()
-                    let commandLine = self.currentProblem?.actionCommand ?? "openclaw devices approve <requestId>"
+                    let commandLine = self.currentProblem?.actionCommand ?? "kibo devices approve <requestId>"
                     Text(
                         "Approve this device on the gateway.\n"
                             + "1) `\(commandLine)`\n"
-                            + "2) `/pair approve` in your OpenClaw chat\n"
+                            + "2) `/pair approve` in your Kibo chat\n"
                             + "\(requestLine)\n"
-                            + "OpenClaw will also retry automatically when you return to this app.")
+                            + "Kibo will also retry automatically when you return to this app.")
                 }
             }
 
@@ -700,7 +700,7 @@ struct OnboardingWizardView: View {
             Button {
                 self.onClose()
             } label: {
-                Text("Open OpenClaw")
+                Text("Open Kibo")
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
@@ -879,7 +879,7 @@ struct OnboardingWizardView: View {
 
     private func advanceFromIntro() {
         OnboardingStateStore.markFirstRunIntroSeen()
-        self.statusLine = "In your OpenClaw chat, run /pair qr, then scan the code here."
+        self.statusLine = "In your Kibo chat, run /pair qr, then scan the code here."
         self.step = .welcome
     }
 
@@ -903,12 +903,12 @@ struct OnboardingWizardView: View {
                     self.manualPort = port
                     self.manualTLS = useTLS
                 case .discovered:
-                    self.manualHost = "openclaw.local"
+                    self.manualHost = "kibo.local"
                     self.manualPort = 18789
                     self.manualTLS = true
                 }
             } else {
-                self.manualHost = "openclaw.local"
+                self.manualHost = "kibo.local"
                 self.manualPort = 18789
                 self.manualTLS = true
             }
@@ -917,7 +917,7 @@ struct OnboardingWizardView: View {
         if self.selectedMode == nil {
             self.selectedMode = OnboardingStateStore.lastMode()
         }
-        if self.selectedMode == .developerLocal && self.manualHost == "openclaw.local" {
+        if self.selectedMode == .developerLocal && self.manualHost == "kibo.local" {
             self.manualHost = "localhost"
             self.manualTLS = false
         }
@@ -932,7 +932,7 @@ struct OnboardingWizardView: View {
         let hasToken = !self.gatewayToken.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         let hasPassword = !self.gatewayPassword.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         if !hasSavedGateway, !hasToken, !hasPassword {
-            self.statusLine = "No saved pairing found. In your OpenClaw chat, run /pair qr, then scan the code here."
+            self.statusLine = "No saved pairing found. In your Kibo chat, run /pair qr, then scan the code here."
         }
     }
 
@@ -977,15 +977,15 @@ struct OnboardingWizardView: View {
 
     private func applyModeDefaults(_ mode: OnboardingConnectionMode) {
         let host = self.manualHost.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        let hostIsDefaultLike = host.isEmpty || host == "openclaw.local" || host == "localhost"
+        let hostIsDefaultLike = host.isEmpty || host == "kibo.local" || host == "localhost"
 
         switch mode {
         case .homeNetwork:
-            if hostIsDefaultLike { self.manualHost = "openclaw.local" }
+            if hostIsDefaultLike { self.manualHost = "kibo.local" }
             self.manualTLS = true
             if self.manualPort <= 0 || self.manualPort > 65535 { self.manualPort = 18789 }
         case .remoteDomain:
-            if host == "openclaw.local" || host == "localhost" { self.manualHost = "" }
+            if host == "kibo.local" || host == "localhost" { self.manualHost = "" }
             self.manualTLS = true
             if self.manualPort <= 0 || self.manualPort > 65535 { self.manualPort = 18789 }
         case .developerLocal:

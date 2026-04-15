@@ -1,6 +1,6 @@
-export { getChatChannelMeta, type ChannelPlugin } from "openclaw/plugin-sdk/core";
+export { getChatChannelMeta, type ChannelPlugin } from "kibo/plugin-sdk/core";
 export { buildChannelConfigSchema, WhatsAppConfigSchema } from "../config-api.js";
-export { DEFAULT_ACCOUNT_ID } from "openclaw/plugin-sdk/account-id";
+export { DEFAULT_ACCOUNT_ID } from "kibo/plugin-sdk/account-id";
 export {
   formatWhatsAppConfigAllowFromEntries,
   resolveWhatsAppConfigAllowFrom,
@@ -12,13 +12,13 @@ export {
   readReactionParams,
   readStringParam,
   ToolAuthorizationError,
-} from "openclaw/plugin-sdk/channel-actions";
-export { normalizeE164 } from "openclaw/plugin-sdk/account-resolution";
-export type { DmPolicy, GroupPolicy } from "openclaw/plugin-sdk/config-runtime";
-import type { OpenClawConfig as RuntimeOpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
+} from "kibo/plugin-sdk/channel-actions";
+export { normalizeE164 } from "kibo/plugin-sdk/account-resolution";
+export type { DmPolicy, GroupPolicy } from "kibo/plugin-sdk/config-runtime";
+import type { KiboConfig as RuntimeKiboConfig } from "kibo/plugin-sdk/config-runtime";
 
-export { type ChannelMessageActionName } from "openclaw/plugin-sdk/channel-contract";
-import { loadWebMedia } from "openclaw/plugin-sdk/web-media";
+export { type ChannelMessageActionName } from "kibo/plugin-sdk/channel-contract";
+import { loadWebMedia } from "kibo/plugin-sdk/web-media";
 export {
   resolveWhatsAppGroupRequireMention,
   resolveWhatsAppGroupToolPolicy,
@@ -40,7 +40,7 @@ export {
 export { resolveWhatsAppOutboundTarget } from "./resolve-outbound-target.js";
 export { resolveWhatsAppReactionLevel } from "./reaction-level.js";
 
-export type OpenClawConfig = RuntimeOpenClawConfig;
+export type KiboConfig = RuntimeKiboConfig;
 export type { WhatsAppAccountConfig } from "./account-types.js";
 
 type MonitorWebChannel = typeof import("./channel.runtime.js").monitorWebChannel;

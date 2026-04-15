@@ -1,10 +1,10 @@
 ---
 name: apple-reminders
 description: Manage Apple Reminders via remindctl CLI (list, add, edit, complete, delete). Supports lists, date filters, and JSON/plain output.
-homepage: https://github.com/steipete/remindctl
+homepage: https://github.com/kibo/remindctl
 metadata:
   {
-    "openclaw":
+    "kibo":
       {
         "emoji": "⏰",
         "os": ["darwin"],
@@ -14,7 +14,7 @@ metadata:
             {
               "id": "brew",
               "kind": "brew",
-              "formula": "steipete/tap/remindctl",
+              "formula": "kibo/tap/remindctl",
               "bins": ["remindctl"],
               "label": "Install remindctl via Homebrew",
             },
@@ -40,15 +40,15 @@ Use `remindctl` to manage Apple Reminders directly from the terminal.
 
 ❌ **DON'T use this skill when:**
 
-- Scheduling OpenClaw tasks or alerts → use `cron` tool with systemEvent instead
+- Scheduling Kibo tasks or alerts → use `cron` tool with systemEvent instead
 - Calendar events or appointments → use Apple Calendar
 - Project/work task management → use Notion, GitHub Issues, or task queue
 - One-time notifications → use `cron` tool for timed alerts
-- User says "remind me" but means an OpenClaw alert → clarify first
+- User says "remind me" but means an Kibo alert → clarify first
 
 ## Setup
 
-- Install: `brew install steipete/tap/remindctl`
+- Install: `brew install kibo/tap/remindctl`
 - macOS-only; grant Reminders permission when prompted
 - Check status: `remindctl status`
 - Request access: `remindctl authorize`
@@ -112,7 +112,7 @@ Accepted by `--due` and date filters:
 
 User: "Remind me to check on the deploy in 2 hours"
 
-**Ask:** "Do you want this in Apple Reminders (syncs to your phone) or as an OpenClaw alert (I'll message you here)?"
+**Ask:** "Do you want this in Apple Reminders (syncs to your phone) or as an Kibo alert (I'll message you here)?"
 
 - Apple Reminders → use this skill
-- OpenClaw alert → use `cron` tool with systemEvent
+- Kibo alert → use `cron` tool with systemEvent

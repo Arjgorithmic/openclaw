@@ -112,7 +112,7 @@ const loadCronStoreMock = vi.fn();
 vi.mock("../../cron/store.js", () => {
   return {
     loadCronStore: (...args: unknown[]) => loadCronStoreMock(...args),
-    resolveCronStorePath: (storePath?: string) => storePath ?? "/tmp/openclaw-cron-store.json",
+    resolveCronStorePath: (storePath?: string) => storePath ?? "/tmp/kibo-cron-store.json",
   };
 });
 
@@ -232,7 +232,7 @@ describe("runReplyAgent auto-compaction token update", () => {
   }
 
   it("updates totalTokens from lastCallUsage even without compaction", async () => {
-    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-usage-last-"));
+    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "kibo-usage-last-"));
     const storePath = path.join(tmp, "sessions.json");
     const sessionKey = "main";
     const sessionEntry = {
@@ -486,7 +486,7 @@ describe("runReplyAgent block streaming", () => {
 
 describe("runReplyAgent Active Memory inline debug", () => {
   it("appends inline Active Memory debug payload when verbose is enabled", async () => {
-    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-active-memory-inline-"));
+    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "kibo-active-memory-inline-"));
     const storePath = path.join(tmp, "sessions.json");
     const sessionKey = "main";
     const sessionEntry: SessionEntry = {
@@ -595,7 +595,7 @@ describe("runReplyAgent Active Memory inline debug", () => {
   });
 
   it("does not reload the session store when verbose is disabled", async () => {
-    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-active-memory-inline-"));
+    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "kibo-active-memory-inline-"));
     const storePath = path.join(tmp, "sessions.json");
     const sessionKey = "main";
     const sessionEntry: SessionEntry = {

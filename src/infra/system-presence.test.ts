@@ -12,16 +12,16 @@ describe("system-presence", () => {
     const instanceIdLower = instanceIdUpper.toLowerCase();
 
     upsertPresence(instanceIdUpper, {
-      host: "openclaw",
+      host: "kibo",
       mode: "ui",
       instanceId: instanceIdUpper,
       reason: "connect",
     });
 
     updateSystemPresence({
-      text: "Node: Peter-Mac-Studio (10.0.0.1) · ui 2.0.0 · last input 5s ago · mode ui · reason beacon",
+      text: "Node: Kibo-Mac-Studio (10.0.0.1) · ui 2.0.0 · last input 5s ago · mode ui · reason beacon",
       instanceId: instanceIdLower,
-      host: "Peter-Mac-Studio",
+      host: "Kibo-Mac-Studio",
       ip: "10.0.0.1",
       mode: "ui",
       version: "2.0.0",
@@ -33,7 +33,7 @@ describe("system-presence", () => {
       (e) => (e.instanceId ?? "").toLowerCase() === instanceIdLower,
     );
     expect(matches).toHaveLength(1);
-    expect(matches[0]?.host).toBe("Peter-Mac-Studio");
+    expect(matches[0]?.host).toBe("Kibo-Mac-Studio");
     expect(matches[0]?.ip).toBe("10.0.0.1");
     expect(matches[0]?.lastInputSeconds).toBe(5);
   });
@@ -43,7 +43,7 @@ describe("system-presence", () => {
 
     upsertPresence(deviceId, {
       deviceId,
-      host: "openclaw",
+      host: "kibo",
       roles: ["operator"],
       scopes: ["operator.admin"],
       reason: "connect",

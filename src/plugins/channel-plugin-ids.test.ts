@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 
 const listPotentialConfiguredChannelIds = vi.hoisted(() => vi.fn());
 const loadPluginManifestRegistry = vi.hoisted(() => vi.fn());
@@ -71,8 +71,8 @@ function createManifestRegistryFixture() {
 }
 
 function expectStartupPluginIds(params: {
-  config: OpenClawConfig;
-  activationSourceConfig?: OpenClawConfig;
+  config: KiboConfig;
+  activationSourceConfig?: KiboConfig;
   expected: readonly string[];
 }) {
   expect(
@@ -89,8 +89,8 @@ function expectStartupPluginIds(params: {
 }
 
 function expectStartupPluginIdsCase(params: {
-  config: OpenClawConfig;
-  activationSourceConfig?: OpenClawConfig;
+  config: KiboConfig;
+  activationSourceConfig?: KiboConfig;
   expected: readonly string[];
 }) {
   expectStartupPluginIds(params);
@@ -159,12 +159,12 @@ function createStartupConfig(params: {
           },
         }
       : {}),
-  } as OpenClawConfig;
+  } as KiboConfig;
 }
 
 describe("resolveGatewayStartupPluginIds", () => {
   beforeEach(() => {
-    listPotentialConfiguredChannelIds.mockReset().mockImplementation((config: OpenClawConfig) => {
+    listPotentialConfiguredChannelIds.mockReset().mockImplementation((config: KiboConfig) => {
       if (Object.prototype.hasOwnProperty.call(config, "channels")) {
         return Object.keys(config.channels ?? {});
       }
@@ -184,7 +184,7 @@ describe("resolveGatewayStartupPluginIds", () => {
     ],
     [
       "keeps bundled startup sidecars with enabledByDefault at idle startup",
-      {} as OpenClawConfig,
+      {} as KiboConfig,
       ["demo-channel", "browser"],
     ],
     [
@@ -234,7 +234,7 @@ describe("resolveGatewayStartupPluginIds", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as KiboConfig;
 
     expectStartupPluginIdsCase({
       config: effectiveConfig,

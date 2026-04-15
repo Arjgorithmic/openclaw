@@ -1,12 +1,12 @@
 ---
-summary: "CLI reference for `openclaw reset` (reset local state/config)"
+summary: "CLI reference for `kibo reset` (reset local state/config)"
 read_when:
   - You want to wipe local state while keeping the CLI installed
   - You want a dry-run of what would be removed
 title: "reset"
 ---
 
-# `openclaw reset`
+# `kibo reset`
 
 Reset local config/state (keeps the CLI installed).
 
@@ -20,16 +20,16 @@ Options:
 Examples:
 
 ```bash
-openclaw backup create
-openclaw reset
-openclaw reset --dry-run
-openclaw reset --scope config --yes --non-interactive
-openclaw reset --scope config+creds+sessions --yes --non-interactive
-openclaw reset --scope full --yes --non-interactive
+kibo backup create
+kibo reset
+kibo reset --dry-run
+kibo reset --scope config --yes --non-interactive
+kibo reset --scope config+creds+sessions --yes --non-interactive
+kibo reset --scope full --yes --non-interactive
 ```
 
 Notes:
 
-- Run `openclaw backup create` first if you want a restorable snapshot before removing local state.
-- If you omit `--scope`, `openclaw reset` uses an interactive prompt to choose what to remove.
+- Run `kibo backup create` first if you want a restorable snapshot before removing local state.
+- If you omit `--scope`, `kibo reset` uses an interactive prompt to choose what to remove.
 - `--non-interactive` is only valid when both `--scope` and `--yes` are set.

@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/exa-plugin",
+  "name": "@kibo/exa-plugin",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw Exa plugin",
+  "description": "Kibo Exa plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ]

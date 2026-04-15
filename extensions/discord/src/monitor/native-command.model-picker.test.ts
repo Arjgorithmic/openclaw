@@ -1,12 +1,12 @@
 import { ChannelType } from "discord-api-types/v10";
-import * as commandRegistryModule from "openclaw/plugin-sdk/command-auth";
-import type { ChatCommandDefinition, CommandArgsParsing } from "openclaw/plugin-sdk/command-auth";
-import type { ModelsProviderData } from "openclaw/plugin-sdk/command-auth";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-import * as pluginRuntimeModule from "openclaw/plugin-sdk/plugin-runtime";
-import * as dispatcherModule from "openclaw/plugin-sdk/reply-dispatch-runtime";
-import * as globalsModule from "openclaw/plugin-sdk/runtime-env";
-import * as commandTextModule from "openclaw/plugin-sdk/text-runtime";
+import * as commandRegistryModule from "kibo/plugin-sdk/command-auth";
+import type { ChatCommandDefinition, CommandArgsParsing } from "kibo/plugin-sdk/command-auth";
+import type { ModelsProviderData } from "kibo/plugin-sdk/command-auth";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
+import * as pluginRuntimeModule from "kibo/plugin-sdk/plugin-runtime";
+import * as dispatcherModule from "kibo/plugin-sdk/reply-dispatch-runtime";
+import * as globalsModule from "kibo/plugin-sdk/runtime-env";
+import * as commandTextModule from "kibo/plugin-sdk/text-runtime";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import * as modelPickerPreferencesModule from "./model-picker-preferences.js";
 import * as modelPickerModule from "./model-picker.js";
@@ -20,7 +20,7 @@ import {
 } from "./native-command.js";
 import { createNoopThreadBindingManager, type ThreadBindingManager } from "./thread-bindings.js";
 
-vi.mock("openclaw/plugin-sdk/agent-runtime", () => ({
+vi.mock("kibo/plugin-sdk/agent-runtime", () => ({
   resolveDefaultModelForAgent: () => ({
     provider: "anthropic",
     model: "claude-sonnet-4.5",
@@ -78,7 +78,7 @@ function createModelPickerContext(): ModelPickerContext {
         },
       },
     },
-  } as unknown as OpenClawConfig;
+  } as unknown as KiboConfig;
 
   return {
     cfg,

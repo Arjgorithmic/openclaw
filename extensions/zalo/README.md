@@ -1,17 +1,17 @@
-# @openclaw/zalo
+# @kibo/zalo
 
-Zalo channel plugin for OpenClaw (Bot API).
+Zalo channel plugin for Kibo (Bot API).
 
 ## Install (local checkout)
 
 ```bash
-openclaw plugins install ./path/to/local/zalo-plugin
+kibo plugins install ./path/to/local/zalo-plugin
 ```
 
 ## Install (npm)
 
 ```bash
-openclaw plugins install @openclaw/zalo
+kibo plugins install @kibo/zalo
 ```
 
 Onboarding: select Zalo and confirm the install prompt to fetch the plugin automatically.

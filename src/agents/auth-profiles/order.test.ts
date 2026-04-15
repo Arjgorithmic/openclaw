@@ -49,7 +49,7 @@ describe("resolveAuthProfileOrder", () => {
   });
 
   it("marks aliased provider profiles good under the canonical auth provider", async () => {
-    const agentDir = await mkdtemp(path.join(os.tmpdir(), "openclaw-auth-profile-alias-"));
+    const agentDir = await mkdtemp(path.join(os.tmpdir(), "kibo-auth-profile-alias-"));
     try {
       const store: AuthProfileStore = {
         version: 1,

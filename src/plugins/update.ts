@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import {
   expectedIntegrityForUpdate,
   readInstalledPackageVersion,
@@ -6,7 +6,7 @@ import {
 import type { UpdateChannel } from "../infra/update-channels.js";
 import { resolveUserPath } from "../utils.js";
 import { resolveBundledPluginSources } from "./bundled-sources.js";
-import { installPluginFromClawHub } from "./clawhub.js";
+import { installPluginFromKiboHub } from "./kibohub.js";
 import {
   installPluginFromNpmSpec,
   PLUGIN_INSTALL_ERROR_CODE,
@@ -32,7 +32,7 @@ export type PluginUpdateOutcome = {
 };
 
 export type PluginUpdateSummary = {
-  config: OpenClawConfig;
+  config: KiboConfig;
   changed: boolean;
   outcomes: PluginUpdateOutcome[];
 };
@@ -55,7 +55,7 @@ export type PluginChannelSyncSummary = {
 };
 
 export type PluginChannelSyncResult = {
-  config: OpenClawConfig;
+  config: KiboConfig;
   changed: boolean;
   summary: PluginChannelSyncSummary;
 };
@@ -85,13 +85,13 @@ function formatMarketplaceInstallFailure(params: {
   );
 }
 
-function formatClawHubInstallFailure(params: {
+function formatKiboHubInstallFailure(params: {
   pluginId: string;
   spec: string;
   phase: "check" | "update";
   error: string;
 }): string {
-  return `Failed to ${params.phase} ${params.pluginId}: ${params.error} (ClawHub ${params.spec}).`;
+  return `Failed to ${params.phase} ${params.pluginId}: ${params.error} (KiboHub ${params.spec}).`;
 }
 
 type InstallIntegrityDrift = {
@@ -171,7 +171,7 @@ function replacePluginIdInList(
   return next;
 }
 
-function migratePluginConfigId(cfg: OpenClawConfig, fromId: string, toId: string): OpenClawConfig {
+function migratePluginConfigId(cfg: KiboConfig, fromId: string, toId: string): KiboConfig {
   if (fromId === toId) {
     return cfg;
   }
@@ -253,7 +253,7 @@ function createPluginUpdateIntegrityDriftHandler(params: {
 }
 
 export async function updateNpmInstalledPlugins(params: {
-  config: OpenClawConfig;
+  config: KiboConfig;
   logger?: PluginUpdateLogger;
   pluginIds?: string[];
   skipIds?: Set<string>;
@@ -289,7 +289,7 @@ export async function updateNpmInstalledPlugins(params: {
       continue;
     }
 
-    if (record.source !== "npm" && record.source !== "marketplace" && record.source !== "clawhub") {
+    if (record.source !== "npm" && record.source !== "marketplace" && record.source !== "kibohub") {
       outcomes.push({
         pluginId,
         status: "skipped",
@@ -314,11 +314,11 @@ export async function updateNpmInstalledPlugins(params: {
       continue;
     }
 
-    if (record.source === "clawhub" && !record.clawhubPackage) {
+    if (record.source === "kibohub" && !record.kibohubPackage) {
       outcomes.push({
         pluginId,
         status: "skipped",
-        message: `Skipping "${pluginId}" (missing ClawHub package metadata).`,
+        message: `Skipping "${pluginId}" (missing KiboHub package metadata).`,
       });
       continue;
     }
@@ -351,7 +351,7 @@ export async function updateNpmInstalledPlugins(params: {
     if (params.dryRun) {
       let probe:
         | Awaited<ReturnType<typeof installPluginFromNpmSpec>>
-        | Awaited<ReturnType<typeof installPluginFromClawHub>>
+        | Awaited<ReturnType<typeof installPluginFromKiboHub>>
         | Awaited<ReturnType<typeof installPluginFromMarketplace>>;
       try {
         probe =
@@ -371,10 +371,10 @@ export async function updateNpmInstalledPlugins(params: {
                 }),
                 logger,
               })
-            : record.source === "clawhub"
-              ? await installPluginFromClawHub({
-                  spec: effectiveSpec ?? `clawhub:${record.clawhubPackage!}`,
-                  baseUrl: record.clawhubUrl,
+            : record.source === "kibohub"
+              ? await installPluginFromKiboHub({
+                  spec: effectiveSpec ?? `kibohub:${record.kibohubPackage!}`,
+                  baseUrl: record.kibohubUrl,
                   mode: "update",
                   dryRun: true,
                   dangerouslyForceUnsafeInstall: params.dangerouslyForceUnsafeInstall,
@@ -410,10 +410,10 @@ export async function updateNpmInstalledPlugins(params: {
                   phase: "check",
                   result: probe,
                 })
-              : record.source === "clawhub"
-                ? formatClawHubInstallFailure({
+              : record.source === "kibohub"
+                ? formatKiboHubInstallFailure({
                     pluginId,
-                    spec: effectiveSpec ?? `clawhub:${record.clawhubPackage!}`,
+                    spec: effectiveSpec ?? `kibohub:${record.kibohubPackage!}`,
                     phase: "check",
                     error: probe.error,
                   })
@@ -452,7 +452,7 @@ export async function updateNpmInstalledPlugins(params: {
 
     let result:
       | Awaited<ReturnType<typeof installPluginFromNpmSpec>>
-      | Awaited<ReturnType<typeof installPluginFromClawHub>>
+      | Awaited<ReturnType<typeof installPluginFromKiboHub>>
       | Awaited<ReturnType<typeof installPluginFromMarketplace>>;
     try {
       result =
@@ -471,10 +471,10 @@ export async function updateNpmInstalledPlugins(params: {
               }),
               logger,
             })
-          : record.source === "clawhub"
-            ? await installPluginFromClawHub({
-                spec: effectiveSpec ?? `clawhub:${record.clawhubPackage!}`,
-                baseUrl: record.clawhubUrl,
+          : record.source === "kibohub"
+            ? await installPluginFromKiboHub({
+                spec: effectiveSpec ?? `kibohub:${record.kibohubPackage!}`,
+                baseUrl: record.kibohubUrl,
                 mode: "update",
                 dangerouslyForceUnsafeInstall: params.dangerouslyForceUnsafeInstall,
                 expectedPluginId: pluginId,
@@ -508,10 +508,10 @@ export async function updateNpmInstalledPlugins(params: {
                 phase: "update",
                 result: result,
               })
-            : record.source === "clawhub"
-              ? formatClawHubInstallFailure({
+            : record.source === "kibohub"
+              ? formatKiboHubInstallFailure({
                   pluginId,
-                  spec: effectiveSpec ?? `clawhub:${record.clawhubPackage!}`,
+                  spec: effectiveSpec ?? `kibohub:${record.kibohubPackage!}`,
                   phase: "update",
                   error: result.error,
                 })
@@ -541,23 +541,23 @@ export async function updateNpmInstalledPlugins(params: {
         version: nextVersion,
         ...buildNpmResolutionInstallFields(result.npmResolution),
       });
-    } else if (record.source === "clawhub") {
-      const clawhubResult = result as Extract<
-        Awaited<ReturnType<typeof installPluginFromClawHub>>,
+    } else if (record.source === "kibohub") {
+      const kibohubResult = result as Extract<
+        Awaited<ReturnType<typeof installPluginFromKiboHub>>,
         { ok: true }
       >;
       next = recordPluginInstall(next, {
         pluginId: resolvedPluginId,
-        source: "clawhub",
-        spec: effectiveSpec ?? record.spec ?? `clawhub:${record.clawhubPackage!}`,
+        source: "kibohub",
+        spec: effectiveSpec ?? record.spec ?? `kibohub:${record.kibohubPackage!}`,
         installPath: result.targetDir,
         version: nextVersion,
-        integrity: clawhubResult.clawhub.integrity,
-        resolvedAt: clawhubResult.clawhub.resolvedAt,
-        clawhubUrl: clawhubResult.clawhub.clawhubUrl,
-        clawhubPackage: clawhubResult.clawhub.clawhubPackage,
-        clawhubFamily: clawhubResult.clawhub.clawhubFamily,
-        clawhubChannel: clawhubResult.clawhub.clawhubChannel,
+        integrity: kibohubResult.kibohub.integrity,
+        resolvedAt: kibohubResult.kibohub.resolvedAt,
+        kibohubUrl: kibohubResult.kibohub.kibohubUrl,
+        kibohubPackage: kibohubResult.kibohub.kibohubPackage,
+        kibohubFamily: kibohubResult.kibohub.kibohubFamily,
+        kibohubChannel: kibohubResult.kibohub.kibohubChannel,
       });
     } else {
       const marketplaceResult = result as Extract<
@@ -601,7 +601,7 @@ export async function updateNpmInstalledPlugins(params: {
 }
 
 export async function syncPluginsForUpdateChannel(params: {
-  config: OpenClawConfig;
+  config: KiboConfig;
   channel: UpdateChannel;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;

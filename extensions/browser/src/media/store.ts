@@ -1,1 +1,1 @@
-export { ensureMediaDir, saveMediaBuffer } from "openclaw/plugin-sdk/browser-setup-tools";
+export { ensureMediaDir, saveMediaBuffer } from "kibo/plugin-sdk/browser-setup-tools";

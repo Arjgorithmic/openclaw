@@ -33,7 +33,7 @@ const baseScanFields = {
 const baseGatewayService = {
   label: "LaunchAgent",
   installed: true,
-  managedByOpenClaw: true,
+  managedByKibo: true,
   loadedText: "loaded",
   runtimeShort: "running",
 };

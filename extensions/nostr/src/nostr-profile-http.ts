@@ -12,8 +12,8 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
   readStringValue,
-} from "openclaw/plugin-sdk/text-runtime";
-import { z } from "openclaw/plugin-sdk/zod";
+} from "kibo/plugin-sdk/text-runtime";
+import { z } from "kibo/plugin-sdk/zod";
 import {
   createFixedWindowRateLimiter,
   readJsonBodyWithLimit,

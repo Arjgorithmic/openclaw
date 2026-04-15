@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/types.js";
+import type { KiboConfig } from "../config/types.js";
 
 export type ProviderModelRef = {
   provider: string;
@@ -6,7 +6,7 @@ export type ProviderModelRef = {
 };
 
 export function resolveConfiguredProviderFallback(params: {
-  cfg: Pick<OpenClawConfig, "models">;
+  cfg: Pick<KiboConfig, "models">;
   defaultProvider: string;
   defaultModel?: string;
 }): ProviderModelRef | null {

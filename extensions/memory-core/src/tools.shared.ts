@@ -6,9 +6,9 @@ import {
   type MemoryCorpusGetResult,
   type MemoryCorpusSearchResult,
   type AnyAgentTool,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/memory-core-host-runtime-core";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+  type KiboConfig,
+} from "kibo/plugin-sdk/memory-core-host-runtime-core";
+import { normalizeLowercaseStringOrEmpty } from "kibo/plugin-sdk/text-runtime";
 
 type MemoryToolRuntime = typeof import("./tools.runtime.js");
 type MemorySearchManagerResult = Awaited<
@@ -41,7 +41,7 @@ export const MemoryGetSchema = Type.Object({
 });
 
 export function resolveMemoryToolContext(options: {
-  config?: OpenClawConfig;
+  config?: KiboConfig;
   agentSessionKey?: string;
 }) {
   const cfg = options.config;
@@ -59,7 +59,7 @@ export function resolveMemoryToolContext(options: {
 }
 
 export async function getMemoryManagerContext(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   agentId: string;
 }): Promise<
   | {
@@ -73,7 +73,7 @@ export async function getMemoryManagerContext(params: {
 }
 
 export async function getMemoryManagerContextWithPurpose(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   agentId: string;
   purpose?: "default" | "status";
 }): Promise<
@@ -95,14 +95,14 @@ export async function getMemoryManagerContextWithPurpose(params: {
 
 export function createMemoryTool(params: {
   options: {
-    config?: OpenClawConfig;
+    config?: KiboConfig;
     agentSessionKey?: string;
   };
   label: string;
   name: string;
   description: string;
   parameters: typeof MemorySearchSchema | typeof MemoryGetSchema;
-  execute: (ctx: { cfg: OpenClawConfig; agentId: string }) => AnyAgentTool["execute"];
+  execute: (ctx: { cfg: KiboConfig; agentId: string }) => AnyAgentTool["execute"];
 }): AnyAgentTool | null {
   const ctx = resolveMemoryToolContext(params.options);
   if (!ctx) {

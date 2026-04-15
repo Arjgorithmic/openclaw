@@ -690,7 +690,7 @@ describe("runCliAgent spawn path", () => {
 
   it("loads workspace bootstrap files into the Claude CLI system prompt", async () => {
     const workspaceDir = await fs.mkdtemp(
-      path.join(os.tmpdir(), "openclaw-cli-bootstrap-context-"),
+      path.join(os.tmpdir(), "kibo-cli-bootstrap-context-"),
     );
 
     await fs.writeFile(

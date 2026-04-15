@@ -1,6 +1,6 @@
 import { loadBundledPluginContractApiSync } from "../../../src/test-utils/bundled-plugin-public-surface.js";
 
-type IMessageContractSurface = typeof import("@openclaw/imessage/contract-api.js");
+type IMessageContractSurface = typeof import("@kibo/imessage/contract-api.js");
 
 const {
   DEFAULT_IMESSAGE_ATTACHMENT_ROOTS,

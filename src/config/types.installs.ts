@@ -1,5 +1,5 @@
 export type InstallRecordBase = {
-  source: "npm" | "archive" | "path" | "clawhub";
+  source: "npm" | "archive" | "path" | "kibohub";
   spec?: string;
   sourcePath?: string;
   installPath?: string;
@@ -11,8 +11,8 @@ export type InstallRecordBase = {
   shasum?: string;
   resolvedAt?: string;
   installedAt?: string;
-  clawhubUrl?: string;
-  clawhubPackage?: string;
-  clawhubFamily?: "code-plugin" | "bundle-plugin";
-  clawhubChannel?: "official" | "community" | "private";
+  kibohubUrl?: string;
+  kibohubPackage?: string;
+  kibohubFamily?: "code-plugin" | "bundle-plugin";
+  kibohubChannel?: "official" | "community" | "private";
 };

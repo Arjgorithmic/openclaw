@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../config/config.js";
+import type { KiboConfig } from "../../config/config.js";
 import { formatErrorMessage } from "../errors.js";
 import {
   ackDelivery,
@@ -19,7 +19,7 @@ export type RecoverySummary = {
 
 export type DeliverFn = (
   params: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
   } & QueuedDeliveryPayload & {
       skipQueue?: boolean;
     },
@@ -99,7 +99,7 @@ function releaseRecoveryEntry(entryId: string): void {
   entriesInProgress.delete(entryId);
 }
 
-function buildRecoveryDeliverParams(entry: QueuedDelivery, cfg: OpenClawConfig) {
+function buildRecoveryDeliverParams(entry: QueuedDelivery, cfg: KiboConfig) {
   return {
     cfg,
     channel: entry.channel,
@@ -181,7 +181,7 @@ export function isPermanentDeliveryError(error: string): boolean {
 
 async function drainQueuedEntry(opts: {
   entry: QueuedDelivery;
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   deliver: DeliverFn;
   stateDir?: string;
   onRecovered?: (entry: QueuedDelivery) => void;
@@ -222,7 +222,7 @@ async function drainQueuedEntry(opts: {
 export async function drainPendingDeliveries(opts: {
   drainKey: string;
   logLabel: string;
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   log: RecoveryLogger;
   stateDir?: string;
   deliver?: DeliverFn;
@@ -334,7 +334,7 @@ export async function drainPendingDeliveries(opts: {
 export async function recoverPendingDeliveries(opts: {
   deliver: DeliverFn;
   log: RecoveryLogger;
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   stateDir?: string;
   /** Maximum wall-clock time for recovery in ms. Remaining entries are deferred to next startup. Default: 60 000. */
   maxRecoveryMs?: number;

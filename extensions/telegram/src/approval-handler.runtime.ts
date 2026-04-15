@@ -1,19 +1,19 @@
 import type {
   ChannelApprovalCapabilityHandlerContext,
   PendingApprovalView,
-} from "openclaw/plugin-sdk/approval-handler-runtime";
-import { createChannelApprovalNativeRuntimeAdapter } from "openclaw/plugin-sdk/approval-handler-runtime";
-import { buildChannelApprovalNativeTargetKey } from "openclaw/plugin-sdk/approval-native-runtime";
-import { buildPluginApprovalPendingReplyPayload } from "openclaw/plugin-sdk/approval-reply-runtime";
+} from "kibo/plugin-sdk/approval-handler-runtime";
+import { createChannelApprovalNativeRuntimeAdapter } from "kibo/plugin-sdk/approval-handler-runtime";
+import { buildChannelApprovalNativeTargetKey } from "kibo/plugin-sdk/approval-native-runtime";
+import { buildPluginApprovalPendingReplyPayload } from "kibo/plugin-sdk/approval-reply-runtime";
 import {
   buildApprovalInteractiveReplyFromActionDescriptors,
   buildExecApprovalPendingReplyPayload,
   type ExecApprovalPendingReplyParams,
   type ExecApprovalRequest,
   type PluginApprovalRequest,
-} from "openclaw/plugin-sdk/infra-runtime";
-import { createSubsystemLogger } from "openclaw/plugin-sdk/runtime-env";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/infra-runtime";
+import { createSubsystemLogger } from "kibo/plugin-sdk/runtime-env";
+import { normalizeOptionalString } from "kibo/plugin-sdk/text-runtime";
 import { resolveTelegramInlineButtons } from "./button-types.js";
 import {
   isTelegramExecApprovalHandlerConfigured,

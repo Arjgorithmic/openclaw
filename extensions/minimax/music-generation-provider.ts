@@ -1,18 +1,18 @@
-import { extensionForMime } from "openclaw/plugin-sdk/msteams";
+import { extensionForMime } from "kibo/plugin-sdk/msteams";
 import type {
   GeneratedMusicAsset,
   MusicGenerationProvider,
   MusicGenerationRequest,
-} from "openclaw/plugin-sdk/music-generation";
-import { isProviderApiKeyConfigured } from "openclaw/plugin-sdk/provider-auth";
-import { resolveApiKeyForProvider } from "openclaw/plugin-sdk/provider-auth-runtime";
+} from "kibo/plugin-sdk/music-generation";
+import { isProviderApiKeyConfigured } from "kibo/plugin-sdk/provider-auth";
+import { resolveApiKeyForProvider } from "kibo/plugin-sdk/provider-auth-runtime";
 import {
   assertOkOrThrowHttpError,
   fetchWithTimeout,
   postJsonRequest,
   resolveProviderHttpRequestConfig,
-} from "openclaw/plugin-sdk/provider-http";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/provider-http";
+import { normalizeOptionalString } from "kibo/plugin-sdk/text-runtime";
 
 const DEFAULT_MINIMAX_MUSIC_BASE_URL = "https://api.minimax.io";
 const DEFAULT_MINIMAX_MUSIC_MODEL = "music-2.5+";

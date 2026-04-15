@@ -12,7 +12,7 @@ import { createScriptTestHarness } from "./test-helpers.js";
 const { createTempDirAsync } = createScriptTestHarness();
 
 async function createExtensionsDir() {
-  const root = await createTempDirAsync("openclaw-postinstall-");
+  const root = await createTempDirAsync("kibo-postinstall-");
   const extensionsDir = path.join(root, "dist", "extensions");
   await fs.mkdir(extensionsDir, { recursive: true });
   return extensionsDir;
@@ -102,7 +102,7 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("prunes source-checkout bundled plugin node_modules", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-source-checkout-");
+    const packageRoot = await createTempDirAsync("kibo-source-checkout-");
     const extensionsDir = path.join(packageRoot, "extensions");
     await fs.mkdir(path.join(packageRoot, ".git"), { recursive: true });
     await fs.mkdir(path.join(packageRoot, "src"), { recursive: true });
@@ -133,7 +133,7 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("keeps source-checkout prune non-fatal", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-source-checkout-prune-error-");
+    const packageRoot = await createTempDirAsync("kibo-source-checkout-prune-error-");
     const extensionsDir = path.join(packageRoot, "extensions");
     await fs.mkdir(path.join(packageRoot, ".git"), { recursive: true });
     await fs.mkdir(path.join(packageRoot, "src"), { recursive: true });
@@ -158,7 +158,7 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("honors disable env before source-checkout pruning", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-source-checkout-disabled-");
+    const packageRoot = await createTempDirAsync("kibo-source-checkout-disabled-");
     const extensionsDir = path.join(packageRoot, "extensions");
     await fs.mkdir(path.join(packageRoot, ".git"), { recursive: true });
     await fs.mkdir(path.join(packageRoot, "src"), { recursive: true });
@@ -166,7 +166,7 @@ describe("bundled plugin postinstall", () => {
     await fs.writeFile(path.join(extensionsDir, "acpx", "package.json"), "{}\n");
 
     runBundledPluginPostinstall({
-      env: { OPENCLAW_DISABLE_BUNDLED_PLUGIN_POSTINSTALL: "1" },
+      env: { KIBO_DISABLE_BUNDLED_PLUGIN_POSTINSTALL: "1" },
       packageRoot,
       log: { log: vi.fn(), warn: vi.fn() },
     });
@@ -378,13 +378,13 @@ describe("bundled plugin postinstall", () => {
   });
 
   it("prunes only bundled plugin package node_modules in source checkouts", async () => {
-    const packageRoot = await createTempDirAsync("openclaw-source-prune-");
+    const packageRoot = await createTempDirAsync("kibo-source-prune-");
     const extensionsDir = path.join(packageRoot, "extensions");
     await fs.mkdir(path.join(extensionsDir, "acpx", "node_modules"), { recursive: true });
     await fs.mkdir(path.join(extensionsDir, "fixtures", "node_modules"), { recursive: true });
     await fs.writeFile(
       path.join(extensionsDir, "acpx", "package.json"),
-      JSON.stringify({ name: "@openclaw/acpx" }),
+      JSON.stringify({ name: "@kibo/acpx" }),
     );
 
     pruneBundledPluginSourceNodeModules({ extensionsDir });

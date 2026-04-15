@@ -22,7 +22,7 @@ const ROOMY_HOST = {
 function makeEnv(overrides: Record<string, string | undefined> = {}) {
   return {
     ...process.env,
-    OPENCLAW_LOCAL_CHECK: "1",
+    KIBO_LOCAL_CHECK: "1",
     ...overrides,
   };
 }
@@ -42,7 +42,7 @@ describe("local-heavy-check-runtime", () => {
       makeEnv({
         GOGC: "80",
         GOMEMLIMIT: "5GiB",
-        OPENCLAW_TSGO_PPROF_DIR: "/tmp/profile",
+        KIBO_TSGO_PPROF_DIR: "/tmp/profile",
       }),
       CONSTRAINED_HOST,
     );
@@ -64,7 +64,7 @@ describe("local-heavy-check-runtime", () => {
     const { args, env } = applyLocalTsgoPolicy(
       [],
       makeEnv({
-        OPENCLAW_LOCAL_CHECK_MODE: "throttled",
+        KIBO_LOCAL_CHECK_MODE: "throttled",
       }),
       ROOMY_HOST,
     );
@@ -100,9 +100,9 @@ describe("local-heavy-check-runtime", () => {
   });
 
   it("reclaims stale local heavy-check locks from dead pids", () => {
-    const cwd = createTempDir("openclaw-local-heavy-check-");
+    const cwd = createTempDir("kibo-local-heavy-check-");
     const commonDir = path.join(cwd, ".git");
-    const lockDir = path.join(commonDir, "openclaw-local-checks", "heavy-check.lock");
+    const lockDir = path.join(commonDir, "kibo-local-checks", "heavy-check.lock");
     fs.mkdirSync(lockDir, { recursive: true });
     fs.writeFileSync(
       path.join(lockDir, "owner.json"),

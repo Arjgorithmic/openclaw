@@ -187,10 +187,10 @@ describe("dreaming controller", () => {
       config: {
         plugins: {
           slots: {
-            memory: "memos-local-openclaw-plugin",
+            memory: "memos-local-kibo-plugin",
           },
           entries: {
-            "memos-local-openclaw-plugin": {
+            "memos-local-kibo-plugin": {
               config: {
                 dreaming: {
                   enabled: true,
@@ -216,7 +216,7 @@ describe("dreaming controller", () => {
     expect(getConfigPatchRawPayload(request)).toEqual({
       plugins: {
         entries: {
-          "memos-local-openclaw-plugin": {
+          "memos-local-kibo-plugin": {
             config: {
               dreaming: {
                 enabled: false,
@@ -309,10 +309,10 @@ describe("dreaming controller", () => {
       resolveConfiguredDreaming({
         plugins: {
           slots: {
-            memory: "memos-local-openclaw-plugin",
+            memory: "memos-local-kibo-plugin",
           },
           entries: {
-            "memos-local-openclaw-plugin": {
+            "memos-local-kibo-plugin": {
               config: {
                 dreaming: {
                   enabled: true,
@@ -330,7 +330,7 @@ describe("dreaming controller", () => {
         },
       }),
     ).toEqual({
-      pluginId: "memos-local-openclaw-plugin",
+      pluginId: "memos-local-kibo-plugin",
       enabled: true,
     });
   });

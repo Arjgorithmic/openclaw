@@ -123,18 +123,18 @@ export type PluginRuntimeCore = {
     /** Resolve auth for a model. Only provider/model and optional cfg are used. */
     getApiKeyForModel: (params: {
       model: import("@mariozechner/pi-ai").Model<import("@mariozechner/pi-ai").Api>;
-      cfg?: import("../../config/config.js").OpenClawConfig;
+      cfg?: import("../../config/config.js").KiboConfig;
     }) => Promise<import("../../agents/model-auth.js").ResolvedProviderAuth>;
     /** Resolve request-ready auth for a model, including provider runtime exchanges. */
     getRuntimeAuthForModel: (params: {
       model: import("@mariozechner/pi-ai").Model<import("@mariozechner/pi-ai").Api>;
-      cfg?: import("../../config/config.js").OpenClawConfig;
+      cfg?: import("../../config/config.js").KiboConfig;
       workspaceDir?: string;
     }) => Promise<import("./model-auth-types.js").ResolvedProviderRuntimeAuth>;
     /** Resolve auth for a provider by name. Only provider and optional cfg are used. */
     resolveApiKeyForProvider: (params: {
       provider: string;
-      cfg?: import("../../config/config.js").OpenClawConfig;
+      cfg?: import("../../config/config.js").KiboConfig;
     }) => Promise<import("../../agents/model-auth.js").ResolvedProviderAuth>;
   };
 };

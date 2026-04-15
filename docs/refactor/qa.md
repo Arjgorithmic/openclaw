@@ -4,7 +4,7 @@ Status: foundational migration landed.
 
 ## Goal
 
-Move OpenClaw QA from a split-definition model to a single source of truth:
+Move Kibo QA from a split-definition model to a single source of truth:
 
 - scenario metadata
 - prompts sent to the model
@@ -74,7 +74,7 @@ Reading the current suite shows a few distinct scenario classes.
 ### Filesystem and repo assertions
 
 - source/docs discovery report
-- build Lobster Invaders
+- build Kibo Shell Invaders
 - generated image artifact lookup
 
 ### Memory orchestration

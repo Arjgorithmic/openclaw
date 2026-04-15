@@ -89,7 +89,7 @@ describe("qa mock openai server", () => {
     });
   });
 
-  it("drives the Lobster Invaders write flow and memory recall responses", async () => {
+  it("drives the Kibo Shell Invaders write flow and memory recall responses", async () => {
     const server = await startQaMockOpenAiServer({
       host: "127.0.0.1",
       port: 0,
@@ -98,7 +98,7 @@ describe("qa mock openai server", () => {
       await server.stop();
     });
 
-    const lobster = await fetch(`${server.baseUrl}/v1/responses`, {
+    const shell = await fetch(`${server.baseUrl}/v1/responses`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -110,7 +110,7 @@ describe("qa mock openai server", () => {
           {
             role: "user",
             content: [
-              { type: "input_text", text: "Please build Lobster Invaders after reading context." },
+              { type: "input_text", text: "Please build Kibo Shell Invaders after reading context." },
             ],
           },
           {
@@ -120,10 +120,10 @@ describe("qa mock openai server", () => {
         ],
       }),
     });
-    expect(lobster.status).toBe(200);
-    const lobsterBody = await lobster.text();
-    expect(lobsterBody).toContain('"name":"write"');
-    expect(lobsterBody).toContain("lobster-invaders.html");
+    expect(shell.status).toBe(200);
+    const shellBody = await shell.text();
+    expect(shellBody).toContain('"name":"write"');
+    expect(shellBody).toContain("shell-invaders.html");
 
     const recall = await fetch(`${server.baseUrl}/v1/responses`, {
       method: "POST",
@@ -757,7 +757,7 @@ describe("qa mock openai server", () => {
           },
           {
             type: "function_call_output",
-            output: "QA mission: Understand this OpenClaw repo from source + docs before acting.",
+            output: "QA mission: Understand this Kibo repo from source + docs before acting.",
           },
         ],
       }),

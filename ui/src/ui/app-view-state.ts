@@ -5,8 +5,8 @@ import type { DevicePairingList } from "./controllers/devices.ts";
 import type { ExecApprovalRequest } from "./controllers/exec-approval.ts";
 import type { ExecApprovalsFile, ExecApprovalsSnapshot } from "./controllers/exec-approvals.ts";
 import type {
-  ClawHubSearchResult,
-  ClawHubSkillDetail,
+  KiboHubSearchResult,
+  KiboHubSkillDetail,
   SkillMessage,
 } from "./controllers/skills.ts";
 import type { GatewayBrowserClient, GatewayHelloOk } from "./gateway.ts";
@@ -295,16 +295,16 @@ export type AppViewState = {
     skillMessages: Record<string, SkillMessage>;
     skillsBusyKey: string | null;
     skillsDetailKey: string | null;
-    clawhubSearchQuery: string;
-    clawhubSearchResults: ClawHubSearchResult[] | null;
-    clawhubSearchLoading: boolean;
-    clawhubSearchError: string | null;
-    clawhubDetail: ClawHubSkillDetail | null;
-    clawhubDetailSlug: string | null;
-    clawhubDetailLoading: boolean;
-    clawhubDetailError: string | null;
-    clawhubInstallSlug: string | null;
-    clawhubInstallMessage: { kind: "success" | "error"; text: string } | null;
+    kibohubSearchQuery: string;
+    kibohubSearchResults: KiboHubSearchResult[] | null;
+    kibohubSearchLoading: boolean;
+    kibohubSearchError: string | null;
+    kibohubDetail: KiboHubSkillDetail | null;
+    kibohubDetailSlug: string | null;
+    kibohubDetailLoading: boolean;
+    kibohubDetailError: string | null;
+    kibohubInstallSlug: string | null;
+    kibohubInstallMessage: { kind: "success" | "error"; text: string } | null;
     healthLoading: boolean;
     healthResult: HealthSummary | null;
     healthError: string | null;

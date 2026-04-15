@@ -5,7 +5,7 @@ import { seedQaAgentWorkspace } from "./qa-agent-workspace.js";
 import { buildQaGatewayConfig } from "./qa-gateway-config.js";
 
 const QA_LAB_INTERNAL_PORT = 43123;
-const QA_LAB_UI_OVERLAY_DIR = "/opt/openclaw-qa-lab-ui";
+const QA_LAB_UI_OVERLAY_DIR = "/opt/kibo-qa-lab-ui";
 
 function toPosixRelative(fromDir: string, toPath: string): string {
   return path.relative(fromDir, toPath).split(path.sep).join("/");
@@ -21,7 +21,7 @@ function renderImageBlock(params: {
     return `    image: ${params.imageName}\n`;
   }
   const context = toPosixRelative(params.outputDir, params.repoRoot) || ".";
-  return `    build:\n      context: ${context}\n      dockerfile: Dockerfile\n      args:\n        OPENCLAW_EXTENSIONS: "qa-channel qa-lab"\n`;
+  return `    build:\n      context: ${context}\n      dockerfile: Dockerfile\n      args:\n        KIBO_EXTENSIONS: "qa-channel qa-lab"\n`;
 }
 
 function renderCompose(params: {
@@ -81,10 +81,10 @@ ${params.bindUiDist ? `    volumes:\n      - ${qaLabUiMount}:${QA_LAB_UI_OVERLAY
       retries: 6
       start_period: 5s
     environment:
-      OPENCLAW_SKIP_GMAIL_WATCHER: "1"
-      OPENCLAW_SKIP_BROWSER_CONTROL_SERVER: "1"
-      OPENCLAW_SKIP_CANVAS_HOST: "1"
-      OPENCLAW_PROFILE: ""
+      KIBO_SKIP_GMAIL_WATCHER: "1"
+      KIBO_SKIP_BROWSER_CONTROL_SERVER: "1"
+      KIBO_SKIP_CANVAS_HOST: "1"
+      KIBO_PROFILE: ""
     command:
       - node
       - dist/index.js
@@ -101,7 +101,7 @@ ${params.bindUiDist ? `    volumes:\n      - ${qaLabUiMount}:${QA_LAB_UI_OVERLAY
       - --control-ui-url
       - "http://127.0.0.1:${params.gatewayPort}/"
       - --control-ui-proxy-target
-      - "http://openclaw-qa-gateway:18789/"
+      - "http://kibo-qa-gateway:18789/"
       - --control-ui-token
       - "${params.gatewayToken}"
 ${params.bindUiDist ? `      - --ui-dist-dir\n      - "${QA_LAB_UI_OVERLAY_DIR}"\n` : ""}      - --auto-kickoff-target
@@ -114,23 +114,23 @@ ${params.bindUiDist ? `      - --ui-dist-dir\n      - "${QA_LAB_UI_OVERLAY_DIR}"
         condition: service_healthy
 `
     : ""
-}  openclaw-qa-gateway:
+}  kibo-qa-gateway:
 ${imageBlock}    pull_policy: never
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:
       - "${params.gatewayPort}:18789"
     environment:
-      OPENCLAW_CONFIG_PATH: /tmp/openclaw/openclaw.json
-      OPENCLAW_STATE_DIR: /tmp/openclaw/state
-      OPENCLAW_NO_RESPAWN: "1"
-      OPENCLAW_SKIP_GMAIL_WATCHER: "1"
-      OPENCLAW_SKIP_BROWSER_CONTROL_SERVER: "1"
-      OPENCLAW_SKIP_CANVAS_HOST: "1"
-      OPENCLAW_PROFILE: ""
+      KIBO_CONFIG_PATH: /tmp/kibo/kibo.json
+      KIBO_STATE_DIR: /tmp/kibo/state
+      KIBO_NO_RESPAWN: "1"
+      KIBO_SKIP_GMAIL_WATCHER: "1"
+      KIBO_SKIP_BROWSER_CONTROL_SERVER: "1"
+      KIBO_SKIP_CANVAS_HOST: "1"
+      KIBO_PROFILE: ""
     volumes:
-      - ./state:/opt/openclaw-scaffold:ro
-      - ${repoMount}:/opt/openclaw-repo:ro
+      - ./state:/opt/kibo-scaffold:ro
+      - ${repoMount}:/opt/kibo-repo:ro
     healthcheck:
       test:
         - CMD
@@ -153,7 +153,7 @@ ${
     command:
       - sh
       - -lc
-      - mkdir -p /tmp/openclaw/workspace /tmp/openclaw/state && cp /opt/openclaw-scaffold/openclaw.json /tmp/openclaw/openclaw.json && cp -R /opt/openclaw-scaffold/seed-workspace/. /tmp/openclaw/workspace/ && ln -snf /opt/openclaw-repo /tmp/openclaw/workspace/repo && exec node dist/index.js gateway run --port 18789 --bind lan --allow-unconfigured
+      - mkdir -p /tmp/kibo/workspace /tmp/kibo/state && cp /opt/kibo-scaffold/kibo.json /tmp/kibo/kibo.json && cp -R /opt/kibo-scaffold/seed-workspace/. /tmp/kibo/workspace/ && ln -snf /opt/kibo-repo /tmp/kibo/workspace/repo && exec node dist/index.js gateway run --port 18789 --bind lan --allow-unconfigured
 `;
 }
 
@@ -166,7 +166,7 @@ function renderEnvExample(params: {
   includeQaLabUi: boolean;
 }) {
   return `# QA Docker harness example env
-OPENCLAW_GATEWAY_TOKEN=${params.gatewayToken}
+KIBO_GATEWAY_TOKEN=${params.gatewayToken}
 QA_GATEWAY_PORT=${params.gatewayPort}
 QA_BUS_BASE_URL=${params.qaBusBaseUrl}
 QA_PROVIDER_BASE_URL=${params.providerBaseUrl}
@@ -188,12 +188,12 @@ Files:
 
 - \`docker-compose.qa.yml\`
 - \`.env.example\`
-- \`state/openclaw.json\`
+- \`state/kibo.json\`
 
 Suggested flow:
 
 1. Build the prebaked image once:
-   - \`docker build -t openclaw:qa-local-prebaked --build-arg OPENCLAW_EXTENSIONS="qa-channel qa-lab" -f Dockerfile .\`
+   - \`docker build -t kibo:qa-local-prebaked --build-arg KIBO_EXTENSIONS="qa-channel qa-lab" -f Dockerfile .\`
 2. Start the stack:
    - \`docker compose -f docker-compose.qa.yml up${params.usePrebuiltImage ? "" : " --build"} -d\`
 3. Open the QA dashboard:
@@ -241,7 +241,7 @@ export async function writeQaDockerHarnessFiles(params: {
   const gatewayToken = params.gatewayToken ?? `qa-token-${randomUUID()}`;
   const providerBaseUrl = params.providerBaseUrl ?? "http://qa-mock-openai:44080/v1";
   const qaBusBaseUrl = params.qaBusBaseUrl ?? "http://qa-lab:43123";
-  const imageName = params.imageName ?? "openclaw:qa-local-prebaked";
+  const imageName = params.imageName ?? "kibo:qa-local-prebaked";
   const usePrebuiltImage = params.usePrebuiltImage ?? false;
   const bindUiDist = params.bindUiDist ?? false;
   const includeQaLabUi = params.includeQaLabUi ?? true;
@@ -258,7 +258,7 @@ export async function writeQaDockerHarnessFiles(params: {
     gatewayToken,
     providerBaseUrl,
     qaBusBaseUrl,
-    workspaceDir: "/tmp/openclaw/workspace",
+    workspaceDir: "/tmp/kibo/workspace",
     controlUiRoot: "/app/dist/control-ui",
   });
 
@@ -266,7 +266,7 @@ export async function writeQaDockerHarnessFiles(params: {
     path.join(params.outputDir, "docker-compose.qa.yml"),
     path.join(params.outputDir, ".env.example"),
     path.join(params.outputDir, "README.md"),
-    path.join(params.outputDir, "state", "openclaw.json"),
+    path.join(params.outputDir, "state", "kibo.json"),
   ];
 
   await Promise.all([
@@ -309,7 +309,7 @@ export async function writeQaDockerHarnessFiles(params: {
       "utf8",
     ),
     fs.writeFile(
-      path.join(params.outputDir, "state", "openclaw.json"),
+      path.join(params.outputDir, "state", "kibo.json"),
       `${JSON.stringify(config, null, 2)}\n`,
       "utf8",
     ),
@@ -341,7 +341,7 @@ export async function buildQaDockerHarnessImage(
     ) => Promise<{ stdout: string; stderr: string }>;
   },
 ) {
-  const imageName = params.imageName ?? "openclaw:qa-local-prebaked";
+  const imageName = params.imageName ?? "kibo:qa-local-prebaked";
   const runCommand =
     deps?.runCommand ??
     (async (command: string, args: string[], cwd: string) => {
@@ -364,7 +364,7 @@ export async function buildQaDockerHarnessImage(
       "-t",
       imageName,
       "--build-arg",
-      "OPENCLAW_EXTENSIONS=qa-channel qa-lab",
+      "KIBO_EXTENSIONS=qa-channel qa-lab",
       "-f",
       "Dockerfile",
       ".",

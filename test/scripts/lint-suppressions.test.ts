@@ -82,7 +82,7 @@ describe("production lint suppressions", () => {
       "scripts/e2e/mcp-channels-harness.ts|unicorn/prefer-add-event-listener|1",
       "src/agents/agent-scope.ts|no-control-regex|1",
       "src/agents/pi-embedded-runner/run/images.ts|no-control-regex|1",
-      "src/agents/skills-clawhub.ts|no-control-regex|1",
+      "src/agents/skills-kibohub.ts|no-control-regex|1",
       "src/agents/subagent-attachments.ts|no-control-regex|1",
       "src/agents/subagent-spawn.ts|no-control-regex|1",
       "src/agents/tools/common.ts|typescript/no-explicit-any|1",

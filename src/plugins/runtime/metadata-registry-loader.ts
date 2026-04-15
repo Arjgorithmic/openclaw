@@ -1,11 +1,11 @@
-import type { OpenClawConfig } from "../../config/config.js";
-import { loadOpenClawPlugins } from "../loader.js";
+import type { KiboConfig } from "../../config/config.js";
+import { loadKiboPlugins } from "../loader.js";
 import type { PluginRegistry } from "../registry.js";
 import { buildPluginRuntimeLoadOptions, resolvePluginRuntimeLoadContext } from "./load-context.js";
 
 export function loadPluginMetadataRegistrySnapshot(options?: {
-  config?: OpenClawConfig;
-  activationSourceConfig?: OpenClawConfig;
+  config?: KiboConfig;
+  activationSourceConfig?: KiboConfig;
   env?: NodeJS.ProcessEnv;
   workspaceDir?: string;
   onlyPluginIds?: string[];
@@ -13,7 +13,7 @@ export function loadPluginMetadataRegistrySnapshot(options?: {
 }): PluginRegistry {
   const context = resolvePluginRuntimeLoadContext(options);
 
-  return loadOpenClawPlugins(
+  return loadKiboPlugins(
     buildPluginRuntimeLoadOptions(context, {
       throwOnLoadError: true,
       cache: false,

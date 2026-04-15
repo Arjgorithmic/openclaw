@@ -1,4 +1,4 @@
-import type { PluginRuntime } from "openclaw/plugin-sdk/core";
+import type { PluginRuntime } from "kibo/plugin-sdk/core";
 import { describe, expect, it } from "vitest";
 import { extractToolPayload } from "../../../src/infra/outbound/tool-payload.js";
 import { createStartAccountContext } from "../../../test/helpers/plugins/start-account-context.js";
@@ -76,8 +76,8 @@ describe("qa-channel plugin", () => {
       channels: {
         "qa-channel": {
           baseUrl: bus.baseUrl,
-          botUserId: "openclaw",
-          botDisplayName: "OpenClaw QA",
+          botUserId: "kibo",
+          botDisplayName: "Kibo QA",
           allowFrom: ["*"],
         },
       },
@@ -125,8 +125,8 @@ describe("qa-channel plugin", () => {
         channels: {
           "qa-channel": {
             baseUrl: bus.baseUrl,
-            botUserId: "openclaw",
-            botDisplayName: "OpenClaw QA",
+            botUserId: "kibo",
+            botDisplayName: "Kibo QA",
           },
         },
       };

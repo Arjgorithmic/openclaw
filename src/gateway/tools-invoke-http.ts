@@ -226,11 +226,11 @@ export async function handleToolsInvokeHttpRequest(
 
   // Resolve message channel/account hints (optional headers) for policy inheritance.
   const messageChannel = normalizeMessageChannel(
-    getHeader(req, "x-openclaw-message-channel") ?? "",
+    getHeader(req, "x-kibo-message-channel") ?? "",
   );
-  const accountId = normalizeOptionalString(getHeader(req, "x-openclaw-account-id"));
-  const agentTo = normalizeOptionalString(getHeader(req, "x-openclaw-message-to"));
-  const agentThreadId = normalizeOptionalString(getHeader(req, "x-openclaw-thread-id"));
+  const accountId = normalizeOptionalString(getHeader(req, "x-kibo-account-id"));
+  const agentTo = normalizeOptionalString(getHeader(req, "x-kibo-message-to"));
+  const agentThreadId = normalizeOptionalString(getHeader(req, "x-kibo-thread-id"));
   const { agentId, tools } = resolveGatewayScopedTools({
     cfg,
     sessionKey,

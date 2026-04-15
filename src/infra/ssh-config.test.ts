@@ -24,8 +24,8 @@ vi.mock("node:child_process", async () => {
       stdout?.emit(
         "data",
         [
-          "user steipete",
-          "hostname peters-mac-studio-1.sheep-coho.ts.net",
+          "user kibo",
+          "hostname kibos-mac-studio-1.sheep-coho.ts.net",
           "port 2222",
           "identityfile none",
           "identityfile /tmp/id_ed25519",
@@ -77,8 +77,8 @@ describe("ssh-config", () => {
 
   it("resolves ssh config via ssh -G", async () => {
     const config = await resolveSshConfig({ user: "me", host: "alias", port: 22 });
-    expect(config?.user).toBe("steipete");
-    expect(config?.host).toBe("peters-mac-studio-1.sheep-coho.ts.net");
+    expect(config?.user).toBe("kibo");
+    expect(config?.host).toBe("kibos-mac-studio-1.sheep-coho.ts.net");
     expect(config?.port).toBe(2222);
     expect(config?.identityFiles).toEqual(["/tmp/id_ed25519"]);
     const args = spawnMock.mock.calls[0]?.[1] as string[] | undefined;

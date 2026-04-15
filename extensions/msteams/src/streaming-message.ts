@@ -9,8 +9,8 @@
  * Uses the shared draft-stream-loop for throttling (avoids rate limits).
  */
 
-import { createDraftStreamLoop, type DraftStreamLoop } from "openclaw/plugin-sdk/channel-lifecycle";
-import { readStringValue } from "openclaw/plugin-sdk/text-runtime";
+import { createDraftStreamLoop, type DraftStreamLoop } from "kibo/plugin-sdk/channel-lifecycle";
+import { readStringValue } from "kibo/plugin-sdk/text-runtime";
 
 /** Default throttle interval between stream updates (ms).
  * Teams docs recommend buffering tokens for 1.5-2s; limit is 1 req/s. */

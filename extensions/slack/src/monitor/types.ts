@@ -1,6 +1,6 @@
-import type { PluginRuntime } from "openclaw/plugin-sdk/channel-core";
-import type { OpenClawConfig, SlackSlashCommandConfig } from "openclaw/plugin-sdk/config-runtime";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
+import type { PluginRuntime } from "kibo/plugin-sdk/channel-core";
+import type { KiboConfig, SlackSlashCommandConfig } from "kibo/plugin-sdk/config-runtime";
+import type { RuntimeEnv } from "kibo/plugin-sdk/runtime-env";
 import type { SlackFile, SlackMessageEvent } from "../types.js";
 
 export type MonitorSlackOpts = {
@@ -8,7 +8,7 @@ export type MonitorSlackOpts = {
   appToken?: string;
   accountId?: string;
   mode?: "socket" | "http";
-  config?: OpenClawConfig;
+  config?: KiboConfig;
   runtime?: RuntimeEnv;
   channelRuntime?: PluginRuntime["channel"];
   abortSignal?: AbortSignal;

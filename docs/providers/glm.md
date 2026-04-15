@@ -1,33 +1,33 @@
 ---
-summary: "GLM model family overview + how to use it in OpenClaw"
+summary: "GLM model family overview + how to use it in Kibo"
 read_when:
-  - You want GLM models in OpenClaw
+  - You want GLM models in Kibo
   - You need the model naming convention and setup
 title: "GLM Models"
 ---
 
 # GLM models
 
-GLM is a **model family** (not a company) available through the Z.AI platform. In OpenClaw, GLM
+GLM is a **model family** (not a company) available through the Z.AI platform. In Kibo, GLM
 models are accessed via the `zai` provider and model IDs like `zai/glm-5`.
 
 ## CLI setup
 
 ```bash
 # Generic API-key setup with endpoint auto-detection
-openclaw onboard --auth-choice zai-api-key
+kibo onboard --auth-choice zai-api-key
 
 # Coding Plan Global, recommended for Coding Plan users
-openclaw onboard --auth-choice zai-coding-global
+kibo onboard --auth-choice zai-coding-global
 
 # Coding Plan CN (China region), recommended for Coding Plan users
-openclaw onboard --auth-choice zai-coding-cn
+kibo onboard --auth-choice zai-coding-cn
 
 # General API
-openclaw onboard --auth-choice zai-global
+kibo onboard --auth-choice zai-global
 
 # General API CN (China region)
-openclaw onboard --auth-choice zai-cn
+kibo onboard --auth-choice zai-cn
 ```
 
 ## Config snippet
@@ -39,13 +39,13 @@ openclaw onboard --auth-choice zai-cn
 }
 ```
 
-`zai-api-key` lets OpenClaw detect the matching Z.AI endpoint from the key and
+`zai-api-key` lets Kibo detect the matching Z.AI endpoint from the key and
 apply the correct base URL automatically. Use the explicit regional choices when
 you want to force a specific Coding Plan or general API surface.
 
 ## Current bundled GLM models
 
-OpenClaw currently seeds the bundled `zai` provider with these GLM refs:
+Kibo currently seeds the bundled `zai` provider with these GLM refs:
 
 - `glm-5.1`
 - `glm-5`

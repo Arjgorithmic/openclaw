@@ -163,7 +163,7 @@ describe("cli program (nodes basics)", () => {
       label: "unpaired node details",
       node: {
         nodeId: "android-node",
-        displayName: "Peter's Tab S10 Ultra",
+        displayName: "Kibo's Tab S10 Ultra",
         remoteIp: "192.168.0.99",
         deviceFamily: "Android",
         modelIdentifier: "samsung SM-X926B",
@@ -173,7 +173,7 @@ describe("cli program (nodes basics)", () => {
       },
       expectedOutput: [
         "Known: 1 · Paired: 0 · Connected: 1",
-        "Peter's Tab",
+        "Kibo's Tab",
         "S10 Ultra",
         "Detail",
         "device: Android",

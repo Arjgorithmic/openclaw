@@ -1,4 +1,4 @@
 export {
   buildChannelConfigSchema,
   MSTeamsConfigSchema,
-} from "openclaw/plugin-sdk/channel-config-schema";
+} from "kibo/plugin-sdk/channel-config-schema";

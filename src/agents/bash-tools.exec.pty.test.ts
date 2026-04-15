@@ -23,15 +23,15 @@ test("exec supports pty output", async () => {
   expect(text).toContain("ok");
 });
 
-test("exec sets OPENCLAW_SHELL in pty mode", async () => {
+test("exec sets KIBO_SHELL in pty mode", async () => {
   const tool = createExecTool({
     allowBackground: false,
     host: "gateway",
     security: "full",
     ask: "off",
   });
-  const result = await tool.execute("toolcall-openclaw-shell", {
-    command: "node -e \"process.stdout.write(process.env.OPENCLAW_SHELL || '')\"",
+  const result = await tool.execute("toolcall-kibo-shell", {
+    command: "node -e \"process.stdout.write(process.env.KIBO_SHELL || '')\"",
     pty: true,
   });
 

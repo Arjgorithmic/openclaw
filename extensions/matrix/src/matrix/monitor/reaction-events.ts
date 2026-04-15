@@ -1,4 +1,4 @@
-import { getSessionBindingService } from "openclaw/plugin-sdk/conversation-runtime";
+import { getSessionBindingService } from "kibo/plugin-sdk/conversation-runtime";
 import { matrixApprovalCapability } from "../../approval-native.js";
 import {
   resolveMatrixApprovalReactionTarget,

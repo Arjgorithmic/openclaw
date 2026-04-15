@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/webhooks",
+  "name": "@kibo/webhooks",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw webhook bridge plugin",
+  "description": "Kibo webhook bridge plugin",
   "type": "module",
   "dependencies": {
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "kibo": {
     "bundle": {
       "stageRuntimeDependencies": true
     },

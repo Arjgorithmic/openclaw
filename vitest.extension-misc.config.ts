@@ -13,7 +13,7 @@ export default createScopedVitestConfig(
     "kilocode/**/*.test.ts",
     "litellm/**/*.test.ts",
     "llm-task/**/*.test.ts",
-    "lobster/**/*.test.ts",
+    "shell/**/*.test.ts",
     "opencode/**/*.test.ts",
     "opencode-go/**/*.test.ts",
     "openshell/**/*.test.ts",

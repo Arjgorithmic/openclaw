@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { buildOpenClawChromeLaunchArgs } from "./chrome.js";
+import { buildKiboChromeLaunchArgs } from "./chrome.js";
 
 describe("browser chrome launch args", () => {
   it("does not force an about:blank tab at startup", () => {
-    const args = buildOpenClawChromeLaunchArgs({
+    const args = buildKiboChromeLaunchArgs({
       resolved: {
         enabled: true,
         controlPort: 18791,
@@ -21,26 +21,26 @@ describe("browser chrome launch args", () => {
         noSandbox: false,
         attachOnly: false,
         ssrfPolicy: { allowPrivateNetwork: true },
-        defaultProfile: "openclaw",
+        defaultProfile: "kibo",
         profiles: {
-          openclaw: { cdpPort: 18800, color: "#FF4500" },
+          kibo: { cdpPort: 18800, color: "#FF4500" },
         },
       },
       profile: {
-        name: "openclaw",
+        name: "kibo",
         cdpUrl: "http://127.0.0.1:18800",
         cdpPort: 18800,
         cdpHost: "127.0.0.1",
         cdpIsLoopback: true,
         color: "#FF4500",
-        driver: "openclaw",
+        driver: "kibo",
         attachOnly: false,
       },
-      userDataDir: "/tmp/openclaw-test-user-data",
+      userDataDir: "/tmp/kibo-test-user-data",
     });
 
     expect(args).not.toContain("about:blank");
     expect(args).toContain("--remote-debugging-port=18800");
-    expect(args).toContain("--user-data-dir=/tmp/openclaw-test-user-data");
+    expect(args).toContain("--user-data-dir=/tmp/kibo-test-user-data");
   });
 });

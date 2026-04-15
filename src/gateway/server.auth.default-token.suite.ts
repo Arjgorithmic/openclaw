@@ -78,8 +78,8 @@ export function registerDefaultAuthTokenSuite(): void {
 
     test("closes silent handshakes after timeout", async () => {
       vi.useRealTimers();
-      const prevHandshakeTimeout = process.env.OPENCLAW_TEST_HANDSHAKE_TIMEOUT_MS;
-      process.env.OPENCLAW_TEST_HANDSHAKE_TIMEOUT_MS = "20";
+      const prevHandshakeTimeout = process.env.KIBO_TEST_HANDSHAKE_TIMEOUT_MS;
+      process.env.KIBO_TEST_HANDSHAKE_TIMEOUT_MS = "20";
       try {
         await withGatewayServer(async ({ port: isolatedPort }) => {
           const ws = await openWs(isolatedPort);
@@ -89,32 +89,32 @@ export function registerDefaultAuthTokenSuite(): void {
         });
       } finally {
         if (prevHandshakeTimeout === undefined) {
-          delete process.env.OPENCLAW_TEST_HANDSHAKE_TIMEOUT_MS;
+          delete process.env.KIBO_TEST_HANDSHAKE_TIMEOUT_MS;
         } else {
-          process.env.OPENCLAW_TEST_HANDSHAKE_TIMEOUT_MS = prevHandshakeTimeout;
+          process.env.KIBO_TEST_HANDSHAKE_TIMEOUT_MS = prevHandshakeTimeout;
         }
       }
     });
 
-    test("prefers OPENCLAW_HANDSHAKE_TIMEOUT_MS and falls back on empty string", () => {
-      const prevHandshakeTimeout = process.env.OPENCLAW_HANDSHAKE_TIMEOUT_MS;
-      const prevTestHandshakeTimeout = process.env.OPENCLAW_TEST_HANDSHAKE_TIMEOUT_MS;
-      process.env.OPENCLAW_HANDSHAKE_TIMEOUT_MS = "75";
-      process.env.OPENCLAW_TEST_HANDSHAKE_TIMEOUT_MS = "20";
+    test("prefers KIBO_HANDSHAKE_TIMEOUT_MS and falls back on empty string", () => {
+      const prevHandshakeTimeout = process.env.KIBO_HANDSHAKE_TIMEOUT_MS;
+      const prevTestHandshakeTimeout = process.env.KIBO_TEST_HANDSHAKE_TIMEOUT_MS;
+      process.env.KIBO_HANDSHAKE_TIMEOUT_MS = "75";
+      process.env.KIBO_TEST_HANDSHAKE_TIMEOUT_MS = "20";
       try {
         expect(getPreauthHandshakeTimeoutMsFromEnv()).toBe(75);
-        process.env.OPENCLAW_HANDSHAKE_TIMEOUT_MS = "";
+        process.env.KIBO_HANDSHAKE_TIMEOUT_MS = "";
         expect(getPreauthHandshakeTimeoutMsFromEnv()).toBe(20);
       } finally {
         if (prevHandshakeTimeout === undefined) {
-          delete process.env.OPENCLAW_HANDSHAKE_TIMEOUT_MS;
+          delete process.env.KIBO_HANDSHAKE_TIMEOUT_MS;
         } else {
-          process.env.OPENCLAW_HANDSHAKE_TIMEOUT_MS = prevHandshakeTimeout;
+          process.env.KIBO_HANDSHAKE_TIMEOUT_MS = prevHandshakeTimeout;
         }
         if (prevTestHandshakeTimeout === undefined) {
-          delete process.env.OPENCLAW_TEST_HANDSHAKE_TIMEOUT_MS;
+          delete process.env.KIBO_TEST_HANDSHAKE_TIMEOUT_MS;
         } else {
-          process.env.OPENCLAW_TEST_HANDSHAKE_TIMEOUT_MS = prevTestHandshakeTimeout;
+          process.env.KIBO_TEST_HANDSHAKE_TIMEOUT_MS = prevTestHandshakeTimeout;
         }
       }
     });
@@ -143,24 +143,24 @@ export function registerDefaultAuthTokenSuite(): void {
       for (const testCase of [
         {
           env: {
-            OPENCLAW_VERSION: " ",
-            OPENCLAW_SERVICE_VERSION: "2.4.6-service",
+            KIBO_VERSION: " ",
+            KIBO_SERVICE_VERSION: "2.4.6-service",
             npm_package_version: "1.0.0-package",
           },
           expectedVersion: VERSION,
         },
         {
           env: {
-            OPENCLAW_VERSION: "9.9.9-cli",
-            OPENCLAW_SERVICE_VERSION: "2.4.6-service",
+            KIBO_VERSION: "9.9.9-cli",
+            KIBO_SERVICE_VERSION: "2.4.6-service",
             npm_package_version: "1.0.0-package",
           },
           expectedVersion: "9.9.9-cli",
         },
         {
           env: {
-            OPENCLAW_VERSION: " ",
-            OPENCLAW_SERVICE_VERSION: "\t",
+            KIBO_VERSION: " ",
+            KIBO_SERVICE_VERSION: "\t",
             npm_package_version: "1.0.0-package",
           },
           expectedVersion: VERSION,
@@ -254,7 +254,7 @@ export function registerDefaultAuthTokenSuite(): void {
         scopes: [],
         clientId: GATEWAY_CLIENT_NAMES.TEST,
         clientMode: GATEWAY_CLIENT_MODES.TEST,
-        identityPath: path.join(os.tmpdir(), `openclaw-test-device-${randomUUID()}.json`),
+        identityPath: path.join(os.tmpdir(), `kibo-test-device-${randomUUID()}.json`),
         nonce,
       });
 

@@ -1,8 +1,8 @@
 import {
   listDirectoryGroupEntriesFromMapKeysAndAllowFrom,
   listDirectoryUserEntriesFromAllowFromAndMapKeys,
-} from "openclaw/plugin-sdk/directory-runtime";
-import type { ClawdbotConfig } from "../runtime-api.js";
+} from "kibo/plugin-sdk/directory-runtime";
+import type { KibobotConfig } from "../runtime-api.js";
 import { resolveFeishuAccount } from "./accounts.js";
 import { normalizeFeishuTarget } from "./targets.js";
 
@@ -27,7 +27,7 @@ function toFeishuDirectoryGroups(ids: string[]): FeishuDirectoryGroup[] {
 }
 
 export async function listFeishuDirectoryPeers(params: {
-  cfg: ClawdbotConfig;
+  cfg: KibobotConfig;
   query?: string;
   limit?: number;
   accountId?: string;
@@ -45,7 +45,7 @@ export async function listFeishuDirectoryPeers(params: {
 }
 
 export async function listFeishuDirectoryGroups(params: {
-  cfg: ClawdbotConfig;
+  cfg: KibobotConfig;
   query?: string;
   limit?: number;
   accountId?: string;

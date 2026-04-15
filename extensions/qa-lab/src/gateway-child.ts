@@ -6,9 +6,9 @@ import net from "node:net";
 import os from "node:os";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
-import type { ModelProviderConfig } from "openclaw/plugin-sdk/provider-model-shared";
-import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";
+import { formatErrorMessage } from "kibo/plugin-sdk/error-runtime";
+import type { ModelProviderConfig } from "kibo/plugin-sdk/provider-model-shared";
+import { resolvePreferredKiboTmpDir } from "kibo/plugin-sdk/temp-path";
 import { startQaGatewayRpcClient } from "./gateway-rpc-client.js";
 import { splitQaModelRef } from "./model-selection.js";
 import { seedQaAgentWorkspace } from "./qa-agent-workspace.js";
@@ -16,15 +16,15 @@ import { buildQaGatewayConfig, type QaThinkingLevel } from "./qa-gateway-config.
 
 const QA_LIVE_ENV_ALIASES = Object.freeze([
   {
-    liveVar: "OPENCLAW_LIVE_OPENAI_KEY",
+    liveVar: "KIBO_LIVE_OPENAI_KEY",
     providerVar: "OPENAI_API_KEY",
   },
   {
-    liveVar: "OPENCLAW_LIVE_ANTHROPIC_KEY",
+    liveVar: "KIBO_LIVE_ANTHROPIC_KEY",
     providerVar: "ANTHROPIC_API_KEY",
   },
   {
-    liveVar: "OPENCLAW_LIVE_GEMINI_KEY",
+    liveVar: "KIBO_LIVE_GEMINI_KEY",
     providerVar: "GEMINI_API_KEY",
   },
 ]);
@@ -45,10 +45,10 @@ const QA_MOCK_BLOCKED_ENV_VARS = Object.freeze([
   "OPENAI_API_KEYS",
   "OPENAI_BASE_URL",
   "CODEX_HOME",
-  "OPENCLAW_LIVE_ANTHROPIC_KEY",
-  "OPENCLAW_LIVE_ANTHROPIC_KEYS",
-  "OPENCLAW_LIVE_GEMINI_KEY",
-  "OPENCLAW_LIVE_OPENAI_KEY",
+  "KIBO_LIVE_ANTHROPIC_KEY",
+  "KIBO_LIVE_ANTHROPIC_KEYS",
+  "KIBO_LIVE_GEMINI_KEY",
+  "KIBO_LIVE_OPENAI_KEY",
   "VOYAGE_API_KEY",
 ]);
 
@@ -66,7 +66,7 @@ const QA_MOCK_BLOCKED_ENV_KEY_PATTERNS = Object.freeze([
   /^NGROK_/i,
 ]);
 
-const QA_LIVE_PROVIDER_CONFIG_PATH_ENV = "OPENCLAW_QA_LIVE_PROVIDER_CONFIG_PATH";
+const QA_LIVE_PROVIDER_CONFIG_PATH_ENV = "KIBO_QA_LIVE_PROVIDER_CONFIG_PATH";
 const QA_OPENAI_PLUGIN_ID = "openai";
 
 async function getFreePort() {
@@ -144,26 +144,26 @@ export function buildQaRuntimeEnv(params: {
     ...baseEnv,
     HOME: params.homeDir,
     ...(params.providerMode === "live-frontier" ? resolveQaLiveCliAuthEnv(baseEnv) : {}),
-    OPENCLAW_HOME: params.homeDir,
-    OPENCLAW_CONFIG_PATH: params.configPath,
-    OPENCLAW_STATE_DIR: params.stateDir,
-    OPENCLAW_OAUTH_DIR: path.join(params.stateDir, "credentials"),
-    OPENCLAW_GATEWAY_TOKEN: params.gatewayToken,
-    OPENCLAW_SKIP_BROWSER_CONTROL_SERVER: "1",
-    OPENCLAW_SKIP_GMAIL_WATCHER: "1",
-    OPENCLAW_SKIP_CANVAS_HOST: "1",
-    OPENCLAW_NO_RESPAWN: "1",
-    OPENCLAW_TEST_FAST: "1",
-    OPENCLAW_QA_ALLOW_LOCAL_IMAGE_PROVIDER: "1",
+    KIBO_HOME: params.homeDir,
+    KIBO_CONFIG_PATH: params.configPath,
+    KIBO_STATE_DIR: params.stateDir,
+    KIBO_OAUTH_DIR: path.join(params.stateDir, "credentials"),
+    KIBO_GATEWAY_TOKEN: params.gatewayToken,
+    KIBO_SKIP_BROWSER_CONTROL_SERVER: "1",
+    KIBO_SKIP_GMAIL_WATCHER: "1",
+    KIBO_SKIP_CANVAS_HOST: "1",
+    KIBO_NO_RESPAWN: "1",
+    KIBO_TEST_FAST: "1",
+    KIBO_QA_ALLOW_LOCAL_IMAGE_PROVIDER: "1",
     // QA uses the fast runtime envelope for speed, but it still exercises
     // normal config-driven heartbeats and runtime config writes.
-    OPENCLAW_ALLOW_SLOW_REPLY_TESTS: "1",
+    KIBO_ALLOW_SLOW_REPLY_TESTS: "1",
     XDG_CONFIG_HOME: params.xdgConfigHome,
     XDG_DATA_HOME: params.xdgDataHome,
     XDG_CACHE_HOME: params.xdgCacheHome,
-    ...(params.bundledPluginsDir ? { OPENCLAW_BUNDLED_PLUGINS_DIR: params.bundledPluginsDir } : {}),
+    ...(params.bundledPluginsDir ? { KIBO_BUNDLED_PLUGINS_DIR: params.bundledPluginsDir } : {}),
     ...(params.compatibilityHostVersion
-      ? { OPENCLAW_COMPATIBILITY_HOST_VERSION: params.compatibilityHostVersion }
+      ? { KIBO_COMPATIBILITY_HOST_VERSION: params.compatibilityHostVersion }
       : {}),
   };
   return normalizeQaProviderModeEnv(env, params.providerMode);
@@ -223,7 +223,7 @@ async function resolveQaOwnerPluginIdsForProviderIds(params: {
     if (!entry.isDirectory()) {
       continue;
     }
-    const manifestPath = path.join(sourceRoot, entry.name, "openclaw.plugin.json");
+    const manifestPath = path.join(sourceRoot, entry.name, "kibo.plugin.json");
     if (!existsSync(manifestPath)) {
       continue;
     }
@@ -274,10 +274,10 @@ function resolveQaUserPath(value: string, env: NodeJS.ProcessEnv = process.env) 
 
 function resolveQaLiveProviderConfigPath(env: NodeJS.ProcessEnv = process.env) {
   const explicit =
-    env[QA_LIVE_PROVIDER_CONFIG_PATH_ENV]?.trim() || env.OPENCLAW_CONFIG_PATH?.trim();
+    env[QA_LIVE_PROVIDER_CONFIG_PATH_ENV]?.trim() || env.KIBO_CONFIG_PATH?.trim();
   return explicit
     ? { path: resolveQaUserPath(explicit, env), explicit: true }
-    : { path: path.join(os.homedir(), ".openclaw", "openclaw.json"), explicit: false };
+    : { path: path.join(os.homedir(), ".kibo", "kibo.json"), explicit: false };
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -392,13 +392,13 @@ async function resolveQaRuntimeHostVersion(params: {
     }
     const packageRaw = await fs.readFile(packagePath, "utf8");
     const packageJson = JSON.parse(packageRaw) as {
-      openclaw?: {
+      kibo?: {
         install?: {
           minHostVersion?: string;
         };
       };
     };
-    const candidate = parseStableSemverFloor(packageJson.openclaw?.install?.minHostVersion);
+    const candidate = parseStableSemverFloor(packageJson.kibo?.install?.minHostVersion);
     if (compareSemverFloors(candidate, selected) > 0) {
       selected = candidate;
     }
@@ -533,7 +533,7 @@ export async function startQaGatewayChild(params: {
   controlUiEnabled?: boolean;
 }) {
   const tempRoot = await fs.mkdtemp(
-    path.join(resolvePreferredOpenClawTmpDir(), "openclaw-qa-suite-"),
+    path.join(resolvePreferredKiboTmpDir(), "kibo-qa-suite-"),
   );
   const runtimeCwd = tempRoot;
   const distEntryPath = path.join(params.repoRoot, "dist", "index.js");
@@ -543,7 +543,7 @@ export async function startQaGatewayChild(params: {
   const xdgConfigHome = path.join(tempRoot, "xdg-config");
   const xdgDataHome = path.join(tempRoot, "xdg-data");
   const xdgCacheHome = path.join(tempRoot, "xdg-cache");
-  const configPath = path.join(tempRoot, "openclaw.json");
+  const configPath = path.join(tempRoot, "kibo.json");
   const gatewayPort = await getFreePort();
   const gatewayToken = `qa-suite-${randomUUID()}`;
   await seedQaAgentWorkspace({
@@ -670,7 +670,7 @@ export async function startQaGatewayChild(params: {
   const wsUrl = `ws://127.0.0.1:${gatewayPort}`;
   const logs = () =>
     `${Buffer.concat(stdout).toString("utf8")}\n${Buffer.concat(stderr).toString("utf8")}`.trim();
-  const keepTemp = process.env.OPENCLAW_QA_KEEP_TEMP === "1";
+  const keepTemp = process.env.KIBO_QA_KEEP_TEMP === "1";
 
   let rpcClient;
   try {

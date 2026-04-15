@@ -1,7 +1,7 @@
 import { format } from "node:util";
-import { CHANNEL_APPROVAL_NATIVE_RUNTIME_CONTEXT_CAPABILITY } from "openclaw/plugin-sdk/approval-handler-adapter-runtime";
-import { waitUntilAbort } from "openclaw/plugin-sdk/channel-lifecycle";
-import { registerChannelRuntimeContext } from "openclaw/plugin-sdk/channel-runtime-context";
+import { CHANNEL_APPROVAL_NATIVE_RUNTIME_CONTEXT_CAPABILITY } from "kibo/plugin-sdk/approval-handler-adapter-runtime";
+import { waitUntilAbort } from "kibo/plugin-sdk/channel-lifecycle";
+import { registerChannelRuntimeContext } from "kibo/plugin-sdk/channel-runtime-context";
 import {
   GROUP_POLICY_BLOCKED_LABEL,
   resolveThreadBindingIdleTimeoutMsForChannel,
@@ -45,13 +45,13 @@ import { createMatrixMonitorTaskRunner } from "./task-runner.js";
 
 export type MonitorMatrixOpts = {
   runtime?: RuntimeEnv;
-  channelRuntime?: import("openclaw/plugin-sdk/channel-core").PluginRuntime["channel"];
+  channelRuntime?: import("kibo/plugin-sdk/channel-core").PluginRuntime["channel"];
   abortSignal?: AbortSignal;
   mediaMaxMb?: number;
   initialSyncLimit?: number;
   replyToMode?: ReplyToMode;
   accountId?: string | null;
-  setStatus?: (next: import("openclaw/plugin-sdk/channel-contract").ChannelAccountSnapshot) => void;
+  setStatus?: (next: import("kibo/plugin-sdk/channel-contract").ChannelAccountSnapshot) => void;
 };
 
 const DEFAULT_MEDIA_MAX_MB = 20;

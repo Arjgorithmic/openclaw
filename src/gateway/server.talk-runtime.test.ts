@@ -165,7 +165,7 @@ describe("gateway talk runtime", () => {
           elevenlabs: {
             voiceId: "stub-default-voice",
             voiceAliases: {
-              Clawd: ALIAS_STUB_VOICE_ID,
+              Kibo: ALIAS_STUB_VOICE_ID,
             },
           },
         },
@@ -210,7 +210,7 @@ describe("gateway talk runtime", () => {
 
         const res = await invokeTalkSpeakDirect({
           text: "Hello from talk mode.",
-          voiceId: "clawd",
+          voiceId: "kibo",
           outputFormat: "pcm_44100",
           latencyTier: 3,
         });

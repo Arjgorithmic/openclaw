@@ -40,7 +40,7 @@ describe("runQaDockerUp", () => {
     try {
       const result = await runQaDockerUp(
         {
-          repoRoot: "/repo/openclaw",
+          repoRoot: "/repo/kibo",
           outputDir,
           gatewayPort: 18889,
           qaLabPort: 43124,
@@ -48,7 +48,7 @@ describe("runQaDockerUp", () => {
         {
           async runCommand(command, args, cwd) {
             calls.push([command, ...args, `@${cwd}`].join(" "));
-            if (args.join(" ").includes("ps --format json openclaw-qa-gateway")) {
+            if (args.join(" ").includes("ps --format json kibo-qa-gateway")) {
               return { stdout: '{"Health":"healthy","State":"running"}\n', stderr: "" };
             }
             return { stdout: "", stderr: "" };
@@ -62,12 +62,12 @@ describe("runQaDockerUp", () => {
       );
 
       expect(calls).toEqual([
-        "pnpm qa:lab:build @/repo/openclaw",
-        `docker compose -f ${outputDir}/docker-compose.qa.yml down --remove-orphans @/repo/openclaw`,
+        "pnpm qa:lab:build @/repo/kibo",
+        `docker compose -f ${outputDir}/docker-compose.qa.yml down --remove-orphans @/repo/kibo`,
         expect.stringContaining(
-          `docker compose -f ${outputDir}/docker-compose.qa.yml up --build -d @/repo/openclaw`,
+          `docker compose -f ${outputDir}/docker-compose.qa.yml up --build -d @/repo/kibo`,
         ),
-        `docker compose -f ${outputDir}/docker-compose.qa.yml ps --format json openclaw-qa-gateway @/repo/openclaw`,
+        `docker compose -f ${outputDir}/docker-compose.qa.yml ps --format json kibo-qa-gateway @/repo/kibo`,
       ]);
       expect(fetchCalls).toEqual([
         "http://127.0.0.1:43124/healthz",
@@ -90,7 +90,7 @@ describe("runQaDockerUp", () => {
     try {
       await runQaDockerUp(
         {
-          repoRoot: "/repo/openclaw",
+          repoRoot: "/repo/kibo",
           outputDir,
           usePrebuiltImage: true,
           bindUiDist: true,
@@ -99,7 +99,7 @@ describe("runQaDockerUp", () => {
         {
           async runCommand(command, args, cwd) {
             calls.push([command, ...args, `@${cwd}`].join(" "));
-            if (args.join(" ").includes("ps --format json openclaw-qa-gateway")) {
+            if (args.join(" ").includes("ps --format json kibo-qa-gateway")) {
               return { stdout: '{"Health":"healthy","State":"running"}\n', stderr: "" };
             }
             return { stdout: "", stderr: "" };
@@ -110,12 +110,12 @@ describe("runQaDockerUp", () => {
       );
 
       expect(calls).toEqual([
-        `docker compose -f ${outputDir}/docker-compose.qa.yml down --remove-orphans @/repo/openclaw`,
-        `docker compose -f ${outputDir}/docker-compose.qa.yml up -d @/repo/openclaw`,
-        `docker compose -f ${outputDir}/docker-compose.qa.yml ps --format json openclaw-qa-gateway @/repo/openclaw`,
+        `docker compose -f ${outputDir}/docker-compose.qa.yml down --remove-orphans @/repo/kibo`,
+        `docker compose -f ${outputDir}/docker-compose.qa.yml up -d @/repo/kibo`,
+        `docker compose -f ${outputDir}/docker-compose.qa.yml ps --format json kibo-qa-gateway @/repo/kibo`,
       ]);
       const compose = await readFile(path.join(outputDir, "docker-compose.qa.yml"), "utf8");
-      expect(compose).toContain(":/opt/openclaw-qa-lab-ui:ro");
+      expect(compose).toContain(":/opt/kibo-qa-lab-ui:ro");
       expect(compose).toContain("      - --ui-dist-dir");
     } finally {
       await rm(outputDir, { recursive: true, force: true });
@@ -136,7 +136,7 @@ describe("runQaDockerUp", () => {
         {
           async runCommand(command, args, cwd) {
             calls.push([command, ...args, `@${cwd}`].join(" "));
-            if (args.join(" ").includes("ps --format json openclaw-qa-gateway")) {
+            if (args.join(" ").includes("ps --format json kibo-qa-gateway")) {
               return { stdout: '{"Health":"healthy","State":"running"}\n', stderr: "" };
             }
             return { stdout: "", stderr: "" };
@@ -153,7 +153,7 @@ describe("runQaDockerUp", () => {
       expect(calls).toEqual([
         `docker compose -f ${path.join(repoRoot, ".artifacts/qa-docker/docker-compose.qa.yml")} down --remove-orphans @${repoRoot}`,
         `docker compose -f ${path.join(repoRoot, ".artifacts/qa-docker/docker-compose.qa.yml")} up -d @${repoRoot}`,
-        `docker compose -f ${path.join(repoRoot, ".artifacts/qa-docker/docker-compose.qa.yml")} ps --format json openclaw-qa-gateway @${repoRoot}`,
+        `docker compose -f ${path.join(repoRoot, ".artifacts/qa-docker/docker-compose.qa.yml")} ps --format json kibo-qa-gateway @${repoRoot}`,
       ]);
     } finally {
       await rm(repoRoot, { recursive: true, force: true });
@@ -179,7 +179,7 @@ describe("runQaDockerUp", () => {
     try {
       const result = await runQaDockerUp(
         {
-          repoRoot: "/repo/openclaw",
+          repoRoot: "/repo/kibo",
           outputDir,
           gatewayPort,
           qaLabPort,
@@ -218,7 +218,7 @@ describe("runQaDockerUp", () => {
     try {
       const result = await runQaDockerUp(
         {
-          repoRoot: "/repo/openclaw",
+          repoRoot: "/repo/kibo",
           outputDir,
           gatewayPort: 18889,
           qaLabPort: 43124,
@@ -229,10 +229,10 @@ describe("runQaDockerUp", () => {
           async runCommand(command, args, cwd) {
             calls.push([command, ...args, `@${cwd}`].join(" "));
             const joined = args.join(" ");
-            if (joined.includes("ps --format json openclaw-qa-gateway")) {
+            if (joined.includes("ps --format json kibo-qa-gateway")) {
               return { stdout: '{"Health":"healthy","State":"running"}\n', stderr: "" };
             }
-            if (joined.includes("ps -q openclaw-qa-gateway")) {
+            if (joined.includes("ps -q kibo-qa-gateway")) {
               return { stdout: "gateway-container\n", stderr: "" };
             }
             if (command === "docker" && args[0] === "inspect") {
@@ -253,11 +253,11 @@ describe("runQaDockerUp", () => {
       );
 
       expect(calls).toEqual([
-        `docker compose -f ${outputDir}/docker-compose.qa.yml down --remove-orphans @/repo/openclaw`,
-        `docker compose -f ${outputDir}/docker-compose.qa.yml up -d @/repo/openclaw`,
-        `docker compose -f ${outputDir}/docker-compose.qa.yml ps --format json openclaw-qa-gateway @/repo/openclaw`,
-        `docker compose -f ${outputDir}/docker-compose.qa.yml ps -q openclaw-qa-gateway @/repo/openclaw`,
-        "docker inspect --format {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}} gateway-container @/repo/openclaw",
+        `docker compose -f ${outputDir}/docker-compose.qa.yml down --remove-orphans @/repo/kibo`,
+        `docker compose -f ${outputDir}/docker-compose.qa.yml up -d @/repo/kibo`,
+        `docker compose -f ${outputDir}/docker-compose.qa.yml ps --format json kibo-qa-gateway @/repo/kibo`,
+        `docker compose -f ${outputDir}/docker-compose.qa.yml ps -q kibo-qa-gateway @/repo/kibo`,
+        "docker inspect --format {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}} gateway-container @/repo/kibo",
       ]);
       expect(fetchCalls).toEqual([
         "http://127.0.0.1:43124/healthz",

@@ -35,8 +35,8 @@ const buildGatewayInstallPlan = vi.fn(
     programArguments: ["/bin/node", "cli", "gateway", "--port", String(params.port)],
     workingDirectory: process.cwd(),
     environment: {
-      OPENCLAW_GATEWAY_PORT: String(params.port),
-      ...(params.token ? { OPENCLAW_GATEWAY_TOKEN: params.token } : {}),
+      KIBO_GATEWAY_PORT: String(params.port),
+      ...(params.token ? { KIBO_GATEWAY_TOKEN: params.token } : {}),
     },
   }),
 );
@@ -158,15 +158,15 @@ describe("daemon-cli coverage", () => {
   beforeEach(() => {
     daemonProgram = createDaemonProgram();
     envSnapshot = captureEnv([
-      "OPENCLAW_STATE_DIR",
-      "OPENCLAW_CONFIG_PATH",
-      "OPENCLAW_GATEWAY_PORT",
-      "OPENCLAW_PROFILE",
+      "KIBO_STATE_DIR",
+      "KIBO_CONFIG_PATH",
+      "KIBO_GATEWAY_PORT",
+      "KIBO_PROFILE",
     ]);
-    process.env.OPENCLAW_STATE_DIR = "/tmp/openclaw-cli-state";
-    process.env.OPENCLAW_CONFIG_PATH = "/tmp/openclaw-cli-state/openclaw.json";
-    delete process.env.OPENCLAW_GATEWAY_PORT;
-    delete process.env.OPENCLAW_PROFILE;
+    process.env.KIBO_STATE_DIR = "/tmp/kibo-cli-state";
+    process.env.KIBO_CONFIG_PATH = "/tmp/kibo-cli-state/kibo.json";
+    delete process.env.KIBO_GATEWAY_PORT;
+    delete process.env.KIBO_PROFILE;
     serviceReadCommand.mockResolvedValue(null);
     resolveGatewayProbeAuthSafeWithSecretInputs.mockClear();
     findExtraGatewayServices.mockClear();
@@ -199,12 +199,12 @@ describe("daemon-cli coverage", () => {
     serviceReadCommand.mockResolvedValueOnce({
       programArguments: ["/bin/node", "cli", "gateway", "--port", "19001"],
       environment: {
-        OPENCLAW_PROFILE: "dev",
-        OPENCLAW_STATE_DIR: "/tmp/openclaw-daemon-state",
-        OPENCLAW_CONFIG_PATH: "/tmp/openclaw-daemon-state/openclaw.json",
-        OPENCLAW_GATEWAY_PORT: "19001",
+        KIBO_PROFILE: "dev",
+        KIBO_STATE_DIR: "/tmp/kibo-daemon-state",
+        KIBO_CONFIG_PATH: "/tmp/kibo-daemon-state/kibo.json",
+        KIBO_GATEWAY_PORT: "19001",
       },
-      sourcePath: "/tmp/ai.openclaw.gateway.plist",
+      sourcePath: "/tmp/ai.kibo.gateway.plist",
     });
 
     await runDaemonCommand(["daemon", "status", "--json"]);
@@ -276,7 +276,7 @@ describe("daemon-cli coverage", () => {
         GOPATH: "/Users/test/.local/gopath",
         GOBIN: "/Users/test/.local/gopath/bin",
       },
-      sourcePath: "/tmp/ai.openclaw.gateway.plist",
+      sourcePath: "/tmp/ai.kibo.gateway.plist",
     });
 
     await runDaemonCommand(["daemon", "install", "--force", "--json"]);

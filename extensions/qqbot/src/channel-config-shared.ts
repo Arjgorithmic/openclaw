@@ -1,15 +1,15 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
 import {
   applyAccountNameToChannelSection,
   deleteAccountFromConfigSection,
   setAccountEnabledInConfigSection,
-} from "openclaw/plugin-sdk/core";
-import { hasConfiguredSecretInput } from "openclaw/plugin-sdk/secret-input";
-import type { ChannelSetupInput } from "openclaw/plugin-sdk/setup";
+} from "kibo/plugin-sdk/core";
+import { hasConfiguredSecretInput } from "kibo/plugin-sdk/secret-input";
+import type { ChannelSetupInput } from "kibo/plugin-sdk/setup";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeStringifiedOptionalString,
-} from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/text-runtime";
 import {
   DEFAULT_ACCOUNT_ID,
   applyQQBotAccountConfig,
@@ -65,10 +65,10 @@ export function validateQQBotSetupInput(params: {
 }
 
 export function applyQQBotSetupAccountConfig(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   accountId: string;
   input: ChannelSetupInput;
-}): OpenClawConfig {
+}): KiboConfig {
   if (params.input.useEnv && params.accountId !== DEFAULT_ACCOUNT_ID) {
     return params.cfg;
   }
@@ -127,16 +127,16 @@ export function formatQQBotAllowFrom(params: {
 }
 
 export const qqbotConfigAdapter = {
-  listAccountIds: (cfg: OpenClawConfig) => listQQBotAccountIds(cfg),
-  resolveAccount: (cfg: OpenClawConfig, accountId?: string | null) =>
+  listAccountIds: (cfg: KiboConfig) => listQQBotAccountIds(cfg),
+  resolveAccount: (cfg: KiboConfig, accountId?: string | null) =>
     resolveQQBotAccount(cfg, accountId, { allowUnresolvedSecretRef: true }),
-  defaultAccountId: (cfg: OpenClawConfig) => resolveDefaultQQBotAccountId(cfg),
+  defaultAccountId: (cfg: KiboConfig) => resolveDefaultQQBotAccountId(cfg),
   setAccountEnabled: ({
     cfg,
     accountId,
     enabled,
   }: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId: string;
     enabled: boolean;
   }) =>
@@ -147,7 +147,7 @@ export const qqbotConfigAdapter = {
       enabled,
       allowTopLevel: true,
     }),
-  deleteAccount: ({ cfg, accountId }: { cfg: OpenClawConfig; accountId: string }) =>
+  deleteAccount: ({ cfg, accountId }: { cfg: KiboConfig; accountId: string }) =>
     deleteAccountFromConfigSection({
       cfg,
       sectionKey: "qqbot",
@@ -156,21 +156,21 @@ export const qqbotConfigAdapter = {
     }),
   isConfigured: isQQBotConfigured,
   describeAccount: describeQQBotAccount,
-  resolveAllowFrom: ({ cfg, accountId }: { cfg: OpenClawConfig; accountId?: string | null }) =>
+  resolveAllowFrom: ({ cfg, accountId }: { cfg: KiboConfig; accountId?: string | null }) =>
     resolveQQBotAccount(cfg, accountId, { allowUnresolvedSecretRef: true }).config?.allowFrom,
   formatAllowFrom: ({ allowFrom }: { allowFrom: Array<string | number> | undefined | null }) =>
     formatQQBotAllowFrom({ allowFrom }),
 };
 
 export const qqbotSetupAdapterShared = {
-  resolveAccountId: ({ cfg, accountId }: { cfg: OpenClawConfig; accountId?: string | null }) =>
+  resolveAccountId: ({ cfg, accountId }: { cfg: KiboConfig; accountId?: string | null }) =>
     normalizeLowercaseStringOrEmpty(accountId) || resolveDefaultQQBotAccountId(cfg),
   applyAccountName: ({
     cfg,
     accountId,
     name,
   }: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId: string;
     name?: string;
   }) =>
@@ -187,7 +187,7 @@ export const qqbotSetupAdapterShared = {
     accountId,
     input,
   }: {
-    cfg: OpenClawConfig;
+    cfg: KiboConfig;
     accountId: string;
     input: ChannelSetupInput;
   }) => applyQQBotSetupAccountConfig({ cfg, accountId, input }),

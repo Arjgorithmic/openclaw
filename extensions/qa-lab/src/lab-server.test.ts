@@ -97,7 +97,7 @@ describe("qa-lab server", () => {
     expect(bootstrap.defaults.senderId).toBe("qa-operator");
     expect(bootstrap.controlUiUrl).toBe("http://127.0.0.1:18789/");
     expect(bootstrap.controlUiEmbeddedUrl).toBe("http://127.0.0.1:18789/#token=qa-token");
-    expect(bootstrap.kickoffTask).toContain("Lobster Invaders");
+    expect(bootstrap.kickoffTask).toContain("Kibo Shell Invaders");
     expect(bootstrap.scenarios.length).toBeGreaterThanOrEqual(10);
     expect(bootstrap.scenarios.some((scenario) => scenario.id === "dm-chat-baseline")).toBe(true);
     expect(bootstrap.runner.status).toBe("idle");
@@ -190,7 +190,7 @@ describe("qa-lab server", () => {
       messages: Array<{ text: string }>;
     };
     expect(
-      manualSnapshot.messages.some((message) => message.text.includes("Lobster Invaders")),
+      manualSnapshot.messages.some((message) => message.text.includes("Kibo Shell Invaders")),
     ).toBe(true);
   });
 

@@ -2,15 +2,15 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { KiboConfig } from "../../config/config.js";
 
-const loadConfig = vi.hoisted(() => vi.fn(() => ({}) as OpenClawConfig));
+const loadConfig = vi.hoisted(() => vi.fn(() => ({}) as KiboConfig));
 const resolveDefaultAgentId = vi.hoisted(() => vi.fn(() => "main"));
 const resolveAgentWorkspaceDir = vi.hoisted(() =>
-  vi.fn((_cfg: OpenClawConfig, _agentId: string) => "/tmp/openclaw"),
+  vi.fn((_cfg: KiboConfig, _agentId: string) => "/tmp/kibo"),
 );
 const resolveMemorySearchConfig = vi.hoisted(() =>
-  vi.fn<(_cfg: OpenClawConfig, _agentId: string) => { enabled: boolean } | null>(() => ({
+  vi.fn<(_cfg: KiboConfig, _agentId: string) => { enabled: boolean } | null>(() => ({
     enabled: true,
   })),
 );
@@ -131,7 +131,7 @@ describe("doctor.memory.status", () => {
   beforeEach(() => {
     loadConfig.mockClear();
     resolveDefaultAgentId.mockClear();
-    resolveAgentWorkspaceDir.mockReset().mockReturnValue("/tmp/openclaw");
+    resolveAgentWorkspaceDir.mockReset().mockReturnValue("/tmp/kibo");
     resolveMemorySearchConfig.mockReset().mockReturnValue({ enabled: true });
     getMemorySearchManager.mockReset();
     previewGroundedRemMarkdown.mockReset();
@@ -391,8 +391,8 @@ describe("doctor.memory.status", () => {
           },
         },
       },
-    } as OpenClawConfig);
-    resolveAgentWorkspaceDir.mockImplementation((cfg: OpenClawConfig, agentId: string) => {
+    } as KiboConfig);
+    resolveAgentWorkspaceDir.mockImplementation((cfg: KiboConfig, agentId: string) => {
       if (agentId === "alpha") {
         return alphaWorkspaceDir;
       }
@@ -415,7 +415,7 @@ describe("doctor.memory.status", () => {
         enabled: true,
         payload: {
           kind: "systemEvent",
-          text: "__openclaw_memory_core_short_term_promotion_dream__",
+          text: "__kibo_memory_core_short_term_promotion_dream__",
         },
         state: { nextRunAtMs: now + 60_000 },
       },
@@ -526,7 +526,7 @@ describe("doctor.memory.status", () => {
           },
         },
       },
-    } as OpenClawConfig);
+    } as KiboConfig);
 
     const close = vi.fn().mockResolvedValue(undefined);
     getMemorySearchManager.mockResolvedValue({
@@ -564,10 +564,10 @@ describe("doctor.memory.status", () => {
     loadConfig.mockReturnValue({
       plugins: {
         slots: {
-          memory: "memos-local-openclaw-plugin",
+          memory: "memos-local-kibo-plugin",
         },
         entries: {
-          "memos-local-openclaw-plugin": {
+          "memos-local-kibo-plugin": {
             config: {
               dreaming: {
                 enabled: true,
@@ -584,7 +584,7 @@ describe("doctor.memory.status", () => {
           },
         },
       },
-    } as OpenClawConfig);
+    } as KiboConfig);
 
     const close = vi.fn().mockResolvedValue(undefined);
     getMemorySearchManager.mockResolvedValue({
@@ -662,8 +662,8 @@ describe("doctor.memory.status", () => {
           },
         },
       },
-    } as OpenClawConfig);
-    resolveAgentWorkspaceDir.mockImplementation((_cfg: OpenClawConfig, agentId: string) =>
+    } as KiboConfig);
+    resolveAgentWorkspaceDir.mockImplementation((_cfg: KiboConfig, agentId: string) =>
       agentId === "alpha" ? alphaWorkspaceDir : mainWorkspaceDir,
     );
 
@@ -720,17 +720,17 @@ describe("doctor.memory.status", () => {
 
 describe("doctor.memory dream actions", () => {
   it("clears grounded-only staged short-term entries without touching the diary", async () => {
-    resolveAgentWorkspaceDir.mockReturnValue("/tmp/openclaw");
+    resolveAgentWorkspaceDir.mockReturnValue("/tmp/kibo");
     removeGroundedShortTermCandidates.mockResolvedValue({
       removed: 3,
-      storePath: "/tmp/openclaw/memory/.dreams/short-term-recall.json",
+      storePath: "/tmp/kibo/memory/.dreams/short-term-recall.json",
     });
     const respond = vi.fn();
 
     await invokeDoctorMemoryResetGroundedShortTerm(respond);
 
     expect(removeGroundedShortTermCandidates).toHaveBeenCalledWith({
-      workspaceDir: "/tmp/openclaw",
+      workspaceDir: "/tmp/kibo",
     });
     expect(respond).toHaveBeenCalledWith(
       true,
@@ -748,7 +748,7 @@ describe("doctor.memory.dreamDiary", () => {
   beforeEach(() => {
     loadConfig.mockClear();
     resolveDefaultAgentId.mockClear();
-    resolveAgentWorkspaceDir.mockReset().mockReturnValue("/tmp/openclaw");
+    resolveAgentWorkspaceDir.mockReset().mockReturnValue("/tmp/kibo");
     previewGroundedRemMarkdown.mockReset();
     writeBackfillDiaryEntries.mockReset();
     removeBackfillDiaryEntries.mockReset();

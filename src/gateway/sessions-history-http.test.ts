@@ -20,7 +20,7 @@ import {
 installGatewayTestHooks();
 
 const AUTH_HEADER = { Authorization: "Bearer test-gateway-token-1234567890" };
-const READ_SCOPE_HEADER = { "x-openclaw-scopes": "operator.read" };
+const READ_SCOPE_HEADER = { "x-kibo-scopes": "operator.read" };
 const cleanupDirs: string[] = [];
 
 afterEach(async () => {
@@ -30,7 +30,7 @@ afterEach(async () => {
 });
 
 async function createSessionStoreFile(): Promise<string> {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-session-history-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "kibo-session-history-"));
   cleanupDirs.push(dir);
   const storePath = path.join(dir, "sessions.json");
   testState.sessionStorePath = storePath;
@@ -71,7 +71,7 @@ function makeTranscriptAssistantMessage(params: {
     role: "assistant" as const,
     content: params.content ?? [{ type: "text", text: params.text }],
     api: "openai-responses",
-    provider: "openclaw",
+    provider: "kibo",
     model: "delivery-mirror",
     usage: {
       input: 0,
@@ -211,9 +211,9 @@ describe("session history HTTP endpoints", () => {
       expect(
         (
           body.messages?.[0] as {
-            __openclaw?: { id?: string; seq?: number };
+            __kibo?: { id?: string; seq?: number };
           }
-        )?.__openclaw,
+        )?.__kibo,
       ).toMatchObject({
         seq: 1,
       });
@@ -309,8 +309,8 @@ describe("session history HTTP endpoints", () => {
       expect(firstPage.status).toBe(200);
       const firstBody = (await firstPage.json()) as {
         sessionKey?: string;
-        items?: Array<{ content?: Array<{ text?: string }>; __openclaw?: { seq?: number } }>;
-        messages?: Array<{ content?: Array<{ text?: string }>; __openclaw?: { seq?: number } }>;
+        items?: Array<{ content?: Array<{ text?: string }>; __kibo?: { seq?: number } }>;
+        messages?: Array<{ content?: Array<{ text?: string }>; __kibo?: { seq?: number } }>;
         nextCursor?: string;
         hasMore?: boolean;
       };
@@ -319,7 +319,7 @@ describe("session history HTTP endpoints", () => {
         "second message",
         "third message",
       ]);
-      expect(firstBody.messages?.map((message) => message.__openclaw?.seq)).toEqual([2, 3]);
+      expect(firstBody.messages?.map((message) => message.__kibo?.seq)).toEqual([2, 3]);
       expect(firstBody.hasMore).toBe(true);
       expect(firstBody.nextCursor).toBe("2");
 
@@ -328,15 +328,15 @@ describe("session history HTTP endpoints", () => {
       });
       expect(secondPage.status).toBe(200);
       const secondBody = (await secondPage.json()) as {
-        items?: Array<{ content?: Array<{ text?: string }>; __openclaw?: { seq?: number } }>;
-        messages?: Array<{ __openclaw?: { seq?: number } }>;
+        items?: Array<{ content?: Array<{ text?: string }>; __kibo?: { seq?: number } }>;
+        messages?: Array<{ __kibo?: { seq?: number } }>;
         nextCursor?: string;
         hasMore?: boolean;
       };
       expect(secondBody.items?.map((message) => message.content?.[0]?.text)).toEqual([
         "first message",
       ]);
-      expect(secondBody.messages?.map((message) => message.__openclaw?.seq)).toEqual([1]);
+      expect(secondBody.messages?.map((message) => message.__kibo?.seq)).toEqual([1]);
       expect(secondBody.hasMore).toBe(false);
       expect(secondBody.nextCursor).toBeUndefined();
     });
@@ -380,11 +380,11 @@ describe("session history HTTP endpoints", () => {
       const nextData = nextEvent.data as {
         messages?: Array<{
           content?: Array<{ text?: string }>;
-          __openclaw?: { id?: string; seq?: number };
+          __kibo?: { id?: string; seq?: number };
         }>;
       };
       expect(nextData.messages?.[0]?.content?.[0]?.text).toBe("third message");
-      expect(nextData.messages?.[0]?.__openclaw).toMatchObject({
+      expect(nextData.messages?.[0]?.__kibo).toMatchObject({
         id: thirdMessageId,
         seq: 3,
       });
@@ -429,10 +429,10 @@ describe("session history HTTP endpoints", () => {
       const refreshEvent = await readSseEvent(reader!, streamState);
       expect(refreshEvent.event).toBe("history");
       const refreshData = refreshEvent.data as {
-        messages?: Array<{ content?: Array<{ text?: string }>; __openclaw?: { seq?: number } }>;
+        messages?: Array<{ content?: Array<{ text?: string }>; __kibo?: { seq?: number } }>;
       };
       expect(refreshData.messages?.[0]?.content?.[0]?.text).toBe("second message");
-      expect(refreshData.messages?.[0]?.__openclaw?.seq).toBe(2);
+      expect(refreshData.messages?.[0]?.__kibo?.seq).toBe(2);
 
       await reader?.cancel();
     });
@@ -488,13 +488,13 @@ describe("session history HTTP endpoints", () => {
         sessionKey?: string;
         messages?: Array<{
           content?: Array<{ text?: string }>;
-          __openclaw?: { id?: string; seq?: number };
+          __kibo?: { id?: string; seq?: number };
         }>;
       };
       expect(body.sessionKey).toBe("agent:main:main");
       expect(body.messages).toHaveLength(1);
       expect(body.messages?.[0]?.content?.[0]?.text).toBe("Done.");
-      expect(body.messages?.[0]?.__openclaw).toMatchObject({
+      expect(body.messages?.[0]?.__kibo).toMatchObject({
         id: visibleMessageId,
         seq: 2,
       });
@@ -549,9 +549,9 @@ describe("session history HTTP endpoints", () => {
       expect(
         (
           messageEvent.data as {
-            message?: { __openclaw?: { id?: string; seq?: number } };
+            message?: { __kibo?: { id?: string; seq?: number } };
           }
-        ).message?.__openclaw,
+        ).message?.__kibo,
       ).toMatchObject({
         id: appended.ok ? appended.messageId : undefined,
         seq: 2,
@@ -644,9 +644,9 @@ describe("session history HTTP endpoints", () => {
       expect(
         (
           messageEvent.data as {
-            message?: { __openclaw?: { id?: string; seq?: number } };
+            message?: { __kibo?: { id?: string; seq?: number } };
           }
-        ).message?.__openclaw,
+        ).message?.__kibo,
       ).toMatchObject({
         id: visible.ok ? visible.messageId : undefined,
         seq: 3,
@@ -716,9 +716,9 @@ describe("session history HTTP endpoints", () => {
       expect(
         (
           thirdEvent.data as {
-            message?: { __openclaw?: { id?: string; seq?: number } };
+            message?: { __kibo?: { id?: string; seq?: number } };
           }
-        ).message?.__openclaw,
+        ).message?.__kibo,
       ).toMatchObject({
         id: third.ok ? third.messageId : undefined,
         seq: 4,
@@ -752,7 +752,7 @@ describe("session history HTTP endpoints", () => {
         {
           headers: {
             ...AUTH_HEADER,
-            "x-openclaw-scopes": "operator.approvals",
+            "x-kibo-scopes": "operator.approvals",
           },
         },
       );

@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 import { isRecord } from "../utils.js";
 import { ensureAuthProfileStore, listProfilesForProvider } from "./auth-profiles.js";
@@ -81,7 +81,7 @@ function normalizeUserLocation(value: unknown): CodexNativeSearchUserLocation | 
 }
 
 export function resolveCodexNativeWebSearchConfig(
-  config: OpenClawConfig | undefined,
+  config: KiboConfig | undefined,
 ): ResolvedCodexNativeWebSearchConfig {
   const nativeConfig = config?.tools?.web?.search?.openaiCodex;
   return {
@@ -110,7 +110,7 @@ export function hasCodexNativeWebSearchTool(tools: unknown): boolean {
 }
 
 export function hasAvailableCodexAuth(params: {
-  config?: OpenClawConfig;
+  config?: KiboConfig;
   agentDir?: string;
 }): boolean {
   if (params.agentDir) {
@@ -131,7 +131,7 @@ export function hasAvailableCodexAuth(params: {
 }
 
 export function resolveCodexNativeSearchActivation(params: {
-  config?: OpenClawConfig;
+  config?: KiboConfig;
   modelProvider?: string;
   modelApi?: string;
   agentDir?: string;
@@ -200,7 +200,7 @@ export function resolveCodexNativeSearchActivation(params: {
 }
 
 export function buildCodexNativeWebSearchTool(
-  config: OpenClawConfig | undefined,
+  config: KiboConfig | undefined,
 ): Record<string, unknown> {
   const nativeConfig = resolveCodexNativeWebSearchConfig(config);
   const tool: Record<string, unknown> = {
@@ -230,7 +230,7 @@ export function buildCodexNativeWebSearchTool(
 
 export function patchCodexNativeWebSearchPayload(params: {
   payload: unknown;
-  config?: OpenClawConfig;
+  config?: KiboConfig;
 }): CodexNativeSearchPayloadPatchResult {
   if (!isRecord(params.payload)) {
     return { status: "payload_not_object" };
@@ -248,7 +248,7 @@ export function patchCodexNativeWebSearchPayload(params: {
 }
 
 export function shouldSuppressManagedWebSearchTool(params: {
-  config?: OpenClawConfig;
+  config?: KiboConfig;
   modelProvider?: string;
   modelApi?: string;
   agentDir?: string;
@@ -257,7 +257,7 @@ export function shouldSuppressManagedWebSearchTool(params: {
 }
 
 export function isCodexNativeWebSearchRelevant(params: {
-  config: OpenClawConfig;
+  config: KiboConfig;
   agentId?: string;
   agentDir?: string;
 }): boolean {
@@ -283,7 +283,7 @@ export function isCodexNativeWebSearchRelevant(params: {
 }
 
 export function describeCodexNativeWebSearch(
-  config: OpenClawConfig | undefined,
+  config: KiboConfig | undefined,
 ): string | undefined {
   if (config?.tools?.web?.search?.enabled === false) {
     return undefined;

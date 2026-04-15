@@ -1,22 +1,22 @@
 import path from "node:path";
-import { resolveApiKeyForProvider } from "openclaw/plugin-sdk/agent-runtime";
-import type { ModelCatalogEntry } from "openclaw/plugin-sdk/agent-runtime";
+import { resolveApiKeyForProvider } from "kibo/plugin-sdk/agent-runtime";
+import type { ModelCatalogEntry } from "kibo/plugin-sdk/agent-runtime";
 import {
   findModelInCatalog,
   loadModelCatalog,
   modelSupportsVision,
-} from "openclaw/plugin-sdk/agent-runtime";
-import { resolveDefaultModelForAgent } from "openclaw/plugin-sdk/agent-runtime";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-import { loadJsonFile, saveJsonFile } from "openclaw/plugin-sdk/json-store";
-import { resolveAutoImageModel } from "openclaw/plugin-sdk/media-runtime";
+} from "kibo/plugin-sdk/agent-runtime";
+import { resolveDefaultModelForAgent } from "kibo/plugin-sdk/agent-runtime";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
+import { loadJsonFile, saveJsonFile } from "kibo/plugin-sdk/json-store";
+import { resolveAutoImageModel } from "kibo/plugin-sdk/media-runtime";
 import {
   resolveAutoMediaKeyProviders,
   resolveDefaultMediaModel,
-} from "openclaw/plugin-sdk/media-runtime";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { STATE_DIR } from "openclaw/plugin-sdk/state-paths";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/media-runtime";
+import { logVerbose } from "kibo/plugin-sdk/runtime-env";
+import { STATE_DIR } from "kibo/plugin-sdk/state-paths";
+import { normalizeLowercaseStringOrEmpty } from "kibo/plugin-sdk/text-runtime";
 import { getTelegramRuntime } from "./runtime.js";
 
 const CACHE_FILE = path.join(STATE_DIR, "telegram", "sticker-cache.json");
@@ -150,7 +150,7 @@ const STICKER_DESCRIPTION_PROMPT =
 
 export interface DescribeStickerParams {
   imagePath: string;
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   agentDir?: string;
   agentId?: string;
 }

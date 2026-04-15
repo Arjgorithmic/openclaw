@@ -1,25 +1,25 @@
 {
-  "name": "@openclaw/zalouser",
+  "name": "@kibo/zalouser",
   "version": "2026.4.10",
-  "description": "OpenClaw Zalo Personal Account plugin via native zca-js integration",
+  "description": "Kibo Zalo Personal Account plugin via native zca-js integration",
   "type": "module",
   "dependencies": {
     "@sinclair/typebox": "0.34.49",
     "zca-js": "2.1.2"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*",
+    "kibo": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.4.10"
+    "kibo": ">=2026.4.10"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "kibo": {
       "optional": true
     }
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ],
@@ -38,7 +38,7 @@
       "quickstartAllowFrom": false
     },
     "install": {
-      "npmSpec": "@openclaw/zalouser",
+      "npmSpec": "@kibo/zalouser",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.10"
     },
@@ -46,10 +46,10 @@
       "pluginApi": ">=2026.4.10"
     },
     "build": {
-      "openclawVersion": "2026.4.10"
+      "kiboVersion": "2026.4.10"
     },
     "release": {
-      "publishToClawHub": true,
+      "publishToKiboHub": true,
       "publishToNpm": true
     }
   }

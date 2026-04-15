@@ -1,6 +1,6 @@
-import OpenClawKit
+import KiboKit
 import Testing
-@testable import OpenClaw
+@testable import Kibo
 
 @Suite struct IOSGatewayChatTransportTests {
     @Test func requestsFailFastWhenGatewayNotConnected() async {

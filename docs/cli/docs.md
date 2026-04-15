@@ -1,11 +1,11 @@
 ---
-summary: "CLI reference for `openclaw docs` (search the live docs index)"
+summary: "CLI reference for `kibo docs` (search the live docs index)"
 read_when:
-  - You want to search the live OpenClaw docs from the terminal
+  - You want to search the live Kibo docs from the terminal
 title: "docs"
 ---
 
-# `openclaw docs`
+# `kibo docs`
 
 Search the live docs index.
 
@@ -16,13 +16,13 @@ Arguments:
 Examples:
 
 ```bash
-openclaw docs
-openclaw docs browser existing-session
-openclaw docs sandbox allowHostControl
-openclaw docs gateway token secretref
+kibo docs
+kibo docs browser existing-session
+kibo docs sandbox allowHostControl
+kibo docs gateway token secretref
 ```
 
 Notes:
 
-- With no query, `openclaw docs` opens the live docs search entrypoint.
+- With no query, `kibo docs` opens the live docs search entrypoint.
 - Multi-word queries are passed through as one search request.

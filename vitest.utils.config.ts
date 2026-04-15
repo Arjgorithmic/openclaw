@@ -6,7 +6,7 @@ export function createUtilsVitestConfig(env?: Record<string, string | undefined>
     dir: "src",
     env,
     exclude: unitFastTestFiles,
-    includeOpenClawRuntimeSetup: false,
+    includeKiboRuntimeSetup: false,
     name: "utils",
     passWithNoTests: true,
   });

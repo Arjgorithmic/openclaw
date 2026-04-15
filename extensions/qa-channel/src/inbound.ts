@@ -1,5 +1,5 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-import { dispatchInboundReplyWithBase } from "openclaw/plugin-sdk/inbound-reply-dispatch";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
+import { dispatchInboundReplyWithBase } from "kibo/plugin-sdk/inbound-reply-dispatch";
 import { buildQaTarget, sendQaBusMessage, type QaBusMessage } from "./bus-client.js";
 import { getQaChannelRuntime } from "./runtime.js";
 import type { CoreConfig, ResolvedQaChannelAccount } from "./types.js";
@@ -19,7 +19,7 @@ export async function handleQaInbound(params: {
     threadId: inbound.threadId,
   });
   const route = runtime.channel.routing.resolveAgentRoute({
-    cfg: params.config as OpenClawConfig,
+    cfg: params.config as KiboConfig,
     channel: params.channelId,
     accountId: params.account.accountId,
     peer: {
@@ -39,7 +39,7 @@ export async function handleQaInbound(params: {
     from: inbound.senderName || inbound.senderId,
     timestamp: inbound.timestamp,
     previousTimestamp,
-    envelope: runtime.channel.reply.resolveEnvelopeFormatOptions(params.config as OpenClawConfig),
+    envelope: runtime.channel.reply.resolveEnvelopeFormatOptions(params.config as KiboConfig),
     body: inbound.text,
   });
 
@@ -84,7 +84,7 @@ export async function handleQaInbound(params: {
   });
 
   await dispatchInboundReplyWithBase({
-    cfg: params.config as OpenClawConfig,
+    cfg: params.config as KiboConfig,
     channel: params.channelId,
     accountId: params.account.accountId,
     route,

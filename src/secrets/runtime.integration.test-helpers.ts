@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { expect, vi } from "vitest";
 import { ensureAuthProfileStore, type AuthProfileStore } from "../agents/auth-profiles.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { clearConfigCache, clearRuntimeConfigSnapshot, loadConfig } from "../config/config.js";
 import { clearPluginDiscoveryCache } from "../plugins/discovery.js";
 import { clearPluginLoaderCache } from "../plugins/loader.js";
@@ -31,8 +31,8 @@ export type SecretsRuntimeEnvSnapshot = ReturnType<typeof captureEnv>;
 
 const allowInsecureTempSecretFile = process.platform === "win32";
 
-export function asConfig(value: unknown): OpenClawConfig {
-  return value as OpenClawConfig;
+export function asConfig(value: unknown): KiboConfig {
+  return value as KiboConfig;
 }
 
 export function loadAuthStoreWithProfiles(
@@ -45,7 +45,7 @@ export function loadAuthStoreWithProfiles(
 }
 
 export async function createOpenAIFileRuntimeFixture(home: string) {
-  const configDir = path.join(home, ".openclaw");
+  const configDir = path.join(home, ".kibo");
   const secretFile = path.join(configDir, "secrets.json");
   const agentDir = path.join(configDir, "agents", "main", "agent");
   const authStorePath = path.join(agentDir, "auth-profiles.json");
@@ -83,7 +83,7 @@ export async function createOpenAIFileRuntimeFixture(home: string) {
   };
 }
 
-export function createOpenAIFileRuntimeConfig(secretFile: string): OpenClawConfig {
+export function createOpenAIFileRuntimeConfig(secretFile: string): KiboConfig {
   return asConfig({
     secrets: {
       providers: {
@@ -117,14 +117,14 @@ export function expectResolvedOpenAIRuntime(agentDir: string) {
 
 export function beginSecretsRuntimeIsolationForTest(): SecretsRuntimeEnvSnapshot {
   const envSnapshot = captureEnv([
-    "OPENCLAW_BUNDLED_PLUGINS_DIR",
-    "OPENCLAW_DISABLE_BUNDLED_PLUGINS",
-    "OPENCLAW_DISABLE_PLUGIN_DISCOVERY_CACHE",
-    "OPENCLAW_VERSION",
+    "KIBO_BUNDLED_PLUGINS_DIR",
+    "KIBO_DISABLE_BUNDLED_PLUGINS",
+    "KIBO_DISABLE_PLUGIN_DISCOVERY_CACHE",
+    "KIBO_VERSION",
   ]);
-  delete process.env.OPENCLAW_BUNDLED_PLUGINS_DIR;
-  process.env.OPENCLAW_DISABLE_PLUGIN_DISCOVERY_CACHE = "1";
-  delete process.env.OPENCLAW_VERSION;
+  delete process.env.KIBO_BUNDLED_PLUGINS_DIR;
+  process.env.KIBO_DISABLE_PLUGIN_DISCOVERY_CACHE = "1";
+  delete process.env.KIBO_VERSION;
   return envSnapshot;
 }
 

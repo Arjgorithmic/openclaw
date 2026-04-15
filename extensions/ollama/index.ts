@@ -1,16 +1,16 @@
 import {
   definePluginEntry,
-  type OpenClawPluginApi,
+  type KiboPluginApi,
   type ProviderAuthContext,
   type ProviderAuthMethodNonInteractiveContext,
   type ProviderAuthResult,
   type ProviderDiscoveryContext,
-} from "openclaw/plugin-sdk/plugin-entry";
+} from "kibo/plugin-sdk/plugin-entry";
 import {
   buildProviderReplayFamilyHooks,
   type ModelProviderConfig,
-} from "openclaw/plugin-sdk/provider-model-shared";
-import { normalizeOptionalString, readStringValue } from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/provider-model-shared";
+import { normalizeOptionalString, readStringValue } from "kibo/plugin-sdk/text-runtime";
 import {
   buildOllamaProvider,
   configureOllamaNonInteractive,
@@ -101,7 +101,7 @@ export default definePluginEntry({
   id: "ollama",
   name: "Ollama Provider",
   description: "Bundled Ollama provider plugin",
-  register(api: OpenClawPluginApi) {
+  register(api: KiboPluginApi) {
     api.registerMemoryEmbeddingProvider(ollamaMemoryEmbeddingProviderAdapter);
     const pluginConfig = (api.pluginConfig ?? {}) as OllamaPluginConfig;
     api.registerWebSearchProvider(createOllamaWebSearchProvider());
@@ -274,8 +274,8 @@ export default definePluginEntry({
         resolvedApiKey?.trim() === DEFAULT_API_KEY,
       buildUnknownModelHint: () =>
         "Ollama requires authentication to be registered as a provider. " +
-        'Set OLLAMA_API_KEY="ollama-local" (any value works) or run "openclaw configure". ' +
-        "See: https://docs.openclaw.ai/providers/ollama",
+        'Set OLLAMA_API_KEY="ollama-local" (any value works) or run "kibo configure". ' +
+        "See: https://github.com/Arjgorithmic/openclaw/providers/ollama",
     });
   },
 });

@@ -176,7 +176,7 @@ function setMinimalChannelsAddRegistryForTests(): void {
   );
 }
 
-function registerMSTeamsSetupPlugin(pluginId = "@openclaw/msteams-plugin"): void {
+function registerMSTeamsSetupPlugin(pluginId = "@kibo/msteams-plugin"): void {
   vi.mocked(loadChannelSetupPluginRegistrySnapshotForChannel).mockReturnValue(
     createTestRegistry([{ pluginId, plugin: createMSTeamsSetupPlugin(), source: "test" }]),
   );
@@ -343,7 +343,7 @@ describe("channelsAddCommand", () => {
     manifestRegistryMocks.loadPluginManifestRegistry.mockReturnValue({
       plugins: [
         {
-          id: "@openclaw/msteams-plugin",
+          id: "@kibo/msteams-plugin",
           channels: ["msteams"],
         } as never,
       ],
@@ -379,7 +379,7 @@ describe("channelsAddCommand", () => {
     setActivePluginRegistry(createTestRegistry());
     const catalogEntry: ChannelPluginCatalogEntry = {
       id: "msteams",
-      pluginId: "@openclaw/msteams-plugin",
+      pluginId: "@kibo/msteams-plugin",
       meta: {
         id: "msteams",
         label: "Microsoft Teams",
@@ -388,7 +388,7 @@ describe("channelsAddCommand", () => {
         blurb: "teams channel",
       },
       install: {
-        npmSpec: "@openclaw/msteams",
+        npmSpec: "@kibo/msteams",
       },
     };
     catalogMocks.listChannelPluginCatalogEntries.mockReturnValue([catalogEntry]);

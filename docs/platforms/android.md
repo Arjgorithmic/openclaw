@@ -9,7 +9,7 @@ title: "Android App"
 
 # Android App (Node)
 
-> **Note:** The Android app has not been publicly released yet. The source code is available in the [OpenClaw repository](https://github.com/openclaw/openclaw) under `apps/android`. You can build it yourself using Java 17 and the Android SDK (`./gradlew :app:assemblePlayDebug`). See [apps/android/README.md](https://github.com/openclaw/openclaw/blob/main/apps/android/README.md) for build instructions.
+> **Note:** The Android app has not been publicly released yet. The source code is available in the [Kibo repository](https://github.com/kibo/kibo) under `apps/android`. You can build it yourself using Java 17 and the Android SDK (`./gradlew :app:assemblePlayDebug`). See [apps/android/README.md](https://github.com/kibo/kibo/blob/main/apps/android/README.md) for build instructions.
 
 ## Support snapshot
 
@@ -43,12 +43,12 @@ For Tailscale or public hosts, Android requires a secure endpoint:
   - Same Tailscale tailnet using Wide-Area Bonjour / unicast DNS-SD (see below), **or**
   - Manual gateway host/port (fallback)
 - Tailnet/public mobile pairing does **not** use raw tailnet IP `ws://` endpoints. Use Tailscale Serve or another `wss://` URL instead.
-- You can run the CLI (`openclaw`) on the gateway machine (or via SSH).
+- You can run the CLI (`kibo`) on the gateway machine (or via SSH).
 
 ### 1) Start the Gateway
 
 ```bash
-openclaw gateway --port 18789 --verbose
+kibo gateway --port 18789 --verbose
 ```
 
 Confirm in logs you see something like:
@@ -58,7 +58,7 @@ Confirm in logs you see something like:
 For remote Android access over Tailscale, prefer Serve/Funnel instead of a raw tailnet bind:
 
 ```bash
-openclaw gateway --tailscale serve
+kibo gateway --tailscale serve
 ```
 
 This gives Android a secure `wss://` / `https://` endpoint. A plain `gateway.bind: "tailnet"` setup is not enough for first-time remote Android pairing unless you also terminate TLS separately.
@@ -68,7 +68,7 @@ This gives Android a secure `wss://` / `https://` endpoint. A plain `gateway.bin
 From the gateway machine:
 
 ```bash
-dns-sd -B _openclaw-gw._tcp local.
+dns-sd -B _kibo-gw._tcp local.
 ```
 
 More debugging notes: [Bonjour](/gateway/bonjour).
@@ -76,7 +76,7 @@ More debugging notes: [Bonjour](/gateway/bonjour).
 If you also configured a wide-area discovery domain, compare against:
 
 ```bash
-openclaw gateway discover --json
+kibo gateway discover --json
 ```
 
 That shows `local.` plus the configured wide-area domain in one pass and uses the resolved
@@ -88,7 +88,7 @@ Android NSD/mDNS discovery won’t cross networks. If your Android node and the 
 
 Discovery alone is not sufficient for tailnet/public Android pairing. The discovered route still needs a secure endpoint (`wss://` or Tailscale Serve):
 
-1. Set up a DNS-SD zone (example `openclaw.internal.`) on the gateway host and publish `_openclaw-gw._tcp` records.
+1. Set up a DNS-SD zone (example `kibo.internal.`) on the gateway host and publish `_kibo-gw._tcp` records.
 2. Configure Tailscale split DNS for your chosen domain pointing at that DNS server.
 
 Details and example CoreDNS config: [Bonjour](/gateway/bonjour).
@@ -112,9 +112,9 @@ After the first successful pairing, Android auto-reconnects on launch:
 On the gateway machine:
 
 ```bash
-openclaw devices list
-openclaw devices approve <requestId>
-openclaw devices reject <requestId>
+kibo devices list
+kibo devices approve <requestId>
+kibo devices reject <requestId>
 ```
 
 Pairing details: [Pairing](/channels/pairing).
@@ -124,13 +124,13 @@ Pairing details: [Pairing](/channels/pairing).
 - Via nodes status:
 
   ```bash
-  openclaw nodes status
+  kibo nodes status
   ```
 
 - Via Gateway:
 
   ```bash
-  openclaw gateway call node.list --params "{}"
+  kibo gateway call node.list --params "{}"
   ```
 
 ### 6) Chat + history
@@ -155,18 +155,18 @@ If you want the node to show real HTML/CSS/JS that the agent can edit on disk, p
 
 Note: nodes load canvas from the Gateway HTTP server (same port as `gateway.port`, default `18789`).
 
-1. Create `~/.openclaw/workspace/canvas/index.html` on the gateway host.
+1. Create `~/.kibo/workspace/canvas/index.html` on the gateway host.
 
 2. Navigate the node to it (LAN):
 
 ```bash
-openclaw nodes invoke --node "<Android Node>" --command canvas.navigate --params '{"url":"http://<gateway-hostname>.local:18789/__openclaw__/canvas/"}'
+kibo nodes invoke --node "<Android Node>" --command canvas.navigate --params '{"url":"http://<gateway-hostname>.local:18789/__kibo__/canvas/"}'
 ```
 
-Tailnet (optional): if both devices are on Tailscale, use a MagicDNS name or tailnet IP instead of `.local`, e.g. `http://<gateway-magicdns>:18789/__openclaw__/canvas/`.
+Tailnet (optional): if both devices are on Tailscale, use a MagicDNS name or tailnet IP instead of `.local`, e.g. `http://<gateway-magicdns>:18789/__kibo__/canvas/`.
 
 This server injects a live-reload client into HTML and reloads on file changes.
-The A2UI host lives at `http://<gateway-host>:18789/__openclaw__/a2ui/`.
+The A2UI host lives at `http://<gateway-host>:18789/__kibo__/a2ui/`.
 
 Canvas commands (foreground only):
 
@@ -196,9 +196,9 @@ See [Camera node](/nodes/camera) for parameters and CLI helpers.
 
 ## Assistant entrypoints
 
-Android supports launching OpenClaw from the system assistant trigger (Google
+Android supports launching Kibo from the system assistant trigger (Google
 Assistant). When configured, holding the home button or saying "Hey Google, ask
-OpenClaw..." opens the app and hands the prompt into the chat composer.
+Kibo..." opens the app and hands the prompt into the chat composer.
 
 This uses Android **App Actions** metadata declared in the app manifest. No
 extra configuration is needed on the gateway side -- the assistant intent is
@@ -206,7 +206,7 @@ handled entirely by the Android app and forwarded as a normal chat message.
 
 <Note>
 App Actions availability depends on the device, Google Play Services version,
-and whether the user has set OpenClaw as the default assistant app.
+and whether the user has set Kibo as the default assistant app.
 </Note>
 
 ## Notification forwarding

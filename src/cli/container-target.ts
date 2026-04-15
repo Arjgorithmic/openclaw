@@ -78,7 +78,7 @@ export function resolveCliContainerTarget(
   if (!parsed.ok) {
     throw new Error(parsed.error);
   }
-  return parsed.container ?? normalizeOptionalString(env.OPENCLAW_CONTAINER) ?? null;
+  return parsed.container ?? normalizeOptionalString(env.KIBO_CONTAINER) ?? null;
 }
 
 function isContainerRunning(params: {
@@ -158,11 +158,11 @@ function buildContainerExecArgs(params: {
     "exec",
     ...interactiveFlags,
     envFlag,
-    `OPENCLAW_CONTAINER_HINT=${params.containerName}`,
+    `KIBO_CONTAINER_HINT=${params.containerName}`,
     envFlag,
-    "OPENCLAW_CLI_CONTAINER_BYPASS=1",
+    "KIBO_CLI_CONTAINER_BYPASS=1",
     params.containerName,
-    "openclaw",
+    "kibo",
     ...params.argv,
   ];
 }
@@ -171,20 +171,20 @@ function buildContainerExecEnv(env: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
   const next = { ...env };
   // Container-targeted CLI invocations should use the container's own profile
   // and gateway auth/runtime state rather than inheriting host overrides.
-  delete next.OPENCLAW_PROFILE;
-  delete next.OPENCLAW_GATEWAY_PORT;
-  delete next.OPENCLAW_GATEWAY_URL;
-  delete next.OPENCLAW_GATEWAY_TOKEN;
-  delete next.OPENCLAW_GATEWAY_PASSWORD;
+  delete next.KIBO_PROFILE;
+  delete next.KIBO_GATEWAY_PORT;
+  delete next.KIBO_GATEWAY_URL;
+  delete next.KIBO_GATEWAY_TOKEN;
+  delete next.KIBO_GATEWAY_PASSWORD;
   // The child CLI should render container-aware follow-up commands via
-  // OPENCLAW_CONTAINER_HINT, but it should not treat itself as still
+  // KIBO_CONTAINER_HINT, but it should not treat itself as still
   // container-targeted for validation/routing.
-  next.OPENCLAW_CONTAINER = "";
+  next.KIBO_CONTAINER = "";
   return next;
 }
 
 function isBlockedContainerCommand(argv: string[]): boolean {
-  if (resolveCliArgvInvocation(["node", "openclaw", ...argv]).primary === "update") {
+  if (resolveCliArgvInvocation(["node", "kibo", ...argv]).primary === "update") {
     return true;
   }
   for (let i = 0; i < argv.length; i += 1) {
@@ -218,7 +218,7 @@ export function maybeRunCliInContainer(
     stdoutIsTTY: deps?.stdoutIsTTY ?? Boolean(process.stdout.isTTY),
   };
 
-  if (resolvedDeps.env.OPENCLAW_CLI_CONTAINER_BYPASS === "1") {
+  if (resolvedDeps.env.KIBO_CLI_CONTAINER_BYPASS === "1") {
     return { handled: false, argv };
   }
 
@@ -232,7 +232,7 @@ export function maybeRunCliInContainer(
   }
   if (isBlockedContainerCommand(parsed.argv.slice(2))) {
     throw new Error(
-      "openclaw update is not supported with --container; rebuild or restart the container image instead.",
+      "kibo update is not supported with --container; rebuild or restart the container image instead.",
     );
   }
 

@@ -6,7 +6,7 @@ import {
 } from "../../channels/plugins/catalog.js";
 import { getChannelPlugin, normalizeChannelId } from "../../channels/plugins/index.js";
 import type { ChannelId, ChannelPlugin } from "../../channels/plugins/types.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { KiboConfig } from "../../config/config.js";
 import { normalizePluginsConfig, resolveEnableState } from "../../plugins/config-state.js";
 import type { RuntimeEnv } from "../../runtime.js";
 import { normalizeOptionalLowercaseString } from "../../shared/string-coerce.js";
@@ -23,14 +23,14 @@ type ChannelPluginSnapshot = {
 };
 
 type ResolveInstallableChannelPluginResult = {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   channelId?: ChannelId;
   plugin?: ChannelPlugin;
   catalogEntry?: ChannelPluginCatalogEntry;
   configChanged: boolean;
 };
 
-function resolveWorkspaceDir(cfg: OpenClawConfig) {
+function resolveWorkspaceDir(cfg: KiboConfig) {
   return resolveAgentWorkspaceDir(cfg, resolveDefaultAgentId(cfg));
 }
 
@@ -48,7 +48,7 @@ function resolveResolvedChannelId(params: {
   return normalizeChannelId(params.catalogEntry.id) ?? (params.catalogEntry.id as ChannelId);
 }
 
-export function resolveCatalogChannelEntry(raw: string, cfg: OpenClawConfig | null) {
+export function resolveCatalogChannelEntry(raw: string, cfg: KiboConfig | null) {
   const trimmed = normalizeOptionalLowercaseString(raw);
   if (!trimmed) {
     return undefined;
@@ -76,7 +76,7 @@ function findScopedChannelPlugin(
 
 function isTrustedWorkspaceChannelCatalogEntry(
   entry: ChannelPluginCatalogEntry | undefined,
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
 ): boolean {
   if (entry?.origin !== "workspace") {
     return true;
@@ -91,7 +91,7 @@ function isTrustedWorkspaceChannelCatalogEntry(
 function resolveTrustedCatalogEntry(params: {
   rawChannel?: string | null;
   channelId?: ChannelId;
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   workspaceDir?: string;
   catalogEntry?: ChannelPluginCatalogEntry;
 }): ChannelPluginCatalogEntry | undefined {
@@ -125,7 +125,7 @@ function resolveTrustedCatalogEntry(params: {
 }
 
 function loadScopedChannelPlugin(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   runtime: RuntimeEnv;
   channelId: ChannelId;
   pluginId?: string;
@@ -142,7 +142,7 @@ function loadScopedChannelPlugin(params: {
 }
 
 export async function resolveInstallableChannelPlugin(params: {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   runtime: RuntimeEnv;
   rawChannel?: string | null;
   channelId?: ChannelId;

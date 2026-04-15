@@ -1,4 +1,4 @@
-import { definePluginEntry, type OpenClawPluginApi } from "./api.js";
+import { definePluginEntry, type KiboPluginApi } from "./api.js";
 import { resolveWebhooksPluginConfig } from "./src/config.js";
 import { createTaskFlowWebhookRequestHandler, type TaskFlowWebhookTarget } from "./src/http.js";
 
@@ -6,8 +6,8 @@ export default definePluginEntry({
   id: "webhooks",
   name: "Webhooks",
   description:
-    "Authenticated inbound webhooks that bind external automation to OpenClaw TaskFlows.",
-  async register(api: OpenClawPluginApi) {
+    "Authenticated inbound webhooks that bind external automation to Kibo TaskFlows.",
+  async register(api: KiboPluginApi) {
     const routes = await resolveWebhooksPluginConfig({
       pluginConfig: api.pluginConfig,
       cfg: api.config,

@@ -1,7 +1,7 @@
-import { formatErrorMessage, type PinnedDispatcherPolicy } from "openclaw/plugin-sdk/infra-runtime";
-import { coerceSecretRef } from "openclaw/plugin-sdk/provider-auth";
-import { retryAsync } from "openclaw/plugin-sdk/retry-runtime";
-import { normalizeResolvedSecretInputString } from "openclaw/plugin-sdk/secret-input";
+import { formatErrorMessage, type PinnedDispatcherPolicy } from "kibo/plugin-sdk/infra-runtime";
+import { coerceSecretRef } from "kibo/plugin-sdk/provider-auth";
+import { retryAsync } from "kibo/plugin-sdk/retry-runtime";
+import { normalizeResolvedSecretInputString } from "kibo/plugin-sdk/secret-input";
 import {
   requiresExplicitMatrixDefaultAccount,
   resolveMatrixDefaultOrOnlyAccountId,
@@ -862,7 +862,7 @@ export async function resolveMatrixAuth(params?: {
       identifier: { type: "m.id.user", user: resolved.userId },
       password,
       device_id: resolved.deviceId,
-      initial_device_display_name: resolved.deviceName ?? "OpenClaw Gateway",
+      initial_device_display_name: resolved.deviceName ?? "Kibo Gateway",
     })) as {
       access_token?: string;
       user_id?: string;

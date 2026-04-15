@@ -1,4 +1,4 @@
-import { isRecord } from "openclaw/plugin-sdk/text-runtime";
+import { isRecord } from "kibo/plugin-sdk/text-runtime";
 import type { IMessagePayload } from "./types.js";
 
 function isOptionalString(value: unknown): value is string | null | undefined {

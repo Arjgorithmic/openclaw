@@ -266,20 +266,20 @@ describe("executeSendAction", () => {
         params: {
           to: "channel:123",
           message: "hello",
-          media: "/Users/peter/Pictures/photo.png",
+          media: "/Users/kibo/Pictures/photo.png",
         },
         agentId: "agent-1",
         dryRun: false,
       },
       to: "channel:123",
       message: "hello",
-      mediaUrl: "/Users/peter/Pictures/photo.png",
+      mediaUrl: "/Users/kibo/Pictures/photo.png",
     });
 
     expect(mocks.getAgentScopedMediaLocalRootsForSources).toHaveBeenCalledWith({
       cfg: {},
       agentId: "agent-1",
-      mediaSources: ["/Users/peter/Pictures/photo.png"],
+      mediaSources: ["/Users/kibo/Pictures/photo.png"],
     });
   });
 

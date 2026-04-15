@@ -26,10 +26,10 @@ describe("boundary vitest config", () => {
       "node",
       "vitest",
       "run",
-      "src/infra/openclaw-root.test.ts",
+      "src/infra/kibo-root.test.ts",
     ]);
 
-    expect(config.test?.include).toEqual(["src/infra/openclaw-root.test.ts"]);
+    expect(config.test?.include).toEqual(["src/infra/kibo-root.test.ts"]);
     expect(config.test?.passWithNoTests).toBe(true);
   });
 });

@@ -1,4 +1,4 @@
 export {
   getRealtimeVoiceProvider,
   listRealtimeVoiceProviders,
-} from "openclaw/plugin-sdk/realtime-voice";
+} from "kibo/plugin-sdk/realtime-voice";

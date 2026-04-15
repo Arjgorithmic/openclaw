@@ -1,3 +1,3 @@
-export { loadConfig, resolveMarkdownTableMode } from "openclaw/plugin-sdk/config-runtime";
-export { chunkTextWithMode, resolveChunkMode } from "openclaw/plugin-sdk/reply-runtime";
-export { convertMarkdownTables } from "openclaw/plugin-sdk/text-runtime";
+export { loadConfig, resolveMarkdownTableMode } from "kibo/plugin-sdk/config-runtime";
+export { chunkTextWithMode, resolveChunkMode } from "kibo/plugin-sdk/reply-runtime";
+export { convertMarkdownTables } from "kibo/plugin-sdk/text-runtime";

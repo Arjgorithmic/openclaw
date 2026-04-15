@@ -1,12 +1,12 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
 import {
   createStandardChannelSetupStatus,
   hasConfiguredSecretInput,
   setSetupChannelEnabled,
-} from "openclaw/plugin-sdk/setup";
-import type { ChannelSetupWizard } from "openclaw/plugin-sdk/setup";
-import { formatDocsLink } from "openclaw/plugin-sdk/setup-tools";
-import { normalizeOptionalString } from "openclaw/plugin-sdk/text-runtime";
+} from "kibo/plugin-sdk/setup";
+import type { ChannelSetupWizard } from "kibo/plugin-sdk/setup";
+import { formatDocsLink } from "kibo/plugin-sdk/setup-tools";
+import { normalizeOptionalString } from "kibo/plugin-sdk/text-runtime";
 import {
   DEFAULT_ACCOUNT_ID,
   listQQBotAccountIds,
@@ -24,10 +24,10 @@ type QQBotEnvCredentialField = "appId" | "clientSecret";
  * AppID + env AppSecret.
  */
 function clearQQBotCredentialField(
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   accountId: string,
   field: QQBotEnvCredentialField,
-): OpenClawConfig {
+): KiboConfig {
   const next = { ...cfg };
   const qqbot = { ...(next.channels?.qqbot as Record<string, unknown> | undefined) };
 

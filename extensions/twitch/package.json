@@ -1,7 +1,7 @@
 {
-  "name": "@openclaw/twitch",
+  "name": "@kibo/twitch",
   "version": "2026.4.10",
-  "description": "OpenClaw Twitch channel plugin",
+  "description": "Kibo Twitch channel plugin",
   "type": "module",
   "dependencies": {
     "@twurple/api": "^8.1.3",
@@ -9,9 +9,9 @@
     "@twurple/chat": "^8.1.3"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ],

@@ -2,7 +2,7 @@ import type { SsrFPolicy } from "../../api.js";
 export {
   ssrfPolicyFromDangerouslyAllowPrivateNetwork,
   ssrfPolicyFromAllowPrivateNetwork,
-} from "openclaw/plugin-sdk/ssrf-runtime";
+} from "kibo/plugin-sdk/ssrf-runtime";
 import { normalizeUrbitHostname, validateUrbitBaseUrl } from "./base-url.js";
 import { UrbitUrlError } from "./errors.js";
 

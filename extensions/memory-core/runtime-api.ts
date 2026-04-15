@@ -12,9 +12,9 @@ export {
   resolveMemoryFtsState,
   resolveMemoryVectorState,
   type Tone,
-} from "openclaw/plugin-sdk/memory-core-host-status";
-export { checkQmdBinaryAvailability } from "openclaw/plugin-sdk/memory-core-host-engine-qmd";
-export { hasConfiguredMemorySecretInput } from "openclaw/plugin-sdk/memory-core-host-secret";
+} from "kibo/plugin-sdk/memory-core-host-status";
+export { checkQmdBinaryAvailability } from "kibo/plugin-sdk/memory-core-host-engine-qmd";
+export { hasConfiguredMemorySecretInput } from "kibo/plugin-sdk/memory-core-host-secret";
 export {
   auditShortTermPromotionArtifacts,
   removeGroundedShortTermCandidates,

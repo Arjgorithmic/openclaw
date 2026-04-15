@@ -7,7 +7,7 @@ import {
   stopDebugPolling,
 } from "./app-polling.ts";
 import { scheduleChatScroll, scheduleLogsScroll } from "./app-scroll.ts";
-import type { OpenClawApp } from "./app.ts";
+import type { KiboApp } from "./app.ts";
 import { loadAgentFiles } from "./controllers/agent-files.ts";
 import { loadAgentIdentities, loadAgentIdentity } from "./controllers/agent-identity.ts";
 import { loadAgentSkills } from "./controllers/agent-skills.ts";
@@ -141,7 +141,7 @@ export function applySettingsFromUrl(host: SettingsHost) {
     if (queryToken != null) {
       warnQueryToken = true;
       console.warn(
-        "[openclaw] Auth token passed as query parameter (?token=). Use URL fragment instead: #token=<token>. Query parameters may appear in server logs.",
+        "[kibo] Auth token passed as query parameter (?token=). Use URL fragment instead: #token=<token>. Query parameters may appear in server logs.",
       );
     }
     if (token && gatewayUrlChanged) {
@@ -231,7 +231,7 @@ export function setThemeMode(
   );
 }
 
-async function refreshAgentsTab(host: SettingsHost, app: OpenClawApp) {
+async function refreshAgentsTab(host: SettingsHost, app: KiboApp) {
   await loadAgents(app);
   await loadConfig(app);
   const agentIds = host.agentsList?.agents?.map((entry) => entry.id) ?? [];
@@ -257,7 +257,7 @@ async function refreshAgentsTab(host: SettingsHost, app: OpenClawApp) {
 }
 
 export async function refreshActiveTab(host: SettingsHost) {
-  const app = host as unknown as OpenClawApp;
+  const app = host as unknown as KiboApp;
   switch (host.tab) {
     case "config":
     case "communications":
@@ -325,7 +325,7 @@ export function inferBasePath() {
   if (typeof window === "undefined") {
     return "";
   }
-  const configured = window.__OPENCLAW_CONTROL_UI_BASE_PATH__;
+  const configured = window.__KIBO_CONTROL_UI_BASE_PATH__;
   const normalizedConfigured = normalizeOptionalString(configured);
   if (normalizedConfigured) {
     return normalizeBasePath(normalizedConfigured);
@@ -334,7 +334,7 @@ export function inferBasePath() {
 }
 
 export function syncThemeWithSettings(host: SettingsHost) {
-  host.theme = host.settings.theme ?? "claw";
+  host.theme = host.settings.theme ?? "kibo";
   host.themeMode = host.settings.themeMode ?? "system";
   applyResolvedTheme(host, resolveTheme(host.theme, host.themeMode));
   applyBorderRadius(host.settings.borderRadius ?? 50);
@@ -510,7 +510,7 @@ export function syncUrlWithSessionKey(host: SettingsHost, sessionKey: string, re
 }
 
 export async function loadOverview(host: SettingsHost) {
-  const app = host as unknown as OpenClawApp;
+  const app = host as unknown as KiboApp;
   await Promise.allSettled([
     loadChannels(app, false),
     loadPresence(app),
@@ -547,7 +547,7 @@ export function hasMissingSkillDependencies(
   return Object.values(missing).some((value) => Array.isArray(value) && value.length > 0);
 }
 
-async function loadOverviewLogs(host: OpenClawApp) {
+async function loadOverviewLogs(host: KiboApp) {
   if (!host.client || !host.connected) {
     return;
   }
@@ -573,7 +573,7 @@ async function loadOverviewLogs(host: OpenClawApp) {
   }
 }
 
-function buildAttentionItems(host: OpenClawApp) {
+function buildAttentionItems(host: KiboApp) {
   const items: AttentionItem[] = [];
 
   if (host.lastError) {
@@ -594,7 +594,7 @@ function buildAttentionItems(host: OpenClawApp) {
       title: "Missing operator.read scope",
       description:
         "This connection does not have the operator.read scope. Some features may be unavailable.",
-      href: "https://docs.openclaw.ai/web/dashboard",
+      href: "https://github.com/Arjgorithmic/openclaw/web/dashboard",
       external: true,
     });
   }
@@ -650,12 +650,12 @@ function buildAttentionItems(host: OpenClawApp) {
 }
 
 export async function loadChannelsTab(host: SettingsHost) {
-  const app = host as unknown as OpenClawApp;
+  const app = host as unknown as KiboApp;
   await Promise.all([loadChannels(app, true), loadConfigSchema(app), loadConfig(app)]);
 }
 
 export async function loadCron(host: SettingsHost) {
-  const app = host as unknown as OpenClawApp;
+  const app = host as unknown as KiboApp;
   const activeCronJobId = app.cronRunsScope === "job" ? app.cronRunsJobId : null;
   await Promise.all([
     loadChannels(app, false),

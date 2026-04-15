@@ -1,6 +1,6 @@
 import { Type } from "@sinclair/typebox";
-import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/text-runtime";
-import { extractToolSend } from "openclaw/plugin-sdk/tool-send";
+import { normalizeLowercaseStringOrEmpty } from "kibo/plugin-sdk/text-runtime";
+import { extractToolSend } from "kibo/plugin-sdk/tool-send";
 import { requiresExplicitMatrixDefaultAccount } from "./account-selection.js";
 import { resolveDefaultMatrixAccountId, resolveMatrixAccount } from "./matrix/accounts.js";
 import {

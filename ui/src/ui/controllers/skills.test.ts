@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
 import {
   installSkill,
-  loadClawHubDetail,
+  loadKiboHubDetail,
   saveSkillApiKey,
-  searchClawHub,
-  setClawHubSearchQuery,
+  searchKiboHub,
+  setKiboHubSearchQuery,
   updateSkillEnabled,
   type SkillsState,
 } from "./skills.ts";
@@ -22,8 +22,8 @@ function createState(): { state: SkillsState; request: ReturnType<typeof vi.fn> 
     skillsBusyKey: null,
     skillEdits: {},
     skillMessages: {},
-    clawhubSearchQuery: "github",
-    clawhubSearchResults: [
+    kibohubSearchQuery: "github",
+    kibohubSearchResults: [
       {
         score: 0.9,
         slug: "github",
@@ -32,14 +32,14 @@ function createState(): { state: SkillsState; request: ReturnType<typeof vi.fn> 
         version: "1.0.0",
       },
     ],
-    clawhubSearchLoading: false,
-    clawhubSearchError: "old error",
-    clawhubDetail: null,
-    clawhubDetailSlug: null,
-    clawhubDetailLoading: false,
-    clawhubDetailError: null,
-    clawhubInstallSlug: null,
-    clawhubInstallMessage: null,
+    kibohubSearchLoading: false,
+    kibohubSearchError: "old error",
+    kibohubDetail: null,
+    kibohubDetailSlug: null,
+    kibohubDetailLoading: false,
+    kibohubDetailError: null,
+    kibohubInstallSlug: null,
+    kibohubInstallMessage: null,
   };
   return { state, request };
 }
@@ -68,25 +68,25 @@ function mockSkillMutationRequests(request: ReturnType<typeof vi.fn>, installMes
   });
 }
 
-describe("searchClawHub", () => {
+describe("searchKiboHub", () => {
   it("clears stale query state immediately when the input changes", () => {
     const { state } = createState();
 
-    state.clawhubSearchLoading = true;
-    state.clawhubInstallMessage = { kind: "success", text: "Installed github" };
+    state.kibohubSearchLoading = true;
+    state.kibohubInstallMessage = { kind: "success", text: "Installed github" };
 
-    setClawHubSearchQuery(state, "github app");
+    setKiboHubSearchQuery(state, "github app");
 
-    expect(state.clawhubSearchQuery).toBe("github app");
-    expect(state.clawhubSearchResults).toBeNull();
-    expect(state.clawhubSearchError).toBeNull();
-    expect(state.clawhubSearchLoading).toBe(false);
-    expect(state.clawhubInstallMessage).toBeNull();
+    expect(state.kibohubSearchQuery).toBe("github app");
+    expect(state.kibohubSearchResults).toBeNull();
+    expect(state.kibohubSearchError).toBeNull();
+    expect(state.kibohubSearchLoading).toBe(false);
+    expect(state.kibohubInstallMessage).toBeNull();
   });
 
   it("clears stale results as soon as a new search starts", async () => {
     const { state, request } = createState();
-    type SearchResponse = { results: SkillsState["clawhubSearchResults"] };
+    type SearchResponse = { results: SkillsState["kibohubSearchResults"] };
     let resolveRequest: (value: SearchResponse) => void = () => {
       throw new Error("expected search request promise to be pending");
     };
@@ -97,11 +97,11 @@ describe("searchClawHub", () => {
         }),
     );
 
-    const pending = searchClawHub(state, "github");
+    const pending = searchKiboHub(state, "github");
 
-    expect(state.clawhubSearchResults).toBeNull();
-    expect(state.clawhubSearchLoading).toBe(true);
-    expect(state.clawhubSearchError).toBeNull();
+    expect(state.kibohubSearchResults).toBeNull();
+    expect(state.kibohubSearchLoading).toBe(true);
+    expect(state.kibohubSearchError).toBeNull();
 
     resolveRequest({
       results: [
@@ -116,7 +116,7 @@ describe("searchClawHub", () => {
     });
     await pending;
 
-    expect(state.clawhubSearchResults).toEqual([
+    expect(state.kibohubSearchResults).toEqual([
       {
         score: 0.95,
         slug: "github-new",
@@ -125,45 +125,45 @@ describe("searchClawHub", () => {
         version: "2.0.0",
       },
     ]);
-    expect(state.clawhubSearchLoading).toBe(false);
+    expect(state.kibohubSearchLoading).toBe(false);
   });
 
   it("clears stale results when the query is emptied", async () => {
     const { state, request } = createState();
 
-    await searchClawHub(state, "   ");
+    await searchKiboHub(state, "   ");
 
     expect(request).not.toHaveBeenCalled();
-    expect(state.clawhubSearchResults).toBeNull();
-    expect(state.clawhubSearchError).toBeNull();
-    expect(state.clawhubSearchLoading).toBe(false);
+    expect(state.kibohubSearchResults).toBeNull();
+    expect(state.kibohubSearchError).toBeNull();
+    expect(state.kibohubSearchLoading).toBe(false);
   });
 
   it("ignores stale search responses after query changes", async () => {
     const { state, request } = createState();
     const queue = createDeferredRequestQueue(request);
 
-    const pending = searchClawHub(state, "github");
-    setClawHubSearchQuery(state, "gitlab");
+    const pending = searchKiboHub(state, "github");
+    setKiboHubSearchQuery(state, "gitlab");
     queue.resolveNext({
       results: [{ score: 1, slug: "github", displayName: "GitHub" }],
     });
     await pending;
 
-    expect(state.clawhubSearchQuery).toBe("gitlab");
-    expect(state.clawhubSearchResults).toBeNull();
-    expect(state.clawhubSearchError).toBeNull();
-    expect(state.clawhubSearchLoading).toBe(false);
+    expect(state.kibohubSearchQuery).toBe("gitlab");
+    expect(state.kibohubSearchResults).toBeNull();
+    expect(state.kibohubSearchError).toBeNull();
+    expect(state.kibohubSearchLoading).toBe(false);
   });
 });
 
-describe("loadClawHubDetail", () => {
+describe("loadKiboHubDetail", () => {
   it("ignores stale detail responses after slug changes", async () => {
     const { state, request } = createState();
     const queue = createDeferredRequestQueue(request);
 
-    const firstPending = loadClawHubDetail(state, "github");
-    const secondPending = loadClawHubDetail(state, "gitlab");
+    const firstPending = loadKiboHubDetail(state, "github");
+    const secondPending = loadKiboHubDetail(state, "gitlab");
 
     queue.resolveNext({
       skill: { slug: "github", displayName: "GitHub", createdAt: 1, updatedAt: 2 },
@@ -175,8 +175,8 @@ describe("loadClawHubDetail", () => {
     });
     await secondPending;
 
-    expect(state.clawhubDetailLoading).toBe(false);
-    expect(state.clawhubDetail?.skill?.slug).toBe("gitlab");
+    expect(state.kibohubDetailLoading).toBe(false);
+    expect(state.kibohubDetail?.skill?.slug).toBe("gitlab");
   });
 });
 
@@ -195,7 +195,7 @@ describe("skill mutations", () => {
         await saveSkillApiKey(state, "github");
       },
       expectedRequest: ["skills.update", { skillKey: "github", apiKey: "sk-test" }],
-      expectedMessage: "API key saved — stored in openclaw.json (skills.entries.github)",
+      expectedMessage: "API key saved — stored in kibo.json (skills.entries.github)",
     },
     {
       name: "installs skills and uses server success messages",

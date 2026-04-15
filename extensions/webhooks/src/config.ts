@@ -3,7 +3,7 @@ import type { PluginLogger } from "../api.js";
 import {
   normalizeWebhookPath,
   resolveConfiguredSecretInputString,
-  type OpenClawConfig,
+  type KiboConfig,
 } from "../runtime-api.js";
 
 const secretRefSchema = z
@@ -44,7 +44,7 @@ export type ResolvedWebhookRouteConfig = {
 
 export async function resolveWebhooksPluginConfig(params: {
   pluginConfig: unknown;
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   env: NodeJS.ProcessEnv;
   logger?: PluginLogger;
 }): Promise<ResolvedWebhookRouteConfig[]> {

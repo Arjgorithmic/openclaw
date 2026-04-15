@@ -33,17 +33,17 @@
   --border-strong: #2e3040;
   --border-hover: #3e4050;
   --input: #1e2028;
-  --ring: #ff5c5c;
+  --ring: #FFE135;
 
-  /* Accent - Punchy signature red */
-  --accent: #ff5c5c;
-  --accent-hover: #ff7070;
-  --accent-muted: #ff5c5c;
-  --accent-subtle: rgba(255, 92, 92, 0.1);
-  --accent-foreground: #fafafa;
-  --accent-glow: rgba(255, 92, 92, 0.2);
-  --primary: #ff5c5c;
-  --primary-foreground: #ffffff;
+  /* Accent - Signature Banana Yellow */
+  --accent: #FFE135;
+  --accent-hover: #FFF176;
+  --accent-muted: #FFE135;
+  --accent-subtle: rgba(255, 225, 53, 0.1);
+  --accent-foreground: #0e1015;
+  --accent-glow: rgba(255, 225, 53, 0.2);
+  --primary: #FFE135;
+  --primary-foreground: #0e1015;
 
   /* Secondary */
   --secondary: #161920;
@@ -67,7 +67,7 @@
   --info: #3b82f6;
 
   /* Focus */
-  --focus: rgba(255, 92, 92, 0.2);
+  --focus: rgba(255, 225, 53, 0.2);
   --focus-ring: 0 0 0 2px var(--bg), 0 0 0 3px color-mix(in srgb, var(--ring) 80%, transparent);
   --focus-glow: 0 0 0 2px var(--bg), 0 0 0 3px var(--ring), 0 0 16px var(--accent-glow);
 
@@ -525,7 +525,7 @@ html.theme-transition::view-transition-new(theme) {
   }
 }
 
-openclaw-app {
+kibo-app {
   display: block;
   position: relative;
   z-index: 1;

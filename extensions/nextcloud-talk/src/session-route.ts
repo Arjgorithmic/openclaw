@@ -1,7 +1,7 @@
 import {
   buildChannelOutboundSessionRoute,
   type ChannelOutboundSessionRouteParams,
-} from "openclaw/plugin-sdk/channel-core";
+} from "kibo/plugin-sdk/channel-core";
 import { stripNextcloudTalkTargetPrefix } from "./normalize.js";
 
 export function resolveNextcloudTalkOutboundSessionRoute(

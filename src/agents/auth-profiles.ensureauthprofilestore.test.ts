@@ -61,7 +61,7 @@ describe("ensureAuthProfileStore", () => {
   }
 
   it("migrates legacy auth.json and deletes it (PR #368)", () => {
-    const agentDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-auth-profiles-"));
+    const agentDir = fs.mkdtempSync(path.join(os.tmpdir(), "kibo-auth-profiles-"));
     try {
       const legacyPath = path.join(agentDir, "auth.json");
       fs.writeFileSync(
@@ -102,8 +102,8 @@ describe("ensureAuthProfileStore", () => {
   });
 
   it("merges main auth profiles into agent store and keeps agent overrides", () => {
-    const root = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-auth-merge-"));
-    const previousAgentDir = process.env.OPENCLAW_AGENT_DIR;
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "kibo-auth-merge-"));
+    const previousAgentDir = process.env.KIBO_AGENT_DIR;
     const previousPiAgentDir = process.env.PI_CODING_AGENT_DIR;
     try {
       const mainDir = path.join(root, "main-agent");
@@ -111,7 +111,7 @@ describe("ensureAuthProfileStore", () => {
       fs.mkdirSync(mainDir, { recursive: true });
       fs.mkdirSync(agentDir, { recursive: true });
 
-      process.env.OPENCLAW_AGENT_DIR = mainDir;
+      process.env.KIBO_AGENT_DIR = mainDir;
       process.env.PI_CODING_AGENT_DIR = mainDir;
 
       const mainStore = {
@@ -164,9 +164,9 @@ describe("ensureAuthProfileStore", () => {
       });
     } finally {
       if (previousAgentDir === undefined) {
-        delete process.env.OPENCLAW_AGENT_DIR;
+        delete process.env.KIBO_AGENT_DIR;
       } else {
-        process.env.OPENCLAW_AGENT_DIR = previousAgentDir;
+        process.env.KIBO_AGENT_DIR = previousAgentDir;
       }
       if (previousPiAgentDir === undefined) {
         delete process.env.PI_CODING_AGENT_DIR;
@@ -231,7 +231,7 @@ describe("ensureAuthProfileStore", () => {
   ] as const)(
     "normalizes auth-profiles credential aliases with canonical-field precedence: $name",
     ({ name, profile, expected }) => {
-      withTempAgentDir("openclaw-auth-alias-", (agentDir) => {
+      withTempAgentDir("kibo-auth-alias-", (agentDir) => {
         const storeData = {
           version: AUTH_STORE_VERSION,
           profiles: {
@@ -251,7 +251,7 @@ describe("ensureAuthProfileStore", () => {
   );
 
   it("normalizes mode/apiKey aliases while migrating legacy auth.json", () => {
-    withTempAgentDir("openclaw-auth-legacy-alias-", (agentDir) => {
+    withTempAgentDir("kibo-auth-legacy-alias-", (agentDir) => {
       fs.writeFileSync(
         path.join(agentDir, "auth.json"),
         `${JSON.stringify(
@@ -278,9 +278,9 @@ describe("ensureAuthProfileStore", () => {
   });
 
   it("merges legacy oauth.json into auth-profiles.json", () => {
-    const root = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-oauth-migrate-"));
-    const previousStateDir = process.env.OPENCLAW_STATE_DIR;
-    const previousAgentDir = process.env.OPENCLAW_AGENT_DIR;
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "kibo-oauth-migrate-"));
+    const previousStateDir = process.env.KIBO_STATE_DIR;
+    const previousAgentDir = process.env.KIBO_AGENT_DIR;
     const previousPiAgentDir = process.env.PI_CODING_AGENT_DIR;
     try {
       const agentDir = path.join(root, "agent");
@@ -304,8 +304,8 @@ describe("ensureAuthProfileStore", () => {
         "utf8",
       );
 
-      process.env.OPENCLAW_STATE_DIR = root;
-      process.env.OPENCLAW_AGENT_DIR = agentDir;
+      process.env.KIBO_STATE_DIR = root;
+      process.env.KIBO_AGENT_DIR = agentDir;
       process.env.PI_CODING_AGENT_DIR = agentDir;
       clearRuntimeAuthProfileStoreSnapshots();
 
@@ -331,14 +331,14 @@ describe("ensureAuthProfileStore", () => {
     } finally {
       clearRuntimeAuthProfileStoreSnapshots();
       if (previousStateDir === undefined) {
-        delete process.env.OPENCLAW_STATE_DIR;
+        delete process.env.KIBO_STATE_DIR;
       } else {
-        process.env.OPENCLAW_STATE_DIR = previousStateDir;
+        process.env.KIBO_STATE_DIR = previousStateDir;
       }
       if (previousAgentDir === undefined) {
-        delete process.env.OPENCLAW_AGENT_DIR;
+        delete process.env.KIBO_AGENT_DIR;
       } else {
-        process.env.OPENCLAW_AGENT_DIR = previousAgentDir;
+        process.env.KIBO_AGENT_DIR = previousAgentDir;
       }
       if (previousPiAgentDir === undefined) {
         delete process.env.PI_CODING_AGENT_DIR;
@@ -350,9 +350,9 @@ describe("ensureAuthProfileStore", () => {
   });
 
   it("exposes Codex CLI auth without persisting copied tokens into auth-profiles.json", () => {
-    const root = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-codex-external-sync-"));
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "kibo-codex-external-sync-"));
     const previousCodexHome = process.env.CODEX_HOME;
-    const previousAgentDir = process.env.OPENCLAW_AGENT_DIR;
+    const previousAgentDir = process.env.KIBO_AGENT_DIR;
     const previousPiAgentDir = process.env.PI_CODING_AGENT_DIR;
     try {
       const agentDir = path.join(root, "agent");
@@ -378,7 +378,7 @@ describe("ensureAuthProfileStore", () => {
       );
 
       process.env.CODEX_HOME = codexHome;
-      process.env.OPENCLAW_AGENT_DIR = agentDir;
+      process.env.KIBO_AGENT_DIR = agentDir;
       process.env.PI_CODING_AGENT_DIR = agentDir;
       clearRuntimeAuthProfileStoreSnapshots();
 
@@ -399,9 +399,9 @@ describe("ensureAuthProfileStore", () => {
         process.env.CODEX_HOME = previousCodexHome;
       }
       if (previousAgentDir === undefined) {
-        delete process.env.OPENCLAW_AGENT_DIR;
+        delete process.env.KIBO_AGENT_DIR;
       } else {
-        process.env.OPENCLAW_AGENT_DIR = previousAgentDir;
+        process.env.KIBO_AGENT_DIR = previousAgentDir;
       }
       if (previousPiAgentDir === undefined) {
         delete process.env.PI_CODING_AGENT_DIR;
@@ -413,10 +413,10 @@ describe("ensureAuthProfileStore", () => {
   });
 
   it("does not write inherited auth stores during secrets runtime reads", () => {
-    const root = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-secrets-runtime-"));
-    const previousStateDir = process.env.OPENCLAW_STATE_DIR;
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "kibo-secrets-runtime-"));
+    const previousStateDir = process.env.KIBO_STATE_DIR;
     try {
-      const stateDir = path.join(root, ".openclaw");
+      const stateDir = path.join(root, ".kibo");
       const mainAgentDir = path.join(stateDir, "agents", "main", "agent");
       const workerAgentDir = path.join(stateDir, "agents", "worker", "agent");
       const workerStorePath = path.join(workerAgentDir, "auth-profiles.json");
@@ -439,7 +439,7 @@ describe("ensureAuthProfileStore", () => {
         )}\n`,
         "utf8",
       );
-      process.env.OPENCLAW_STATE_DIR = stateDir;
+      process.env.KIBO_STATE_DIR = stateDir;
       clearRuntimeAuthProfileStoreSnapshots();
 
       const store = loadAuthProfileStoreForRuntime(workerAgentDir, { readOnly: true });
@@ -452,9 +452,9 @@ describe("ensureAuthProfileStore", () => {
     } finally {
       clearRuntimeAuthProfileStoreSnapshots();
       if (previousStateDir === undefined) {
-        delete process.env.OPENCLAW_STATE_DIR;
+        delete process.env.KIBO_STATE_DIR;
       } else {
-        process.env.OPENCLAW_STATE_DIR = previousStateDir;
+        process.env.KIBO_STATE_DIR = previousStateDir;
       }
       fs.rmSync(root, { recursive: true, force: true });
     }
@@ -463,7 +463,7 @@ describe("ensureAuthProfileStore", () => {
   it("logs one warning with aggregated reasons for rejected auth-profiles entries", () => {
     const warnSpy = vi.spyOn(log, "warn").mockImplementation(() => undefined);
     try {
-      withTempAgentDir("openclaw-auth-invalid-", (agentDir) => {
+      withTempAgentDir("kibo-auth-invalid-", (agentDir) => {
         const invalidStore = {
           version: AUTH_STORE_VERSION,
           profiles: {
@@ -507,7 +507,7 @@ describe("ensureAuthProfileStore", () => {
   it.each([
     {
       name: "migrates SecretRef object in `key` to `keyRef` and clears `key`",
-      prefix: "openclaw-nonstr-key-ref-",
+      prefix: "kibo-nonstr-key-ref-",
       profileId: "openai:default",
       profile: {
         type: "api_key",
@@ -526,7 +526,7 @@ describe("ensureAuthProfileStore", () => {
     },
     {
       name: "deletes non-string non-SecretRef `key` without setting keyRef",
-      prefix: "openclaw-nonstr-key-num-",
+      prefix: "kibo-nonstr-key-num-",
       profileId: "openai:default",
       profile: {
         type: "api_key",
@@ -541,7 +541,7 @@ describe("ensureAuthProfileStore", () => {
     },
     {
       name: "does not overwrite existing `keyRef` when `key` contains a SecretRef",
-      prefix: "openclaw-nonstr-key-dup-",
+      prefix: "kibo-nonstr-key-dup-",
       profileId: "openai:default",
       profile: {
         type: "api_key",
@@ -561,7 +561,7 @@ describe("ensureAuthProfileStore", () => {
     },
     {
       name: "overwrites malformed `keyRef` with migrated ref from `key`",
-      prefix: "openclaw-nonstr-key-malformed-ref-",
+      prefix: "kibo-nonstr-key-malformed-ref-",
       profileId: "openai:default",
       profile: {
         type: "api_key",
@@ -581,7 +581,7 @@ describe("ensureAuthProfileStore", () => {
     },
     {
       name: "preserves valid string `key` values unchanged",
-      prefix: "openclaw-str-key-",
+      prefix: "kibo-str-key-",
       profileId: "openai:default",
       profile: {
         type: "api_key",
@@ -595,7 +595,7 @@ describe("ensureAuthProfileStore", () => {
     },
     {
       name: "migrates SecretRef object in `token` to `tokenRef` and clears `token`",
-      prefix: "openclaw-nonstr-token-ref-",
+      prefix: "kibo-nonstr-token-ref-",
       profileId: "anthropic:default",
       profile: {
         type: "token",
@@ -614,7 +614,7 @@ describe("ensureAuthProfileStore", () => {
     },
     {
       name: "deletes non-string non-SecretRef `token` without setting tokenRef",
-      prefix: "openclaw-nonstr-token-num-",
+      prefix: "kibo-nonstr-token-num-",
       profileId: "anthropic:default",
       profile: {
         type: "token",
@@ -629,7 +629,7 @@ describe("ensureAuthProfileStore", () => {
     },
     {
       name: "preserves valid string `token` values unchanged",
-      prefix: "openclaw-str-token-",
+      prefix: "kibo-str-token-",
       profileId: "anthropic:default",
       profile: {
         type: "token",

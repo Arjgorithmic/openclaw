@@ -10,5 +10,5 @@ export {
   withEnvAsync,
   withFetchPreconnect,
   isLiveTestEnabled,
-  type OpenClawConfig,
-} from "openclaw/plugin-sdk/testing";
+  type KiboConfig,
+} from "kibo/plugin-sdk/testing";

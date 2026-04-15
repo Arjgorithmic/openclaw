@@ -2,7 +2,7 @@ import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import {
   normalizePluginDiscoveryResult,
   resolvePluginDiscoveryProviders,
@@ -24,12 +24,12 @@ describe("Ollama auto-discovery", () => {
 
   function createCleanProviderDiscoveryEnv(): NodeJS.ProcessEnv {
     const env = { ...process.env };
-    delete env.OPENCLAW_BUNDLED_PLUGINS_DIR;
-    delete env.OPENCLAW_DISABLE_BUNDLED_PLUGINS;
-    delete env.OPENCLAW_SKIP_PROVIDERS;
-    delete env.OPENCLAW_SKIP_CHANNELS;
-    delete env.OPENCLAW_SKIP_CRON;
-    delete env.OPENCLAW_TEST_MINIMAL_GATEWAY;
+    delete env.KIBO_BUNDLED_PLUGINS_DIR;
+    delete env.KIBO_DISABLE_BUNDLED_PLUGINS;
+    delete env.KIBO_SKIP_PROVIDERS;
+    delete env.KIBO_SKIP_CHANNELS;
+    delete env.KIBO_SKIP_CRON;
+    delete env.KIBO_TEST_MINIMAL_GATEWAY;
     return env;
   }
 
@@ -37,7 +37,7 @@ describe("Ollama auto-discovery", () => {
     originalFetch = globalThis.fetch;
     return {
       ...createCleanProviderDiscoveryEnv(),
-      OPENCLAW_TEST_ONLY_PROVIDER_PLUGIN_IDS: "ollama",
+      KIBO_TEST_ONLY_PROVIDER_PLUGIN_IDS: "ollama",
       VITEST: "1",
       NODE_ENV: "test",
     };
@@ -46,7 +46,7 @@ describe("Ollama auto-discovery", () => {
   function createDiscoveryRunEnv(): NodeJS.ProcessEnv {
     return {
       ...createCleanProviderDiscoveryEnv(),
-      OPENCLAW_TEST_ONLY_PROVIDER_PLUGIN_IDS: "ollama",
+      KIBO_TEST_ONLY_PROVIDER_PLUGIN_IDS: "ollama",
       VITEST: "",
       NODE_ENV: "development",
     };
@@ -68,13 +68,13 @@ describe("Ollama auto-discovery", () => {
       return undefined;
     }
     const env = createDiscoveryRunEnv();
-    const config: OpenClawConfig | undefined = params?.explicitProviders
+    const config: KiboConfig | undefined = params?.explicitProviders
       ? { models: { providers: params.explicitProviders } }
       : undefined;
     const result = await runProviderCatalog({
       provider,
       config: config ?? {},
-      agentDir: mkdtempSync(join(tmpdir(), "openclaw-test-")),
+      agentDir: mkdtempSync(join(tmpdir(), "kibo-test-")),
       env,
       resolveProviderApiKey: () => ({
         apiKey: env.OLLAMA_API_KEY?.trim() ? env.OLLAMA_API_KEY : undefined,

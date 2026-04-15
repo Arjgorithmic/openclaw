@@ -2,8 +2,8 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import type { App } from "@slack/bolt";
-import { resolveEnvelopeFormatOptions } from "openclaw/plugin-sdk/channel-inbound";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
+import { resolveEnvelopeFormatOptions } from "kibo/plugin-sdk/channel-inbound";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import type { SlackMessageEvent } from "../../types.js";
 import { resolveSlackThreadContextData } from "./prepare-thread-context.js";
@@ -23,7 +23,7 @@ describe("resolveSlackThreadContextData", () => {
   }
 
   beforeAll(() => {
-    fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-slack-thread-context-"));
+    fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "kibo-slack-thread-context-"));
   });
 
   afterAll(() => {
@@ -37,7 +37,7 @@ describe("resolveSlackThreadContextData", () => {
     return createInboundSlackTestContext({
       cfg: {
         channels: { slack: { enabled: true, replyToMode: "all", groupPolicy: "open" } },
-      } as OpenClawConfig,
+      } as KiboConfig,
       appClient: { conversations: { replies: params.replies } } as App["client"],
       defaultRequireMention: false,
       replyToMode: "all",
@@ -90,7 +90,7 @@ describe("resolveSlackThreadContextData", () => {
       allowFromLower: ["u1"],
       allowNameMatching: false,
       contextVisibilityMode: "allowlist",
-      envelopeOptions: resolveEnvelopeFormatOptions({} as OpenClawConfig),
+      envelopeOptions: resolveEnvelopeFormatOptions({} as KiboConfig),
       effectiveDirectMedia: null,
     });
 
@@ -136,7 +136,7 @@ describe("resolveSlackThreadContextData", () => {
       allowFromLower: ["alice"],
       allowNameMatching: true,
       contextVisibilityMode: "allowlist",
-      envelopeOptions: resolveEnvelopeFormatOptions({} as OpenClawConfig),
+      envelopeOptions: resolveEnvelopeFormatOptions({} as KiboConfig),
       effectiveDirectMedia: null,
     });
 

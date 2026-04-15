@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import type { SessionEntry } from "../config/sessions.js";
 import {
   loadExecApprovals,
@@ -19,12 +19,12 @@ type ResolvedExecConfig = {
 };
 
 function resolveExecConfigState(params: {
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   sessionEntry?: SessionEntry;
   agentId?: string;
   sessionKey?: string;
 }): {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   host: ExecTarget;
   agentExec?: ResolvedExecConfig;
   globalExec?: ResolvedExecConfig;
@@ -54,7 +54,7 @@ function resolveExecConfigState(params: {
 }
 
 export function canExecRequestNode(params: {
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   sessionEntry?: SessionEntry;
   agentId?: string;
   sessionKey?: string;
@@ -67,7 +67,7 @@ export function canExecRequestNode(params: {
 }
 
 export function resolveExecDefaults(params: {
-  cfg?: OpenClawConfig;
+  cfg?: KiboConfig;
   sessionEntry?: SessionEntry;
   agentId?: string;
   sessionKey?: string;

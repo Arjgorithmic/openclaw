@@ -38,7 +38,7 @@ describe("status-overview-rows", () => {
           gatewayService: {
             label: "LaunchAgent",
             installed: true,
-            managedByOpenClaw: true,
+            managedByKibo: true,
             loadedText: "loaded",
             runtimeShort: "running",
           },
@@ -127,7 +127,7 @@ describe("status-overview-rows", () => {
           gatewayService: {
             label: "LaunchAgent",
             installed: true,
-            managedByOpenClaw: true,
+            managedByKibo: true,
             loadedText: "loaded",
             runtimeShort: "running",
           },
@@ -140,7 +140,7 @@ describe("status-overview-rows", () => {
           nodeOnlyGateway: null,
         },
         osLabel: "macOS",
-        configPath: "/tmp/openclaw.json",
+        configPath: "/tmp/kibo.json",
         secretDiagnosticsCount: 2,
         agentStatus: {
           bootstrapPendingCount: 1,
@@ -153,8 +153,8 @@ describe("status-overview-rows", () => {
       expect.arrayContaining([
         { Item: "Version", Value: expect.any(String) },
         { Item: "OS", Value: "macOS" },
-        { Item: "Config", Value: "/tmp/openclaw.json" },
-        { Item: "Security", Value: "Run: openclaw security audit --deep" },
+        { Item: "Config", Value: "/tmp/kibo.json" },
+        { Item: "Security", Value: "Run: kibo security audit --deep" },
         { Item: "Secrets", Value: "2 diagnostics" },
       ]),
     );

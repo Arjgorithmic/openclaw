@@ -8,8 +8,8 @@ describe("qa suite failure reply handling", () => {
     state.addOutboundMessage({
       to: "dm:qa-operator",
       text: "⚠️ Something went wrong while processing your request. Please try again, or use /new to start a fresh session.",
-      senderId: "openclaw",
-      senderName: "OpenClaw QA",
+      senderId: "kibo",
+      senderName: "Kibo QA",
     });
 
     const message = qaSuiteTesting.findFailureOutboundMessage(state);
@@ -29,8 +29,8 @@ describe("qa suite failure reply handling", () => {
     state.addOutboundMessage({
       to: "dm:qa-operator",
       text: '⚠️ No API key found for provider "openai". You are authenticated with OpenAI Codex OAuth. Use openai-codex/gpt-5.4 (OAuth) or set OPENAI_API_KEY to use openai/gpt-5.4.',
-      senderId: "openclaw",
-      senderName: "OpenClaw QA",
+      senderId: "kibo",
+      senderName: "Kibo QA",
     });
 
     await expect(pending).rejects.toThrow('No API key found for provider "openai".');
@@ -58,8 +58,8 @@ describe("qa suite failure reply handling", () => {
     state.addOutboundMessage({
       to: "dm:qa-operator",
       text: '⚠️ No API key found for provider "openai". You are authenticated with OpenAI Codex OAuth. Use openai-codex/gpt-5.4 (OAuth) or set OPENAI_API_KEY to use openai/gpt-5.4.',
-      senderId: "openclaw",
-      senderName: "OpenClaw QA",
+      senderId: "kibo",
+      senderName: "Kibo QA",
     });
 
     await expect(pending).rejects.toThrow('No API key found for provider "openai".');
@@ -76,8 +76,8 @@ describe("qa suite failure reply handling", () => {
     state.addOutboundMessage({
       to: "dm:qa-operator",
       text: "working on it",
-      senderId: "openclaw",
-      senderName: "OpenClaw QA",
+      senderId: "kibo",
+      senderName: "Kibo QA",
     });
     state.addInboundMessage({
       conversation: { id: "qa-operator", kind: "direct" },
@@ -106,8 +106,8 @@ describe("qa suite failure reply handling", () => {
     state.addOutboundMessage({
       to: "dm:qa-operator",
       text: '⚠️ No API key found for provider "openai". You are authenticated with OpenAI Codex OAuth. Use openai-codex/gpt-5.4 (OAuth) or set OPENAI_API_KEY to use openai/gpt-5.4.',
-      senderId: "openclaw",
-      senderName: "OpenClaw QA",
+      senderId: "kibo",
+      senderName: "Kibo QA",
     });
 
     await expect(pending).rejects.toThrow('No API key found for provider "openai".');

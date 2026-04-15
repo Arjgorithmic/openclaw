@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { buildTelegramModelsProviderChannelData } from "../../../test/helpers/channels/command-contract.js";
 import type { ChannelPlugin } from "../../channels/plugins/types.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { KiboConfig } from "../../config/config.js";
 import { setActivePluginRegistry } from "../../plugins/runtime.js";
 import {
   createChannelTestPluginBase,
@@ -58,7 +58,7 @@ beforeEach(() => {
 
 function buildModelsParams(
   commandBody: string,
-  cfg: OpenClawConfig,
+  cfg: KiboConfig,
   surface: string,
   options?: {
     authorized?: boolean;
@@ -99,7 +99,7 @@ describe("handleModelsCommand", () => {
   const cfg = {
     commands: { text: true },
     agents: { defaults: { model: { primary: "anthropic/claude-opus-4-5" } } },
-  } as OpenClawConfig;
+  } as KiboConfig;
 
   it.each(["discord", "whatsapp"])("lists providers on %s text surfaces", async (surface) => {
     const result = await handleModelsCommand(buildModelsParams("/models", cfg, surface), true);
@@ -188,7 +188,7 @@ describe("handleModelsCommand", () => {
           imageModel: "visionpro/studio-v1",
         },
       },
-    } as OpenClawConfig;
+    } as KiboConfig;
 
     const providerList = await handleModelsCommand(
       buildModelsParams("/models", customCfg, "discord"),
@@ -214,7 +214,7 @@ describe("handleModelsCommand", () => {
         defaults: { model: { primary: "anthropic/claude-opus-4-5" } },
         list: [{ id: "support", model: "localai/ultra-chat" }],
       },
-    } as OpenClawConfig;
+    } as KiboConfig;
 
     const result = await handleModelsCommand(
       buildModelsParams("/models", scopedCfg, "discord", {

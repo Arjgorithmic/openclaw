@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { loadBundledPluginPublicSurfaceModuleSync } from "../plugin-sdk/facade-loader.js";
 import { note } from "../terminal/note.js";
 
@@ -10,7 +10,7 @@ type BrowserDoctorDeps = {
 };
 
 type BrowserDoctorSurface = {
-  noteChromeMcpBrowserReadiness: (cfg: OpenClawConfig, deps?: BrowserDoctorDeps) => Promise<void>;
+  noteChromeMcpBrowserReadiness: (cfg: KiboConfig, deps?: BrowserDoctorDeps) => Promise<void>;
 };
 
 function loadBrowserDoctorSurface(): BrowserDoctorSurface {
@@ -20,7 +20,7 @@ function loadBrowserDoctorSurface(): BrowserDoctorSurface {
   });
 }
 
-export async function noteChromeMcpBrowserReadiness(cfg: OpenClawConfig, deps?: BrowserDoctorDeps) {
+export async function noteChromeMcpBrowserReadiness(cfg: KiboConfig, deps?: BrowserDoctorDeps) {
   try {
     await loadBrowserDoctorSurface().noteChromeMcpBrowserReadiness(cfg, deps);
   } catch (error) {

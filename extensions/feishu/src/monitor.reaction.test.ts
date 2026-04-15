@@ -1,11 +1,11 @@
-import { hasControlCommand } from "openclaw/plugin-sdk/command-auth";
+import { hasControlCommand } from "kibo/plugin-sdk/command-auth";
 import {
   createInboundDebouncer,
   resolveInboundDebounceMs,
-} from "openclaw/plugin-sdk/reply-runtime";
+} from "kibo/plugin-sdk/reply-runtime";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createNonExitingTypedRuntimeEnv } from "../../../test/helpers/plugins/runtime-env.js";
-import type { ClawdbotConfig, PluginRuntime, RuntimeEnv } from "../runtime-api.js";
+import type { KibobotConfig, PluginRuntime, RuntimeEnv } from "../runtime-api.js";
 import { parseFeishuMessageEvent, type FeishuMessageEvent } from "./bot.js";
 import * as dedup from "./dedup.js";
 import { monitorSingleAccount } from "./monitor.account.js";
@@ -42,7 +42,7 @@ vi.mock("./thread-bindings.js", () => ({
   createFeishuThreadBindingManager: createFeishuThreadBindingManagerMock,
 }));
 
-const cfg = {} as ClawdbotConfig;
+const cfg = {} as KibobotConfig;
 
 function makeReactionEvent(
   overrides: Partial<FeishuReactionCreatedEvent> = {},
@@ -83,7 +83,7 @@ async function resolveReactionWithLookup(params: {
   });
 }
 
-async function resolveNonBotReaction(params?: { cfg?: ClawdbotConfig; uuid?: () => string }) {
+async function resolveNonBotReaction(params?: { cfg?: KibobotConfig; uuid?: () => string }) {
   return await resolveReactionSyntheticEvent({
     cfg: params?.cfg ?? cfg,
     accountId: "default",
@@ -104,7 +104,7 @@ async function resolveNonBotReaction(params?: { cfg?: ClawdbotConfig; uuid?: () 
 
 type FeishuMention = NonNullable<FeishuMessageEvent["message"]["mentions"]>[number];
 
-function buildDebounceConfig(): ClawdbotConfig {
+function buildDebounceConfig(): KibobotConfig {
   return {
     messages: {
       inbound: {
@@ -119,7 +119,7 @@ function buildDebounceConfig(): ClawdbotConfig {
         enabled: true,
       },
     },
-  } as ClawdbotConfig;
+  } as KibobotConfig;
 }
 
 function buildDebounceAccount(): ResolvedFeishuAccount {
@@ -301,7 +301,7 @@ describe("resolveReactionSyntheticEvent", () => {
             reactionNotifications: "off",
           },
         },
-      } as ClawdbotConfig,
+      } as KibobotConfig,
       accountId: "default",
       event,
       botOpenId: "ou_bot",
@@ -330,7 +330,7 @@ describe("resolveReactionSyntheticEvent", () => {
             reactionNotifications: "all",
           },
         },
-      } as ClawdbotConfig,
+      } as KibobotConfig,
       uuid: () => "fixed-uuid",
     });
     expect(result?.message.message_id).toBe("om_msg1:reaction:THUMBSUP:fixed-uuid");
@@ -539,7 +539,7 @@ describe("Feishu inbound debounce regressions", () => {
     vi.spyOn(dedup, "tryBeginFeishuMessageProcessing").mockReturnValue(true);
     vi.spyOn(dedup, "recordProcessedFeishuMessage").mockResolvedValue(true);
     vi.spyOn(dedup, "hasProcessedFeishuMessage").mockResolvedValue(false);
-    const onMessage = await setupDebounceMonitor({ botName: "OpenClaw Bot" });
+    const onMessage = await setupDebounceMonitor({ botName: "Kibo Bot" });
 
     await onMessage(
       createTextEvent({
@@ -549,7 +549,7 @@ describe("Feishu inbound debounce regressions", () => {
           {
             key: "@_user_1",
             id: { open_id: "ou_bot" },
-            name: "OpenClaw Bot",
+            name: "Kibo Bot",
           },
         ],
       }),
@@ -562,7 +562,7 @@ describe("Feishu inbound debounce regressions", () => {
     const firstParams = handleFeishuMessageMock.mock.calls[0]?.[0] as
       | { botName?: string }
       | undefined;
-    expect(firstParams?.botName).toBe("OpenClaw Bot");
+    expect(firstParams?.botName).toBe("Kibo Bot");
   });
 
   it("does not synthesize mention-forward intent across separate messages", async () => {

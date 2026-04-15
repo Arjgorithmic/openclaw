@@ -2,14 +2,14 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
-import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
+import { resolvePreferredKiboTmpDir } from "../infra/tmp-kibo-dir.js";
 import { createSuiteTempRootTracker } from "../test-helpers/temp-dir.js";
 import { createJpegBufferWithDimensions, createPngBufferWithDimensions } from "./test-helpers.js";
 
 let loadWebMedia: typeof import("./web-media.js").loadWebMedia;
 const mediaRootTracker = createSuiteTempRootTracker({
   prefix: "web-media-core-",
-  parentDir: resolvePreferredOpenClawTmpDir(),
+  parentDir: resolvePreferredKiboTmpDir(),
 });
 
 const TINY_PNG_BASE64 =

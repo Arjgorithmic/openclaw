@@ -1,4 +1,4 @@
-export { createStatusReactionController } from "openclaw/plugin-sdk/channel-feedback";
-export { recordChannelActivity } from "openclaw/plugin-sdk/infra-runtime";
-export { loadConfig } from "openclaw/plugin-sdk/config-runtime";
-export { ensureConfiguredBindingRouteReady } from "openclaw/plugin-sdk/conversation-runtime";
+export { createStatusReactionController } from "kibo/plugin-sdk/channel-feedback";
+export { recordChannelActivity } from "kibo/plugin-sdk/infra-runtime";
+export { loadConfig } from "kibo/plugin-sdk/config-runtime";
+export { ensureConfiguredBindingRouteReady } from "kibo/plugin-sdk/conversation-runtime";

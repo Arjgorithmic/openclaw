@@ -1,20 +1,20 @@
 import type { WASocket } from "@whiskeysockets/baileys";
-import { resolveInboundDebounceMs } from "openclaw/plugin-sdk/channel-inbound";
-import { formatCliCommand } from "openclaw/plugin-sdk/cli-runtime";
-import { waitForever } from "openclaw/plugin-sdk/cli-runtime";
-import { hasControlCommand } from "openclaw/plugin-sdk/command-detection";
-import { drainPendingDeliveries } from "openclaw/plugin-sdk/infra-runtime";
-import { enqueueSystemEvent } from "openclaw/plugin-sdk/infra-runtime";
-import { DEFAULT_GROUP_HISTORY_LIMIT } from "openclaw/plugin-sdk/reply-history";
-import { resolveAgentRoute } from "openclaw/plugin-sdk/routing";
-import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { registerUnhandledRejectionHandler } from "openclaw/plugin-sdk/runtime-env";
-import { getChildLogger } from "openclaw/plugin-sdk/runtime-env";
+import { resolveInboundDebounceMs } from "kibo/plugin-sdk/channel-inbound";
+import { formatCliCommand } from "kibo/plugin-sdk/cli-runtime";
+import { waitForever } from "kibo/plugin-sdk/cli-runtime";
+import { hasControlCommand } from "kibo/plugin-sdk/command-detection";
+import { drainPendingDeliveries } from "kibo/plugin-sdk/infra-runtime";
+import { enqueueSystemEvent } from "kibo/plugin-sdk/infra-runtime";
+import { DEFAULT_GROUP_HISTORY_LIMIT } from "kibo/plugin-sdk/reply-history";
+import { resolveAgentRoute } from "kibo/plugin-sdk/routing";
+import { logVerbose } from "kibo/plugin-sdk/runtime-env";
+import { registerUnhandledRejectionHandler } from "kibo/plugin-sdk/runtime-env";
+import { getChildLogger } from "kibo/plugin-sdk/runtime-env";
 import {
   defaultRuntime,
   formatDurationPrecise,
   type RuntimeEnv,
-} from "openclaw/plugin-sdk/runtime-env";
+} from "kibo/plugin-sdk/runtime-env";
 import { resolveWhatsAppAccount, resolveWhatsAppMediaMaxBytes } from "../accounts.js";
 import { setActiveWebListener } from "../active-listener.js";
 import { monitorWebInbox } from "../inbound.js";
@@ -463,7 +463,7 @@ export async function monitorWebChannel(
         healthState: "logged-out",
       });
       runtime.error(
-        `WhatsApp session logged out. Run \`${formatCliCommand("openclaw channels login --channel web")}\` to relink.`,
+        `WhatsApp session logged out. Run \`${formatCliCommand("kibo channels login --channel web")}\` to relink.`,
       );
       await closeListener();
       break;
@@ -486,7 +486,7 @@ export async function monitorWebChannel(
         "web reconnect: non-retryable close status; stopping monitor",
       );
       runtime.error(
-        `WhatsApp Web connection closed (status ${statusCode}: session conflict). Resolve conflicting WhatsApp Web sessions, then relink with \`${formatCliCommand("openclaw channels login --channel web")}\`. Stopping web monitoring.`,
+        `WhatsApp Web connection closed (status ${statusCode}: session conflict). Resolve conflicting WhatsApp Web sessions, then relink with \`${formatCliCommand("kibo channels login --channel web")}\`. Stopping web monitoring.`,
       );
       await closeListener();
       break;

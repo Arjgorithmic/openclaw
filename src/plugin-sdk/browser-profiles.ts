@@ -1,16 +1,16 @@
 import path from "node:path";
-import type { BrowserConfig, BrowserProfileConfig, OpenClawConfig } from "../config/config.js";
+import type { BrowserConfig, BrowserProfileConfig, KiboConfig } from "../config/config.js";
 import type { SsrFPolicy } from "../infra/net/ssrf.js";
-import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
+import { resolvePreferredKiboTmpDir } from "../infra/tmp-kibo-dir.js";
 import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
 
-export const DEFAULT_OPENCLAW_BROWSER_ENABLED = true;
+export const DEFAULT_KIBO_BROWSER_ENABLED = true;
 export const DEFAULT_BROWSER_EVALUATE_ENABLED = true;
-export const DEFAULT_OPENCLAW_BROWSER_COLOR = "#FF4500";
-export const DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME = "openclaw";
-export const DEFAULT_BROWSER_DEFAULT_PROFILE_NAME = "openclaw";
+export const DEFAULT_KIBO_BROWSER_COLOR = "#FF4500";
+export const DEFAULT_KIBO_BROWSER_PROFILE_NAME = "kibo";
+export const DEFAULT_BROWSER_DEFAULT_PROFILE_NAME = "kibo";
 export const DEFAULT_AI_SNAPSHOT_MAX_CHARS = 80_000;
-export const DEFAULT_UPLOAD_DIR = path.join(resolvePreferredOpenClawTmpDir(), "uploads");
+export const DEFAULT_UPLOAD_DIR = path.join(resolvePreferredKiboTmpDir(), "uploads");
 
 export type ResolvedBrowserConfig = {
   enabled: boolean;
@@ -42,14 +42,14 @@ export type ResolvedBrowserProfile = {
   cdpIsLoopback: boolean;
   userDataDir?: string;
   color: string;
-  driver: "openclaw" | "existing-session";
+  driver: "kibo" | "existing-session";
   attachOnly: boolean;
 };
 
 type BrowserProfilesSurface = {
   resolveBrowserConfig: (
     cfg: BrowserConfig | undefined,
-    rootConfig?: OpenClawConfig,
+    rootConfig?: KiboConfig,
   ) => ResolvedBrowserConfig;
   resolveProfile: (
     resolved: ResolvedBrowserConfig,
@@ -66,7 +66,7 @@ function loadBrowserProfilesSurface(): BrowserProfilesSurface {
 
 export function resolveBrowserConfig(
   cfg: BrowserConfig | undefined,
-  rootConfig?: OpenClawConfig,
+  rootConfig?: KiboConfig,
 ): ResolvedBrowserConfig {
   return loadBrowserProfilesSurface().resolveBrowserConfig(cfg, rootConfig);
 }

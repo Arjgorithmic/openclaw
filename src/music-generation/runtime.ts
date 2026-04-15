@@ -1,7 +1,7 @@
 import type { AuthProfileStore } from "../agents/auth-profiles.js";
 import { describeFailoverError, isFailoverError } from "../agents/failover-error.js";
 import type { FallbackAttempt } from "../agents/model-fallback.types.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import {
@@ -25,7 +25,7 @@ import type {
 const log = createSubsystemLogger("music-generation");
 
 export type GenerateMusicParams = {
-  cfg: OpenClawConfig;
+  cfg: KiboConfig;
   prompt: string;
   agentDir?: string;
   authStore?: AuthProfileStore;
@@ -48,7 +48,7 @@ export type GenerateMusicRuntimeResult = {
   ignoredOverrides: MusicGenerationIgnoredOverride[];
 };
 
-export function listRuntimeMusicGenerationProviders(params?: { config?: OpenClawConfig }) {
+export function listRuntimeMusicGenerationProviders(params?: { config?: KiboConfig }) {
   return listMusicGenerationProviders(params?.config);
 }
 

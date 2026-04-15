@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { installedPluginRoot } from "../../test/helpers/bundled-plugin-paths.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import {
   buildPluginDiagnosticsReport,
   loadConfig,
-  parseClawHubPluginSpec,
+  parseKiboHubPluginSpec,
   promptYesNo,
   resetPluginsCliTestState,
   runPluginsCommand,
@@ -14,7 +14,7 @@ import {
   writeConfigFile,
 } from "./plugins-cli-test-helpers.js";
 
-const CLI_STATE_ROOT = "/tmp/openclaw-state";
+const CLI_STATE_ROOT = "/tmp/kibo-state";
 const ALPHA_INSTALL_PATH = installedPluginRoot(CLI_STATE_ROOT, "alpha");
 
 describe("plugins cli uninstall", () => {
@@ -38,7 +38,7 @@ describe("plugins cli uninstall", () => {
           },
         },
       },
-    } as OpenClawConfig);
+    } as KiboConfig);
     buildPluginDiagnosticsReport.mockReturnValue({
       plugins: [{ id: "alpha", name: "alpha" }],
       diagnostics: [],
@@ -65,13 +65,13 @@ describe("plugins cli uninstall", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as KiboConfig;
     const nextConfig = {
       plugins: {
         entries: {},
         installs: {},
       },
-    } as OpenClawConfig;
+    } as KiboConfig;
 
     loadConfig.mockReturnValue(baseConfig);
     buildPluginDiagnosticsReport.mockReturnValue({
@@ -110,7 +110,7 @@ describe("plugins cli uninstall", () => {
         entries: {},
         installs: {},
       },
-    } as OpenClawConfig);
+    } as KiboConfig);
     buildPluginDiagnosticsReport.mockReturnValue({
       plugins: [{ id: "alpha", name: "alpha" }],
       diagnostics: [],
@@ -124,7 +124,7 @@ describe("plugins cli uninstall", () => {
     expect(uninstallPlugin).not.toHaveBeenCalled();
   });
 
-  it("accepts the recorded ClawHub spec as an uninstall target", async () => {
+  it("accepts the recorded KiboHub spec as an uninstall target", async () => {
     loadConfig.mockReturnValue({
       plugins: {
         entries: {
@@ -133,21 +133,21 @@ describe("plugins cli uninstall", () => {
         installs: {
           "linkmind-context": {
             source: "npm",
-            spec: "clawhub:linkmind-context",
-            clawhubPackage: "linkmind-context",
+            spec: "kibohub:linkmind-context",
+            kibohubPackage: "linkmind-context",
           },
         },
       },
-    } as OpenClawConfig);
+    } as KiboConfig);
     buildPluginDiagnosticsReport.mockReturnValue({
       plugins: [{ id: "linkmind-context", name: "linkmind-context" }],
       diagnostics: [],
     });
-    parseClawHubPluginSpec.mockImplementation((raw: string) =>
-      raw === "clawhub:linkmind-context" ? { name: "linkmind-context" } : null,
+    parseKiboHubPluginSpec.mockImplementation((raw: string) =>
+      raw === "kibohub:linkmind-context" ? { name: "linkmind-context" } : null,
     );
 
-    await runPluginsCommand(["plugins", "uninstall", "clawhub:linkmind-context", "--force"]);
+    await runPluginsCommand(["plugins", "uninstall", "kibohub:linkmind-context", "--force"]);
 
     expect(uninstallPlugin).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -156,7 +156,7 @@ describe("plugins cli uninstall", () => {
     );
   });
 
-  it("accepts a versionless ClawHub spec when the install was pinned", async () => {
+  it("accepts a versionless KiboHub spec when the install was pinned", async () => {
     loadConfig.mockReturnValue({
       plugins: {
         entries: {
@@ -165,26 +165,26 @@ describe("plugins cli uninstall", () => {
         installs: {
           "linkmind-context": {
             source: "npm",
-            spec: "clawhub:linkmind-context@1.2.3",
+            spec: "kibohub:linkmind-context@1.2.3",
           },
         },
       },
-    } as OpenClawConfig);
+    } as KiboConfig);
     buildPluginDiagnosticsReport.mockReturnValue({
       plugins: [{ id: "linkmind-context", name: "linkmind-context" }],
       diagnostics: [],
     });
-    parseClawHubPluginSpec.mockImplementation((raw: string) => {
-      if (raw === "clawhub:linkmind-context") {
+    parseKiboHubPluginSpec.mockImplementation((raw: string) => {
+      if (raw === "kibohub:linkmind-context") {
         return { name: "linkmind-context" };
       }
-      if (raw === "clawhub:linkmind-context@1.2.3") {
+      if (raw === "kibohub:linkmind-context@1.2.3") {
         return { name: "linkmind-context", version: "1.2.3" };
       }
       return null;
     });
 
-    await runPluginsCommand(["plugins", "uninstall", "clawhub:linkmind-context", "--force"]);
+    await runPluginsCommand(["plugins", "uninstall", "kibohub:linkmind-context", "--force"]);
 
     expect(uninstallPlugin).toHaveBeenCalledWith(
       expect.objectContaining({

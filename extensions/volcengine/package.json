@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/volcengine-provider",
+  "name": "@kibo/volcengine-provider",
   "version": "2026.4.10",
   "private": true,
-  "description": "OpenClaw Volcengine provider plugin",
+  "description": "Kibo Volcengine provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@kibo/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "kibo": {
     "extensions": [
       "./index.ts"
     ]

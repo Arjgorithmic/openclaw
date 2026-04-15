@@ -1,7 +1,7 @@
 import type { GatewayBrowserClient } from "../gateway.ts";
 import type { SkillStatusReport } from "../types.ts";
 
-export type ClawHubSearchResult = {
+export type KiboHubSearchResult = {
   score: number;
   slug: string;
   displayName: string;
@@ -10,7 +10,7 @@ export type ClawHubSearchResult = {
   updatedAt?: number;
 };
 
-export type ClawHubSkillDetail = {
+export type KiboHubSkillDetail = {
   skill: {
     slug: string;
     displayName: string;
@@ -44,16 +44,16 @@ export type SkillsState = {
   skillsBusyKey: string | null;
   skillEdits: Record<string, string>;
   skillMessages: SkillMessageMap;
-  clawhubSearchQuery: string;
-  clawhubSearchResults: ClawHubSearchResult[] | null;
-  clawhubSearchLoading: boolean;
-  clawhubSearchError: string | null;
-  clawhubDetail: ClawHubSkillDetail | null;
-  clawhubDetailSlug: string | null;
-  clawhubDetailLoading: boolean;
-  clawhubDetailError: string | null;
-  clawhubInstallSlug: string | null;
-  clawhubInstallMessage: { kind: "success" | "error"; text: string } | null;
+  kibohubSearchQuery: string;
+  kibohubSearchResults: KiboHubSearchResult[] | null;
+  kibohubSearchLoading: boolean;
+  kibohubSearchError: string | null;
+  kibohubDetail: KiboHubSkillDetail | null;
+  kibohubDetailSlug: string | null;
+  kibohubDetailLoading: boolean;
+  kibohubDetailError: string | null;
+  kibohubInstallSlug: string | null;
+  kibohubInstallMessage: { kind: "success" | "error"; text: string } | null;
 };
 
 export type SkillMessage = {
@@ -94,12 +94,12 @@ async function runStaleAwareRequest<T>(
   onFinally();
 }
 
-export function setClawHubSearchQuery(state: SkillsState, query: string) {
-  state.clawhubSearchQuery = query;
-  state.clawhubInstallMessage = null;
-  state.clawhubSearchResults = null;
-  state.clawhubSearchError = null;
-  state.clawhubSearchLoading = false;
+export function setKiboHubSearchQuery(state: SkillsState, query: string) {
+  state.kibohubSearchQuery = query;
+  state.kibohubInstallMessage = null;
+  state.kibohubSearchResults = null;
+  state.kibohubSearchError = null;
+  state.kibohubSearchLoading = false;
 }
 
 export async function loadSkills(state: SkillsState, options?: { clearMessages?: boolean }) {
@@ -170,7 +170,7 @@ export async function saveSkillApiKey(state: SkillsState, skillKey: string) {
     await client.request("skills.update", { skillKey, apiKey });
     return {
       kind: "success",
-      message: `API key saved — stored in openclaw.json (skills.entries.${skillKey})`,
+      message: `API key saved — stored in kibo.json (skills.entries.${skillKey})`,
     };
   });
 }
@@ -196,85 +196,85 @@ export async function installSkill(
   });
 }
 
-export async function searchClawHub(state: SkillsState, query: string) {
+export async function searchKiboHub(state: SkillsState, query: string) {
   if (!state.client || !state.connected) {
     return;
   }
   if (!query.trim()) {
-    state.clawhubSearchResults = null;
-    state.clawhubSearchError = null;
-    state.clawhubSearchLoading = false;
+    state.kibohubSearchResults = null;
+    state.kibohubSearchError = null;
+    state.kibohubSearchLoading = false;
     return;
   }
   const client = state.client;
   // Clear stale entries as soon as a new search begins so the UI cannot act on
   // results that no longer match the current query while the next request is in flight.
-  state.clawhubSearchResults = null;
-  state.clawhubSearchLoading = true;
-  state.clawhubSearchError = null;
+  state.kibohubSearchResults = null;
+  state.kibohubSearchLoading = true;
+  state.kibohubSearchError = null;
   await runStaleAwareRequest(
-    () => query === state.clawhubSearchQuery,
+    () => query === state.kibohubSearchQuery,
     () =>
-      client.request<{ results: ClawHubSearchResult[] }>("skills.search", {
+      client.request<{ results: KiboHubSearchResult[] }>("skills.search", {
         query,
         limit: 20,
       }),
     (res) => {
-      state.clawhubSearchResults = res?.results ?? [];
+      state.kibohubSearchResults = res?.results ?? [];
     },
     (err) => {
-      state.clawhubSearchError = getErrorMessage(err);
+      state.kibohubSearchError = getErrorMessage(err);
     },
     () => {
-      state.clawhubSearchLoading = false;
+      state.kibohubSearchLoading = false;
     },
   );
 }
 
-export async function loadClawHubDetail(state: SkillsState, slug: string) {
+export async function loadKiboHubDetail(state: SkillsState, slug: string) {
   if (!state.client || !state.connected) {
     return;
   }
   const client = state.client;
-  state.clawhubDetailSlug = slug;
-  state.clawhubDetailLoading = true;
-  state.clawhubDetailError = null;
-  state.clawhubDetail = null;
+  state.kibohubDetailSlug = slug;
+  state.kibohubDetailLoading = true;
+  state.kibohubDetailError = null;
+  state.kibohubDetail = null;
   await runStaleAwareRequest(
-    () => slug === state.clawhubDetailSlug,
-    () => client.request<ClawHubSkillDetail>("skills.detail", { slug }),
+    () => slug === state.kibohubDetailSlug,
+    () => client.request<KiboHubSkillDetail>("skills.detail", { slug }),
     (res) => {
-      state.clawhubDetail = res ?? null;
+      state.kibohubDetail = res ?? null;
     },
     (err) => {
-      state.clawhubDetailError = getErrorMessage(err);
+      state.kibohubDetailError = getErrorMessage(err);
     },
     () => {
-      state.clawhubDetailLoading = false;
+      state.kibohubDetailLoading = false;
     },
   );
 }
 
-export function closeClawHubDetail(state: SkillsState) {
-  state.clawhubDetailSlug = null;
-  state.clawhubDetail = null;
-  state.clawhubDetailError = null;
-  state.clawhubDetailLoading = false;
+export function closeKiboHubDetail(state: SkillsState) {
+  state.kibohubDetailSlug = null;
+  state.kibohubDetail = null;
+  state.kibohubDetailError = null;
+  state.kibohubDetailLoading = false;
 }
 
-export async function installFromClawHub(state: SkillsState, slug: string) {
+export async function installFromKiboHub(state: SkillsState, slug: string) {
   if (!state.client || !state.connected) {
     return;
   }
-  state.clawhubInstallSlug = slug;
-  state.clawhubInstallMessage = null;
+  state.kibohubInstallSlug = slug;
+  state.kibohubInstallMessage = null;
   try {
-    await state.client.request("skills.install", { source: "clawhub", slug });
+    await state.client.request("skills.install", { source: "kibohub", slug });
     await loadSkills(state);
-    state.clawhubInstallMessage = { kind: "success", text: `Installed ${slug}` };
+    state.kibohubInstallMessage = { kind: "success", text: `Installed ${slug}` };
   } catch (err) {
-    state.clawhubInstallMessage = { kind: "error", text: getErrorMessage(err) };
+    state.kibohubInstallMessage = { kind: "error", text: getErrorMessage(err) };
   } finally {
-    state.clawhubInstallSlug = null;
+    state.kibohubInstallSlug = null;
   }
 }

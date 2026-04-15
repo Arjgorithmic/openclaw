@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import { formatErrorMessage } from "kibo/plugin-sdk/error-runtime";
 
 // ── Types ──────────────────────────────────────────────────────────────
 
@@ -69,9 +69,9 @@ const NARRATIVE_SYSTEM_PROMPT = [
 
 const NARRATIVE_TIMEOUT_MS = 60_000;
 const DREAMS_FILENAMES = ["DREAMS.md", "dreams.md"] as const;
-const DIARY_START_MARKER = "<!-- openclaw:dreaming:diary:start -->";
-const DIARY_END_MARKER = "<!-- openclaw:dreaming:diary:end -->";
-const BACKFILL_ENTRY_MARKER = "openclaw:dreaming:backfill-entry";
+const DIARY_START_MARKER = "<!-- kibo:dreaming:diary:start -->";
+const DIARY_END_MARKER = "<!-- kibo:dreaming:diary:end -->";
+const BACKFILL_ENTRY_MARKER = "kibo:dreaming:backfill-entry";
 
 // ── Prompt building ────────────────────────────────────────────────────
 

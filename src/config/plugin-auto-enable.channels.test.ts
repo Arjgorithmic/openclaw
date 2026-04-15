@@ -51,8 +51,8 @@ describe("applyPluginAutoEnable channels", () => {
       JSON.stringify({
         entries: [
           {
-            name: "@openclaw/env-secondary",
-            openclaw: {
+            name: "@kibo/env-secondary",
+            kibo: {
               channel: {
                 id: "env-secondary",
                 label: "Env Secondary",
@@ -62,7 +62,7 @@ describe("applyPluginAutoEnable channels", () => {
                 preferOver: ["env-primary"],
               },
               install: {
-                npmSpec: "@openclaw/env-secondary",
+                npmSpec: "@kibo/env-secondary",
               },
             },
           },
@@ -80,7 +80,7 @@ describe("applyPluginAutoEnable channels", () => {
       },
       env: {
         ...makeIsolatedEnv(),
-        OPENCLAW_STATE_DIR: stateDir,
+        KIBO_STATE_DIR: stateDir,
       },
       manifestRegistry: makeRegistry([]),
     });
@@ -225,9 +225,9 @@ describe("applyPluginAutoEnable channels", () => {
         config: makeApnChannelConfig(),
         env: {
           ...makeIsolatedEnv(),
-          OPENCLAW_HOME: undefined,
-          OPENCLAW_STATE_DIR: stateDir,
-          OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
+          KIBO_HOME: undefined,
+          KIBO_STATE_DIR: stateDir,
+          KIBO_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
         },
       });
 

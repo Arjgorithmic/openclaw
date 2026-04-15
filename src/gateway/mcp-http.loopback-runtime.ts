@@ -22,15 +22,15 @@ export function clearActiveMcpLoopbackRuntime(token: string): void {
 export function createMcpLoopbackServerConfig(port: number) {
   return {
     mcpServers: {
-      openclaw: {
+      kibo: {
         type: "http",
         url: `http://127.0.0.1:${port}/mcp`,
         headers: {
-          Authorization: "Bearer ${OPENCLAW_MCP_TOKEN}",
-          "x-session-key": "${OPENCLAW_MCP_SESSION_KEY}",
-          "x-openclaw-agent-id": "${OPENCLAW_MCP_AGENT_ID}",
-          "x-openclaw-account-id": "${OPENCLAW_MCP_ACCOUNT_ID}",
-          "x-openclaw-message-channel": "${OPENCLAW_MCP_MESSAGE_CHANNEL}",
+          Authorization: "Bearer ${KIBO_MCP_TOKEN}",
+          "x-session-key": "${KIBO_MCP_SESSION_KEY}",
+          "x-kibo-agent-id": "${KIBO_MCP_AGENT_ID}",
+          "x-kibo-account-id": "${KIBO_MCP_ACCOUNT_ID}",
+          "x-kibo-message-channel": "${KIBO_MCP_MESSAGE_CHANNEL}",
         },
       },
     },

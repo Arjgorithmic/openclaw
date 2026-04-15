@@ -1,5 +1,5 @@
-# Tlon (OpenClaw plugin)
+# Tlon (Kibo plugin)
 
-Tlon/Urbit channel plugin for OpenClaw. Supports DMs, group mentions, and thread replies.
+Tlon/Urbit channel plugin for Kibo. Supports DMs, group mentions, and thread replies.
 
-Docs: https://docs.openclaw.ai/channels/tlon
+Docs: https://github.com/Arjgorithmic/openclaw/channels/tlon

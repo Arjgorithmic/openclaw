@@ -59,13 +59,13 @@ describe("loadOutboundMediaFromUrl", () => {
       contentType: "image/png",
     });
 
-    await loadOutboundMediaFromUrl("/Users/peter/Pictures/image.png", {
+    await loadOutboundMediaFromUrl("/Users/kibo/Pictures/image.png", {
       maxBytes: 2048,
       mediaLocalRoots: ["/tmp/workspace-agent"],
       mediaReadFile,
     });
 
-    expect(loadWebMediaMock).toHaveBeenCalledWith("/Users/peter/Pictures/image.png", {
+    expect(loadWebMediaMock).toHaveBeenCalledWith("/Users/kibo/Pictures/image.png", {
       maxBytes: 2048,
       localRoots: "any",
       readFile: mediaReadFile,

@@ -1,20 +1,20 @@
 ---
-summary: "Run OpenClaw through inferrs (OpenAI-compatible local server)"
+summary: "Run Kibo through inferrs (OpenAI-compatible local server)"
 read_when:
-  - You want to run OpenClaw against a local inferrs server
+  - You want to run Kibo against a local inferrs server
   - You are serving Gemma or another model through inferrs
-  - You need the exact OpenClaw compat flags for inferrs
+  - You need the exact Kibo compat flags for inferrs
 title: "inferrs"
 ---
 
 # inferrs
 
 [inferrs](https://github.com/ericcurtin/inferrs) can serve local models behind an
-OpenAI-compatible `/v1` API. OpenClaw works with `inferrs` through the generic
+OpenAI-compatible `/v1` API. Kibo works with `inferrs` through the generic
 `openai-completions` path.
 
 `inferrs` is currently best treated as a custom self-hosted OpenAI-compatible
-backend, not a dedicated OpenClaw provider plugin.
+backend, not a dedicated Kibo provider plugin.
 
 ## Quick start
 
@@ -36,7 +36,7 @@ curl http://127.0.0.1:8080/health
 curl http://127.0.0.1:8080/v1/models
 ```
 
-3. Add an explicit OpenClaw provider entry and point your default model at it.
+3. Add an explicit Kibo provider entry and point your default model at it.
 
 ## Full config example
 
@@ -86,7 +86,7 @@ This example uses Gemma 4 on a local `inferrs` server.
 Some `inferrs` Chat Completions routes accept only string
 `messages[].content`, not structured content-part arrays.
 
-If OpenClaw runs fail with an error like:
+If Kibo runs fail with an error like:
 
 ```text
 messages[1].content: invalid type: sequence, expected a string
@@ -100,13 +100,13 @@ compat: {
 }
 ```
 
-OpenClaw will flatten pure text content parts into plain strings before sending
+Kibo will flatten pure text content parts into plain strings before sending
 the request.
 
 ## Gemma and tool-schema caveat
 
 Some current `inferrs` + Gemma combinations accept small direct
-`/v1/chat/completions` requests but still fail on full OpenClaw agent-runtime
+`/v1/chat/completions` requests but still fail on full Kibo agent-runtime
 turns.
 
 If that happens, try this first:
@@ -118,12 +118,12 @@ compat: {
 }
 ```
 
-That disables OpenClaw's tool schema surface for the model and can reduce prompt
+That disables Kibo's tool schema surface for the model and can reduce prompt
 pressure on stricter local backends.
 
-If tiny direct requests still work but normal OpenClaw agent turns continue to
+If tiny direct requests still work but normal Kibo agent turns continue to
 crash inside `inferrs`, the remaining issue is usually upstream model/server
-behavior rather than OpenClaw's transport layer.
+behavior rather than Kibo's transport layer.
 
 ## Manual smoke test
 
@@ -134,7 +134,7 @@ curl http://127.0.0.1:8080/v1/chat/completions \
   -H 'content-type: application/json' \
   -d '{"model":"google/gemma-4-E2B-it","messages":[{"role":"user","content":"What is 2 + 2?"}],"stream":false}'
 
-openclaw infer model run \
+kibo infer model run \
   --model inferrs/google/gemma-4-E2B-it \
   --prompt "What is 2 + 2? Reply with one short sentence." \
   --json
@@ -149,9 +149,9 @@ below.
   bound to the expected host/port.
 - `messages[].content ... expected a string`: set
   `compat.requiresStringContent: true`.
-- Direct tiny `/v1/chat/completions` calls pass, but `openclaw infer model run`
+- Direct tiny `/v1/chat/completions` calls pass, but `kibo infer model run`
   fails: try `compat.supportsTools: false`.
-- OpenClaw no longer gets schema errors, but `inferrs` still crashes on larger
+- Kibo no longer gets schema errors, but `inferrs` still crashes on larger
   agent turns: treat it as an upstream `inferrs` or model limitation and reduce
   prompt pressure or switch local backend/model.
 
@@ -163,7 +163,7 @@ native OpenAI endpoint.
 - native OpenAI-only request shaping does not apply here
 - no `service_tier`, no Responses `store`, no prompt-cache hints, and no
   OpenAI reasoning-compat payload shaping
-- hidden OpenClaw attribution headers (`originator`, `version`, `User-Agent`)
+- hidden Kibo attribution headers (`originator`, `version`, `User-Agent`)
   are not injected on custom `inferrs` base URLs
 
 ## See also

@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { KiboConfig } from "../config/config.js";
 import { buildGatewayConnectionDetails } from "./call.js";
 import type { ExplicitGatewayAuth } from "./call.js";
 import { resolveGatewayConnectionAuth } from "./connection-auth.js";
@@ -7,14 +7,14 @@ export function resolveGatewayUrlOverrideSource(urlSource: string): "cli" | "env
   if (urlSource === "cli --url") {
     return "cli";
   }
-  if (urlSource === "env OPENCLAW_GATEWAY_URL") {
+  if (urlSource === "env KIBO_GATEWAY_URL") {
     return "env";
   }
   return undefined;
 }
 
 export async function resolveGatewayClientBootstrap(params: {
-  config: OpenClawConfig;
+  config: KiboConfig;
   gatewayUrl?: string;
   explicitAuth?: ExplicitGatewayAuth;
   env?: NodeJS.ProcessEnv;

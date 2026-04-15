@@ -14,14 +14,14 @@ afterEach(async () => {
 
 function createParams(baseEnv?: NodeJS.ProcessEnv) {
   return {
-    configPath: "/tmp/openclaw-qa/openclaw.json",
+    configPath: "/tmp/kibo-qa/kibo.json",
     gatewayToken: "qa-token",
-    homeDir: "/tmp/openclaw-qa/home",
-    stateDir: "/tmp/openclaw-qa/state",
-    xdgConfigHome: "/tmp/openclaw-qa/xdg-config",
-    xdgDataHome: "/tmp/openclaw-qa/xdg-data",
-    xdgCacheHome: "/tmp/openclaw-qa/xdg-cache",
-    bundledPluginsDir: "/tmp/openclaw-qa/bundled-plugins",
+    homeDir: "/tmp/kibo-qa/home",
+    stateDir: "/tmp/kibo-qa/state",
+    xdgConfigHome: "/tmp/kibo-qa/xdg-config",
+    xdgDataHome: "/tmp/kibo-qa/xdg-data",
+    xdgCacheHome: "/tmp/kibo-qa/xdg-cache",
+    bundledPluginsDir: "/tmp/kibo-qa/bundled-plugins",
     compatibilityHostVersion: "2026.4.8",
     baseEnv,
   };
@@ -34,19 +34,19 @@ describe("buildQaRuntimeEnv", () => {
       providerMode: "mock-openai",
     });
 
-    expect(env.OPENCLAW_TEST_FAST).toBe("1");
-    expect(env.OPENCLAW_QA_ALLOW_LOCAL_IMAGE_PROVIDER).toBe("1");
-    expect(env.OPENCLAW_ALLOW_SLOW_REPLY_TESTS).toBe("1");
-    expect(env.OPENCLAW_BUNDLED_PLUGINS_DIR).toBe("/tmp/openclaw-qa/bundled-plugins");
-    expect(env.OPENCLAW_COMPATIBILITY_HOST_VERSION).toBe("2026.4.8");
+    expect(env.KIBO_TEST_FAST).toBe("1");
+    expect(env.KIBO_QA_ALLOW_LOCAL_IMAGE_PROVIDER).toBe("1");
+    expect(env.KIBO_ALLOW_SLOW_REPLY_TESTS).toBe("1");
+    expect(env.KIBO_BUNDLED_PLUGINS_DIR).toBe("/tmp/kibo-qa/bundled-plugins");
+    expect(env.KIBO_COMPATIBILITY_HOST_VERSION).toBe("2026.4.8");
   });
 
   it("maps live frontier key aliases into provider env vars", () => {
     const env = buildQaRuntimeEnv({
       ...createParams({
-        OPENCLAW_LIVE_OPENAI_KEY: "openai-live",
-        OPENCLAW_LIVE_ANTHROPIC_KEY: "anthropic-live",
-        OPENCLAW_LIVE_GEMINI_KEY: "gemini-live",
+        KIBO_LIVE_OPENAI_KEY: "openai-live",
+        KIBO_LIVE_ANTHROPIC_KEY: "anthropic-live",
+        KIBO_LIVE_GEMINI_KEY: "gemini-live",
       }),
       providerMode: "live-frontier",
     });
@@ -60,7 +60,7 @@ describe("buildQaRuntimeEnv", () => {
     const env = buildQaRuntimeEnv({
       ...createParams({
         OPENAI_API_KEY: "openai-explicit",
-        OPENCLAW_LIVE_OPENAI_KEY: "openai-live",
+        KIBO_LIVE_OPENAI_KEY: "openai-live",
       }),
       providerMode: "live-frontier",
     });
@@ -68,7 +68,7 @@ describe("buildQaRuntimeEnv", () => {
     expect(env.OPENAI_API_KEY).toBe("openai-explicit");
   });
 
-  it("preserves Codex CLI auth home for live frontier runs while sandboxing OpenClaw home", async () => {
+  it("preserves Codex CLI auth home for live frontier runs while sandboxing Kibo home", async () => {
     const hostHome = await mkdtemp(path.join(os.tmpdir(), "qa-host-home-"));
     cleanups.push(async () => {
       await rm(hostHome, { recursive: true, force: true });
@@ -83,8 +83,8 @@ describe("buildQaRuntimeEnv", () => {
       providerMode: "live-frontier",
     });
 
-    expect(env.HOME).toBe("/tmp/openclaw-qa/home");
-    expect(env.OPENCLAW_HOME).toBe("/tmp/openclaw-qa/home");
+    expect(env.HOME).toBe("/tmp/kibo-qa/home");
+    expect(env.KIBO_HOME).toBe("/tmp/kibo-qa/home");
     expect(env.CODEX_HOME).toBe(codexHome);
   });
 
@@ -111,10 +111,10 @@ describe("buildQaRuntimeEnv", () => {
         OPENAI_API_KEY: "openai-live",
         OPENAI_API_KEYS: "openai-a,openai-b",
         CODEX_HOME: "/host/.codex",
-        OPENCLAW_LIVE_ANTHROPIC_KEY: "anthropic-live",
-        OPENCLAW_LIVE_ANTHROPIC_KEYS: "anthropic-a,anthropic-b",
-        OPENCLAW_LIVE_GEMINI_KEY: "gemini-live",
-        OPENCLAW_LIVE_OPENAI_KEY: "openai-live",
+        KIBO_LIVE_ANTHROPIC_KEY: "anthropic-live",
+        KIBO_LIVE_ANTHROPIC_KEYS: "anthropic-a,anthropic-b",
+        KIBO_LIVE_GEMINI_KEY: "gemini-live",
+        KIBO_LIVE_OPENAI_KEY: "openai-live",
       }),
       providerMode: "mock-openai",
     });
@@ -127,10 +127,10 @@ describe("buildQaRuntimeEnv", () => {
     expect(env.GEMINI_API_KEY).toBeUndefined();
     expect(env.GEMINI_API_KEYS).toBeUndefined();
     expect(env.GOOGLE_API_KEY).toBeUndefined();
-    expect(env.OPENCLAW_LIVE_OPENAI_KEY).toBeUndefined();
-    expect(env.OPENCLAW_LIVE_ANTHROPIC_KEY).toBeUndefined();
-    expect(env.OPENCLAW_LIVE_ANTHROPIC_KEYS).toBeUndefined();
-    expect(env.OPENCLAW_LIVE_GEMINI_KEY).toBeUndefined();
+    expect(env.KIBO_LIVE_OPENAI_KEY).toBeUndefined();
+    expect(env.KIBO_LIVE_ANTHROPIC_KEY).toBeUndefined();
+    expect(env.KIBO_LIVE_ANTHROPIC_KEYS).toBeUndefined();
+    expect(env.KIBO_LIVE_GEMINI_KEY).toBeUndefined();
   });
 
   it("treats restart socket closures as retryable gateway call errors", () => {
@@ -255,7 +255,7 @@ describe("qa bundled plugin dir", () => {
     });
     await mkdir(path.join(repoRoot, "dist", "extensions", "openai"), { recursive: true });
     await writeFile(
-      path.join(repoRoot, "dist", "extensions", "openai", "openclaw.plugin.json"),
+      path.join(repoRoot, "dist", "extensions", "openai", "kibo.plugin.json"),
       JSON.stringify({
         id: "openai",
         providers: ["openai", "openai-codex"],
@@ -279,7 +279,7 @@ describe("qa bundled plugin dir", () => {
     });
     await mkdir(path.join(repoRoot, "dist", "extensions", "openai"), { recursive: true });
     await writeFile(
-      path.join(repoRoot, "dist", "extensions", "openai", "openclaw.plugin.json"),
+      path.join(repoRoot, "dist", "extensions", "openai", "kibo.plugin.json"),
       JSON.stringify({
         id: "openai",
         providers: ["openai"],
@@ -317,7 +317,7 @@ describe("qa bundled plugin dir", () => {
   it("copies selected live provider configs from the host config", async () => {
     const configPath = path.join(
       await mkdtemp(path.join(os.tmpdir(), "qa-provider-config-")),
-      "openclaw.json",
+      "kibo.json",
     );
     cleanups.push(async () => {
       await rm(path.dirname(configPath), { recursive: true, force: true });
@@ -357,7 +357,7 @@ describe("qa bundled plugin dir", () => {
     await expect(
       __testing.readQaLiveProviderConfigOverrides({
         providerIds: ["custom-openai"],
-        env: { OPENCLAW_QA_LIVE_PROVIDER_CONFIG_PATH: configPath },
+        env: { KIBO_QA_LIVE_PROVIDER_CONFIG_PATH: configPath },
       }),
     ).resolves.toEqual({
       "custom-openai": expect.objectContaining({
@@ -381,14 +381,14 @@ describe("qa bundled plugin dir", () => {
     await mkdir(path.join(bundledRoot, "qa-channel"), { recursive: true });
     await writeFile(
       path.join(bundledRoot, "qa-channel", "package.json"),
-      JSON.stringify({ openclaw: { install: { minHostVersion: ">=2026.4.8" } } }),
+      JSON.stringify({ kibo: { install: { minHostVersion: ">=2026.4.8" } } }),
       "utf8",
     );
 
     await mkdir(path.join(bundledRoot, "memory-core"), { recursive: true });
     await writeFile(
       path.join(bundledRoot, "memory-core", "package.json"),
-      JSON.stringify({ openclaw: { install: { minHostVersion: ">=2026.4.7" } } }),
+      JSON.stringify({ kibo: { install: { minHostVersion: ">=2026.4.7" } } }),
       "utf8",
     );
 

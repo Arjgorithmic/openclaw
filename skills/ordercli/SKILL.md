@@ -4,7 +4,7 @@ description: Foodora-only CLI for checking past orders and active order status (
 homepage: https://ordercli.sh
 metadata:
   {
-    "openclaw":
+    "kibo":
       {
         "emoji": "🛵",
         "requires": { "bins": ["ordercli"] },
@@ -13,14 +13,14 @@ metadata:
             {
               "id": "brew",
               "kind": "brew",
-              "formula": "steipete/tap/ordercli",
+              "formula": "kibo/tap/ordercli",
               "bins": ["ordercli"],
               "label": "Install ordercli (brew)",
             },
             {
               "id": "go",
               "kind": "go",
-              "module": "github.com/steipete/ordercli/cmd/ordercli@latest",
+              "module": "github.com/kibo/ordercli/cmd/ordercli@latest",
               "bins": ["ordercli"],
               "label": "Install ordercli (go)",
             },

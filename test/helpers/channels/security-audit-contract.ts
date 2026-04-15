@@ -1,11 +1,11 @@
 import { loadBundledPluginPublicSurfaceSync } from "../../../src/test-utils/bundled-plugin-public-surface.js";
 
-type DiscordSecuritySurface = typeof import("@openclaw/discord/contract-api.js");
-type FeishuSecuritySurface = typeof import("@openclaw/feishu/security-contract-api.js");
-type SlackSecuritySurface = typeof import("@openclaw/slack/security-contract-api.js");
-type SynologyChatSecuritySurface = typeof import("@openclaw/synology-chat/contract-api.js");
-type TelegramSecuritySurface = typeof import("@openclaw/telegram/contract-api.js");
-type ZalouserSecuritySurface = typeof import("@openclaw/zalouser/contract-api.js");
+type DiscordSecuritySurface = typeof import("@kibo/discord/contract-api.js");
+type FeishuSecuritySurface = typeof import("@kibo/feishu/security-contract-api.js");
+type SlackSecuritySurface = typeof import("@kibo/slack/security-contract-api.js");
+type SynologyChatSecuritySurface = typeof import("@kibo/synology-chat/contract-api.js");
+type TelegramSecuritySurface = typeof import("@kibo/telegram/contract-api.js");
+type ZalouserSecuritySurface = typeof import("@kibo/zalouser/contract-api.js");
 
 function loadDiscordSecuritySurface(): DiscordSecuritySurface {
   return loadBundledPluginPublicSurfaceSync<DiscordSecuritySurface>({

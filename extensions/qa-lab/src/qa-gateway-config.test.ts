@@ -177,11 +177,11 @@ describe("buildQaGatewayConfig", () => {
       gatewayToken: "token",
       qaBusBaseUrl: "http://127.0.0.1:43124",
       workspaceDir: "/tmp/qa-workspace",
-      controlUiRoot: "/tmp/openclaw/dist/control-ui",
+      controlUiRoot: "/tmp/kibo/dist/control-ui",
     });
 
     expect(cfg.gateway?.controlUi?.enabled).toBe(true);
-    expect(cfg.gateway?.controlUi?.root).toBe("/tmp/openclaw/dist/control-ui");
+    expect(cfg.gateway?.controlUi?.root).toBe("/tmp/kibo/dist/control-ui");
   });
 
   it("merges dynamic qa-lab origins without dropping the built control ui root", () => {
@@ -196,11 +196,11 @@ describe("buildQaGatewayConfig", () => {
       gatewayToken: "token",
       qaBusBaseUrl: "http://127.0.0.1:43124",
       workspaceDir: "/tmp/qa-workspace",
-      controlUiRoot: "/tmp/openclaw/dist/control-ui",
+      controlUiRoot: "/tmp/kibo/dist/control-ui",
       controlUiAllowedOrigins: ["http://127.0.0.1:60196"],
     });
 
-    expect(cfg.gateway?.controlUi?.root).toBe("/tmp/openclaw/dist/control-ui");
+    expect(cfg.gateway?.controlUi?.root).toBe("/tmp/kibo/dist/control-ui");
     expect(cfg.gateway?.controlUi?.allowedOrigins).toEqual([
       ...DEFAULT_QA_CONTROL_UI_ALLOWED_ORIGINS,
       "http://127.0.0.1:60196",

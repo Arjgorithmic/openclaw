@@ -1,5 +1,5 @@
-import type { BaseProbeResult } from "openclaw/plugin-sdk/channel-contract";
-import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
+import type { BaseProbeResult } from "kibo/plugin-sdk/channel-contract";
+import { formatErrorMessage } from "kibo/plugin-sdk/error-runtime";
 import { signalCheck, signalRpcRequest } from "./client.js";
 
 export type SignalProbe = BaseProbeResult & {

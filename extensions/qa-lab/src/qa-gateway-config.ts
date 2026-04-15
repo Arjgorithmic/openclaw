@@ -1,5 +1,5 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-runtime";
-import type { ModelProviderConfig } from "openclaw/plugin-sdk/provider-model-shared";
+import type { KiboConfig } from "kibo/plugin-sdk/config-runtime";
+import type { ModelProviderConfig } from "kibo/plugin-sdk/provider-model-shared";
 import {
   defaultQaModelForMode,
   isQaFastModeModelRef,
@@ -70,7 +70,7 @@ export function buildQaGatewayConfig(params: {
   liveProviderConfigs?: Record<string, ModelProviderConfig>;
   fastMode?: boolean;
   thinkingDefault?: QaThinkingLevel;
-}): OpenClawConfig {
+}): KiboConfig {
   const mockProviderBaseUrl = params.providerBaseUrl ?? "http://127.0.0.1:44080/v1";
   const mockOpenAiProvider: ModelProviderConfig = {
     baseUrl: mockProviderBaseUrl,
@@ -308,16 +308,16 @@ export function buildQaGatewayConfig(params: {
       "qa-channel": {
         enabled: true,
         baseUrl: params.qaBusBaseUrl,
-        botUserId: "openclaw",
-        botDisplayName: "OpenClaw QA",
+        botUserId: "kibo",
+        botDisplayName: "Kibo QA",
         allowFrom: ["*"],
         pollTimeoutMs: 250,
       },
     },
     messages: {
       groupChat: {
-        mentionPatterns: ["\\b@?openclaw\\b"],
+        mentionPatterns: ["\\b@?kibo\\b"],
       },
     },
-  } satisfies OpenClawConfig;
+  } satisfies KiboConfig;
 }
